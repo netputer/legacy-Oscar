@@ -1,0 +1,7 @@
+*.sublime*
+*.DS_store
+*.log
+
+/node_modules/
+/app/components
+/app/javascripts/.module-cache/
