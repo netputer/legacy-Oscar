@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-((function(window) {
+(function (window) {
     define([
         'react',
         '_'
@@ -21,4 +21,4 @@
 
         return HeaderView;
     });
-})(this));
+}(this));
