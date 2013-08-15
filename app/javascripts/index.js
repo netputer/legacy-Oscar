@@ -1,19 +1,33 @@
+/** @jsx React.DOM */
 require.config({
     paths : {
         $ : '../components/jquery/jquery',
         _ : '../components/underscore/underscore',
-        react : '../components/react/react'
+        Backbone : '../components/backbone/backbone',
+        React : '../components/react/react'
     },
     shim : {
         _ : {
             deps : [],
             exports : '_'
+        },
+        Backbone : {
+            deps : ['$', '_'],
+            exports : 'Backbone'
         }
     }
 });
 
 (function (window, document) {
-    require(['react', 'components/HeaderView'], function (React, HeaderView) {
-        React.renderComponent(HeaderView({}), document.body);
+    require([
+        'React',
+        'IO',
+        'components/CategoryFilterView'
+    ], function (
+        React,
+        IO,
+        CategoryFilterView
+    ) {
+        React.renderComponent(CategoryFilterView( {'data-cate' : 'tv'}), document.body);
     });
 }(this, document));
