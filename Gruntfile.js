@@ -33,7 +33,7 @@ module.exports = function (grunt) {
                 tasks : ['livereload']
             },
             react : {
-                files : ['<%= paths.app %>/jsx-src/{,*/}*/{,*/}*.js'],
+                files : ['<%= paths.app %>/jsx-src/{,*/}*.jsx'],
                 tasks : ['react']
             }
         },
@@ -56,6 +56,9 @@ module.exports = function (grunt) {
             }
         },
         react : {
+            options : {
+                extension : 'jsx'
+            },
             app : {
                 files: {
                     '<%= paths.app %>/javascripts/' : '<%= paths.app %>/jsx-src/'
