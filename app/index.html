@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script data-main="javascripts/index" src="components/requirejs/require.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://dn.dl.wdjcdn.com/adonis/adonis.css">
         <!-- build:js javascripts/SnapPeaLoader.js -->
         <script type="text/javascript">
             this.document.write('<script src=\"http://localhost:35729/livereload.js?snipver=1\"><\/script>');
         </script>
         <!-- endbuild -->
+        <style type="text/css">
+        .w-header-menu li {
+            font-size: 14px;
+        }
+        .w-header-menu li.selected {
+
+        }
+        </style>
     </head>
     <body>
+    <header id="header"></header>
+    <div id="o-searchbox-ctn"></div>
+    <script data-main="javascripts/index" src="components/requirejs/require.js"></script>
     </body>
 </html>

@@ -36,18 +36,18 @@ require.config({
         SearchBoxView,
         CommentaryView
     ) {
-        var IndexView = React.createClass({displayName: 'IndexView',
+        var IndexView = React.createClass({
             render : function () {
                 return (
-                    React.DOM.div(null, 
-                        HeaderMenuView(null ),
-                        SearchBoxView(null ),
-                        CommentaryView(null )
-                    )
+                    <div>
+                        <HeaderMenuView />
+                        <SearchBoxView />
+                        <CommentaryView />
+                    </div>
                 );
             }
         });
 
-        React.renderComponent(IndexView(null ), document.body);
+        React.renderComponent(<IndexView />, document.body);
     });
 }(this, document));
