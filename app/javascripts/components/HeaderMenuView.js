@@ -24,16 +24,16 @@
             key : 'comic'
         }];
 
-        var HeaderView = React.createClass({displayName: 'HeaderView',
+        var HeaderMenuView = React.createClass({displayName: 'HeaderMenuView',
             render : function () {
-                var cateList = _.map(cates, function (cate) {
-                    return React.DOM.li( {className:"w-text-secondary"}, cate.name);
+                var cateList = _.map(cates, function (cate, index) {
+                    return React.DOM.li( {className:"w-text-secondary", key:cate.key}, cate.name);
                 });
 
                 return React.DOM.menu( {className:"w-header-menu"}, cateList);
             }
         });
 
-        return HeaderView;
+        return HeaderMenuView;
     });
 }(this));
