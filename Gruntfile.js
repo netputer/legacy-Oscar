@@ -16,10 +16,10 @@ module.exports = function (grunt) {
     grunt.initConfig({
         paths : pathConfig,
         watch : {
-            // compass : {
-            //     files : ['<%= yeoman.app %>/stylesheets/compass/{,*/}*/{,*/}*.{scss,sass,png}'],
-            //     tasks : ['compass']
-            // },
+            compass : {
+                files : ['<%= paths.app %>/compass/{,*/}*.{scss,sass,png}'],
+                tasks : ['compass']
+            },
             livereload: {
                 files: [
                     '<%= paths.app %>{,*/}*/*.html',
@@ -64,12 +64,31 @@ module.exports = function (grunt) {
                     '<%= paths.app %>/javascripts/' : '<%= paths.app %>/jsx-src/'
                 }
             }
+        },
+        compass : {
+            options : {
+                sassDir : '<%= paths.app %>/compass',
+                cssDir : '<%= paths.app %>/stylesheets',
+                imagesDir : '<%= paths.app %>/compass/images',
+                generatedImagesDir : '<%= paths.app %>/images',
+                relativeAssets : true
+            },
+            dist : {
+                options : {
+                    outputStyle: 'compressed'
+                }
+            },
+            server : {
+                options : {
+                    debugInfo: true
+                }
+            }
         }
     });
 
     grunt.registerTask('server', [
         'clean:server',
-        // 'compass:server',
+        'compass:server',
         'watch',
         'livereload-start'
     ]);
