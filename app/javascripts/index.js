@@ -22,7 +22,7 @@ require.config({
     }
 });
 
-/*(function (window, document) {
+(function (window, document) {
     require([
         'React',
         'IO',
@@ -48,22 +48,43 @@ require.config({
             }
         });
 
-        React.renderComponent(IndexView(null ), document.body);
+        React.renderComponent(IndexView(null ), $('.sample-search')[0]);
     });
 }(this, document));
-*/
 
 (function (window, document) {
     require([
+        '$',
         'React',
         'IO',
         'components/WanxiaodouView'
     ], function (
+        $,
         React,
         IO,
         WanxiaodouView
     ) {
-        React.renderComponent(WanxiaodouView({'data-tip' : 'xxxxx', 'data-type' : 'NO_SEARCH_RESULT'}), document.body);
+        React.renderComponent(WanxiaodouView( {'data-tip':"xxxxxx", 'data-type':"NO_SEARCH_RESULT"}), $('.sample-wanxiaodou')[0]);
     });
+}(this, document));
 
+(function (window, document) {
+    require([
+        '$',
+        'React',
+        'IO',
+        'components/PageView'
+    ], function (
+        $,
+        React,
+        IO,
+        PageView
+    ) {
+        var data = {
+            current : 10,
+            total : 20,
+            win : 5
+        };
+        React.renderComponent(PageView( {'data':data}), $('.sample-pagecount')[0]);
+    });
 }(this, document));
