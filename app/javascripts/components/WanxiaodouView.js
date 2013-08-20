@@ -28,10 +28,10 @@
         var WanxiaodouView = React.createClass({displayName: 'WanxiaodouView',
             render : function () {
 
-                var index = _.random(0, 46),
-                    className = 'o-wanxiaodou ' + wanxiaodou[index],
-                    tip = this.props['data-tip'],
-                    type = this.props['data-type'];
+                var index = _.random(0, 46);
+                var className = 'o-wanxiaodou ' + wanxiaodou[index];
+                var tip = this.props['data-tip'];
+                var type = this.props['data-type'];
 
                 tip = FormatString(this.type[type], [tip]);
 
@@ -50,4 +50,3 @@
         return WanxiaodouView;
     });
 }(this));
-
