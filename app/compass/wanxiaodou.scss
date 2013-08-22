@@ -1,0 +1,34 @@
+@import "../thirdparty/Adonis/sass/adonis";
+@import "wanxiaodou/*.png";
+
+.o-wanxiaodou-container {
+	
+    text-align: center;
+    
+    .o-wanxiaodou {
+        height : 200px;
+        margin: 0px auto;
+        width : 200px;
+    
+        @each $img in apple, babypea, bigtalker, businessface, cheers,
+            cold, crawl, coolcats, ecstatic, foodie,
+            forfood, furious, googlyeyes, grannypea, grateful,
+            hallo, hellokitty, hothothot, hugitout, hugthecat,
+            karaokestar, lookaway, lookinggood, loveit, ohreeeeally,
+            partytime, peekabo, phoneoverboard, reading, secretive,
+            showersong, showertime, sleepypea, smooch, sogreat,
+            steaming, struckbylightening, strut, stumped, suspicious,
+            sweetpea, tearsofjoy, theend, threekitties, tickles,
+            wahaha, yes {
+            
+            &.#{$img} {
+                width : wanxiaodou-sprite-width($img);
+                @include wanxiaodou-sprite(#{$img});
+            }
+        }
+    }
+
+    em {
+        color: $textHighlight;
+    }
+}
