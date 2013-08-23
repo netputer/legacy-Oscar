@@ -2,14 +2,14 @@
 @import "wanxiaodou/*.png";
 
 .o-wanxiaodou-container {
-	
+
     text-align: center;
-    
+
     .o-wanxiaodou {
         height : 200px;
         margin: 0px auto;
         width : 200px;
-    
+
         @each $img in apple, babypea, bigtalker, businessface, cheers,
             cold, crawl, coolcats, ecstatic, foodie,
             forfood, furious, googlyeyes, grannypea, grateful,
@@ -20,7 +20,7 @@
             steaming, struckbylightening, strut, stumped, suspicious,
             sweetpea, tearsofjoy, theend, threekitties, tickles,
             wahaha, yes {
-            
+
             &.#{$img} {
                 width : wanxiaodou-sprite-width($img);
                 @include wanxiaodou-sprite(#{$img});

@@ -1,0 +1,33 @@
+@import "../thirdparty/Adonis/sass/adonis";
+
+.o-download-list-container{
+
+    .o-list-container {
+
+        list-style: none;
+        overflow: hidden;
+        width: 484px;
+
+        &.mini {
+            max-height: 28px;
+            -webkit-transition: all .5s linear;
+
+            &.show-all {
+
+                max-height: 800px;
+                -webkit-transform: translate3d(0, 0px, 0);
+            }
+        }
+    }
+
+    .o-list-item {
+
+        cursor: pointer;
+        display: block;
+        float : left;
+        margin: 0px 5px 5px 5px;
+        overflow: hidden;
+        padding: 2px;
+        position: relative;
+    }
+}
