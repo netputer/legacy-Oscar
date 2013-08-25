@@ -118,7 +118,7 @@ require.config({
         IO,
         DescriptionView
     ) {
-        
+
         var queryAsync = function () {
             var deferred = $.Deferred();
 
@@ -137,9 +137,9 @@ require.config({
                 description : resp.description
             };
 
-            React.renderComponent(<DescriptionView data={data}/>, $('.sample-DescriptionView')[0]);    
+            React.renderComponent(<DescriptionView data={data}/>, $('.sample-DescriptionView')[0]);
         });
-        
+
     });
 }(this, document));
 
@@ -155,7 +155,7 @@ require.config({
         IO,
         DownloadListView
     ) {
-        
+
         var queryAsync = function () {
             var deferred = $.Deferred();
 
@@ -174,9 +174,9 @@ require.config({
                 videoEpisodes : resp.videoEpisodes
             };
 
-            React.renderComponent(<DownloadListView data={data}/>, $('.sample-DownloadListView')[0]);    
+            React.renderComponent(<DownloadListView data={data}/>, $('.sample-DownloadListView')[0]);
         });
-        
+
     });
 }(this, document));
 
@@ -192,7 +192,7 @@ require.config({
         IO,
         BannerView
     ) {
-        
+
         var queryAsync = function (vid) {
             var deferred = $.Deferred();
 
@@ -206,16 +206,50 @@ require.config({
         };
 
         queryAsync('128424').done(function (resp) {
-            React.renderComponent(<BannerView data={resp}/>, $('.sample-BannerView-tv')[0]);    
+            React.renderComponent(<BannerView data={resp}/>, $('.sample-BannerView-tv')[0]);
         });
 
         queryAsync('42226').done(function (resp) {
-            React.renderComponent(<BannerView data={resp}/>, $('.sample-BannerView-movie')[0]);    
+            React.renderComponent(<BannerView data={resp}/>, $('.sample-BannerView-movie')[0]);
         });
 
         queryAsync('28162').done(function (resp) {
-            React.renderComponent(<BannerView data={resp}/>, $('.sample-BannerView-variety')[0]);    
+            React.renderComponent(<BannerView data={resp}/>, $('.sample-BannerView-variety')[0]);
         });
-        
+
+    });
+}(this, document));
+
+(function (window, document) {
+    require([
+        '$',
+        'React',
+        'IO',
+        'components/PicturesView'
+    ], function (
+        $,
+        React,
+        IO,
+        PicturesView
+    ) {
+
+        var queryAsync = function (vid) {
+            var deferred = $.Deferred();
+
+            $.ajax({
+                url : 'http://oscar.wandoujia.com/api/v1/videos/' + vid,
+                success : deferred.resolve,
+                error : deferred.reject
+            });
+
+            return deferred.promise();
+        };
+
+        queryAsync('42226').done(function (resp) {
+
+            var data = resp.pictures;
+            React.renderComponent(<PicturesView data={data}/>, $('.sample-PicturesView')[0]);
+        });
+
     });
 }(this, document));

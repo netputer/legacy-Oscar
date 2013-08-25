@@ -11,7 +11,7 @@
     ) {
         var DescriptionView = React.createClass({displayName: 'DescriptionView',
             render : function () {
-                
+
                 var description = this.props.data['description'];
                 return (
                     React.DOM.div( {className:"o-episodes-list-container"}, 
