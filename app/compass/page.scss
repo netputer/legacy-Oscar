@@ -2,69 +2,69 @@
 @import "page/*.png";
 
 .o-page-container {
-	
-	font-size: 14px;
-	margin: 25px auto;
-	text-align: center;
 
-	.o-page-arrow {
-		display: inline-block;
-		height: 41px;	
-		line-height: 41px;
-		padding: 0;
-		position: relative;
-		width: 40px;
-		white-space: nowrap;
+    font-size: 14px;
+    margin: 25px auto;
+    text-align: center;
 
-		&.previous:before {
-			content: "";
-			display: block;
-			height: 41px;
-			left: -50px;
-			position: absolute;
-			top: 0px;
-			width: 40px;
+    .o-page-arrow {
+        display: inline-block;
+        height: 41px;
+        line-height: 41px;
+        padding: 0;
+        position: relative;
+        width: 40px;
+        white-space: nowrap;
 
-			@include page-sprite(previous);
-		}
+        &.previous:before {
+            content: "";
+            display: block;
+            height: 41px;
+            left: -50px;
+            position: absolute;
+            top: 0px;
+            width: 40px;
 
-		&.previous.disable:before {
-			@include page-sprite(previous-disable);
-		}
+            @include page-sprite(previous);
+        }
 
-		&.previous.disable {
-			color: #d5d5d5;
-			text-decoration: none;
-		}
+        &.previous.disable:before {
+            @include page-sprite(previous-disable);
+        }
 
-		&.next:after {
-			content: "";
-			display: block;
-			height: 41px;
-			position: absolute;
-			right: -50px;
-			top: 0px;
-			width: 40px;
-			
-			@include page-sprite(next);
-		}
+        &.previous.disable {
+            color: #d5d5d5;
+            text-decoration: none;
+        }
 
-		&.next.disable:after {
-			@include page-sprite(next-disable);
-		}
+        &.next:after {
+            content: "";
+            display: block;
+            height: 41px;
+            position: absolute;
+            right: -50px;
+            top: 0px;
+            width: 40px;
 
-		&.next.disable {
-			color: #d5d5d5;
-			text-decoration: none;
-		}
-	}
+            @include page-sprite(next);
+        }
 
-	.o-pagecount-container {
-		display : inline-block;
+        &.next.disable:after {
+            @include page-sprite(next-disable);
+        }
 
-		.current {
-			font-size: 16px;
-			text-shadow: 0 0 1px #2f7c2f;
-		}
-	}
+        &.next.disable {
+            color: #d5d5d5;
+            text-decoration: none;
+        }
+    }
+
+    .o-pagecount-container {
+        display : inline-block;
+
+        .current {
+            font-size: 16px;
+            text-shadow: 0 0 1px #2f7c2f;
+        }
+    }
 }

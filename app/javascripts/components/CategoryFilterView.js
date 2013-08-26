@@ -35,7 +35,7 @@
             },
             render : function () {
                 return (
-                    React.DOM.dd(null,
+                    React.DOM.dd(null, 
                         React.DOM.span(null, "全部"),
                         this.state.catesList
                     )
@@ -51,9 +51,9 @@
         var CategoryFilterView = React.createClass({displayName: 'CategoryFilterView',
             render : function () {
                 return (
-                    React.DOM.div( {className:"o-cate-filter"},
+                    React.DOM.div( {className:"o-cate-filter"}, 
                         React.DOM.h1( {className:"o-cate-filter title"}, CATE_MAPPING[this.props['data-cate']]),
-                        React.DOM.dl(null,
+                        React.DOM.dl(null, 
                             React.DOM.dt(null, "类型"),
                             FilterList( {'data-cate':this.props['data-cate']} )
                         )

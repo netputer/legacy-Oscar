@@ -1,0 +1,84 @@
+@import "../thirdparty/Adonis/sass/adonis";
+
+.o-pictures-container {
+
+    width: 445px;
+
+    .o-header-container {
+
+        display: -webkit-box;
+
+        .info {
+
+            -webkit-box-flex : 1;
+
+            .pic {
+                font-size: 14px;
+            }
+
+            .totle {
+                margin-left: 5px;
+            }
+
+            .return {
+                margin-left: 5px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .o-pictures-mask {
+        margin: 5px 0px;
+        overflow: hidden;
+
+        .o-small-pictures-container {
+            height: 100px;
+            list-style: none;
+            margin:0px;
+            overflow: hidden;
+            padding-left: 0px;
+
+            -webkit-transition: all .2s linear;
+
+            &.hide {
+                margin-top : -100px;
+                opacity: 0;
+                -webkit-transform: translate3d(0, 0, 0);
+            }
+
+            .o-picture-item {
+
+                cursor: pointer;
+                display: inline-block;
+                height: 100px;
+                margin: 0px 5px 5px 5px;
+                overflow: hidden;
+                position: relative;
+                width:100px;
+
+                .horizontal {
+                    height: 100px;
+                }
+
+                .vertical {
+                    width : 100px;
+                }
+            }
+        }
+
+        .o-big-pictures-container {
+            height: 350px;
+            margin-top: -350px;
+            opacity: 0;
+            overflow: hidden;
+            width : 445px;
+            -webkit-transition: all .6s linear;
+
+            &.show {
+                -webkit-transform: translate3d(0, 0, 0);
+                margin-top: 0px;
+                opacity: 1;
+            }
+        }
+    }
+}

@@ -11,7 +11,7 @@
     ) {
 
         var PageView = React.createClass({
-            
+
             render : function () {
                 this.total = this.state['total'] || 0;
                 this.current = this.state['current'] || 1;
@@ -20,7 +20,7 @@
                 if ( this.total === 0 ) {
                     return '';
                 }
-                
+
                 var previousClass = "o-page-arrow previous";
                 if (this.current === 1) {
                     previousClass += ' disable';
@@ -30,7 +30,7 @@
                 if (this.current === this.total) {
                     nextClass += ' disable';
                 }
-                
+
                 var left = parseInt(this.win / 2);
                 var right = parseInt((this.win - 1) / 2);
 
@@ -49,7 +49,7 @@
                 if (this.total - start < this.win) {
                     count = this.total - start + 1;
                 } else {
-                    count = this.win;   
+                    count = this.win;
                 }
 
                 return (
@@ -60,7 +60,7 @@
                             {this.getPageCount(start, count)}
                         </div>
                         <a class={nextClass} onClick={this.getNext}>下一页</a>
-                    </div> 
+                    </div>
                 );
             },
             getPageCount : function (start, count) {
@@ -75,7 +75,7 @@
 
                 if (start === 1 ){
                     start ++;
-                    count --;                     
+                    count --;
                 } else if (start > 2) {
                     result.push(<span class="o-pagecount-dot">・</span>);
                     result.push(<span class="o-pagecount-dot">・</span>);
@@ -83,7 +83,7 @@
 
                 var end = start + count - 1;
                 if (end === this.total) {
-                    end --;     
+                    end --;
                 }
 
                 if (start <= end) {
@@ -93,10 +93,10 @@
                         } else {
                             result.push(<a class="o-pagecount-item current" onClick={this.getPage}>{i}</a>);
                         }
-                            result.push(<span class="o-pagecount-dot">・</span>);   
+                            result.push(<span class="o-pagecount-dot">・</span>);
                     }
                 }
-                            
+
                 if (end < this.total - 1 ) {
                     result.push(<span class="o-pagecount-dot">・</span>);
                     result.push(<span class="o-pagecount-dot">・</span>);
