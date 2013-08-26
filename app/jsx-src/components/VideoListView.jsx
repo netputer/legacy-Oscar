@@ -39,8 +39,16 @@
             render : function () {
 
                 var data = this.props.data;
+                var pictures = data.pictures;
+                var src = '';
+                if (pictures) {
+                    src = pictures.l[0];
+                } else if (data.cover.l){
+                    src = data.cover.l;
+                }
+
                 var style = {
-                    'background' : 'url(' + data.pictures.l[0] + ')',
+                    'background' : 'url(' + src + ')',
                     'background-size' : 'cover'
                 };
 
@@ -84,7 +92,26 @@
                     ];
                     break;
                 case 'MOVIE':
-                    info = <span class="actors wc">{actors}</span>;
+                    var rating = data.marketRatings;
+                    if (rating && rating.length) {
+                        rating = rating[0].rating;
+                    } else {
+                        rating = textEnum.NO_RATING;
+                    }
+
+                    var cates = data.categories;
+                    if (cates && cates.length > 0) {
+                        var tmp = [];
+                        _.map(cates, function (cate) {
+                            tmp.push(_.pick(cate, 'name')['name']);
+                        });
+                        cates = tmp.join(' / ');
+                    }
+
+                    info = [
+                        <span class="actors wc">{cates}</span>,
+                        <span class="episode">{rating}</span>
+                    ];
                     break;
                 case 'VARIETY':
                     var presenters = data.presenters;
@@ -131,7 +158,6 @@
                 var ele;
                 switch (type) {
                 case "MOVIE":
-
                     if (rating && rating.length) {
                         rating = rating[0].rating;
                     } else {
