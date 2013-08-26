@@ -35,6 +35,84 @@
             NO_DATA : '暂无数据'
         };
 
+        var BigItemView = React.createClass({
+            render : function () {
+
+                var data = this.props.data;
+                var style = {
+                    'background' : 'url(' + data.pictures.l[0] + ')',
+                    'background-size' : 'cover'
+                };
+
+                return (
+                    <li class="o-categories-item big" style={style}>
+                        {this.renderTitle()}
+                        {this.renderInfo()}
+                        <button class="w-btn w-btn-primary">下载</button>
+                    </li>
+                );
+            },
+            renderTitle : function () {
+                return (
+                    <span class="title">{this.props.data.title}</span>
+                );
+            },
+            renderInfo : function () {
+                var data = this.props.data;
+                var info;
+                var actors;
+
+                if (data.actors.length) {
+                    actors = data.actors.join(' / ');
+                } else {
+                    actors = textEnum.NO_DATA;
+                }
+
+                switch (data.type) {
+                case 'TV':
+                case 'COMIC':
+                    var episode;
+                    if (data.latestEpisodeNum === data.totalEpisodesNum) {
+                        episode = FormatString(textEnum.TOTLE_COMPLATE, [data.latestEpisodeNum]);
+                    } else {
+                        episode = FormatString(textEnum.LAST_EPISODE, [data.latestEpisodeNum]);
+                    }
+
+                    info = [
+                        <span class="actors wc">{actors}</span>,
+                        <span class="episode">{episode}</span>
+                    ];
+                    break;
+                case 'MOVIE':
+                    info = <span class="actors wc">{actors}</span>;
+                    break;
+                case 'VARIETY':
+                    var presenters = data.presenters;
+                    if (presenters.length) {
+                        presenters = presenters.join(' / ');
+                    } else {
+                        presenters = textEnum.NO_DATA;
+                    }
+
+                    var episode;
+                    if (data.latestEpisodeDate) {
+                        episode = FormatDate('yyyy-MM-dd',data.latestEpisodeDate);
+                    } else {
+                        episode = textEnum.NO_DATA;
+                    }
+
+                    info = [
+                        <span class="actors wc">{presenters}</span>,
+                        <span class="episode">{episode}</span>
+                    ];
+
+                    break;
+                }
+
+                return <div class="info-text">{info}</div>
+            }
+        });
+
         var  ItemView = React.createClass({
             render : function () {
 
@@ -143,44 +221,25 @@
         });
 
         var VideoListView = React.createClass({
-            checkArgs : function () {
-                var data = this.props.data || {};
-
-                return {
-                    mixed : data.mixed === undefined ? true : data.mixed,
-                    max : data.max || 4,
-                    start : data.start === undefined ? 0 : data.start
-                };
-            },
-            getInitialState : function () {
-
-                var data = this.checkArgs();
-
-                queryAsync(data).done(function (resp) {
-
-                    this.videoList = resp.videoList;
-                    this.setState({
-                        'videoList' : resp.videoList
-                    });
-
-                }.bind(this));
-
-                return {};
-            },
             render : function () {
 
                 return (
                     <div class="o-categories-diplay-container">
                         <ul class="o-categories-item-container">
+                            {this.renderBigItem()}
                             {this.renderItem()}
                         </ul>
                     </div>
                 );
             },
+            renderBigItem : function () {
+                var data = this.props.data.shift();
+                return <BigItemView data={data} />;
+            },
             renderItem : function () {
                 var result = [];
 
-                _.map(this.videoList, function (video) {
+                _.map(this.props.data, function (video) {
                     result.push(<ItemView data={video}/>);
                 });
 

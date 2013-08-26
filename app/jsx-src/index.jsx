@@ -102,7 +102,27 @@ require.config({
         IO,
         VideoListView
     ) {
-        React.renderComponent(<VideoListView/>, $('.sample-VideoListView')[0]);
+
+        var queryAsync = function () {
+            var deferred = $.Deferred();
+
+            $.ajax({
+                url : 'http://oscar.wandoujia.com/api/v1/search/',
+                data : {
+                    mixed : true,
+                    max : 4,
+                    start : 0
+                },
+                success : deferred.resolve,
+                error : deferred.reject
+            });
+
+            return deferred.promise();
+        };
+
+        queryAsync().done( function (resp){
+            React.renderComponent(<VideoListView data={resp.videoList}/>, $('.sample-VideoListView')[0]);
+        });
     });
 }(this, document));
 
