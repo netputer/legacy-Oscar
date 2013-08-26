@@ -189,4 +189,5 @@
         });
 
         return VideoListView;
- }(this));
+    });
+}(this));

@@ -123,7 +123,7 @@ require.config({
             var deferred = $.Deferred();
 
             $.ajax({
-                url : 'http://oscar.wandoujia.com/api/v1/videos/128424',
+                url : 'http://oscar.wandoujia.com/api/v1/videos/49194',
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -160,7 +160,7 @@ require.config({
             var deferred = $.Deferred();
 
             $.ajax({
-                url : 'http://oscar.wandoujia.com/api/v1/videos/128424',
+                url : 'http://oscar.wandoujia.com/api/v1/videos/49194',
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -205,7 +205,7 @@ require.config({
             return deferred.promise();
         };
 
-        queryAsync('128424').done(function (resp) {
+        queryAsync('49194').done(function (resp) {
             React.renderComponent(BannerView( {data:resp}), $('.sample-BannerView-tv')[0]);
         });
 
