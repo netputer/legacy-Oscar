@@ -35,9 +35,8 @@
             NO_DATA : '暂无数据'
         };
 
-        var  ItemView = React.createClass({displayName: 'ItemView',
+        var ItemView = React.createClass({displayName: 'ItemView',
             render : function () {
-
                 var data = this.props.data;
                 var rating = data.marketRatings;
                 var actors = data.actors;
@@ -52,8 +51,7 @@
 
                 var ele;
                 switch (type) {
-                case "MOVIE":
-
+                case 'MOVIE':
                     if (rating && rating.length) {
                         rating = rating[0].rating;
                     } else {

@@ -2,6 +2,8 @@
 *.DS_store
 *.log
 
+/.sass-cache/
 /node_modules/
 /app/components
 /app/javascripts/.module-cache/
+/app/stylesheets/*.css

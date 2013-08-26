@@ -1,13 +1,13 @@
-@import "../thirdparty/Adonis/sass/adonis";
+@import "../thirdparty/Adonis/sass/standardColors";
 @import "wanxiaodou/*.png";
 
 .o-wanxiaodou-container {
-
     text-align: center;
 
     .o-wanxiaodou {
+        display: block;
         height : 200px;
-        margin: 0px auto;
+        margin: 30px auto 10px;
         width : 200px;
 
         @each $img in apple, babypea, bigtalker, businessface, cheers,
@@ -22,13 +22,18 @@
             wahaha, yes {
 
             &.#{$img} {
-                width : wanxiaodou-sprite-width($img);
                 @include wanxiaodou-sprite(#{$img});
+                width : wanxiaodou-sprite-width($img);
             }
         }
     }
 
-    em {
-        color: $textHighlight;
+    .o-wanxiaodou-tip {
+        display: block;
+        font-size: 14px;
+
+        em {
+            color: $textHighlight;
+        }
     }
 }
