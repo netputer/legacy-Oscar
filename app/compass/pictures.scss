@@ -38,7 +38,7 @@
             overflow: hidden;
             padding-left: 0px;
 
-            -webkit-transition: all .4s linear;
+            -webkit-transition: all .2s linear;
 
             &.hide {
                 margin-top : -100px;
@@ -55,7 +55,6 @@
                 overflow: hidden;
                 position: relative;
                 width:100px;
-                -webkit-transition: all .2s linear;
 
                 .horizontal {
                     height: 100px;
@@ -73,13 +72,10 @@
             opacity: 0;
             overflow: hidden;
             width : 445px;
-            -webkit-transition: all .8s linear;
+            -webkit-transition: all .6s linear;
 
             &.show {
-
                 -webkit-transform: translate3d(0, 0, 0);
-                transition-delay: .4s;
-
                 margin-top: 0px;
                 opacity: 1;
             }

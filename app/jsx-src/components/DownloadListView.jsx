@@ -20,12 +20,12 @@
         };
 
         var ItemView = React.createClass({
-            
+
             render : function () {
-                
+
                 this.index = this.props.index;
                 this.episode = this.props.episode;
-                
+
                 return (
                     <li class="o-list-item">
                         <button class="w-btn w-btn-mini" onClick={this.download}>
@@ -58,9 +58,9 @@
                 };
             },
             render : function () {
-                
+
                 var videoEpisodes = this.props.data['videoEpisodes'];
-                
+
                 return (
                     <div class="o-download-list-container">
                         <p class="w-text-secondary">分集下载</p>
@@ -78,7 +78,7 @@
                 });
             },
             createList : function (videoEpisodes) {
-                
+
                 var listItems = [];
                 for(var i = videoEpisodes.length; i >= 0; i--){
                     listItems.push(<ItemView episode={videoEpisodes[i]} index={i}/>);

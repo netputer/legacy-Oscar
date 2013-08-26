@@ -20,12 +20,12 @@
         };
 
         var ItemView = React.createClass({displayName: 'ItemView',
-            
+
             render : function () {
-                
+
                 this.index = this.props.index;
                 this.episode = this.props.episode;
-                
+
                 return (
                     React.DOM.li( {className:"o-list-item"}, 
                         React.DOM.button( {className:"w-btn w-btn-mini", onClick:this.download}, 
@@ -58,9 +58,9 @@
                 };
             },
             render : function () {
-                
+
                 var videoEpisodes = this.props.data['videoEpisodes'];
-                
+
                 return (
                     React.DOM.div( {className:"o-download-list-container"}, 
                         React.DOM.p( {className:"w-text-secondary"}, "分集下载"),
@@ -78,7 +78,7 @@
                 });
             },
             createList : function (videoEpisodes) {
-                
+
                 var listItems = [];
                 for(var i = videoEpisodes.length; i >= 0; i--){
                     listItems.push(ItemView( {episode:videoEpisodes[i], index:i}));
