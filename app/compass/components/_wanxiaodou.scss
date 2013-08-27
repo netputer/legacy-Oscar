@@ -5,7 +5,8 @@
 
     text-align: center;
 
-    .o-wanxiaodou {
+    .wanxiaodou {
+        display: block;
         height : 200px;
         margin: 0px auto;
         width : 200px;
@@ -28,7 +29,12 @@
         }
     }
 
-    em {
-        color: $textHighlight;
+    .wanxiaodou-tip {
+        display: block;
+        font-size: 14px;
+
+        em {
+            color: $textHighlight;
+        }
     }
 }
