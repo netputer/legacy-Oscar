@@ -1,0 +1,27 @@
+.o-search-box {
+    padding: 10px;
+    text-align: center;
+
+    .o-search-box-wrap {
+        display: inline-block;
+        margin-right: 15px;
+        position: relative;
+
+        .o-search-box-suggestion {
+            left: 0;
+            position: absolute;
+            top: 34px;
+            width: 100%;
+
+            .o-search-box-suggestion-item {
+                &.highlight {
+                    background: red;
+                }
+            }
+        }
+
+        .o-search-box-input {
+            width: 315px;
+        }
+    }
+}
