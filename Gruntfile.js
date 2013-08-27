@@ -17,7 +17,7 @@ module.exports = function (grunt) {
         paths : pathConfig,
         watch : {
             compass : {
-                files : ['<%= paths.app %>/compass/{,*/}*.{scss,sass,png}'],
+                files : ['<%= paths.app %>/compass/{,*/}*.{scss,sass,png}', '<%= paths.app %>/thirdparty/Adonis/{,*/}*/{,*/}*.{scss,sass,png}'],
                 tasks : ['compass']
             },
             livereload: {
@@ -33,7 +33,7 @@ module.exports = function (grunt) {
                 tasks : ['livereload']
             },
             react : {
-                files : ['<%= paths.app %>/jsx-src/{,*/}*.jsx'],
+                files : ['<%= paths.app %>/{,*/}*/{,*/}*.jsx'],
                 tasks : ['react']
             }
         },
@@ -94,7 +94,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build', [
-        'clean:dist',
+        'clean:dist'
         // 'useminPrepare',
         // 'imagemin',
         // 'copy',

@@ -26,66 +26,13 @@ require.config({
     require([
         'React',
         'IO',
-        'components/HeaderMenuView',
-        'components/SearchBoxView',
-        'components/CommentaryView'
+        'components/searchbox/SearchBoxView'
     ], function (
         React,
         IO,
-        HeaderMenuView,
-        SearchBoxView,
-        CommentaryView
+        SearchBoxView
     ) {
-        var IndexView = React.createClass({displayName: 'IndexView',
-            render : function () {
-                return (
-                    React.DOM.div(null, 
-                        HeaderMenuView(null ),
-                        SearchBoxView(null ),
-                        CommentaryView(null )
-                    )
-                );
-            }
-        });
-
-        React.renderComponent(IndexView(null ), $('.sample-search')[0]);
-    });
-}(this, document));
-
-(function (window, document) {
-    require([
-        '$',
-        'React',
-        'IO',
-        'components/WanxiaodouView'
-    ], function (
-        $,
-        React,
-        IO,
-        WanxiaodouView
-    ) {
-        React.renderComponent(WanxiaodouView( {'data-tip':"xxxxxx", 'data-type':"NO_SEARCH_RESULT"}), $('.sample-wanxiaodou')[0]);
-    });
-}(this, document));
-
-(function (window, document) {
-    require([
-        '$',
-        'React',
-        'IO',
-        'components/PageView'
-    ], function (
-        $,
-        React,
-        IO,
-        PageView
-    ) {
-        var data = {
-            current : 10,
-            total : 20,
-            win : 5
-        };
-        React.renderComponent(PageView( {data:data}), $('.sample-pagecount')[0]);
+        React.renderComponent(SearchBoxView(null ), document.getElementsByClassName('o-search-box-ctn')[0]);
     });
 }(this, document));
 
