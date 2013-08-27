@@ -6,14 +6,14 @@
         '$',
         'Backbone',
         'components/WanxiaodouView',
-        'components/ViewListItemView'
+        'components/VideoListItemView'
     ], function (
         React,
         _,
         $,
         Backbone,
         WanxiaodouView,
-        ViewListItemView
+        VideoListItemView
     ) {
 
         var VideoModel = Backbone.Model.extend({
@@ -32,7 +32,7 @@
                 } else {
                     if (this.props.list.length > 0) {
                         var listItemViews = _.map(this.props.list, function (video) {
-                            return ViewListItemView( {'data-model':new VideoModel(video), key:video.id} )
+                            return VideoListItemView( {'data-model':new VideoModel(video), key:video.id} )
                         });
 
                         return (
