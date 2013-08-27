@@ -2,43 +2,48 @@
 (function (window) {
     define([
         'React',
-        'components/WanxiaodouView'
+        '_',
+        '$',
+        'Backbone',
+        'components/WanxiaodouView',
+        'components/ViewListItemView'
     ], function (
         React,
-        WanxiaodouView
+        _,
+        $,
+        Backbone,
+        WanxiaodouView,
+        ViewListItemView
     ) {
-        var queryAsync = function (keyword) {
-            var deferred = $.Deferred();
 
-            $.ajax({
-                url : 'http://oscar.wandoujia.com/api/v1/search/' + keyword,
-                success : deferred.resolve,
-                error : deferred.reject
-            });
-
-            return deferred.promise();
-        };
+        var VideoModel = Backbone.Model.extend({
+            defaults : {
+                pictures : {
+                    l : [],
+                    s : []
+                }
+            }
+        });
 
         var SearchResultView = React.createClass({displayName: 'SearchResultView',
-            getInitialState : function () {
-                return {
-                    list : [],
-                    keyword : this.props.keyword
-                };
-            },
-            doSearch : function (keyword) {
-                queryAsync(keyword).done(function (resp) {
-                    this.setState({
-                        list : resp.videoList || [],
-                        keyword : keyword
-                    });
-                }.bind(this));
-            },
             render : function () {
-                if (this.state.list.length > 0) {
-                    return React.DOM.div(null);
+                if (this.props.loading) {
+                    return React.DOM.div(null, "loading...")
                 } else {
-                    return WanxiaodouView( {'data-tip':this.state.keyword, 'data-type':"NO_SEARCH_RESULT"} );
+                    if (this.props.list.length > 0) {
+                        var listItemViews = _.map(this.props.list, function (video) {
+                            return ViewListItemView( {'data-model':new VideoModel(video), key:video.id} )
+                        });
+
+                        return (
+                            React.DOM.div(null, 
+                                React.DOM.ul(null, listItemViews)
+                            )
+                        );
+                    } else {
+                        return WanxiaodouView( {'data-tip':this.props.keyword, 'data-type':"NO_SEARCH_RESULT"} );
+                    }
+
                 }
             }
         });

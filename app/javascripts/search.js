@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 require.config({
     paths : {
         $ : '../components/jquery/jquery',
@@ -25,26 +24,19 @@ require.config({
 (function (window, document) {
     require([
         'React',
+        'Backbone',
         'IO',
-        'components/searchbox/SearchBoxView',
-        'components/SearchResultView',
-        'utilities/QueryString'
+        'SearchPageRouter',
+        'SearchPage'
     ], function (
         React,
+        Backbone,
         IO,
-        SearchBoxView,
-        SearchResultView,
-        QueryString
+        SearchPageRouter,
+        SearchPage
     ) {
-        var keyword = QueryString.get('keyword');
+        React.renderComponent(SearchPage(), document.body);
 
-        var searchResultView = SearchResultView( {keyword:keyword} );
-
-        var onSearchAction = function (keyword) {
-            searchResultView.doSearch(keyword);
-        };
-
-        React.renderComponent(SearchBoxView( {keyword:keyword, onAction:onSearchAction} ), document.getElementsByClassName('o-search-box-ctn')[0]);
-        React.renderComponent(searchResultView, document.getElementsByClassName('o-search-result-ctn')[0]);
+        Backbone.history.start();
     });
 }(this, document));

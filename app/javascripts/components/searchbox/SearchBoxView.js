@@ -65,15 +65,15 @@
                 };
             },
             changeInput : function (evt) {
-                queryAsync(evt.target.value).done(function (resp) {
-                    this.setState({
-                        resultModels : _.map(resp, function (item) {
-                            return new SuggestionItemModel({
-                                body : item
-                            });
-                        })
-                    });
-                }.bind(this));
+                // queryAsync(evt.target.value).done(function (resp) {
+                //     this.setState({
+                //         resultModels : _.map(resp, function (item) {
+                //             return new SuggestionItemModel({
+                //                 body : item
+                //             });
+                //         })
+                //     });
+                // }.bind(this));
             },
             modelChangeHander : function (model, selected) {
                 if (selected) {

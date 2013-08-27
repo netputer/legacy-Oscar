@@ -28,7 +28,7 @@
         var WanxiaodouView = React.createClass({
             render : function () {
                 var index = _.random(0, 46);
-                var className = 'o-wanxiaodou ' + wanxiaodou[index];
+                var className = 'wanxiaodou ' + wanxiaodou[index];
                 var tip = this.props['data-tip'];
                 var type = this.props['data-type'];
 
@@ -37,7 +37,7 @@
                 return (
                     <div class="o-wanxiaodou-container">
                         <div class={className}></div>
-                        <span class="o-wanxiaodou-tip w-text-info" dangerouslySetInnerHTML={{__html : tip}}></span>
+                        <span class="wanxiaodou-tip w-text-info" dangerouslySetInnerHTML={{__html : tip}}></span>
                     </div>
                 );
             },
