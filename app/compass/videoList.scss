@@ -20,6 +20,40 @@
     position: relative;
     width: 115px;
 
+    &.big {
+        color: #FFF;
+        width: 365px;
+
+        .title {
+            display: block;
+            font-size : 26px;
+            margin : 110px auto auto 15px;
+        }
+
+        .info-text {
+            display: block;
+            margin-left: 15px;
+            margin-top: 10px;
+
+            .actors {
+                width: 250px;
+                display: inline-block;
+            }
+
+            .episode {
+                display: inline-block;
+                height: 18px;
+                margin-left: 15px;
+                vertical-align: top;
+            }
+        }
+
+        button {
+            margin-left: 15px;
+            margin-top: 5px;
+        }
+    }
+
     .cover {
 
         height: 135px;
@@ -55,14 +89,6 @@
 
         -webkit-transition: all .2s linear;
 
-        .wc {
-            display: block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            word-wrap: break-word;
-        }
-
         .title {
             padding: 6px 0px 6px 0px;
         }
@@ -75,4 +101,12 @@
             margin-top: 8px;
         }
     }
+}
+
+.wc {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: break-word;
 }

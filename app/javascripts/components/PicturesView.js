@@ -41,8 +41,8 @@
                     React.DOM.div( {className:"o-pictures-container"}, 
                         this.renderHeader(),
                         React.DOM.div( {className:"o-pictures-mask"}, 
-                        this.renderBigPicture(),
-                        this.renderSmallPicture()
+                        this.renderSmallPicture(),
+                        this.renderBigPicture()
                         )
                     )
                 );
@@ -56,8 +56,8 @@
                             this.state.showLarge && React.DOM.span( {className:"w-text-info return", onClick:this.showSmall}, textEnums.RETURN)
                         ),
                         React.DOM.div( {className:"navigator"}, 
-                            React.DOM.a( {className:this.state.disablePrev ? 'prev disable' : 'prev', onClick:this.clickPrev}, "前一个"),
-                            React.DOM.a( {className:this.state.disableNext ? 'next disable' : 'next', onClick:this.clickNext}, "后一个")
+                            React.DOM.a( {className:this.state.disablePrev ? 'prev disabled' : 'prev', onClick:this.clickPrev}),
+                            React.DOM.a( {className:this.state.disableNext ? 'next disabled' : 'next', onClick:this.clickNext})
                         )
                     )
                 );
@@ -78,16 +78,15 @@
             },
             renderBigPicture : function () {
                 return (
-                    React.DOM.div( {className:this.state.showLarge ? 'o-big-pictures-container show' : 'o-big-pictures-container', ref:"bigContainer"}, 
-
-                        React.DOM.img( {src:this.state.largeSrc})
+                    React.DOM.div( {className:this.state.showLarge ? 'o-big-pictures-container show' : 'o-big-pictures-container'}, 
+                        React.DOM.img( {src:this.state.largeSrc, ref:"bigPicture"})
                     )
                 );
             },
             componentDidMount : function () {
                 var node;
                 for (var i = 0; i < this.largePics.length; i++) {
-                    node = this.refs['item' + i];
+                    node = this.refs['item' + i].getDOMNode();
 
                     node.onload = function () {
                         var width = this.width;
@@ -100,89 +99,109 @@
                         }
                     }
                 }
+
+                node = this.refs['bigPicture'].getDOMNode();
+                node.onload = function () {
+                    var width = this.width;
+                    var height = this.height;
+
+                    if (width >= height) {
+                        this.className = 'horizontal';
+                    } else {
+                        this.className = 'vertical';
+                    }
+                };
             },
             clickPrev : function () {
 
-                var state = {};
-
                 if (this.state.showLarge) {
-                    if (this.largeIndex === 0) {
-                        state['disablePrev'] = true;
-                    } else {
-                        state['disablePrev'] = false;
+
+                    if (!this.state.disablePrev) {
                         this.largeIndex --;
-                        state['largeSrc'] = this.largePics[this.largeIndex];
+                        this.setState({'largeSrc' : this.largePics[this.largeIndex]});
+                        this.changeStateLarge();
                     }
+
                 } else {
 
-                    if (this.lastShowIndex <= 3) {
-                        state['disablePrev'] = true;
-                    } else {
-                        state['disablePrev'] = false;
-
+                    if (!this.state.disablePrev) {
                         var node = $(this.refs.item0.getDOMNode());
                         var marginLeft = parseInt(node.css('marginLeft'));
                         node.css('marginLeft', marginLeft + 110 + 'px');
 
-                        this.lastShowIndex --;
+                        this.lastShowIndex ++;
+                        this.changeStateSmall();
                     }
-
                 }
-                this.setState(state);
             },
             clickNext : function () {
 
-                var state = {};
-
                 if (this.state.showLarge) {
-                    if (this.largeIndex === this.largePics.length - 1) {
-                        state['disableNext'] = true;
-                    } else {
-                        state['disableNext'] = false;
+
+                    if (!this.state.disableNext) {
                         this.largeIndex ++;
-                        state['largeSrc'] = this.largePics[this.largeIndex];
+                        this.setState({'largeSrc' : this.largePics[this.largeIndex]});
+                        this.changeStateLarge();
                     }
+
                 } else {
-
-                    if (this.lastShowIndex === this.largePics.length - 1) {
-                        state['disableNext'] = true;
-                    } else {
-                        state['disableNext'] = false;
-
+                    if (!this.state.disableNext) {
                         var node = $(this.refs.item0.getDOMNode());
                         var marginLeft = parseInt(node.css('marginLeft'));
                         node.css('marginLeft', marginLeft - 110 + 'px');
 
                         this.lastShowIndex ++;
+                        this.changeStateSmall();
                     }
-
                 }
-                this.setState(state);
             },
             showSmall : function () {
-                var smallContainer = $(this.refs.smallContainer.getDOMNode());
-                smallContainer.css('transition-delay', '.6s');
-
-                var bigContainer = $(this.refs.bigContainer.getDOMNode());
-                bigContainer.css('transition-delay', '0s');
-
+                
+                this.changeStateSmall();
                 this.setState({
                     showLarge : false
                 })
             },
             showLarge : function (index, evt) {
-                var smallContainer = $(this.refs.smallContainer.getDOMNode());
-                smallContainer.css('transition-delay', '0');
-
-                var bigContainer = $(this.refs.bigContainer.getDOMNode());
-                bigContainer.css('transition-delay', '.2s');
-
                 this.largeIndex = index;
+                this.changeStateLarge();
 
                 this.setState({
                     showLarge : true,
                     largeSrc : this.largePics[index]
                 });
+            },
+            changeStateSmall : function () {
+                var state = {
+                    disableNext : true,
+                    disablePrev : true
+                };
+
+                if (this.lastShowIndex < this.largePics.length - 1 ){
+                    state['disableNext'] = false;
+                }
+
+                if (this.lastShowIndex > 3 ) {
+                    state['disablePrev'] = false;
+                }
+
+                this.setState(state);
+            },
+            changeStateLarge : function () {
+                var state = {
+                    disablePrev : true,
+                    disableNext : true
+                };
+
+                if (this.largeIndex > 0) {
+                    state['disablePrev'] = false;
+                }
+
+                if (this.largeIndex < this.largePics.length - 1){
+                    state['disableNext'] = false;
+                }
+
+                this.setState(state);
             }
         });
 

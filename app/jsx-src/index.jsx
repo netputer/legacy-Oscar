@@ -102,7 +102,27 @@ require.config({
         IO,
         VideoListView
     ) {
-        React.renderComponent(<VideoListView/>, $('.sample-VideoListView')[0]);
+
+        var queryAsync = function () {
+            var deferred = $.Deferred();
+
+            $.ajax({
+                url : 'http://oscar.wandoujia.com/api/v1/search/',
+                data : {
+                    mixed : true,
+                    max : 4,
+                    start : 0
+                },
+                success : deferred.resolve,
+                error : deferred.reject
+            });
+
+            return deferred.promise();
+        };
+
+        queryAsync().done( function (resp){
+            React.renderComponent(<VideoListView data={resp.videoList}/>, $('.sample-VideoListView')[0]);
+        });
     });
 }(this, document));
 
@@ -123,7 +143,7 @@ require.config({
             var deferred = $.Deferred();
 
             $.ajax({
-                url : 'http://oscar.wandoujia.com/api/v1/videos/128424',
+                url : 'http://oscar.wandoujia.com/api/v1/videos/49194',
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -160,7 +180,7 @@ require.config({
             var deferred = $.Deferred();
 
             $.ajax({
-                url : 'http://oscar.wandoujia.com/api/v1/videos/128424',
+                url : 'http://oscar.wandoujia.com/api/v1/videos/49194',
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -205,7 +225,7 @@ require.config({
             return deferred.promise();
         };
 
-        queryAsync('128424').done(function (resp) {
+        queryAsync('49194').done(function (resp) {
             React.renderComponent(<BannerView data={resp}/>, $('.sample-BannerView-tv')[0]);
         });
 
