@@ -25,15 +25,16 @@
 
         .download-ctn {
             margin-top : 10px;
+            -webkit-box-align: center;
         }
 
         .provider {
             margin-left: 15px;
-            vertical-align: middle;
         }
     }
 
     .thumb-container {
+        margin-left: 5px;
         overflow: hidden;
         width: 335px;
         -webkit-box-pack: end;

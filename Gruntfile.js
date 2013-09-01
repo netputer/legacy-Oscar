@@ -1,6 +1,10 @@
 'use strict';
 
-var LIVERELOAD_PORT = 35729;
+var lrSnippet = require('connect-livereload')();
+
+var mountFolder = function (connect, dir) {
+    return connect.static(require('path').resolve(dir));
+};
 
 module.exports = function (grunt) {
     // load all grunt tasks
@@ -17,24 +21,46 @@ module.exports = function (grunt) {
         paths : pathConfig,
         watch : {
             compass : {
-                files : ['<%= paths.app %>/compass/{,*/}*.{scss,sass,png}', '<%= paths.app %>/thirdparty/Adonis/{,*/}*/{,*/}*.{scss,sass,png}'],
+                files : ['<%= paths.app %>/{,*/}*/{,*/}*.{sass,png}'],
                 tasks : ['compass']
             },
             livereload: {
                 files: [
                     '<%= paths.app %>{,*/}*/*.html',
-                    '<%= paths.app %>/stylesheets/*.css',
+                    '<%= paths.tmp %>/stylesheets/*.css',
                     '<%= paths.app %>/javascripts/{,*/}*/{,*/}*.js',
-                    '<%= paths.app %>/images/{,*/}*/{,*/}*.{png,jpg,jpeg,gif,webp}'
+                    '<%= paths.tmp %>/javascripts/{,*/}*/{,*/}*.js',
+                    '<%= paths.tmp %>/images/{,*/}*/{,*/}*.{png,jpg,jpeg,gif,webp}'
                 ],
                 options : {
-                    livereload : LIVERELOAD_PORT
-                },
-                tasks : ['livereload']
+                    livereload : true
+                }
             },
             react : {
                 files : ['<%= paths.app %>/{,*/}*/{,*/}*.jsx'],
-                tasks : ['react']
+                tasks : ['react:tmp']
+            }
+        },
+        connect : {
+            options : {
+                port : 9999,
+                hostname : '0.0.0.0'
+            },
+            dev : {
+                options : {
+                    middleware : function (connect) {
+                        return [
+                            lrSnippet,
+                            mountFolder(connect, '.tmp'),
+                            mountFolder(connect, pathConfig.app)
+                        ];
+                    }
+                }
+            }
+        },
+        open: {
+            server : {
+                path : 'http://127.0.0.1:<%= connect.options.port %>'
             }
         },
         clean : {
@@ -43,16 +69,14 @@ module.exports = function (grunt) {
         },
         useminPrepare : {
             html : ['<%= paths.app %>/*.html'],
-            css : ['<%= paths.app %>/stylesheets/*.css'],
             options : {
                 dest : '<%= paths.dist %>'
             }
         },
         usemin: {
             html : ['<%= paths.app %>/*.html'],
-            css : ['<%= paths.app %>/stylesheets/*.css'],
             options : {
-                dirs : ['temp', 'dist']
+                dirs : ['<%= paths.dist %>']
             }
         },
         react : {
@@ -61,26 +85,67 @@ module.exports = function (grunt) {
             },
             app : {
                 files: {
-                    '<%= paths.app %>/javascripts/' : '<%= paths.app %>/jsx-src/'
+                    '<%= paths.tmp %>/javascripts/' : '<%= paths.app %>/jsx-src/'
                 }
+            },
+            dist : {
+                files: {
+                    '<%= paths.dist %>/javascripts/' : '<%= paths.app %>/jsx-src/'
+                }
+            }
+        },
+        htmlmin : {
+            dist : {
+                files : [{
+                    expand : true,
+                    cwd : '<%= paths.app %>',
+                    src : ['*.html'],
+                    dest : '<%= paths.dist %>'
+                }]
+            }
+        },
+        copy : {
+            dist : {
+                files : [{
+                    expand : true,
+                    dot : true,
+                    cwd : '<%= paths.app %>',
+                    dest : '<%= paths.dist %>',
+                    src : [
+                        'images/{,*/}*.{webp,gif,png,jpg,jpeg}'
+                    ]
+                }]
             }
         },
         compass : {
             options : {
-                sassDir : '<%= paths.app %>/compass',
-                cssDir : '<%= paths.app %>/stylesheets',
-                imagesDir : '<%= paths.app %>/compass/images',
-                generatedImagesDir : '<%= paths.app %>/images',
-                relativeAssets : true
+                sassDir : '<%= paths.app %>/sass',
+                cssDir : '<%= paths.tmp %>/stylesheets',
+                imagesDir : '<%= paths.app %>/sass/images',
+                generatedImagesDir : '<%= paths.tmp %>/images',
+                relativeAssets : false,
+                httpGeneratedImagesPath: '../images'
             },
             dist : {
                 options : {
-                    outputStyle: 'compressed'
+                    cssDir : '<%= paths.dist %>/stylesheets',
+                    generatedImagesDir : '<%= paths.dist %>/images',
+                    outputStyle : 'compressed'
                 }
             },
             server : {
                 options : {
-                    debugInfo: true
+                    debugInfo : true
+                }
+            }
+        },
+        rev: {
+            dist: {
+                files: {
+                    src: [
+                        '<%= paths.dist %>/javascripts/{,*/}*.js',
+                        '<%= paths.dist %>/stylesheets/{,*/}*.css'
+                    ]
                 }
             }
         }
@@ -89,8 +154,10 @@ module.exports = function (grunt) {
     grunt.registerTask('server', [
         'clean:server',
         'compass:server',
-        'watch',
-        'livereload-start'
+        'react:app',
+        'connect:dev',
+        'open',
+        'watch'
     ]);
 
     grunt.registerTask('build', [

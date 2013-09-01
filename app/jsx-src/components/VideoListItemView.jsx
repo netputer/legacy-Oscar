@@ -92,11 +92,11 @@
 
                 return (
                     <div class="info-container">
-                        <h3 class="title" dangerouslySetInnerHTML={{ __html : title }}></h3>
+                        <h3 class="title w-wc" dangerouslySetInnerHTML={{ __html : title }}></h3>
                         <div class="actors w-text-info w-wc">{this.getPresenters(data)}</div>
                         <div class="categories w-text-info w-wc">{categories + (region && ' / ' + region) + (year && ' / ' + year + '年')}</div>
                         <div class="w-text-info w-wc" dangerouslySetInnerHTML={{ __html : FormatString(textEnum.RATING, [rating]) }}></div>
-                        <div class="download-ctn">
+                        <div class="download-ctn w-hbox">
                             {this.getDownloadEle(data)}
                             <span class="provider w-wc">{FormatString(textEnum.PROVIDER, [providerNames])}</span>
                         </div>

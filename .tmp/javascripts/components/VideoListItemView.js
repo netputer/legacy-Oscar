@@ -92,11 +92,11 @@
 
                 return (
                     React.DOM.div( {className:"info-container"}, 
-                        React.DOM.h3( {className:"title", dangerouslySetInnerHTML:{ __html : title }}),
+                        React.DOM.h3( {className:"title w-wc", dangerouslySetInnerHTML:{ __html : title }}),
                         React.DOM.div( {className:"actors w-text-info w-wc"}, this.getPresenters(data)),
                         React.DOM.div( {className:"categories w-text-info w-wc"}, categories + (region && ' / ' + region) + (year && ' / ' + year + '年')),
                         React.DOM.div( {className:"w-text-info w-wc", dangerouslySetInnerHTML:{ __html : FormatString(textEnum.RATING, [rating]) }}),
-                        React.DOM.div( {className:"download-ctn"}, 
+                        React.DOM.div( {className:"download-ctn w-hbox"}, 
                             this.getDownloadEle(data),
                             React.DOM.span( {className:"provider w-wc"}, FormatString(textEnum.PROVIDER, [providerNames]))
                         )
