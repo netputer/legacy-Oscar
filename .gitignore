@@ -6,5 +6,5 @@
 /app/components
 /app/javascripts/.module-cache/
 /.sass-cache/
-/.tmp/
 /dist/
+/.tmp/
