@@ -1,0 +1,68 @@
+.o-series-panel {
+    background-color: rgba(0, 0, 0, .4);
+    left: 0;
+    opacity: 0;
+    overflow: auto;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    -webkit-transition: opacity .2s linear;
+
+    &.show {
+        opacity: 1;
+        pointer-events: all;
+    }
+}
+
+.o-series-panel-content {
+    background-color: #fff;
+    height: 100%;
+    margin: 15px auto;
+    width: 760px;
+
+    .body {
+        display: inline-block;
+        padding: 10px 65px 25px 15px;
+        vertical-align: top;
+        width: 520px;
+    }
+
+    .extra-info {
+        display: inline-block;
+        vertical-align: top;
+        padding: 10px 15px 25px 0;
+        width: 240px;
+    }
+}
+
+.o-series-panel-header {
+    background-color: #f2f2f2;
+    border-bottom: 1px $borderColor solid;
+    padding: 5px 5px 15px;
+
+    .stills {
+        background-position: center center;
+        background-size: cover;
+        height: 145px;
+        width: 110px;
+    }
+
+    .info-ctn {
+        margin-left: 15px;
+        overflow: hidden;
+        -webkit-box-flex: 1;
+
+        .info {
+            -webkit-box-flex: 1;
+            -webkit-box-pack: end;
+
+            .button-download {
+                margin-top: 10px;
+            }
+        }
+    }
+}
+
+.w-component-x {
+}

@@ -1,0 +1,65 @@
+@import "navigate/*.png";
+
+.o-stills-ctn {
+    overflow: hidden;
+    width: 435px;
+
+    .header-ctn {
+        .info {
+            -webkit-box-flex : 1;
+
+            .count {
+                margin-left: 10px;
+            }
+        }
+
+        .navigator {
+            .prev,
+            .next {
+                display: inline-block;
+                height :16px;
+                width: 20px;
+            }
+
+            .prev {
+                @include navigate-sprite(left);
+
+                &:active {
+                    @include navigate-sprite(left-active);
+                }
+
+                &.disabled {
+                    @include navigate-sprite(left-disabled);
+                }
+            }
+
+            .next {
+                @include navigate-sprite(right);
+
+                &:active {
+                    @include navigate-sprite(right-active);
+                }
+
+                &.disabled {
+                    @include navigate-sprite(right-disabled);
+                }
+            }
+        }
+    }
+}
+
+.o-stills-small-ctn {
+    height: 100px;
+    width: 5000px;
+    -webkit-transition: margin-left .2s ease-out;
+
+    .o-stills-smaill-item {
+        background-position: center center;
+        background-size: cover;
+        display: inline-block;
+        float: left;
+        height: 100px;
+        margin-right: 10px;
+        width: 100px;
+    }
+}

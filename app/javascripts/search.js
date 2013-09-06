@@ -26,8 +26,8 @@ require.config({
         'React',
         'Backbone',
         'IO',
-        'SearchPageRouter',
-        'SearchPage'
+        'searchpage/SearchPageRouter',
+        'searchpage/SearchPage'
     ], function (
         React,
         Backbone,
@@ -39,4 +39,4 @@ require.config({
 
         Backbone.history.start();
     });
-}(this, document));
+}(this, this.document));

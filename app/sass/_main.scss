@@ -1,0 +1,19 @@
+body {
+    background-image: url(../images/bg_100X100.png);
+
+    * {
+        -webkit-transform: translate3d(0, 0, 0);
+    }
+}
+
+ul {
+    list-style: none;
+}
+
+.o-ctn {
+    margin: 0 auto;
+    padding: 0 10px;
+    width: 760px;
+}
+
+
