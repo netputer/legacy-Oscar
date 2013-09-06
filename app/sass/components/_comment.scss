@@ -1,0 +1,14 @@
+.o-comment-list {
+    .item {
+        margin-bottom: 10px;
+
+        .author,
+        .date {
+            display: inline-block;
+        }
+
+        .date {
+            float: right;
+        }
+    }
+}

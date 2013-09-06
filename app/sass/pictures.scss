@@ -1,65 +1,6 @@
 @import "../thirdparty/Adonis/sass/adonis";
-@import "pictures/*.png";
 
 .o-pictures-container {
-
-    width: 445px;
-
-    .o-header-container {
-
-        display: -webkit-box;
-
-        .info {
-
-            -webkit-box-flex : 1;
-
-            .pic {
-                font-size: 14px;
-            }
-
-            .totle {
-                margin-left: 5px;
-            }
-
-            .return {
-                margin-left: 5px;
-                cursor: pointer;
-            }
-        }
-
-        .navigator {
-            .prev {
-                display: inline-block;
-                height :16px;
-                width: 20px;
-                @include pictures-sprite(left);
-
-                &:active {
-                    @include pictures-sprite(left-active);
-                }
-
-                &.disabled {
-                    @include pictures-sprite(left-disabled);
-                }
-            }
-
-            .next {
-                display: inline-block;
-                height :16px;
-                width: 20px;
-                @include pictures-sprite(right);
-
-                &:active {
-                    @include pictures-sprite(right-active);
-                }
-
-                &.disabled {
-                    @include pictures-sprite(right-disabled);
-                }
-            }
-        }
-    }
-
     .o-pictures-mask {
         margin: 5px 0px;
         overflow: hidden;
@@ -98,7 +39,7 @@
         }
 
         .o-big-pictures-container {
-            display: none; 
+            display: none;
             height: 350px;
             margin-top: -100px;
             opacity: 0;
@@ -109,7 +50,7 @@
 
             &.show {
                 display: block;
-                opacity: 1;        
+                opacity: 1;
             }
 
             .horizontal {

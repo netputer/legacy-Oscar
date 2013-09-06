@@ -1,0 +1,32 @@
+.o-filter-section-ctn {
+    border: none;
+    display: inline-block;
+    height: 88px;
+    overflow: hidden;
+    padding: 10px;
+    width: 240px;
+    vertical-align: top;
+
+    .title {
+        margin: 3px 0 6px;
+    }
+
+    .filters-ctn {
+        margin-left: -5px;
+
+        .o-filter-section-item {
+            border-radius: 3px;
+            display: inline-block;
+            margin: 5px 2px 0 0;
+            padding: 0 5px;
+        }
+    }
+}
+
+.o-category-banner {
+    border: none;
+    display: inline-block;
+    height: 88px;
+    margin-right: 10px;
+    width: 240px;
+}

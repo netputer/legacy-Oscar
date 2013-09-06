@@ -5,5 +5,6 @@
 /node_modules/
 /app/components
 /app/javascripts/.module-cache/
-/app/stylesheets/
 /.sass-cache/
+/.tmp/
+/dist/

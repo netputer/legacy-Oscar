@@ -21,16 +21,16 @@ module.exports = function (grunt) {
         paths : pathConfig,
         watch : {
             compass : {
-                files : ['<%= paths.app %>/{,*/}*/{,*/}*.{sass,png}'],
-                tasks : ['compass']
+                files : ['<%= paths.app %>/{,*/}*/{,*/}*.{scss,png}'],
+                tasks : ['compass:server']
             },
             livereload: {
                 files: [
-                    '<%= paths.app %>{,*/}*/*.html',
+                    '<%= paths.app %>/*.html',
                     '<%= paths.tmp %>/stylesheets/*.css',
-                    '<%= paths.app %>/javascripts/{,*/}*/{,*/}*.js',
-                    '<%= paths.tmp %>/javascripts/{,*/}*/{,*/}*.js',
-                    '<%= paths.tmp %>/images/{,*/}*/{,*/}*.{png,jpg,jpeg,gif,webp}'
+                    '<%= paths.app %>/javascripts/**/*.js',
+                    '<%= paths.tmp %>/javascripts/**/*.js',
+                    '<%= paths.tmp %>/images/**/*'
                 ],
                 options : {
                     livereload : true
@@ -38,7 +38,7 @@ module.exports = function (grunt) {
             },
             react : {
                 files : ['<%= paths.app %>/{,*/}*/{,*/}*.jsx'],
-                tasks : ['react:tmp']
+                tasks : ['react:server']
             }
         },
         connect : {
@@ -60,7 +60,8 @@ module.exports = function (grunt) {
         },
         open: {
             server : {
-                path : 'http://127.0.0.1:<%= connect.options.port %>'
+                path : 'http://127.0.0.1:<%= connect.options.port %>',
+                app : 'Google Chrome Canary'
             }
         },
         clean : {
@@ -83,14 +84,14 @@ module.exports = function (grunt) {
             options : {
                 extension : 'jsx'
             },
-            app : {
+            server : {
                 files: {
-                    '<%= paths.tmp %>/javascripts/' : '<%= paths.app %>/jsx-src/'
+                    '<%= paths.tmp %>/javascripts/' : '<%= paths.app %>/javascripts/'
                 }
             },
             dist : {
                 files: {
-                    '<%= paths.dist %>/javascripts/' : '<%= paths.app %>/jsx-src/'
+                    '<%= paths.dist %>/javascripts/' : '<%= paths.app %>/javascripts/'
                 }
             }
         },
@@ -120,9 +121,7 @@ module.exports = function (grunt) {
         compass : {
             options : {
                 sassDir : '<%= paths.app %>/sass',
-                cssDir : '<%= paths.tmp %>/stylesheets',
-                imagesDir : '<%= paths.app %>/sass/images',
-                generatedImagesDir : '<%= paths.tmp %>/images',
+                imagesDir : '<%= paths.app %>/sprites',
                 relativeAssets : false,
                 httpGeneratedImagesPath: '../images'
             },
@@ -135,6 +134,8 @@ module.exports = function (grunt) {
             },
             server : {
                 options : {
+                    cssDir : '<%= paths.tmp %>/stylesheets',
+                    generatedImagesDir : '<%= paths.tmp %>/images',
                     debugInfo : true
                 }
             }
@@ -154,7 +155,7 @@ module.exports = function (grunt) {
     grunt.registerTask('server', [
         'clean:server',
         'compass:server',
-        'react:app',
+        'react:server',
         'connect:dev',
         'open',
         'watch'
