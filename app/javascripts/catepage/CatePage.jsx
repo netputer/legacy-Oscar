@@ -131,11 +131,7 @@
                     break;
                 }
 
-                doSearchAsync().done(function (resp) {
-                    this.setState({
-                        list : this.filterNullValues(resp.videoList)
-                    });
-                }.bind(this));
+                this.doSearchAsync();
             },
             onVideoSelect : function (id) {
                 window.location.hash = queryType + '/detail/' + id;
@@ -144,6 +140,9 @@
                 $('<a>').attr({
                     href : 'search.html#q/' + query
                 })[0].click();
+            },
+            onPaginationSelect : function () {
+
             },
             render : function () {
                 return (
