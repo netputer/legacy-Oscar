@@ -63,7 +63,7 @@
             },
             queryAsync : function (query, page) {
                 queryAsync(query, page).done(function (resp) {
-                    resp = this.filterNullVlaues(resp);
+                    resp = this.filterNullValues(resp);
                     searchResultCollection.reset(resp.videoList);
                     this.setState({
                         result : searchResultCollection.models,
@@ -97,7 +97,7 @@
             },
             render : function () {
                 return (
-                    <div>
+                    <div class="o-ctn">
                         <SearchBoxView
                             class="o-search-box-ctn"
                             onAction={this.onSearchAction}

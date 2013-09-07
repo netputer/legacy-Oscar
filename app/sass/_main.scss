@@ -16,4 +16,15 @@ ul {
     width: 760px;
 }
 
+.o-mask::after {
+    background-image: -webkit-linear-gradient(-90deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, .4) 100%);
+    content: '';
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top:0;
+    width: 100%;
+}
+
 

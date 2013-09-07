@@ -4,12 +4,14 @@
         'React',
         '_',
         'Backbone',
-        'utilities/FormatString'
+        'utilities/FormatString',
+        'mixins/ElementsGenerator'
     ], function (
         React,
         _,
         Backbone,
-        FormatString
+        FormatString,
+        ElementsGenerator
     ) {
 
         var textEnum = {
@@ -26,46 +28,19 @@
         };
 
         var InfoView = React.createClass({
-            getDownloadEle : function (data) {
-                switch (data.type) {
-                case 'MOVIE':
-                case 'TV':
-                case 'VARIETY':
-                    return <button class="download w-btn w-btn-primary" onClick={this.download}>{textEnum.DOWNLOAD}</button>;
-                    break;
-                case 'COMIC':
-                    return <button class="download w-btn w-btn-primary" onClick={this.download}>{textEnum.DOWNLOAD_ALL}</button>;
-                    break;
-                }
-            },
-            getPresenters : function (data) {
-                var result = '';
-                if (data.type === 'VARIETY') {
-                    result = FormatString(textEnum.PRESENTER, [data.presenters])
-                } else {
-                    result = FormatString(textEnum.ACTORS, [data.actors]);
-                }
-
-                return result;
-            },
+            mixins : [ElementsGenerator],
             render : function () {
-                var data = this.props.data;
-                var rating = data.rating;
-                var title = data.title;
-                var region = data.region || '';
-                var categories = data.categories;
-                var providerNames = data.providerNames;
-                var year = data.year;
+                var data = this.props.video.toJSON();
 
                 return (
                     <div class="info-container">
-                        <h3 class="title w-wc" dangerouslySetInnerHTML={{ __html : title }}></h3>
-                        <div class="actors w-text-info w-wc">{this.getPresenters(data)}</div>
-                        <div class="categories w-text-info w-wc">{categories + (region && ' / ' + region) + (year && ' / ' + year + '年')}</div>
-                        <div class="w-text-info w-wc" dangerouslySetInnerHTML={{ __html : FormatString(textEnum.RATING, [rating]) }}></div>
+                        <h3 class="title w-wc" dangerouslySetInnerHTML={{ __html : data.title }}></h3>
+                        {this.getActorsEle()}
+                        {this.getCateEle()}
+                        {this.getRatingEle()}
                         <div class="download-ctn w-hbox">
-                            {this.getDownloadEle(data)}
-                            <span class="provider w-wc">{FormatString(textEnum.PROVIDER, [providerNames])}</span>
+                            {this.getDownloadBtn()}
+                            <span class="provider w-wc">{FormatString(textEnum.PROVIDER, [data.providerNames])}</span>
                         </div>
                     </div>
                 );
@@ -108,7 +83,7 @@
                 return (
                     <li class="o-list-item w-hbox">
                         <div class="item-cover" style={{ 'background-image' : 'url(' + data.cover.l + ')' }} />
-                        <InfoView data={data} />
+                        <InfoView video={this.props['data-model']} />
                         <PictureView data={data.pictures.s} />
                     </li>
                 );

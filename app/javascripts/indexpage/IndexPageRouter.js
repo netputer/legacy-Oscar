@@ -8,6 +8,16 @@
             }
         });
 
-        return IndexPageRouter;
+        var indexPageRouter;
+
+        return {
+            getInstance : function () {
+                if (!indexPageRouter) {
+                    indexPageRouter = new IndexPageRouter();
+                }
+
+                return indexPageRouter;
+            }
+        };
     });
 }(this));

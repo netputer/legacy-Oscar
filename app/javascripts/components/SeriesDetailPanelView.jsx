@@ -3,6 +3,8 @@
 (function (window) {
     define([
         'React',
+        '$',
+        '_',
         'components/DescriptionView',
         'components/StillsView',
         'components/DownloadListView',
@@ -11,6 +13,8 @@
         'components/ExtraInfoView'
     ], function (
         React,
+        $,
+        _,
         DescriptionView,
         StillsView,
         DownloadListView,
@@ -26,33 +30,50 @@
                 };
             },
             componentDidMount : function () {
-                this.setState({
-                    show : true
-                });
+                $(window).on('resize', _.throttle(function () {
+                    $(this.refs.ctn.getDOMNode()).css({
+                        height : window.innerHeight,
+                        top : window.scrollY
+                    });
+                }.bind(this), 50));
+            },
+            clickCtn : function (evt) {
+                if (evt.nativeEvent.srcElement.contains(this.refs.ctn.getDOMNode())) {
+                    this.props.closeDetailPanel()
+                }
             },
             render : function () {
                 $('body').css({
                     overflow : this.state.show ? 'hidden' : 'auto'
                 });
 
+                var style = {
+                    height : window.innerHeight,
+                    top : window.scrollY
+                };
+
                 var className = this.state.show ? 'o-series-panel show' : 'o-series-panel';
 
                 var video = this.props.video;
 
-                return (
-                    <div class={className}>
-                        <div class="o-series-panel-content">
-                            <SeriesHeaderView video={video} />
-                            <div class="body">
-                                <DownloadListView video={video} />
-                                <DescriptionView video={video} />
-                                <StillsView video={video} />
-                                <CommentaryView comments={video.get('marketComments')[0].comments} />
+                if (video && !this.state.loading) {
+                    return (
+                        <div class={className} style={style} onClick={this.clickCtn} ref="ctn">
+                            <div class="o-series-panel-content">
+                                <SeriesHeaderView video={video} />
+                                <div class="body">
+                                    {video.get('type') !== 'MOVIE' ? <DownloadListView video={video} /> :　''}
+                                    <DescriptionView video={video} />
+                                    <StillsView video={video} />
+                                    <CommentaryView comments={video.get('marketComments')[0].comments} />
+                                </div>
+                                <ExtraInfoView video={video} />
                             </div>
-                            <ExtraInfoView video={video} />
                         </div>
-                    </div>
-                );
+                    );
+                } else {
+                    return <div class={className} style={style} onClick={this.clickCtn} ref="ctn">loading...</div>
+                }
             }
         });
 

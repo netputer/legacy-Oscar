@@ -4,6 +4,7 @@
         'React',
         'IO',
         'Actions',
+        'Wording',
         'mixins/FilterNullValues',
         'components/searchbox/SearchBoxView',
         'components/VideoListView',
@@ -12,18 +13,12 @@
         React,
         IO,
         Actions,
+        Wording,
         FilterNullValues,
         SearchBoxView,
         VideoListView,
         FilterSectionView
     ) {
-
-        var CATE = {
-            tv : '电视剧',
-            movie : '电影',
-            comic : '动漫',
-            variety : '综艺'
-        };
 
         var queryAsync = function (type) {
             var deferred = $.Deferred();
@@ -76,8 +71,10 @@
                     });
                 }.bind(this));
             },
-            onSearchAction : function () {
-
+            onSearchAction : function (query) {
+                $('<a>').attr({
+                    href : 'search.html#q/' + query
+                })[0].click();
             },
             onVideoSelect : function (id) {
                 window.location.hash = '#detail/' + id;
@@ -88,25 +85,25 @@
                         <SearchBoxView
                             class="o-search-box-ctn"
                             onAction={this.onSearchAction} />
-                        <VideoListView cate={CATE['tv']} list={this.state.listTv} onVideoSelect={this.onVideoSelect} />
+                        <VideoListView cate={Wording.TV} list={this.state.listTv} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div class="o-category-banner w-component-card"></div>
                             <div class="o-category-banner w-component-card"></div>
                             <FilterSectionView title="地区" type="tv" filter="areas" />
                         </div>
-                        <VideoListView cate={CATE['movie']} list={this.state.listMovie} onVideoSelect={this.onVideoSelect} />
+                        <VideoListView cate={Wording.MOVIE} list={this.state.listMovie} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div class="o-category-banner w-component-card"></div>
                             <div class="o-category-banner w-component-card"></div>
                             <FilterSectionView title="电影" type="movie" filter="categories" />
                         </div>
-                        <VideoListView cate={CATE['comic']} list={this.state.listComic} onVideoSelect={this.onVideoSelect} />
+                        <VideoListView cate={Wording.COMIC} list={this.state.listComic} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div class="o-category-banner w-component-card"></div>
                             <div class="o-category-banner w-component-card"></div>
                             <FilterSectionView title="动漫" type="comic" filter="categories" />
                         </div>
-                        <VideoListView cate={CATE['variety']} list={this.state.listVariety} onVideoSelect={this.onVideoSelect} />
+                        <VideoListView cate={Wording.VARIETY} list={this.state.listVariety} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div class="o-category-banner w-component-card"></div>
                             <div class="o-category-banner w-component-card"></div>
