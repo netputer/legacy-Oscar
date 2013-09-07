@@ -1,10 +1,12 @@
 /** @jsx React.DOM */
 (function (window) {
     define([
+        'jquery',
         'React',
         '_',
         'Backbone'
     ], function (
+        $,
         React,
         _,
         Backbone
@@ -34,8 +36,7 @@
                 if (this.props.current === this.props.total) {
                     nextClass += ' disable';
                 }
-
-                var left = this.props.range / 2;
+                var left = (this.props.range + 1) / 2;
                 var right = (this.props.range - 1) / 2;
 
                 var start = 0;
@@ -61,13 +62,27 @@
                 } else {
                     return (
                         <div class="o-pagination-ctn w-text-primary">
-                            <a class={previousClass} onClick={this.onSelect.bind(this, this.props.current - 1)}>上一页</a>
+                            <a class={previousClass} onClick={this.getPrevious}>上一页</a>
                             <DotView />
                             {this.getPageCount(start, count)}
-                            <a class={nextClass} onClick={this.onSelect.bind(this, this.props.current + 1)}>下一页</a>
+                            <a class={nextClass} onClick={this.goNext}>下一页</a>
                         </div>
                     );
                 }
+            },
+            goPrevious : function (evt) {
+                var target = $(evt.target);
+                if (target.hasClass('disable')) {
+                    return;
+                }
+                this.onSelect.apply(this, [this.props.current - 1]);
+            },
+            goNext : function (evt) {
+                var target = $(evt.target);
+                if (target.hasClass('disable')) {
+                    return;
+                }
+                this.onSelect.apply(this, [this.props.current + 1]);
             },
             onSelect : function (target) {
                 this.props.onSelect(target);
@@ -107,12 +122,12 @@
                     }
                 }
 
-                if (end < this.total - 1) {
+                if (end < this.props.total - 1) {
                     result.push(<DotView />);
                     result.push(<DotView />);
                 }
 
-                if (this.current !== this.total) {
+                if (this.props.current !== this.props.total) {
                     result.push(<a class="o-pagecount-item" onClick={this.onSelect.bind(this, this.props.total)}>{this.props.total}</a>);
                 } else {
                     result.push(<a class="o-pagecount-item current" onClick={this.onSelect.bind(this, this.props.total)}>{this.props.total}</a>);
@@ -123,7 +138,7 @@
                 return result;
             },
             getPrevious : function () {
-                var previous = this.current - 1;
+                var previous = this.props.current - 1;
                 if (previous === 0) {
                     return;
                 }
@@ -133,8 +148,8 @@
                 });
             },
             getNext : function () {
-                var next = this.current + 1;
-                if (next > this.total) {
+                var next = this.props.current + 1;
+                if (next > this.props.total) {
                     return;
                 }
 
