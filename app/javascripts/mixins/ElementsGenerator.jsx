@@ -33,6 +33,17 @@
 
                 return <button class="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload}>{text}</button>
             },
+            getActorsEle : function () {
+                var text = '';
+                var video = this.props.video;
+                if (video.get('type') === 'VARIETY') {
+                    text = Wording.PRESENTER_LABEL + video.get('presenters');
+                } else {
+                    text = Wording.ACTORS_LABEL + video.get('actors');
+                }
+
+                return <div class="actors w-text-info w-wc">{text}</div>;
+            },
             getCateEle : function () {
                 var text = '';
                 var data = this.props.video.toJSON();

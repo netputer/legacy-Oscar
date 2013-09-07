@@ -46,13 +46,6 @@ require.config({
         VideoModel,
         DownloadListView
     ) {
-
-        React.renderComponent((
-            <div>
-                <IndexPage />
-            </div>
-        ), document.body);
-
         var queryAsync = function (id) {
             var deferred = $.Deferred();
 
@@ -65,48 +58,56 @@ require.config({
             return deferred.promise();
         };
 
-        var indexPageRouter = new IndexPageRouter();
+        var indexPageRouter = IndexPageRouter.getInstance();
 
-        var seriesDetailPanelView;
+        var closeDetailPanel = function () {
+            indexPageRouter.navigate('#index', {
+                trigger : true
+            });
+        };
+
+        var seriesDetailPanelView = <SeriesDetailPanelView closeDetailPanel={closeDetailPanel} />
+
+        React.renderComponent((
+            <div>
+                <IndexPage />
+                {seriesDetailPanelView}
+            </div>
+        ), document.body);
 
         indexPageRouter.on('route:detail', function (query) {
+            seriesDetailPanelView.setState({
+                show : true,
+                loading : true
+            });
             queryAsync(query).done(function (resp) {
-                var videoModle = new VideoModel(FilterNullValues.filterNullVlaues.call(FilterNullValues, resp));
+                var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
 
-                if (!seriesDetailPanelView) {
-                    seriesDetailPanelView = <SeriesDetailPanelView video={videoModle} />;
-                } else {
-                    seriesDetailPanelView.setProps({
-                        video : videoModle
-                    });
+                seriesDetailPanelView.setProps({
+                    video : videoModle
+                });
+
+                if (seriesDetailPanelView.isMounted()) {
                     seriesDetailPanelView.setState({
-                        show : true
+                        loading : false
                     });
                 }
-                React.renderComponent((
-                    <div>
-                        <IndexPage />
-                        {seriesDetailPanelView}
-                    </div>
-                ), document.body);
             });
         });
 
         indexPageRouter.on('route:index', function () {
-            React.renderComponent((
-                <div>
-                    <IndexPage />
-                </div>
-            ), document.body);
+            if (seriesDetailPanelView.isMounted()) {
+                seriesDetailPanelView.setState({
+                    show : false
+                });
+            }
         });
 
         Backbone.history.start();
 
         $('body').on('keydown', function (evt) {
             if (evt.keyCode === 27) {
-                seriesDetailPanelView.setState({
-                    show : false
-                });
+                closeDetailPanel();
             }
         });
     });

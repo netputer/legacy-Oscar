@@ -11,7 +11,16 @@
             vertical-align: top;
 
             .button-download {
-                width: 75px;
+                padding: 2px 5px;
+                width: 68px;
+
+                &:not(:hover):not(:active) {
+                    background-color: #fff;
+                    background-image: none;
+                    box-shadow: none;
+                    color: $standardColor;
+                    text-shadow: none;
+                }
             }
 
             .size {

@@ -1,0 +1,27 @@
+.o-filter-ctn {
+    .o-filter-cate-ctn {
+        display: block;
+
+        .title {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .o-filter-cate {
+            display: inline-block;
+            margin-left: 3px;
+            max-width: 710px;
+            vertical-align: top;
+
+            .item {
+                border-radius: 2px;
+                display: inline-block;
+                margin: 0 0 5px 2px;
+                padding: 0 5px;
+
+                background-image: -webkit-linear-gradient(#949494, #A2A2A2);
+                border: 1px #9a9a9a solid;
+            }
+        }
+    }
+}

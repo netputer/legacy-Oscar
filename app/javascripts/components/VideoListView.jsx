@@ -48,7 +48,7 @@
 
                 return (
                     <li class="o-categories-item-big w-component-card w-vbox" key={data.title} onClick={this.onClick} >
-                        <div class="cover" style={style}></div>
+                        <div class="cover o-mask" style={style}></div>
                         <h3 class="title">{this.props.data.title}</h3>
                         {this.renderInfo()}
                         <button class="w-btn w-btn-primary">下载</button>
@@ -184,7 +184,7 @@
 
                 return (
                     <li class="o-categories-item w-component-card" title={data.title} onClick={this.onClick}>
-                        <div class="cover">
+                        <div class="cover o-mask">
                             <img src={data.cover.l}/>
                         </div>
                         <div class="info">

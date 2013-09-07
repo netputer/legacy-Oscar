@@ -6,6 +6,7 @@
         'Backbone',
         'Wording',
         'utilities/FormatString',
+        'utilities/FormatDate',
         'utilities/ReadableSize',
         'main/DownloadHelper'
     ], function (
@@ -14,24 +15,28 @@
         Backbone,
         Wording,
         FormatString,
+        FormatDate,
         ReadableSize,
         DownloadHelper
     ) {
-
-        var TEXT_ENUM = {
-            EPISODE_TEXT : '第 {1} 集'
-        };
 
         var ItemView = React.createClass({
             render : function () {
                 var episode = this.props.episode;
                 var hasDownload = !!episode.downloadUrls;
 
+                var count;
+                if (episode.episodeNum) {
+                    count = FormatString(Wording.EPISODE_NUM, episode.episodeNum);
+                } else {
+                    count = FormatDate('yyyyMMDD', episode.episodeDate);
+                }
+
                 if (hasDownload) {
                     return (
                         <li class="item">
-                            <button class="button-download w-btn w-btn-mini" onClick={this.clickDownload}>
-                            {FormatString(TEXT_ENUM.EPISODE_TEXT, episode.episodeNum)}
+                            <button class="button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
+                            {count}
                             </button>
                             <span class="size w-text-info w-wc">{ReadableSize(episode.downloadUrls[0].size)}</span>
                         </li>
@@ -40,8 +45,8 @@
                 } else {
                     return (
                         <li class="item">
-                            <button class="button-download w-btn w-btn-mini disabled" onClick={this.clickDownload}>
-                            {FormatString(TEXT_ENUM.EPISODE_TEXT, episode.episodeNum)}
+                            <button class="button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
+                            {count}
                             </button>
                         </li>
                     );
@@ -61,6 +66,11 @@
                     expendIndex : 0
                 };
             },
+            componentWillReceiveProps : function () {
+                this.setState({
+                    expendIndex : 0
+                });
+            },
             render : function () {
                 var episode = this.props.video.get('videoEpisodes');
 
@@ -70,7 +80,7 @@
 
                 return (
                     <div class="o-download-list-ctn">
-                        <h5>分集下载</h5>
+                        <h5>{Wording.EPISODE_DOWNLOAD}</h5>
                         <ul class="list-ctn" ref="ctn" style={style}>
                             {this.createList(episode)}
                         </ul>

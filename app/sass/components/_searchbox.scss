@@ -8,10 +8,12 @@
         position: relative;
 
         .o-search-box-suggestion {
+            background-color: #fff;
             left: 0;
             position: absolute;
             top: 34px;
             width: 100%;
+            z-index: 1;
 
             .o-search-box-suggestion-item {
                 &.highlight {

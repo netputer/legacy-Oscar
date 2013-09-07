@@ -1,11 +1,31 @@
 /*global define*/
 define({
     ACTORS_LABEL : '主演：',
+    PRESENTER_LABEL : '主持人：',
     RATING_LABEL : '评分：',
     YEAR : '{1} 年',
     DOWNLOAD : '下载',
     DOWNLOAD_ALL : '下载全部',
     COMMENT : '评论',
     LOAD_MORE : '显示更多',
-    EXTRA_INFO : '其他信息'
+    EXTRA_INFO : '其他信息',
+    AREAS : '产地',
+    CATEGORY : '类型',
+    TIME : '年代',
+    ALL : '全部',
+    TV : '电视剧',
+    MOVIE : '电影',
+    COMIC : '动漫',
+    VARIETY : '综艺',
+    NO_DATA : '暂无数据',
+    NO_RATING : '暂无评分',
+    EPISODE_DOWNLOAD : '分集下载',
+    EPISODE_NUM : '第 {1} 集',
+    ALIAS_LABEL : '别名：',
+    SCREENWRITERS_LABEL : '编剧：',
+    DIRECTORS_LABEL : '导演：',
+    DUBBINGS_LABEL : '配音：',
+    LANGUAGE_LABEL : '语言：',
+    REGION_LABEL : '地区：',
+    DOWNLOADCOUNT_LABEL : '下载次数：'
 });
