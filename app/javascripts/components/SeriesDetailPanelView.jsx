@@ -59,15 +59,17 @@
                 if (video && !this.state.loading) {
                     return (
                         <div class={className} style={style} onClick={this.clickCtn} ref="ctn">
-                            <div class="o-series-panel-content">
+                            <div class="o-series-panel-content w-vbox">
                                 <SeriesHeaderView video={video} />
-                                <div class="body">
-                                    {video.get('type') !== 'MOVIE' ? <DownloadListView video={video} /> :　''}
-                                    <DescriptionView video={video} />
-                                    <StillsView video={video} />
-                                    <CommentaryView comments={video.get('marketComments')[0].comments} />
+                                <div class="body-ctn">
+                                    <div class="body">
+                                        {video.get('type') !== 'MOVIE' ? <DownloadListView video={video} /> :　''}
+                                        <DescriptionView video={video} />
+                                        <StillsView video={video} />
+                                        <CommentaryView comments={video.get('marketComments')[0].comments} />
+                                    </div>
+                                    <ExtraInfoView video={video} />
                                 </div>
-                                <ExtraInfoView video={video} />
                             </div>
                         </div>
                     );
