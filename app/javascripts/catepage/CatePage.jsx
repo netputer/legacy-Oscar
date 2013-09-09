@@ -83,6 +83,7 @@
             },
             doSearchAsync : function (page) {
                 doSearchAsync(page).done(function (resp) {
+                    resp.total = resp.total > 200 ? 200 : resp.total;
                     this.setState({
                         list : this.filterNullValues(resp.videoList),
                         pageTotal : Math.round(resp.total / PAGE_SIZE),
@@ -92,7 +93,6 @@
             },
             componentDidMount : function () {
                 catePageRouter.on('route:filter', function (cate) {
-                    console.l
                     queryType = cate;
 
                     queryAsync(cate).done(function (resp) {
@@ -141,8 +141,8 @@
                     href : 'search.html#q/' + query
                 })[0].click();
             },
-            onPaginationSelect : function () {
-
+            onPaginationSelect : function (page) {
+                this.doSearchAsync(page);
             },
             render : function () {
                 return (

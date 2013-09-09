@@ -10,7 +10,8 @@
         'components/DownloadListView',
         'components/SeriesHeaderView',
         'components/CommentaryView',
-        'components/ExtraInfoView'
+        'components/ExtraInfoView',
+        'components/LoadingView'
     ], function (
         React,
         $,
@@ -20,7 +21,8 @@
         DownloadListView,
         SeriesHeaderView,
         CommentaryView,
-        ExtraInfoView
+        ExtraInfoView,
+        LoadingView
     ) {
 
         var SeriesDetailPanelView = React.createClass({
@@ -70,11 +72,14 @@
                                     </div>
                                     <ExtraInfoView video={video} />
                                 </div>
+                                <div class="o-close" onClick={this.props.closeDetailPanel} />
                             </div>
                         </div>
                     );
                 } else {
-                    return <div class={className} style={style} onClick={this.clickCtn} ref="ctn">loading...</div>
+                    return (
+                        <div class={className} style={style} onClick={this.clickCtn} ref="ctn"><LoadingView /></div>
+                    );
                 }
             }
         });

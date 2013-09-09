@@ -6,14 +6,16 @@
         '$',
         'Backbone',
         'components/WanxiaodouView',
-        'components/VideoListItemView'
+        'components/VideoListItemView',
+        'components/LoadingView'
     ], function (
         React,
         _,
         $,
         Backbone,
         WanxiaodouView,
-        VideoListItemView
+        VideoListItemView,
+        LoadingView
     ) {
 
         var FilterView = React.createClass({
@@ -24,7 +26,7 @@
         var SearchResultView = React.createClass({
             render : function () {
                 if (this.props.loading) {
-                    return <div>loading...</div>
+                    return <LoadingView />;
                 } else {
                     if (this.props.list.length > 0) {
                         var listItemViews = _.map(this.props.list, function (video) {
@@ -40,7 +42,6 @@
                     } else {
                         return <WanxiaodouView data-tip={this.props.keyword} data-type="NO_SEARCH_RESULT" />;
                     }
-
                 }
             }
         });

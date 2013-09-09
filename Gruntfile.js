@@ -69,13 +69,13 @@ module.exports = function (grunt) {
             server : '<%= paths.tmp %>'
         },
         useminPrepare : {
-            html : ['<%= paths.app %>/*.html'],
+            html : ['<%= paths.tmp %>/*.html'],
             options : {
                 dest : '<%= paths.dist %>'
             }
         },
         usemin: {
-            html : ['<%= paths.app %>/*.html'],
+            html : ['<%= paths.tmp %>/*.html'],
             options : {
                 dirs : ['<%= paths.dist %>']
             }
@@ -99,13 +99,27 @@ module.exports = function (grunt) {
             dist : {
                 files : [{
                     expand : true,
-                    cwd : '<%= paths.app %>',
+                    cwd : '<%= paths.tmp %>',
                     src : ['*.html'],
                     dest : '<%= paths.dist %>'
                 }]
             }
         },
         copy : {
+            tmp : {
+                files : [{
+                    expand : true,
+                    dot : true,
+                    cwd : '<%= paths.app %>',
+                    dest : '<%= paths.tmp %>',
+                    src : [
+                        'stylesheets/*.*',
+                        'javascripts/**/*.js',
+                        'components/**/*.*',
+                        '*.html'
+                    ]
+                }]
+            },
             dist : {
                 files : [{
                     expand : true,
@@ -113,7 +127,8 @@ module.exports = function (grunt) {
                     cwd : '<%= paths.app %>',
                     dest : '<%= paths.dist %>',
                     src : [
-                        'images/{,*/}*.{webp,gif,png,jpg,jpeg}'
+                        'images/{,*/}*.{webp,gif,png,jpg,jpeg}',
+                        'manifest.json'
                     ]
                 }]
             }
@@ -149,6 +164,70 @@ module.exports = function (grunt) {
                     ]
                 }
             }
+        },
+        imagemin : {
+            dist : {
+                files : [{
+                    expand : true,
+                    cwd : '<%= paths.dist %>/images',
+                    src : '{,*/}*.{png,jpg,jpeg}',
+                    dest : '<%= paths.dist %>/images'
+                }]
+            }
+        },
+        requirejs : {
+            dist : {
+                options : {
+                    appDir : '<%= paths.tmp %>/javascripts',
+                    dir : '<%= paths.dist %>/javascripts',
+                    optimize : 'uglify',
+                    baseUrl : './',
+                    paths : {
+                        $ : '../components/jquery/jquery',
+                        _ : '../components/underscore/underscore',
+                        Backbone : '../components/backbone/backbone',
+                        React : '../components/react/react'
+                    },
+                    shim : {
+                        $ : {
+                            deps : [],
+                            exports : '$'
+                        },
+                        _ : {
+                            deps : [],
+                            exports : '_'
+                        },
+                        Backbone : {
+                            deps : ['$', '_'],
+                            exports : 'Backbone'
+                        }
+                    },
+                    uglify : {
+                        toplevel : true,
+                        ascii_only : false,
+                        beautify : false
+                    },
+                    preserveLicenseComments : true,
+                    useStrict : false,
+                    wrap : true,
+                    modules : [{
+                        name : 'config',
+                        include : ['$', '_', 'Backbone', 'React']
+                    }, {
+                        name : 'index',
+                        include : ['indexMain'],
+                        exclude : ['config']
+                    }, {
+                        name : 'cate',
+                        include : ['cateMain'],
+                        exclude : ['config']
+                    }, {
+                        name : 'search',
+                        include : ['searchMain'],
+                        exclude : ['config']
+                    }]
+                }
+            }
         }
     });
 
@@ -162,14 +241,17 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build', [
-        'clean:dist'
-        // 'useminPrepare',
-        // 'imagemin',
-        // 'copy',
-        // 'htmlmin',
-        // 'concat',
-        // 'uglify',
-        // 'requirejs:dist',
-        // 'usemin'
+        'clean:dist',
+        'react:server',
+        'copy:tmp',
+        'copy:dist',
+        'requirejs:dist',
+        'compass:dist',
+        'useminPrepare',
+        'imagemin',
+        'htmlmin',
+        'concat',
+        'uglify',
+        'usemin'
     ]);
 };

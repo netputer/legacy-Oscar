@@ -1,3 +1,3 @@
 require(['config'], function () {
-    require(['searchMain']);
+    require(['cateMain']);
 });

@@ -89,25 +89,25 @@
                         <div>
                             <div class="o-category-banner w-component-card"></div>
                             <div class="o-category-banner w-component-card"></div>
-                            <FilterSectionView title="地区" type="tv" filter="areas" />
+                            <FilterSectionView title={Wording.REGION} type="tv" filter="areas" />
                         </div>
                         <VideoListView cate={Wording.MOVIE} list={this.state.listMovie} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div class="o-category-banner w-component-card"></div>
                             <div class="o-category-banner w-component-card"></div>
-                            <FilterSectionView title="电影" type="movie" filter="categories" />
+                            <FilterSectionView title={Wording.MOVIE} type="movie" filter="categories" />
                         </div>
                         <VideoListView cate={Wording.COMIC} list={this.state.listComic} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div class="o-category-banner w-component-card"></div>
                             <div class="o-category-banner w-component-card"></div>
-                            <FilterSectionView title="动漫" type="comic" filter="categories" />
+                            <FilterSectionView title={Wording.COMIC} type="comic" filter="categories" />
                         </div>
                         <VideoListView cate={Wording.VARIETY} list={this.state.listVariety} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div class="o-category-banner w-component-card"></div>
                             <div class="o-category-banner w-component-card"></div>
-                            <FilterSectionView title="综艺" type="variety" filter="categories" />
+                            <FilterSectionView title={Wording.VARIETY} type="variety" filter="categories" />
                         </div>
                     </div>
                 );

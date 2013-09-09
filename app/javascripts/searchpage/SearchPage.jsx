@@ -64,6 +64,7 @@
             queryAsync : function (query, page) {
                 queryAsync(query, page).done(function (resp) {
                     resp = this.filterNullValues(resp);
+                    resp.total = resp.total > 200 ? 200 : resp.total;
                     searchResultCollection.reset(resp.videoList);
                     this.setState({
                         result : searchResultCollection.models,

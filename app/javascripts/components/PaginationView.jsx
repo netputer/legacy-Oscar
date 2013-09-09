@@ -62,7 +62,7 @@
                 } else {
                     return (
                         <div class="o-pagination-ctn w-text-primary">
-                            <a class={previousClass} onClick={this.getPrevious}>上一页</a>
+                            <a class={previousClass} onClick={this.goPrevious}>上一页</a>
                             <DotView />
                             {this.getPageCount(start, count)}
                             <a class={nextClass} onClick={this.goNext}>下一页</a>
@@ -136,26 +136,6 @@
                 result.push(<DotView />);
 
                 return result;
-            },
-            getPrevious : function () {
-                var previous = this.props.current - 1;
-                if (previous === 0) {
-                    return;
-                }
-
-                this.setState({
-                    current : previous
-                });
-            },
-            getNext : function () {
-                var next = this.props.current + 1;
-                if (next > this.props.total) {
-                    return;
-                }
-
-                this.setState({
-                    current : next
-                });
             }
         });
 

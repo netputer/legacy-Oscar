@@ -27,5 +27,6 @@ define({
     DUBBINGS_LABEL : '配音：',
     LANGUAGE_LABEL : '语言：',
     REGION_LABEL : '地区：',
-    DOWNLOADCOUNT_LABEL : '下载次数：'
+    DOWNLOADCOUNT_LABEL : '下载次数：',
+    REGION : '地区'
 });
