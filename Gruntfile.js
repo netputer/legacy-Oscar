@@ -178,30 +178,12 @@ module.exports = function (grunt) {
         requirejs : {
             dist : {
                 options : {
+                    almond : true,
                     appDir : '<%= paths.tmp %>/javascripts',
                     dir : '<%= paths.dist %>/javascripts',
                     optimize : 'uglify',
                     baseUrl : './',
-                    paths : {
-                        $ : '../components/jquery/jquery',
-                        _ : '../components/underscore/underscore',
-                        Backbone : '../components/backbone/backbone',
-                        React : '../components/react/react'
-                    },
-                    shim : {
-                        $ : {
-                            deps : [],
-                            exports : '$'
-                        },
-                        _ : {
-                            deps : [],
-                            exports : '_'
-                        },
-                        Backbone : {
-                            deps : ['$', '_'],
-                            exports : 'Backbone'
-                        }
-                    },
+                    mainConfigFile : '<%= paths.tmp %>/javascripts/config.js',
                     uglify : {
                         toplevel : true,
                         ascii_only : false,

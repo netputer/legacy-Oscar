@@ -30,8 +30,8 @@
                 } else {
                     if (this.props.list.length > 0) {
                         var listItemViews = _.map(this.props.list, function (video) {
-                            return <VideoListItemView data-model={video} key={video.id} />
-                        });
+                            return <VideoListItemView video={video} key={video.id} onVideoSelect={this.props.onVideoSelect} />
+                        }, this);
 
                         return (
                             <div>

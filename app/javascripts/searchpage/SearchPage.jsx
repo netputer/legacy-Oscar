@@ -23,7 +23,7 @@
     ) {
         var PAGE_SIZE = 10;
 
-        var searchPageRouter = new SearchPageRouter();
+        var searchPageRouter = SearchPageRouter.getInstance();
 
         var queryAsync = function (keyword, page) {
             var deferred = $.Deferred();
@@ -96,6 +96,11 @@
             onPaginationSelect : function (target) {
                 this.queryAsync(this.state.query, target);
             },
+            onVideoSelect : function (video) {
+                searchPageRouter.navigate('#q/' + searchPageRouter.getQuery() + '/detail/' + video.id, {
+                    trigger : true
+                });
+            },
             render : function () {
                 return (
                     <div class="o-ctn">
@@ -108,7 +113,8 @@
                             list={this.state.result}
                             loading={this.state.loading}
                             total={this.state.total}
-                            correctQuery={this.state.correctQuery} />
+                            correctQuery={this.state.correctQuery}
+                            onVideoSelect={this.onVideoSelect} />
                         <PaginationView
                             total={this.state.pageTotal}
                             current={this.state.currentPage}

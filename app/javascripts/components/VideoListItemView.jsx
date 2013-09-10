@@ -78,12 +78,17 @@
         });
 
         var VideoListItemView = React.createClass({
+            clickItem : function () {
+                this.props.onVideoSelect(this.props.video);
+            },
             render : function () {
-                var data = this.props['data-model'].toJSON();
+                var data = this.props.video.toJSON();
                 return (
                     <li class="o-list-item w-hbox">
-                        <div class="item-cover" style={{ 'background-image' : 'url(' + data.cover.l + ')' }} />
-                        <InfoView video={this.props['data-model']} />
+                        <div class="item-cover"
+                            style={{ 'background-image' : 'url(' + data.cover.l + ')' }}
+                            onClick={this.clickItem} />
+                        <InfoView video={this.props.video} />
                         <PictureView data={data.pictures.s} />
                     </li>
                 );

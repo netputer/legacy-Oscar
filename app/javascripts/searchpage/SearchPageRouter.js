@@ -3,13 +3,24 @@
     define(['Backbone'], function (Backbone) {
         var SearchPageRouter = Backbone.Router.extend({
             routes : {
-                'q/:query' : 'search'
+                'q/:query' : 'search',
+                'q/:query/detail/:id' : 'search'
             },
             getQuery : function () {
-                return location.hash.split('/')[1] || '';
+                return window.location.hash.split('/')[1] || '';
             }
         });
 
-        return SearchPageRouter;
+        var searchPageRouter;
+
+        return {
+            getInstance : function () {
+                if (!searchPageRouter) {
+                    searchPageRouter = new SearchPageRouter();
+                }
+
+                return searchPageRouter;
+            }
+        };
     });
 }(this));

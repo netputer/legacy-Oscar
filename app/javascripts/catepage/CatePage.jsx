@@ -5,6 +5,7 @@
         'IO',
         'Actions',
         'Wording',
+        'utilities/QueryString',
         'catepage/CatePageRouter',
         'components/FilterView',
         'components/VideoListView',
@@ -16,6 +17,7 @@
         IO,
         Actions,
         Wording,
+        QueryString,
         CatePageRouter,
         FilterView,
         VideoListView,
@@ -28,9 +30,9 @@
         var PAGE_SIZE = 28;
 
         var queryType;
-        var queryCategories;
-        var queryRegion;
-        var queryYear;
+        var queryCategories = QueryString.get('categories');
+        var queryRegion = QueryString.get('areas');
+        var queryYear = QueryString.get('year');
         var queryRankType;
 
         var queryAsync = function (type) {

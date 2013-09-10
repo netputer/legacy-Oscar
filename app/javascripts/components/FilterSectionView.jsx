@@ -42,10 +42,15 @@
                     });
                 }.bind(this));
             },
+            clickItem : function (cate) {
+                $('<a>').attr({
+                      href : 'cate.html?' + this.props.filter + '=' + cate.name + '#' + this.props.type
+                })[0].click();
+            },
             render : function () {
                 var filters = _.map(this.state.list, function (item) {
-                    return <li key={item.id} class="link o-filter-section-item">{item.name}</li>
-                });
+                    return <li key={item.id} class="link o-filter-section-item" onClick={this.clickItem.bind(this, item)}>{item.name}</li>
+                }, this);
 
                 return (
                     <div class="o-filter-section-ctn w-component-card w-text-info">
