@@ -15,7 +15,7 @@
         var DotView = React.createClass({
             render : function () {
                 return (
-                    <div class="o-pagination-dot w-text-secondary" dangerouslySetInnerHTML={{ __html : '&bull;' }} />
+                    <div class="o-pagination-dot w-text-info" dangerouslySetInnerHTML={{ __html : '&middot;' }} />
                 );
             }
         });
@@ -27,6 +27,10 @@
                 };
             },
             render : function () {
+                if (this.props.total === 1) {
+                    return <div />;
+                }
+
                 var previousClass = 'o-pagination-arrow previous';
                 if (this.props.current === 1) {
                     previousClass += ' disable';

@@ -8,8 +8,9 @@
     ) {
         var LoadingView = React.createClass({
             render : function () {
+                var className = this.props.fixed ? 'w-ui-loading fixed' : 'w-ui-loading';
                 return (
-                    <div class="w-ui-loading">
+                    <div class={className}>
                         <div class="anima">
                             <div class="rotor rotor1"></div>
                             <div class="rotor rotor2"></div>

@@ -2,8 +2,10 @@
 body {
     background-image: url(../images/bg_100X100.png);
 
-    * {
-        -webkit-transform: translate3d(0, 0, 0);
+    &.overflow {
+        left: -5px;
+        overflow: hidden;
+        position: relative;
     }
 }
 
@@ -18,15 +20,23 @@ ul {
     width: 760px;
 }
 
-.o-mask::after {
-    background-image: -webkit-linear-gradient(-90deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, .4) 100%);
-    content: '';
-    display: block;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top:0;
-    width: 100%;
+.o-footer {
+    margin: 20px 0 40px;
+}
+
+.o-mask {
+    position: relative;
+
+    &::after {
+        background-image: -webkit-linear-gradient(-90deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, .4) 100%);
+        content: '';
+        display: block;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top:0;
+        width: 100%;
+    }
 }
 
 .o-close {
@@ -52,10 +62,15 @@ ul {
     border-radius: 5px;
     height: 50px;
     left: 50%;
-    margin: -25px 0 0 -25px;
     position: absolute;
     top: 50%;
     width: 50px;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+
+    &.fixed {
+        position: fixed;
+        top: 200px;
+    }
 
     &.white {
         background-color: transparent;

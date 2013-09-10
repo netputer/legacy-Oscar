@@ -31,7 +31,10 @@
             return deferred.promise();
         };
 
+        var dservice = false;
+
         DownloadHelper.download = function (episodes) {
+            console.log(episodes);
             if (episodes.length > 1) {
                 var title = episodes[0].title;
                 _.each(episodes, function (item) {
@@ -40,7 +43,11 @@
                         var dServiceURL = downloadURL.accelUrl;
                         var url = downloadURL.url;
 
-                        downloadAsync(title + item.episodeNum, url);
+                        if (dservice) {
+                            downloadAsync(title + '-' + item.episodeNum, dServiceURL);
+                        } else {
+                            downloadAsync(title + '-' + item.episodeNum, url);
+                        }
                     }
                 });
             } else {
@@ -48,8 +55,16 @@
                 var downloadURL = episodes.downloadUrls[0];
                 var dServiceURL = downloadURL.accelUrl;
                 var url = downloadURL.url;
-                downloadAsync(episodes.title + (episodes.episodeNum || ''), url);
+                if (dservice) {
+                    downloadAsync(episodes.title + '-' + (episodes.episodeNum || ''), dServiceURL);
+                } else {
+                    downloadAsync(episodes.title + '-' + (episodes.episodeNum || ''), url);
+                }
             }
+        };
+
+        window.zhuizhuikan = function () {
+            dservice = true;
         };
 
         return DownloadHelper;

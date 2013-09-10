@@ -1,9 +1,12 @@
 .o-filter-ctn {
+    margin-top: 15px;
+
     .o-filter-cate-ctn {
         display: block;
 
         .title {
             display: inline-block;
+            line-height: 20px;
             vertical-align: top;
         }
 
@@ -14,13 +17,18 @@
             vertical-align: top;
 
             .item {
+                border: 1px transparent solid;
                 border-radius: 2px;
+                cursor: pointer;
                 display: inline-block;
                 margin: 0 0 5px 2px;
                 padding: 0 5px;
 
-                background-image: -webkit-linear-gradient(#949494, #A2A2A2);
-                border: 1px #9a9a9a solid;
+                &.selected {
+                    background-image: -webkit-linear-gradient(#898989, #a3a3a3);
+                    border: 1px #999 solid;
+                    color: #fff;
+                }
             }
         }
     }

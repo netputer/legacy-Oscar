@@ -7,3 +7,38 @@
 @import "components/filterSection";
 @import "components/seriesDetailPanel";
 
+.o-category-banner {
+    cursor: pointer;
+
+    &.banner1 {
+        background-image: url(../images/banner/american-tv.jpg);
+    }
+
+    &.banner2 {
+        background-image: url(../images/banner/romance-tv.jpg);
+    }
+
+    &.banner3 {
+        background-image: url(../images/banner/action-movie.jpg);
+    }
+
+    &.banner4 {
+        background-image: url(../images/banner/idol-movie.jpg);
+    }
+
+    &.banner5 {
+        background-image: url(../images/banner/fantasy-anime.jpg);
+    }
+
+    &.banner6 {
+        background-image: url(../images/banner/loli-anime.jpg);
+    }
+
+    &.banner7 {
+        background-image: url(../images/banner/interview-show.jpg);
+    }
+
+    &.banner8 {
+        background-image: url(../images/banner/talent-show.jpg);
+    }
+}

@@ -45,13 +45,10 @@
                 }
             },
             render : function () {
-                $('body').css({
-                    overflow : this.state.show ? 'hidden' : 'auto'
-                });
+                $('body').toggleClass('overflow', this.state.show);
 
                 var style = {
-                    height : window.innerHeight,
-                    top : window.scrollY
+                    height : window.innerHeight
                 };
 
                 var className = this.state.show ? 'o-series-panel show' : 'o-series-panel';

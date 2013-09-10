@@ -23,9 +23,6 @@
             "web_url": "wdj-extension://__MSG_@@extension_id__/index.html"
         },
         "navigation": [{
-            "label": "首页",
-            "web_url": "wdj-extension://__MSG_@@extension_id__/index.html"
-        }, {
             "label": "电视剧",
             "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html#tv"
         }, {

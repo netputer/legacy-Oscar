@@ -28,5 +28,6 @@ define({
     LANGUAGE_LABEL : '语言：',
     REGION_LABEL : '地区：',
     DOWNLOADCOUNT_LABEL : '下载次数：',
-    REGION : '地区'
+    REGION : '地区',
+    EARLY : '更早'
 });

@@ -11,7 +11,8 @@
         'components/VideoListView',
         'components/searchbox/SearchBoxView',
         'components/PaginationView',
-        'mixins/FilterNullValues'
+        'mixins/FilterNullValues',
+        'components/FooterView'
     ], function (
         React,
         IO,
@@ -23,17 +24,24 @@
         VideoListView,
         SearchBoxView,
         PaginationView,
-        FilterNullValues
+        FilterNullValues,
+        FooterView
     ) {
         var catePageRouter = CatePageRouter.getInstance();
 
         var PAGE_SIZE = 28;
 
         var queryType;
-        var queryCategories = QueryString.get('categories');
-        var queryRegion = QueryString.get('areas');
-        var queryYear = QueryString.get('year');
+        var queryCategories = QueryString.get('categories') || '';
+        var queryRegion = QueryString.get('areas') || '';
+        var queryYear = QueryString.get('year') || '';
         var queryRankType;
+
+        var resetParams = function () {
+            queryCategories = QueryString.get('categories') || '';
+            queryRegion = QueryString.get('areas') || '';
+            queryYear = QueryString.get('year') || '';
+        };
 
         var queryAsync = function (type) {
             var deferred = $.Deferred();
@@ -78,6 +86,12 @@
             getInitialState : function () {
                 return {
                     filters : {},
+                    filterSelected : {
+                        categories : queryCategories,
+                        areas : queryRegion,
+                        years : queryYear,
+                        rank : queryRankType
+                    },
                     list : [],
                     pageTotal : 0,
                     currentPage : 1
@@ -97,6 +111,8 @@
                 catePageRouter.on('route:filter', function (cate) {
                     queryType = cate;
 
+                    resetParams();
+
                     queryAsync(cate).done(function (resp) {
                         this.setState({
                             filters : resp
@@ -109,21 +125,25 @@
             onFilterSelect : function (prop, item) {
                 switch (prop) {
                 case 'years':
-                    if (item === 'all') {
+                    if (!item) {
                         queryYear = '';
                     } else {
-                        queryYear = item.begin + '-' + item.end;
+                        if (typeof item === 'string') {
+                            queryYear = '';
+                        } else {
+                            queryYear = item.begin + '-' + item.end;
+                        }
                     }
                     break;
                 case 'categories':
-                    if (item === 'all') {
+                    if (!item) {
                         queryCategories = '';
                     } else {
                         queryCategories = item.name;
                     }
                     break;
                 case 'areas':
-                    if (item === 'all') {
+                    if (!item) {
                         queryRegion = '';
                     } else {
                         queryRegion = item.name;
@@ -134,6 +154,14 @@
                 }
 
                 this.doSearchAsync();
+                this.setState({
+                    filterSelected : {
+                        categories : queryCategories,
+                        areas : queryRegion,
+                        years : queryYear,
+                        rank : queryRankType
+                    }
+                });
             },
             onVideoSelect : function (id) {
                 window.location.hash = queryType + '/detail/' + id;
@@ -152,16 +180,19 @@
                         <SearchBoxView
                             class="o-search-box-ctn"
                             onAction={this.onSearchAction} />
+                        <h4>{queryType && Wording[queryType.toUpperCase()]}</h4>
                         <FilterView
                             filters={this.state.filters}
-                            onFilterSelect={this.onFilterSelect} />
-                        <VideoListView title={queryType ? Wording[queryType.toUpperCase()] : ''}
+                            onFilterSelect={this.onFilterSelect}
+                            filterSelected={this.state.filterSelected} />
+                        <VideoListView title=""
                             list={this.state.list}
                             onVideoSelect={this.onVideoSelect}/>
                         <PaginationView
                             total={this.state.pageTotal}
                             current={this.state.currentPage}
                             onSelect={this.onPaginationSelect} />
+                        <FooterView />
                     </div>
                 );
             }

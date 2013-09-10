@@ -65,20 +65,13 @@
 .o-categories-item-big {
     @include categories-item-base;
 
+    background-size: cover;
+    border: 2px #fff solid;
     color: #fff;
     padding: 15px;
     text-shadow: 0 1px 0 #000;
     width: 365px;
     -webkit-box-pack: end;
-
-    .cover {
-        background-size: cover;
-        bottom: 2px;
-        left: 2px;
-        position: absolute;
-        right: 2px;
-        top: 2px;
-    }
 
     .info-text {
         .actors {

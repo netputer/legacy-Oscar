@@ -210,6 +210,17 @@ module.exports = function (grunt) {
                     }]
                 }
             }
+        },
+        compress: {
+            main: {
+                options: {
+                    archive: 'oscar.zip'
+                },
+                files: [{
+                    src: ['<%= paths.dist %>/**/*.*'],
+                    dest: './'
+                }]
+            }
         }
     });
 
@@ -234,6 +245,7 @@ module.exports = function (grunt) {
         'htmlmin',
         'concat',
         'uglify',
-        'usemin'
+        'usemin',
+        'compress'
     ]);
 };

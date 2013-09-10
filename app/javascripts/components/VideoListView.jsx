@@ -4,6 +4,7 @@
         'React',
         '_',
         'Backbone',
+        'Wording',
         'utilities/Download',
         'utilities/FormatString',
         'utilities/FormatDate'
@@ -11,6 +12,7 @@
         React,
         _,
         Backbone,
+        Wording,
         Download,
         FormatString,
         FormatDate
@@ -47,8 +49,10 @@
                 };
 
                 return (
-                    <li class="o-categories-item-big w-component-card w-vbox" key={data.title} onClick={this.onClick} >
-                        <div class="cover o-mask" style={style}></div>
+                    <li class="o-categories-item-big w-component-card o-mask w-vbox"
+                        key={data.title}
+                        style={style}
+                        onClick={this.onClick} >
                         <h3 class="title">{this.props.data.title}</h3>
                         {this.renderInfo()}
                         <button class="w-btn w-btn-primary">下载</button>
@@ -205,13 +209,18 @@
         });
 
         var VideoListView = React.createClass({
+            clickTitle : function () {
+                $('<a>').attr({
+                    href : 'cate.html#' + this.props.cate
+                })[0].click();
+            },
             render : function () {
                 if (this.props.list.length === 0) {
                     return (<div />);
                 } else {
                     return (
                         <div class="o-categories-ctn">
-                            <h4 class="w-text-secondary">{this.props.cate}</h4>
+                            <h4 class="w-text-secondary" onClick={this.clickTitle}>{Wording[this.props.cate]}</h4>
                             <ul class="o-categories-item-container w-cf">
                                 <BigItemView data={this.props.list[0]} onVideoSelect={this.props.onVideoSelect} />
                                 {this.renderItem()}

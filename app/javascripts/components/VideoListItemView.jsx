@@ -34,19 +34,16 @@
 
                 return (
                     <div class="info-container">
-                        <h3 class="title w-wc" dangerouslySetInnerHTML={{ __html : data.title }}></h3>
+                        <h4 class="title w-wc" dangerouslySetInnerHTML={{ __html : data.title }} onClick={this.props.onSelect}></h4>
                         {this.getActorsEle()}
                         {this.getCateEle()}
                         {this.getRatingEle()}
                         <div class="download-ctn w-hbox">
                             {this.getDownloadBtn()}
-                            <span class="provider w-wc">{FormatString(textEnum.PROVIDER, [data.providerNames])}</span>
+                            <span class="provider w-wc w-text-info">{FormatString(textEnum.PROVIDER, [data.providerNames])}</span>
                         </div>
                     </div>
                 );
-            },
-            download: function () {
-
             }
         });
 
@@ -67,7 +64,7 @@
                 for (i = 0; i < len; i++) {
                     result.push(
                         <li
-                            class="thumb-item"
+                            class="thumb-item o-mask"
                             style={{ 'background-image' : 'url(' + pictures[i] + ')' }}
                             key={pictures[i]} />
                     );
@@ -84,11 +81,11 @@
             render : function () {
                 var data = this.props.video.toJSON();
                 return (
-                    <li class="o-list-item w-hbox">
-                        <div class="item-cover"
+                    <li class="o-list-item w-hbox w-component-card">
+                        <div class="o-mask item-cover"
                             style={{ 'background-image' : 'url(' + data.cover.l + ')' }}
                             onClick={this.clickItem} />
-                        <InfoView video={this.props.video} />
+                        <InfoView video={this.props.video} onSelect={this.clickItem} />
                         <PictureView data={data.pictures.s} />
                     </li>
                 );

@@ -9,7 +9,8 @@
         'components/SearchResultView',
         'components/PaginationView',
         'searchpage/SearchPageRouter',
-        'searchpage/collections/SearchResultCollection'
+        'searchpage/collections/SearchResultCollection',
+        'components/FooterView'
     ], function (
         React,
         IO,
@@ -19,7 +20,8 @@
         SearchResultView,
         PaginationView,
         SearchPageRouter,
-        SearchResultCollection
+        SearchResultCollection,
+        FooterView
     ) {
         var PAGE_SIZE = 10;
 
@@ -119,6 +121,7 @@
                             total={this.state.pageTotal}
                             current={this.state.currentPage}
                             onSelect={this.onPaginationSelect} />
+                        <FooterView />
                     </div>
                 );
             }
