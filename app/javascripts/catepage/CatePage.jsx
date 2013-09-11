@@ -5,33 +5,44 @@
         'IO',
         'Actions',
         'Wording',
+        'utilities/QueryString',
         'catepage/CatePageRouter',
         'components/FilterView',
         'components/VideoListView',
         'components/searchbox/SearchBoxView',
         'components/PaginationView',
-        'mixins/FilterNullValues'
+        'mixins/FilterNullValues',
+        'components/FooterView'
     ], function (
         React,
         IO,
         Actions,
         Wording,
+        QueryString,
         CatePageRouter,
         FilterView,
         VideoListView,
         SearchBoxView,
         PaginationView,
-        FilterNullValues
+        FilterNullValues,
+        FooterView
     ) {
         var catePageRouter = CatePageRouter.getInstance();
 
         var PAGE_SIZE = 28;
 
         var queryType;
-        var queryCategories;
-        var queryRegion;
-        var queryYear;
-        var queryRankType;
+        var queryCategories = QueryString.get('categories') || '';
+        var queryRegion = QueryString.get('areas') || '';
+        var queryYear = QueryString.get('year') || '';
+        var queryRankType = 'hot';
+
+        var resetParams = function () {
+            queryCategories = QueryString.get('categories') || '';
+            queryRegion = QueryString.get('areas') || '';
+            queryYear = QueryString.get('year') || '';
+            queryRankType = 'hot';
+        };
 
         var queryAsync = function (type) {
             var deferred = $.Deferred();
@@ -51,7 +62,7 @@
         var doSearchAsync = function (page) {
             var deferred = $.Deferred();
 
-            page = page || 1;
+            page = Math.max((page || 0) - 1, 0);
 
             IO.requestAsync({
                 url : Actions.actions.SEARCH,
@@ -76,6 +87,12 @@
             getInitialState : function () {
                 return {
                     filters : {},
+                    filterSelected : {
+                        categories : queryCategories,
+                        areas : queryRegion,
+                        years : queryYear,
+                        rank : queryRankType
+                    },
                     list : [],
                     pageTotal : 0,
                     currentPage : 1
@@ -83,6 +100,7 @@
             },
             doSearchAsync : function (page) {
                 doSearchAsync(page).done(function (resp) {
+                    resp.total = resp.total > 200 ? 200 : resp.total;
                     this.setState({
                         list : this.filterNullValues(resp.videoList),
                         pageTotal : Math.round(resp.total / PAGE_SIZE),
@@ -92,8 +110,9 @@
             },
             componentDidMount : function () {
                 catePageRouter.on('route:filter', function (cate) {
-                    console.l
                     queryType = cate;
+
+                    resetParams();
 
                     queryAsync(cate).done(function (resp) {
                         this.setState({
@@ -107,31 +126,45 @@
             onFilterSelect : function (prop, item) {
                 switch (prop) {
                 case 'years':
-                    if (item === 'all') {
+                    if (!item) {
                         queryYear = '';
                     } else {
-                        queryYear = item.begin + '-' + item.end;
+                        if (typeof item === 'string') {
+                            queryYear = '';
+                        } else {
+                            queryYear = item.begin + '-' + item.end;
+                        }
                     }
                     break;
                 case 'categories':
-                    if (item === 'all') {
+                    if (!item) {
                         queryCategories = '';
                     } else {
                         queryCategories = item.name;
                     }
                     break;
                 case 'areas':
-                    if (item === 'all') {
+                    if (!item) {
                         queryRegion = '';
                     } else {
                         queryRegion = item.name;
                     }
                     break;
                 case 'rank':
+                    queryRankType = item.type;
                     break;
                 }
 
                 this.doSearchAsync();
+
+                this.setState({
+                    filterSelected : {
+                        categories : queryCategories,
+                        areas : queryRegion,
+                        years : queryYear,
+                        rank : queryRankType
+                    }
+                });
             },
             onVideoSelect : function (id) {
                 window.location.hash = queryType + '/detail/' + id;
@@ -141,8 +174,8 @@
                     href : 'search.html#q/' + query
                 })[0].click();
             },
-            onPaginationSelect : function () {
-
+            onPaginationSelect : function (page) {
+                this.doSearchAsync(page);
             },
             render : function () {
                 return (
@@ -150,16 +183,19 @@
                         <SearchBoxView
                             class="o-search-box-ctn"
                             onAction={this.onSearchAction} />
+                        <h4>{queryType && Wording[queryType.toUpperCase()]}</h4>
                         <FilterView
                             filters={this.state.filters}
-                            onFilterSelect={this.onFilterSelect} />
-                        <VideoListView title={queryType ? Wording[queryType.toUpperCase()] : ''}
+                            onFilterSelect={this.onFilterSelect}
+                            filterSelected={this.state.filterSelected} />
+                        <VideoListView title=""
                             list={this.state.list}
                             onVideoSelect={this.onVideoSelect}/>
                         <PaginationView
                             total={this.state.pageTotal}
                             current={this.state.currentPage}
                             onSelect={this.onPaginationSelect} />
+                        <FooterView />
                     </div>
                 );
             }

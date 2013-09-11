@@ -27,5 +27,13 @@ define({
     DUBBINGS_LABEL : '配音：',
     LANGUAGE_LABEL : '语言：',
     REGION_LABEL : '地区：',
-    DOWNLOADCOUNT_LABEL : '下载次数：'
+    DOWNLOADCOUNT_LABEL : '下载次数：',
+    REGION : '地区',
+    EARLY : '更早',
+    SORT : '排序',
+    HOT : '热门',
+    RATING : '评分',
+    UPDATE_TIME : '更新时间',
+    CHANNEL : '频道',
+    REL : '相关度'
 });

@@ -1,37 +1,58 @@
+@import "components/stills";
+@import "components/downloadList";
+@import "components/comment";
+
 .o-series-panel {
     background-color: rgba(0, 0, 0, .4);
     left: 0;
     opacity: 0;
-    overflow: auto;
     pointer-events: none;
     position: fixed;
     top: 0;
     width: 100%;
-    -webkit-transition: opacity .2s linear;
+    -webkit-transition: all .2s linear;
+
+    .o-series-panel-content {
+        -webkit-transform: translate3d(0, -50px, 0);
+        -webkit-transition: all .2s linear;
+    }
 
     &.show {
         opacity: 1;
         pointer-events: all;
+
+        .o-series-panel-content {
+            -webkit-transform: translate3d(0, 0, 0);
+        }
     }
 }
 
 .o-series-panel-content {
-    background-color: #fff;
-    margin: 15px auto;
+    background-color: transparent;
+    height: 100%;
+    margin: 0 auto;
+    padding: 15px 0 0;
+    position: relative;
     width: 760px;
 
-    .body {
-        display: inline-block;
-        padding: 10px 65px 25px 15px;
-        vertical-align: top;
-        width: 520px;
-    }
+    .body-ctn {
+        background-color: #fff;
+        overflow-y: auto;
+        -webkit-box-flex: 1;
 
-    .extra-info {
-        display: inline-block;
-        vertical-align: top;
-        padding: 10px 15px 25px 0;
-        width: 240px;
+        .body {
+            display: inline-block;
+            padding: 10px 65px 25px 15px;
+            vertical-align: top;
+            width: 520px;
+        }
+
+        .extra-info {
+            display: inline-block;
+            vertical-align: top;
+            padding: 10px 15px 25px 0;
+            width: 230px;
+        }
     }
 }
 
@@ -61,7 +82,4 @@
             }
         }
     }
-}
-
-.w-component-x {
 }

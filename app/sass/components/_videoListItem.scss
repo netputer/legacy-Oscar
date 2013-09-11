@@ -1,22 +1,38 @@
 .o-list-item {
     background: #fff;
-    border: 1px solid $componentBorderColor;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 3px 5px rgba(0, 0, 0, .1);
+    border: none;
     height: 157px;
     margin: 5px;
-    min-width : 765px;
     padding: 5px;
     -webkit-box-align: center;
 
+    + .o-list-item {
+        margin-top: 10px;
+    }
+
     .item-cover {
         background-position: center center;
+        cursor: pointer;
         height: 145px;
         width: 103px;
     }
 
     .info-container {
-        margin-left: 20px;
+        margin-left: 15px;
         -webkit-box-flex: 1;
+
+        .title {
+            cursor: pointer;
+
+            &:hover {
+                color: $textPrimary;
+            }
+
+            em {
+                color: $textHighlight;
+                font-style: normal;
+            }
+        }
 
         .rating {
             font-size : 15px;
@@ -30,6 +46,7 @@
 
         .provider {
             margin-left: 15px;
+            -webkit-box-flex: 1;
         }
     }
 

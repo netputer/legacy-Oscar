@@ -9,6 +9,12 @@
     position: relative;
 }
 
+.o-categories-ctn {
+    .title {
+        cursor: pointer;
+    }
+}
+
 .o-categories-ctn:not(:first-of-type) {
     margin-top: 30px;
 }
@@ -65,30 +71,32 @@
 .o-categories-item-big {
     @include categories-item-base;
 
+    background-size: cover;
     color: #fff;
-    padding: 15px;
-    text-shadow: 0 1px 0 #000;
     width: 365px;
-    -webkit-box-pack: end;
 
-    .cover {
-        background-size: cover;
-        bottom: 2px;
-        left: 2px;
+
+    .info-ctn {
+        border: 2px #fff solid;
+        height: 100%;
+        left: 0;
+        padding: 15px;
         position: absolute;
-        right: 2px;
-        top: 2px;
-    }
+        text-shadow: 0 1px 0 #000;
+        top: 0;
+        width: 100%;
+        -webkit-box-pack: end;
 
-    .info-text {
-        .actors {
-            display: inline-block;
-            max-width: 260px;
-        }
+        .info-text {
+            .actors {
+                display: inline-block;
+                max-width: 260px;
+            }
 
-        .episode {
-            margin-left: 15px;
-            vertical-align: top;
+            .episode {
+                margin-left: 15px;
+                vertical-align: top;
+            }
         }
     }
 }

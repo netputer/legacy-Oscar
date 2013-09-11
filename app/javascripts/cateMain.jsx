@@ -1,29 +1,7 @@
 /** @jsx React.DOM */
-require.config({
-    paths : {
-        $ : '../components/jquery/jquery',
-        _ : '../components/underscore/underscore',
-        Backbone : '../components/backbone/backbone',
-        React : '../components/react/react'
-    },
-    shim : {
-        $ : {
-            deps : [],
-            exports : '$'
-        },
-        _ : {
-            deps : [],
-            exports : '_'
-        },
-        Backbone : {
-            deps : ['$', '_'],
-            exports : 'Backbone'
-        }
-    }
-});
-
+/*global define*/
 (function (window, document) {
-    require([
+    define([
         'React',
         'Backbone',
         'IO',
@@ -44,15 +22,7 @@ require.config({
         SeriesDetailPanelView,
         FilterNullValues
     ) {
-        React.renderComponent((
-            <div>
-                <CatePage />
-            </div>
-        ), document.body);
-
         var catePageRouter = CatePageRouter.getInstance();
-
-        var seriesDetailPanelView;
 
         var queryAsync = function (id) {
             var deferred = $.Deferred();
@@ -66,29 +36,44 @@ require.config({
             return deferred.promise();
         };
 
-        var closeDetailPanel = function () {};
+        var closeDetailPanel = function () {
+            catePageRouter.navigate(window.location.hash.split('/')[0], {
+                trigger : true
+            });
+        };
+
+        var seriesDetailPanelView = <SeriesDetailPanelView closeDetailPanel={closeDetailPanel} />
+
+        React.renderComponent((
+            <div>
+                <CatePage />
+                {seriesDetailPanelView}
+            </div>
+        ), document.body);
 
         catePageRouter.on('route:filter', function (cate, id) {
             if (id) {
+                seriesDetailPanelView.setState({
+                    show : true,
+                    loading : true
+                });
+
                 queryAsync(id).done(function (resp) {
                     var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
 
-                    if (!seriesDetailPanelView) {
-                        seriesDetailPanelView = <SeriesDetailPanelView video={videoModle} closeDetailPanel={closeDetailPanel} />;
-                    } else {
-                        seriesDetailPanelView.setProps({
-                            video : videoModle
-                        });
+                    seriesDetailPanelView.setProps({
+                        video : videoModle
+                    });
+
+                    if (seriesDetailPanelView.isMounted()) {
                         seriesDetailPanelView.setState({
-                            show : true
+                            loading : false
                         });
                     }
-                    React.renderComponent((
-                        <div>
-                            <CatePage />
-                            {seriesDetailPanelView}
-                        </div>
-                    ), document.body);
+                });
+            } else {
+                seriesDetailPanelView.setState({
+                    show : false
                 });
             }
         });
@@ -97,9 +82,7 @@ require.config({
 
         $('body').on('keydown', function (evt) {
             if (evt.keyCode === 27) {
-                seriesDetailPanelView.setState({
-                    show : false
-                });
+                closeDetailPanel();
             }
         });
     });

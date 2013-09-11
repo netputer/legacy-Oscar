@@ -10,7 +10,8 @@
         'components/DownloadListView',
         'components/SeriesHeaderView',
         'components/CommentaryView',
-        'components/ExtraInfoView'
+        'components/ExtraInfoView',
+        'components/LoadingView'
     ], function (
         React,
         $,
@@ -20,7 +21,8 @@
         DownloadListView,
         SeriesHeaderView,
         CommentaryView,
-        ExtraInfoView
+        ExtraInfoView,
+        LoadingView
     ) {
 
         var SeriesDetailPanelView = React.createClass({
@@ -43,13 +45,10 @@
                 }
             },
             render : function () {
-                $('body').css({
-                    overflow : this.state.show ? 'hidden' : 'auto'
-                });
+                $('body').toggleClass('overflow', this.state.show);
 
                 var style = {
-                    height : window.innerHeight,
-                    top : window.scrollY
+                    height : window.innerHeight
                 };
 
                 var className = this.state.show ? 'o-series-panel show' : 'o-series-panel';
@@ -59,20 +58,25 @@
                 if (video && !this.state.loading) {
                     return (
                         <div class={className} style={style} onClick={this.clickCtn} ref="ctn">
-                            <div class="o-series-panel-content">
+                            <div class="o-series-panel-content w-vbox">
                                 <SeriesHeaderView video={video} />
-                                <div class="body">
-                                    {video.get('type') !== 'MOVIE' ? <DownloadListView video={video} /> :　''}
-                                    <DescriptionView video={video} />
-                                    <StillsView video={video} />
-                                    <CommentaryView comments={video.get('marketComments')[0].comments} />
+                                <div class="body-ctn">
+                                    <div class="body">
+                                        {video.get('type') !== 'MOVIE' ? <DownloadListView video={video} /> :　''}
+                                        <DescriptionView video={video} />
+                                        <StillsView video={video} />
+                                        <CommentaryView comments={video.get('marketComments')[0].comments} />
+                                    </div>
+                                    <ExtraInfoView video={video} />
                                 </div>
-                                <ExtraInfoView video={video} />
+                                <div class="o-close" onClick={this.props.closeDetailPanel} />
                             </div>
                         </div>
                     );
                 } else {
-                    return <div class={className} style={style} onClick={this.clickCtn} ref="ctn">loading...</div>
+                    return (
+                        <div class={className} style={style} onClick={this.clickCtn} ref="ctn"><LoadingView /></div>
+                    );
                 }
             }
         });

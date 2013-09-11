@@ -4,6 +4,15 @@
     font-size: 14px;
     text-align: center;
 
+    .o-pagecount-item {
+        margin: 0 -5px;
+        padding: 2px 10px;
+
+        &.current {
+            font-size: 18px;
+        }
+    }
+
     .o-pagination-dot {
         display : inline-block;
         margin: 0 5px;

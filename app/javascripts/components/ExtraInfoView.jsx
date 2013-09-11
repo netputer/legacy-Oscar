@@ -20,10 +20,10 @@
                         content.push(<dt class="w-text-info" key={field + 'dt'}>{Wording[field.toUpperCase() + '_LABEL']}</dt>);
                         if (data[field] instanceof Array) {
                             _.each(data[field], function (f, i) {
-                                content.push(<dd key={field + f + i}>{f}</dd>);
+                                content.push(<dd class="w-wc" key={field + f + i}>{f}</dd>);
                             });
                         } else {
-                            content.push(<dd key={field + 'dd'}>{data[field]}</dd>);
+                            content.push(<dd class="w-wc" key={field + 'dd'}>{data[field]}</dd>);
                         }
                     }
                 });

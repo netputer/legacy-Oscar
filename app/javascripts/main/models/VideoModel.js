@@ -55,7 +55,9 @@
                     data.presenters = Wording.NO_DATA;
                 }
 
-                data.description = data.description.trim();
+                if (data.description) {
+                    data.description = data.description.trim();
+                }
 
                 this.set(data);
             },
