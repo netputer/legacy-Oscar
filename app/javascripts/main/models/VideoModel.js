@@ -20,7 +20,8 @@
                 },
                 marketComments : [[{
                     comments : []
-                }]]
+                }]],
+                providerNames : []
             },
             pretreatData : function () {
                 var data = this.toJSON();
@@ -41,12 +42,6 @@
                     data.categories = _.pluck(data.categories, 'name').join(' / ');
                 } else {
                     data.categories = Wording.NO_DATA;
-                }
-
-                if (data.providerNames && data.providerNames.length) {
-                    data.providerNames = data.providerNames.join(' / ');
-                } else {
-                    data.providerNames = '';
                 }
 
                 if (data.presenters && data.presenters.length) {

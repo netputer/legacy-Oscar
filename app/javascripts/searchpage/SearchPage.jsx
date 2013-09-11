@@ -95,10 +95,13 @@
                         years : '',
                         rank : queryRankType
                     },
-                    filters : {}
+                    filters : {},
+                    loaded : false
                 }
             },
             queryAsync : function (query, page) {
+                var deferred = $.Deferred();
+
                 queryAsync(query, page).done(function (resp) {
                     resp = this.filterNullValues(resp);
                     resp.total = resp.total > 200 ? 200 : resp.total;
@@ -107,12 +110,17 @@
                         result : searchResultCollection.models,
                         loading : false,
                         pageTotal : Math.round(resp.total / PAGE_SIZE),
-                        currentPage : page,
+                        currentPage : page || 1,
                         query : query,
                         total : resp.total,
-                        correctQuery : resp.correctQuery
+                        correctQuery : resp.correctQuery,
+                        loaded : true
+                    }, function () {
+                        deferred.resolve();
                     });
                 }.bind(this));
+
+                return deferred.promise();
             },
             componentDidMount : function () {
                 searchPageRouter.on('route:search', function (query) {
@@ -138,7 +146,9 @@
                 });
             },
             onPaginationSelect : function (target) {
-                this.queryAsync(this.state.query, target);
+                this.queryAsync(this.state.query, target).done(function () {
+                    this.refs['video-ctn'].getDOMNode().scrollIntoView();
+                }.bind(this));
             },
             onVideoSelect : function (video) {
                 searchPageRouter.navigate('#q/' + searchPageRouter.getQuery() + '/detail/' + video.id, {
@@ -173,16 +183,18 @@
                     break;
                 }
 
-                this.queryAsync(this.state.query, this.state.currentPage);
-
                 this.setState({
                     filterSelected : {
                         type : queryType,
                         areas : queryRegion,
                         years : queryYear,
-                        rank : queryRankType
+                        rank : queryRankType,
+                        currentPage : 1,
+                        pageTotal : 0
                     }
                 });
+
+                this.queryAsync(this.state.query);
             },
             render : function () {
                 return (
@@ -201,7 +213,9 @@
                             loading={this.state.loading}
                             total={this.state.total}
                             correctQuery={this.state.correctQuery}
-                            onVideoSelect={this.onVideoSelect} />
+                            onVideoSelect={this.onVideoSelect}
+                            loaded={this.state.loaded}
+                            ref="video-ctn" />
                         <PaginationView
                             total={this.state.pageTotal}
                             current={this.state.currentPage}

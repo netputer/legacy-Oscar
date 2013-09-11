@@ -29,7 +29,7 @@
                 if (episode.episodeNum) {
                     count = FormatString(Wording.EPISODE_NUM, episode.episodeNum);
                 } else {
-                    count = FormatDate('yyyyMMDD', episode.episodeDate);
+                    count = FormatDate('第MM-dd期', episode.episodeDate);
                 }
 
                 if (hasDownload) {

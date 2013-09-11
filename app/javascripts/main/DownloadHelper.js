@@ -53,6 +53,7 @@
                 GA.log('download', 'all', title);
             } else {
                 episodes = episodes[0];
+                console.log(episodes);
 
                 var downloadURL = episodes.downloadUrls[0];
                 var dServiceURL = downloadURL.accelUrl;

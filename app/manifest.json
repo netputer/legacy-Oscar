@@ -3,7 +3,7 @@
     "version": "0.0.0.5",
     "description": "豌豆荚视频搜索",
     "icons": {
-        "16": "icon16.png",
+        "16": "icon30.png",
         "72": "icon72.png"
     },
     "privacy_permissions": [

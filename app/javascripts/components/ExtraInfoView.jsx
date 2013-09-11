@@ -8,7 +8,7 @@
         React,
         Wording
     ) {
-        var whiteList = ['alias', 'screenwriters', 'directors', 'dubbings', 'language', 'region', 'downloadCount'];
+        var whiteList = ['alias', 'screenwriters', 'directors', 'dubbings', 'language', 'region', 'downloadCount', 'providerNames'];
 
         var ExtraInfoView = React.createClass({
             render : function () {

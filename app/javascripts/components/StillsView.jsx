@@ -5,26 +5,21 @@
         'React',
         '_',
         'Backbone',
+        'Wording',
         'utilities/FormatString'
     ], function (
         $,
         React,
         _,
         Backbone,
+        Wording,
         FormatString
     ) {
-
-        var textEnums = {
-            PIC : '剧照',
-            TOTLE : '{0} 张',
-            RETURN : '返回'
-        };
-
         var StillsView = React.createClass({
             getInitialState : function () {
                 return {
                     disablePrev : true,
-                    disableNext : false,
+                    disableNext : (this.props.video.get('pictures').s.length - 4 > 0) ? false : true,
                     showLarge : false,
                     smallIndex : 0
                 };
@@ -42,7 +37,7 @@
                 this.setState({
                     smallIndex : smallIndex,
                     disablePrev : smallIndex === 0,
-                    disableNext : smallIndex === this.props.video.get('pictures').s.length - 4
+                    disableNext : smallIndex === (this.props.video.get('pictures').s.length - 4)
                 });
             },
             clickNext : function () {
@@ -50,7 +45,7 @@
                 this.setState({
                     smallIndex : smallIndex,
                     disablePrev : smallIndex === 0,
-                    disableNext : smallIndex === this.props.video.get('pictures').s.length - 4
+                    disableNext : smallIndex === (this.props.video.get('pictures').s.length - 4)
                 });
             },
             render : function () {
@@ -61,7 +56,7 @@
                         <div class="o-stills-ctn">
                             <div class="header-ctn w-hbox">
                                 <div class="info">
-                                    <h5 class="w-text-secondary">{textEnums.PIC}<span class="count w-text-info h6">{FormatString(textEnums.TOTLE, [video.get('pictures').s.length])}</span></h5>
+                                    <h5 class="w-text-secondary">{Wording.STILLS}<span class="count w-text-info h6">{FormatString(Wording.STILLS_COUNT, video.get('pictures').s.length)}</span></h5>
                                 </div>
                                 <div class="navigator">
                                     <div class={this.state.disablePrev ? 'prev disabled' : 'prev'} onClick={this.clickPrev} />

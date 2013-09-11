@@ -18,6 +18,10 @@
             clickButtonDownload : function () {
                 DownloadHelper.download(this.props.video.get('videoEpisodes'));
             },
+            getProviderEle : function () {
+                var text = this.props.video.get('providerNames').join(' / ');
+                return <span class="provider w-wc w-text-info">{Wording.PROVIDERNAMES_LABEL + (text || Wording.INTERNET)}</span>
+            },
             getDownloadBtn : function () {
                 var text = '';
                 switch (this.props.video.get('type')) {

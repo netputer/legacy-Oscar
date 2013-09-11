@@ -12,7 +12,7 @@
 
             .button-download {
                 padding: 2px 5px;
-                width: 68px;
+                min-width: 68px;
 
                 &:not(:hover):not(:active) {
                     background-color: #fff;

@@ -12,7 +12,8 @@
         'components/searchbox/SearchBoxView',
         'components/PaginationView',
         'mixins/FilterNullValues',
-        'components/FooterView'
+        'components/FooterView',
+        'components/LoadingView'
     ], function (
         React,
         IO,
@@ -25,7 +26,8 @@
         SearchBoxView,
         PaginationView,
         FilterNullValues,
-        FooterView
+        FooterView,
+        LoadingView
     ) {
         var catePageRouter = CatePageRouter.getInstance();
 
@@ -95,18 +97,30 @@
                     },
                     list : [],
                     pageTotal : 0,
-                    currentPage : 1
+                    currentPage : 1,
+                    loaded : false
                 };
             },
             doSearchAsync : function (page) {
+                var deferred = $.Deferred();
+
+                this.setState({
+                    loading : true
+                });
                 doSearchAsync(page).done(function (resp) {
                     resp.total = resp.total > 200 ? 200 : resp.total;
                     this.setState({
                         list : this.filterNullValues(resp.videoList),
                         pageTotal : Math.round(resp.total / PAGE_SIZE),
                         currentPage : page || 1,
+                        loading : false,
+                        loaded : true
+                    }, function () {
+                        deferred.resolve();
                     });
                 }.bind(this));
+
+                return deferred.promise();
             },
             componentDidMount : function () {
                 catePageRouter.on('route:filter', function (cate) {
@@ -155,16 +169,18 @@
                     break;
                 }
 
-                this.doSearchAsync();
-
                 this.setState({
                     filterSelected : {
+                        currentPage : 1,
+                        pageTotal : 0,
                         categories : queryCategories,
                         areas : queryRegion,
                         years : queryYear,
                         rank : queryRankType
                     }
                 });
+
+                this.doSearchAsync();
             },
             onVideoSelect : function (id) {
                 window.location.hash = queryType + '/detail/' + id;
@@ -175,9 +191,12 @@
                 })[0].click();
             },
             onPaginationSelect : function (page) {
-                this.doSearchAsync(page);
+                this.doSearchAsync(page).done(function () {
+                    this.refs['video-ctn'].getDOMNode().scrollIntoView();
+                }.bind(this));
             },
             render : function () {
+                var loadingView = this.state.loading ? <LoadingView fixed="true" /> : '';
                 return (
                     <div class="o-ctn">
                         <SearchBoxView
@@ -190,11 +209,14 @@
                             filterSelected={this.state.filterSelected} />
                         <VideoListView title=""
                             list={this.state.list}
-                            onVideoSelect={this.onVideoSelect}/>
+                            onVideoSelect={this.onVideoSelect}
+                            loaded={this.state.loaded}
+                            ref="video-ctn" />
                         <PaginationView
                             total={this.state.pageTotal}
                             current={this.state.currentPage}
                             onSelect={this.onPaginationSelect} />
+                        {loadingView}
                         <FooterView />
                     </div>
                 );

@@ -128,7 +128,8 @@ module.exports = function (grunt) {
                     dest : '<%= paths.dist %>',
                     src : [
                         'images/{,*/}*.{webp,gif,png,jpg,jpeg}',
-                        'manifest.json'
+                        'manifest.json',
+                        'icon*.png'
                     ]
                 }]
             }

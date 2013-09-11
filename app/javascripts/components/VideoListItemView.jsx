@@ -4,12 +4,14 @@
         'React',
         '_',
         'Backbone',
+        'Wording',
         'utilities/FormatString',
         'mixins/ElementsGenerator'
     ], function (
         React,
         _,
         Backbone,
+        Wording,
         FormatString,
         ElementsGenerator
     ) {
@@ -29,6 +31,13 @@
 
         var InfoView = React.createClass({
             mixins : [ElementsGenerator],
+            clickBtnDownload : function () {
+                if (this.props.video.get('type') === 'MOVIE') {
+                    ElementsGenerator.clickButtonDownload.call(this);
+                } else {
+                    this.props.onSelect();
+                }
+            },
             render : function () {
                 var data = this.props.video.toJSON();
 
@@ -39,8 +48,8 @@
                         {this.getCateEle()}
                         {this.getRatingEle()}
                         <div class="download-ctn w-hbox">
-                            {this.getDownloadBtn()}
-                            <span class="provider w-wc w-text-info">{FormatString(textEnum.PROVIDER, [data.providerNames])}</span>
+                            <button class="button-download w-btn w-btn-primary" onClick={this.clickBtnDownload}>{Wording.DOWNLOAD}</button>
+                            {this.getProviderEle()}
                         </div>
                     </div>
                 );

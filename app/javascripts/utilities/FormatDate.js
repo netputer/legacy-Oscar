@@ -13,9 +13,15 @@
                     break;
                 case 'MM':
                     result = date.getMonth() + 1;
+                    if (result < 10) {
+                        result = '0' + result;
+                    }
                     break;
                 case 'dd':
                     result = date.getDate();
+                    if (result < 10) {
+                        result = '0' + result;
+                    }
                     break;
                 case 'HH':
                     var HH = date.getHours();
@@ -62,7 +68,7 @@
 
             return output;
         };
-        
+
         return FormatDate;
     });
 }(this));
