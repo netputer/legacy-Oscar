@@ -126,15 +126,13 @@
                 catePageRouter.on('route:filter', function (cate) {
                     queryType = cate;
 
-                    resetParams();
-
                     queryAsync(cate).done(function (resp) {
                         this.setState({
                             filters : resp
                         });
                     }.bind(this));
 
-                    this.doSearchAsync();
+                    this.doSearchAsync(this.state.currentPage);
                 }, this);
             },
             onFilterSelect : function (prop, item) {
