@@ -4,11 +4,13 @@
         'IO',
         '_',
         '$',
+        'GA',
         'Actions'
     ], function (
         IO,
         _,
         $,
+        GA,
         Actions
     ) {
         var DownloadHelper = {};
@@ -22,9 +24,6 @@
                     name : title,
                     icon : '',
                     source : 'oscar-dora-ext'
-                },
-                success : function (resp) {
-                    console.log(resp);
                 }
             });
 
@@ -34,9 +33,9 @@
         var dservice = false;
 
         DownloadHelper.download = function (episodes) {
-            console.log(episodes);
             if (episodes.length > 1) {
                 var title = episodes[0].title;
+
                 _.each(episodes, function (item) {
                     if (item.downloadUrls) {
                         var downloadURL = item.downloadUrls[0];
@@ -50,8 +49,11 @@
                         }
                     }
                 });
+
+                GA.log('download', 'all', title);
             } else {
                 episodes = episodes[0];
+
                 var downloadURL = episodes.downloadUrls[0];
                 var dServiceURL = downloadURL.accelUrl;
                 var url = downloadURL.url;
@@ -60,6 +62,8 @@
                 } else {
                     downloadAsync(episodes.title + '-' + (episodes.episodeNum || ''), url);
                 }
+
+                GA.log('download', 'episode', episodes.title);
             }
         };
 

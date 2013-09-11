@@ -25,14 +25,24 @@
             'wahaha', 'yes'
         ];
 
+        var TYPE = {
+            NO_SEARCH_RESULT : '没有找到关于「<em>{0}</em>」的视频呢。',
+            NO_VIDEO : '没有符合条件的视频'
+        };
+
         var WanxiaodouView = React.createClass({
+            getDefaultProps : function () {
+                return {
+                    'data-tip' : ''
+                };
+            },
             render : function () {
                 var index = _.random(0, 46);
                 var className = 'wanxiaodou ' + wanxiaodou[index];
                 var tip = this.props['data-tip'];
                 var type = this.props['data-type'];
 
-                tip = FormatString(this.type[type], [tip]);
+                tip = FormatString(TYPE[type], [tip]);
 
                 return (
                     <div class="o-wanxiaodou-container">
@@ -40,9 +50,6 @@
                         <span class="wanxiaodou-tip w-text-info" dangerouslySetInnerHTML={{__html : tip}}></span>
                     </div>
                 );
-            },
-            type : {
-                'NO_SEARCH_RESULT' : '没有找到关于「<em>{0}</em>」的视频呢。'
             }
         });
 

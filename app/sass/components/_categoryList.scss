@@ -9,6 +9,12 @@
     position: relative;
 }
 
+.o-categories-ctn {
+    .title {
+        cursor: pointer;
+    }
+}
+
 .o-categories-ctn:not(:first-of-type) {
     margin-top: 30px;
 }
@@ -66,22 +72,31 @@
     @include categories-item-base;
 
     background-size: cover;
-    border: 2px #fff solid;
     color: #fff;
-    padding: 15px;
-    text-shadow: 0 1px 0 #000;
     width: 365px;
-    -webkit-box-pack: end;
 
-    .info-text {
-        .actors {
-            display: inline-block;
-            max-width: 260px;
-        }
 
-        .episode {
-            margin-left: 15px;
-            vertical-align: top;
+    .info-ctn {
+        border: 2px #fff solid;
+        height: 100%;
+        left: 0;
+        padding: 15px;
+        position: absolute;
+        text-shadow: 0 1px 0 #000;
+        top: 0;
+        width: 100%;
+        -webkit-box-pack: end;
+
+        .info-text {
+            .actors {
+                display: inline-block;
+                max-width: 260px;
+            }
+
+            .episode {
+                margin-left: 15px;
+                vertical-align: top;
+            }
         }
     }
 }

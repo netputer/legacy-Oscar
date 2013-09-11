@@ -1,3 +1,3 @@
-require(['config'], function () {
+require(['config', 'GA'], function () {
     require(['indexMain']);
 });

@@ -32,8 +32,8 @@
                     }, this);
 
                     return (
-                        <div>
-                            <div>共 {this.props.total} 条搜索结果</div>
+                        <div class="o-search-result-ctn">
+                            <div class="summary h5 w-text-info">共 {this.props.total} 条搜索结果</div>
                             <ul>{listItemViews}</ul>
                             {loadingView}
                         </div>

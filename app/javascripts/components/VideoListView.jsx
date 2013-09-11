@@ -7,7 +7,8 @@
         'Wording',
         'utilities/Download',
         'utilities/FormatString',
-        'utilities/FormatDate'
+        'utilities/FormatDate',
+        'components/WanxiaodouView'
     ], function (
         React,
         _,
@@ -15,7 +16,8 @@
         Wording,
         Download,
         FormatString,
-        FormatDate
+        FormatDate,
+        WanxiaodouView
     ) {
 
         var textEnum = {
@@ -49,13 +51,15 @@
                 };
 
                 return (
-                    <li class="o-categories-item-big w-component-card o-mask w-vbox"
+                    <li class="o-categories-item-big w-component-card o-mask"
                         key={data.title}
                         style={style}
                         onClick={this.onClick} >
-                        <h3 class="title">{this.props.data.title}</h3>
-                        {this.renderInfo()}
-                        <button class="w-btn w-btn-primary">下载</button>
+                        <div class="info-ctn w-vbox">
+                            <h3 class="title">{this.props.data.title}</h3>
+                            {this.renderInfo()}
+                            <button class="w-btn w-btn-primary">下载</button>
+                        </div>
                     </li>
                 );
             },
@@ -211,16 +215,16 @@
         var VideoListView = React.createClass({
             clickTitle : function () {
                 $('<a>').attr({
-                    href : 'cate.html#' + this.props.cate
+                    href : 'cate.html#' + this.props.cate.toLowerCase()
                 })[0].click();
             },
             render : function () {
                 if (this.props.list.length === 0) {
-                    return (<div />);
+                    return (<WanxiaodouView data-type="NO_VIDEO" />);
                 } else {
                     return (
                         <div class="o-categories-ctn">
-                            <h4 class="w-text-secondary" onClick={this.clickTitle}>{Wording[this.props.cate]}</h4>
+                            <h4 class="w-text-secondary title" onClick={this.clickTitle}>{Wording[this.props.cate]}</h4>
                             <ul class="o-categories-item-container w-cf">
                                 <BigItemView data={this.props.list[0]} onVideoSelect={this.props.onVideoSelect} />
                                 {this.renderItem()}

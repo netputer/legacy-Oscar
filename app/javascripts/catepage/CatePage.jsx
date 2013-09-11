@@ -35,12 +35,13 @@
         var queryCategories = QueryString.get('categories') || '';
         var queryRegion = QueryString.get('areas') || '';
         var queryYear = QueryString.get('year') || '';
-        var queryRankType;
+        var queryRankType = 'hot';
 
         var resetParams = function () {
             queryCategories = QueryString.get('categories') || '';
             queryRegion = QueryString.get('areas') || '';
             queryYear = QueryString.get('year') || '';
+            queryRankType = 'hot';
         };
 
         var queryAsync = function (type) {
@@ -61,7 +62,7 @@
         var doSearchAsync = function (page) {
             var deferred = $.Deferred();
 
-            page = page || 1;
+            page = Math.max((page || 0) - 1, 0);
 
             IO.requestAsync({
                 url : Actions.actions.SEARCH,
@@ -150,10 +151,12 @@
                     }
                     break;
                 case 'rank':
+                    queryRankType = item.type;
                     break;
                 }
 
                 this.doSearchAsync();
+
                 this.setState({
                     filterSelected : {
                         categories : queryCategories,

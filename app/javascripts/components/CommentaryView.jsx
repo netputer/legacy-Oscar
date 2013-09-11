@@ -36,7 +36,12 @@
                         </div>
                     );
                 } else {
-                    return <div />;
+                    return (
+                        <div>
+                            <h5>{Wording.COMMENT}</h5>
+                            <h6 class="w-text-info">{Wording.NO_DATA}</h6>
+                        </div>
+                    );
                 }
             }
         });

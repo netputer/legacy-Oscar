@@ -27,7 +27,7 @@ ul {
 .o-mask {
     position: relative;
 
-    &::after {
+    &::before {
         background-image: -webkit-linear-gradient(-90deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, .4) 100%);
         content: '';
         display: block;

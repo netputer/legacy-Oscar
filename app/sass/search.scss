@@ -7,3 +7,10 @@
 @import "components/videoListItem";
 @import "components/pagination";
 @import "components/seriesDetailPanel";
+@import "components/filter";
+
+.o-search-result-ctn {
+    .summary {
+        margin: 10px 0;
+    }
+}
