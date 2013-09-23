@@ -24,7 +24,6 @@
                 }
             }
             url += '?' + datas.join('&');
-            console.log(url);
 
             window.OneRingRequest('get', url, '', function (resp) {
                 return;

@@ -51,7 +51,7 @@
                 if (datas.length > 0) {
                     url = url + '?' + datas.join('&');
                 }
-                // window.OneRingRequest(options.type, url, null, done);
+                window.OneRingRequest(options.type, url, null, done);
                 break;
             case 'post':
                 window.OneRingRequest(options.type, url, window.encodeURIComponent(JSON.stringify(options.data)), done);
@@ -113,9 +113,9 @@
             };
         }
 
-        // IO.requestAsync('wdj://device/get_udid.json').done(function (resp) {
-        //     window.udid = resp.body.value;
-        // });
+        IO.requestAsync('wdj://device/get_udid.json').done(function (resp) {
+            window.udid = resp.body.value;
+        });
 
         return IO;
     });
