@@ -1,14 +1,12 @@
 {
-    "name" : "WandouLabs-Oscar",
-    "version" : "0.0.1",
-    "dependencies" : {
-        "jquery" : "~2.0.2",
-        "requirejs" : "~2.1.6",
-        "underscore" : "~1.5.1",
-        "backbone" : "~1.0.0",
-        "react" : "~0.4.1"
+    "name": "WandouLabs-Oscar",
+    "version": "1.0.6",
+    "dependencies": {
+        "jquery": "~2.0.2",
+        "requirejs": "~2.1.6",
+        "underscore": "~1.5.1",
+        "backbone": "~1.0.0",
+        "react": "~0.4.1"
     },
-    "devDependencies" : {
-
-    }
+    "devDependencies": {}
 }

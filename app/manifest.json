@@ -1,39 +1,49 @@
 {
-    "name" : "视频",
-    "version": "0.0.0.5",
+    "name": "视频",
+    "version": "1.0.6",
     "description": "豌豆荚视频搜索",
     "icons": {
         "16": "icon30.png",
         "72": "icon72.png"
     },
     "privacy_permissions": [
-        "device", "window", "apps", "video"
+        "device",
+        "window",
+        "apps",
+        "video"
     ],
-    "permissions" : [
+    "permissions": [
         "file:///*/*"
     ],
     "content_scripts": [
         {
-            "matches": [""]
+            "matches": [
+                ""
+            ]
         }
     ],
-    "minimum_client_version" : "2.49",
+    "minimum_client_version": "1.0.0",
     "app": {
         "launch": {
             "web_url": "wdj-extension://__MSG_@@extension_id__/index.html"
         },
-        "navigation": [{
-            "label": "电视剧",
-            "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=123#tv"
-        }, {
-            "label": "电影",
-            "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=456#movie"
-        }, {
-            "label": "动漫",
-            "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=789#comic"
-        }, {
-            "label": "综艺",
-            "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=111#variety"
-        }]
+        "navigation": [
+            {
+                "label": "电视剧",
+                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=123#tv"
+            },
+            {
+                "label": "电影",
+                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=456#movie"
+            },
+            {
+                "label": "动漫",
+                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=789#comic"
+            },
+            {
+                "label": "综艺",
+                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=111#variety"
+            }
+        ]
     }
 }
