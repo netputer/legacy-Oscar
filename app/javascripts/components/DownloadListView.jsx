@@ -5,6 +5,7 @@
         '_',
         'Backbone',
         'Wording',
+        'GA',
         'utilities/FormatString',
         'utilities/FormatDate',
         'utilities/ReadableSize',
@@ -14,6 +15,7 @@
         _,
         Backbone,
         Wording,
+        GA,
         FormatString,
         FormatDate,
         ReadableSize,
@@ -57,6 +59,14 @@
                 if (!!episode.downloadUrls) {
                     DownloadHelper.download([episode]);
                 }
+                GA.log({
+                    'event' : 'video.download.action',
+                    'action' : 'btn_click',
+                    's' : 'episode_list',
+                    'video_id' : episode.video_id,
+                    'episode_id' : episode.id,
+                    'video_source' : episode.downloadUrls[0].providerName
+                });
             }
         });
 
@@ -91,6 +101,11 @@
             clickExpend : function () {
                 this.setState({
                     expendIndex : this.state.expendIndex + 1
+                });
+                GA.log({
+                    'event' : 'video.misc.action',
+                    'action' : 'more_episode_clicked',
+                    'video_id' : this.props.video.id
                 });
             },
             createList : function (videoEpisodes) {

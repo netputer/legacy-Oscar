@@ -205,11 +205,13 @@
                         <SearchBoxView
                             class="o-search-box-ctn"
                             onAction={this.onSearchAction}
-                            keyword={this.state.keyword} />
+                            keyword={this.state.keyword}
+                            source="search" />
                         <FilterView
                             filters={this.state.filters}
                             onFilterSelect={this.onFilterSelect}
-                            filterSelected={this.state.filterSelected} />
+                            filterSelected={this.state.filterSelected}
+                            source="search" />
                         <SearchResultView
                             keyword={this.state.keyword}
                             list={this.state.result}

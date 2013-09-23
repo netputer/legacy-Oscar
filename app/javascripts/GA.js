@@ -24,6 +24,7 @@
                 }
             }
             url += '?' + datas.join('&');
+            console.log(url);
 
             window.OneRingRequest('get', url, '', function (resp) {
                 return;
@@ -34,14 +35,15 @@
     define(function () {
         var GA = {};
 
-        GA.log = function (category, action, label) {
-            log({
-                event : 'debug_oscar_' + category,
-                action : action,
-                label : label
-            });
-            // _gaq.push(['_trackEvent', category, action, label]);
-        };
+        GA.log = log;
+        // function (category, action, label) {
+        //     log({
+        //         event : 'debug_oscar_' + category,
+        //         action : action,
+        //         label : label
+        //     });
+        //     // _gaq.push(['_trackEvent', category, action, label]);
+        // };
 
         return GA;
     });

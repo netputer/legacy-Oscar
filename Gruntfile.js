@@ -236,7 +236,6 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build', [
-        'bumpup',
         'clean:dist',
         'react:server',
         'copy:tmp',
@@ -250,5 +249,10 @@ module.exports = function (grunt) {
         'uglify',
         'usemin',
         'compress'
+    ]);
+
+    grunt.registerTask(['build:release'], [
+        'bumpup',
+        'build'
     ]);
 };

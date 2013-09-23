@@ -15,25 +15,11 @@
         FormatString,
         ElementsGenerator
     ) {
-
-        var textEnum = {
-            LAST_EPISODE : '第{0}集',
-            TOTLE_COMPLATE : '{0}集完',
-            NO_RATING : '暂无评分',
-            NO_DATA : '暂无数据',
-            ACTORS : '主演：{0}',
-            RATING : '评分：<span class="rating">{0}</span>',
-            DOWNLOAD_ALL : '下载全部',
-            DOWNLOAD : '下载',
-            PROVIDER : '来源：{0}',
-            PRESENTER : '主持人：{0}'
-        };
-
         var InfoView = React.createClass({
             mixins : [ElementsGenerator],
             clickBtnDownload : function () {
                 if (this.props.video.get('type') === 'MOVIE') {
-                    ElementsGenerator.clickButtonDownload.call(this);
+                    ElementsGenerator.clickButtonDownload.call(this, 'search');
                 } else {
                     this.props.onSelect();
                 }

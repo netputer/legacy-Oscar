@@ -57,8 +57,6 @@
                         }
                     }
                 });
-
-                GA.log('download', 'all', title);
             } else {
                 episodes = episodes[0];
 
@@ -71,8 +69,6 @@
                 } else {
                     downloadAsync(episodes.title + '-' + (episodes.episodeNum || ''), url);
                 }
-
-                GA.log('download', 'episode', episodes.title);
             }
         };
 

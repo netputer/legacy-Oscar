@@ -200,12 +200,14 @@
                     <div class="o-ctn">
                         <SearchBoxView
                             class="o-search-box-ctn"
-                            onAction={this.onSearchAction} />
+                            onAction={this.onSearchAction}
+                            source={queryType} />
                         <h4>{queryType && Wording[queryType.toUpperCase()]}</h4>
                         <FilterView
                             filters={this.state.filters}
                             onFilterSelect={this.onFilterSelect}
-                            filterSelected={this.state.filterSelected} />
+                            filterSelected={this.state.filterSelected}
+                            source={queryType} />
                         <VideoListView title=""
                             list={this.state.list}
                             onVideoSelect={this.onVideoSelect}
