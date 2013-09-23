@@ -35,5 +35,9 @@ define({
     RATING : '评分',
     UPDATE_TIME : '更新时间',
     CHANNEL : '频道',
-    REL : '相关度'
+    REL : '相关度',
+    STILLS : '剧照',
+    STILLS_COUNT : '{1} 张',
+    PROVIDERNAMES_LABEL : '来源：',
+    INTERNET : '互联网'
 });

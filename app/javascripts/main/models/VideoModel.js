@@ -20,7 +20,8 @@
                 },
                 marketComments : [[{
                     comments : []
-                }]]
+                }]],
+                providerNames : []
             },
             pretreatData : function () {
                 var data = this.toJSON();
@@ -43,12 +44,6 @@
                     data.categories = Wording.NO_DATA;
                 }
 
-                if (data.providerNames && data.providerNames.length) {
-                    data.providerNames = data.providerNames.join(' / ');
-                } else {
-                    data.providerNames = '';
-                }
-
                 if (data.presenters && data.presenters.length) {
                     data.presenters = data.presenters.join(' / ');
                 } else {
@@ -57,6 +52,12 @@
 
                 if (data.description) {
                     data.description = data.description.trim();
+                }
+
+                if (data.type === 'MOVIE') {
+                    var episodes = data.videoEpisodes;
+                    episodes[0].title = data.title;
+                    data.videoEpisodes = episodes;
                 }
 
                 this.set(data);

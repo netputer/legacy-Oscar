@@ -4,12 +4,14 @@
         '_',
         'React',
         'IO',
+        'GA',
         'Actions',
         'mixins/FilterNullValues'
     ], function (
         _,
         React,
         IO,
+        GA,
         Actions,
         FilterNullValues
     ) {
@@ -43,6 +45,15 @@
                 }.bind(this));
             },
             clickItem : function (cate) {
+                GA.log({
+                    'event' : 'video.common.action',
+                    'action' : '‘filter_clicked’',
+                    'type' : this.props.filter,
+                    'keyword' : cate.name,
+                    's' : 'homepage',
+                    'mode' : 'view'
+                });
+
                 $('<a>').attr({
                       href : 'cate.html?' + this.props.filter + '=' + cate.name + '#' + this.props.type
                 })[0].click();

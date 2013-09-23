@@ -5,6 +5,7 @@
         'React',
         'Backbone',
         'IO',
+        'GA',
         'Actions',
         'searchpage/SearchPageRouter',
         'searchpage/SearchPage',
@@ -15,6 +16,7 @@
         React,
         Backbone,
         IO,
+        GA,
         Actions,
         SearchPageRouter,
         SearchPage,
@@ -29,6 +31,9 @@
 
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
+                data : {
+                    sessionId : window.sessionId || ''
+                },
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -63,6 +68,13 @@
                             loading : false
                         });
                     }
+                });
+
+                GA.log({
+                    'event' : 'video.common.action',
+                    'action' : 'detail_view',
+                    'video_id' : id,
+                    's' : 'search'
                 });
             } else {
                 seriesDetailPanelView.setState({

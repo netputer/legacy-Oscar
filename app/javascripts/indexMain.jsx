@@ -5,6 +5,7 @@
         'React',
         'Backbone',
         'IO',
+        'GA',
         'Actions',
         'indexpage/IndexPage',
         'indexpage/IndexPageRouter',
@@ -16,6 +17,7 @@
         React,
         Backbone,
         IO,
+        GA,
         Actions,
         IndexPage,
         IndexPageRouter,
@@ -71,6 +73,13 @@
                         loading : false
                     });
                 }
+            });
+
+            GA.log({
+                'event' : 'video.common.action',
+                'action' : 'detail_view',
+                'video_id' : query,
+                's' : 'homepage'
             });
         });
 

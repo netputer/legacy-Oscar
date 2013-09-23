@@ -10,20 +10,11 @@
         margin: 30px auto 10px;
         width : 200px;
 
-        @each $img in apple, babypea, bigtalker, businessface, cheers,
-            cold, crawl, coolcats, ecstatic, foodie,
-            forfood, furious, googlyeyes, grannypea, grateful,
-            hallo, hellokitty, hothothot, hugitout, hugthecat,
-            karaokestar, lookaway, lookinggood, loveit, ohreeeeally,
-            partytime, peekabo, phoneoverboard, reading, secretive,
-            showersong, showertime, sleepypea, smooch, sogreat,
-            steaming, struckbylightening, strut, stumped, suspicious,
-            sweetpea, tearsofjoy, theend, threekitties, tickles,
-            wahaha, yes {
-
-            &.#{$img} {
+        @for $img from 0 to 17 {
+            &.index#{$img} {
                 @include wanxiaodou-sprite(#{$img});
-                width : wanxiaodou-sprite-width($img);
+                height : wanxiaodou-sprite-height(#{$img});
+                width : wanxiaodou-sprite-width(#{$img});
             }
         }
     }

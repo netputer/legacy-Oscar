@@ -2,10 +2,12 @@
 (function (window) {
     define([
         'Backbone',
-        '$'
+        '$',
+        '_'
     ], function (
         Backbone,
-        $
+        $,
+        _
     ) {
         var IO = {};
 
@@ -67,6 +69,16 @@
         IO.requestAsync = function (url) {
             var testingUrl = typeof url === 'string' ? url : url.url;
 
+            if (!/^wdj:/.test(testingUrl) && typeof url === 'object') {
+                url.data = url.data || {};
+
+                _.extend(url.data, {
+                    f : 'windows',
+                    pcid : '',
+                    udid : window.udid || ''
+                });
+            }
+
             return (/^wdj:/.test(testingUrl)) ?
                     IO.Backend.requestAsync.apply(IO.Backend, arguments) :
                     IO.Cloud.requestAsync.apply(IO.Cloud, arguments);
@@ -84,11 +96,12 @@
 
             Backbone.sync = function (method, model, options) {
                 var url = model.url;
+
                 var params = {
                     url : model.url,
                     type : methodMap[method],
                     contentType : 'application/json',
-                    data : model.data || {},
+                    data : model.data,
                     dataType : 'json',
                     processData : true,
                     success : options.success,
@@ -99,6 +112,10 @@
                 IO.requestAsync(url, params);
             };
         }
+
+        IO.requestAsync('wdj://device/get_udid.json').done(function (resp) {
+            window.udid = resp.body.value;
+        });
 
         return IO;
     });

@@ -10,6 +10,8 @@
 @import "components/filter";
 
 .o-search-result-ctn {
+    min-height: 300px;
+
     .summary {
         margin: 10px 0;
     }

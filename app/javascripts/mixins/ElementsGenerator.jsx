@@ -5,20 +5,34 @@
         'React',
         '_',
         'Wording',
+        'GA',
         'main/DownloadHelper',
         'utilities/FormatString'
     ], function (
         React,
         _,
         Wording,
+        GA,
         DownloadHelper,
         FormatString
     ) {
         var ElementsGenerator = {
-            clickButtonDownload : function () {
+            clickButtonDownload : function (source) {
                 DownloadHelper.download(this.props.video.get('videoEpisodes'));
+
+                GA.log({
+                    'event' : 'video.download.action',
+                    'action' : 'btn_click',
+                    's' : source,
+                    'video_id' : this.props.video.id,
+                    'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName
+                });
             },
-            getDownloadBtn : function () {
+            getProviderEle : function () {
+                var text = this.props.video.get('providerNames').join(' / ');
+                return <span class="provider w-wc w-text-info">{Wording.PROVIDERNAMES_LABEL + (text || Wording.INTERNET)}</span>
+            },
+            getDownloadBtn : function (source) {
                 var text = '';
                 switch (this.props.video.get('type')) {
                 case 'MOVIE':
@@ -31,7 +45,7 @@
                     break;
                 }
 
-                return <button class="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload}>{text}</button>
+                return <button class="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>{text}</button>
             },
             getActorsEle : function () {
                 var text = '';

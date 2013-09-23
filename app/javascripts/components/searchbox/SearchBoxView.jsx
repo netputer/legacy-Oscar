@@ -3,12 +3,14 @@
     define([
         '$',
         '_',
+        'GA',
         'React',
         'utilities/KeyMapping',
         'components/searchbox/SuggestionItemModel'
     ], function (
         $,
         _,
+        GA,
         React,
         KeyMapping,
         SuggestionItemModel
@@ -152,6 +154,13 @@
                 }
             },
             submitForm : function (evt) {
+                GA.log({
+                    'event' : 'video.common.action',
+                    'action' : 'search',
+                    'keyword' : evt.target.keyword.value,
+                    's' : this.props.source
+                });
+
                 if (this.props.onAction) {
                     evt.preventDefault();
                     this.props.onAction(evt.target.keyword.value);

@@ -5,6 +5,7 @@
         'React',
         'Backbone',
         'IO',
+        'GA',
         'Actions',
         'catepage/CatePage',
         'catepage/CatePageRouter',
@@ -15,6 +16,7 @@
         React,
         Backbone,
         IO,
+        GA,
         Actions,
         CatePage,
         CatePageRouter,
@@ -71,11 +73,24 @@
                         });
                     }
                 });
+
+                GA.log({
+                    'event' : 'video.common.action',
+                    'action' : 'detail_view',
+                    'video_id' : id,
+                    's' : cate
+                });
             } else {
                 seriesDetailPanelView.setState({
                     show : false
                 });
             }
+
+            GA.log({
+                'event' : 'video.common.action',
+                'action' : 'tab_view',
+                'type' : cate
+            });
         });
 
         Backbone.history.start();

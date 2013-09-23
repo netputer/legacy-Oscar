@@ -15,6 +15,15 @@
     ) {
         var DownloadHelper = {};
 
+        var dservice = false;
+
+        (function () {
+            var ua = window.navigator.userAgent.split(' ');
+            var version = ua[ua.length - 1];
+            var v = version.split('.')[1];
+            dservice = parseInt(v, 10) >= 65;
+        }());
+
         var downloadAsync = function (title, url) {
             var deferred = $.Deferred();
             IO.requestAsync({
@@ -23,14 +32,13 @@
                     url : url,
                     name : title,
                     icon : '',
-                    source : 'oscar-dora-ext'
+                    source : 'oscar-dora-ext',
+                    dservice : dservice
                 }
             });
 
             return deferred.promise();
         };
-
-        var dservice = false;
 
         DownloadHelper.download = function (episodes) {
             if (episodes.length > 1) {
@@ -49,26 +57,19 @@
                         }
                     }
                 });
-
-                GA.log('download', 'all', title);
             } else {
                 episodes = episodes[0];
 
                 var downloadURL = episodes.downloadUrls[0];
                 var dServiceURL = downloadURL.accelUrl;
                 var url = downloadURL.url;
+
                 if (dservice) {
                     downloadAsync(episodes.title + '-' + (episodes.episodeNum || ''), dServiceURL);
                 } else {
                     downloadAsync(episodes.title + '-' + (episodes.episodeNum || ''), url);
                 }
-
-                GA.log('download', 'episode', episodes.title);
             }
-        };
-
-        window.zhuizhuikan = function () {
-            dservice = true;
         };
 
         return DownloadHelper;

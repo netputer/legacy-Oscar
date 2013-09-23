@@ -4,12 +4,14 @@
         'React',
         '$',
         'IO',
+        'GA',
         'Actions',
         'Wording'
     ], function (
         React,
         $,
         IO,
+        GA,
         Actions,
         Wording
     ) {
@@ -22,6 +24,14 @@
             },
             clickItem : function (prop, value) {
                 this.props.onFilterSelect(prop, value);
+                GA.log({
+                    'event' : 'video.common.action',
+                    'action' : '‘filter_clicked’',
+                    'type' : prop,
+                    'keyword' : value.name,
+                    's' : this.props.source,
+                    'mode' : this.props.source === 'search' ? 'search' : 'view'
+                });
             },
             generateEle : function (title, prop) {
                 var selected = this.props.filterSelected[prop];

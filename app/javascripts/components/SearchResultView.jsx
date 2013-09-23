@@ -39,7 +39,11 @@
                         </div>
                     );
                 } else {
-                    return <WanxiaodouView data-tip={this.props.keyword} data-type="NO_SEARCH_RESULT" />;
+                    if (this.props.loaded) {
+                        return <WanxiaodouView data-tip={this.props.keyword} data-type="NO_SEARCH_RESULT" />;
+                    } else {
+                        return <div class="o-search-result-ctn" />;
+                    }
                 }
             }
         });

@@ -190,8 +190,10 @@
                     break;
                 }
 
+                var propTitle = data.title.length > 10 ? data.title : '';
+
                 return (
-                    <li class="o-categories-item w-component-card" title={data.title} onClick={this.onClick}>
+                    <li class="o-categories-item w-component-card" title={propTitle} onClick={this.onClick}>
                         <div class="cover o-mask">
                             <img src={data.cover.l}/>
                         </div>
@@ -220,7 +222,11 @@
             },
             render : function () {
                 if (this.props.list.length === 0) {
-                    return (<WanxiaodouView data-type="NO_VIDEO" />);
+                    if (this.props.loaded) {
+                        return (<WanxiaodouView data-type="NO_VIDEO" />);
+                    } else {
+                        return <div class="o-categories-ctn"/>;
+                    }
                 } else {
                     return (
                         <div class="o-categories-ctn">

@@ -32,7 +32,7 @@
                                 {this.getCateEle()}
                                 {this.getRatingEle()}
                                 <div class="download-info">
-                                    {this.getDownloadBtn()}
+                                    {this.getDownloadBtn('download_all')}
                                 </div>
                             </div>
                         </div>

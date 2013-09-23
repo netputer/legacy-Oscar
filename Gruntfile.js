@@ -128,7 +128,8 @@ module.exports = function (grunt) {
                     dest : '<%= paths.dist %>',
                     src : [
                         'images/{,*/}*.{webp,gif,png,jpg,jpeg}',
-                        'manifest.json'
+                        'manifest.json',
+                        'icon*.png'
                     ]
                 }]
             }
@@ -221,7 +222,8 @@ module.exports = function (grunt) {
                     dest: './'
                 }]
             }
-        }
+        },
+        bumpup : ['package.json', '<%= paths.app %>/manifest.json', 'bower.json']
     });
 
     grunt.registerTask('server', [
@@ -247,5 +249,10 @@ module.exports = function (grunt) {
         'uglify',
         'usemin',
         'compress'
+    ]);
+
+    grunt.registerTask(['build:release'], [
+        'bumpup',
+        'build'
     ]);
 };
