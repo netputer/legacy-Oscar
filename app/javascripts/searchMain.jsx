@@ -29,6 +29,9 @@
 
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
+                data : {
+                    sessionId : window.sessionId || ''
+                },
                 success : deferred.resolve,
                 error : deferred.reject
             });

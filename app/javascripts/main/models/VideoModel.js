@@ -54,6 +54,12 @@
                     data.description = data.description.trim();
                 }
 
+                if (data.type === 'MOVIE') {
+                    var episodes = data.videoEpisodes;
+                    episodes[0].title = data.title;
+                    data.videoEpisodes = episodes;
+                }
+
                 this.set(data);
             },
             initialize : function () {

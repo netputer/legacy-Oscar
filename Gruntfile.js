@@ -222,7 +222,8 @@ module.exports = function (grunt) {
                     dest: './'
                 }]
             }
-        }
+        },
+        bumpup : ['package.json', '<%= paths.app %>/manifest.json', 'bower.json']
     });
 
     grunt.registerTask('server', [
@@ -235,6 +236,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build', [
+        'bumpup',
         'clean:dist',
         'react:server',
         'copy:tmp',

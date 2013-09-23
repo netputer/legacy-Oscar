@@ -75,7 +75,8 @@
                     year : queryYear,
                     region : queryRegion,
                     max : PAGE_SIZE,
-                    start : page * PAGE_SIZE
+                    start : page * PAGE_SIZE,
+                    pos : 'w/catepage',
                 },
                 success : deferred.resolve,
                 error : deferred.reject

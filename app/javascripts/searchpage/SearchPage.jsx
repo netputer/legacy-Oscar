@@ -52,7 +52,10 @@
                     region : queryRegion,
                     content_type : queryType
                 },
-                success : deferred.resolve,
+                success : function (resp) {
+                    window.sessionId = resp.sessionId;
+                    deferred.resolve(resp);
+                },
                 error : deferred.reject
             });
 

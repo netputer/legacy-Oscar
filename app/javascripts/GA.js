@@ -36,7 +36,7 @@
 
         GA.log = function (category, action, label) {
             log({
-                category : 'debug_oscar_' + category,
+                event : 'debug_oscar_' + category,
                 action : action,
                 label : label
             });
