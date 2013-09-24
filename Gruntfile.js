@@ -223,7 +223,19 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        bumpup : ['package.json', '<%= paths.app %>/manifest.json', 'bower.json']
+        bump : {
+            options : {
+                files : ['package.json', '<%= paths.app %>/manifest.json', 'bower.json'],
+                updateConfigs : [],
+                commit : true,
+                commitMessage : 'Release v%VERSION%',
+                commitFiles : ['-a'],
+                createTag : true,
+                tagName : 'v%VERSION%',
+                tagMessage : 'Version %VERSION%',
+                push : false
+            }
+        }
     });
 
     grunt.registerTask('server', [
@@ -252,7 +264,12 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask(['build:release'], [
-        'bumpup',
+        'bump',
+        'build'
+    ]);
+
+    grunt.registerTask(['build:patch'], [
+        'bump:patch',
         'build'
     ]);
 };
