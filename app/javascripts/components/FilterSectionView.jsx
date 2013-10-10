@@ -47,10 +47,10 @@
             clickItem : function (cate) {
                 GA.log({
                     'event' : 'video.common.action',
-                    'action' : '‘filter_clicked’',
+                    'action' : 'filter_clicked',
                     'type' : this.props.filter,
                     'keyword' : cate.name,
-                    's' : 'homepage',
+                    'pos' : 'homepage',
                     'mode' : 'view'
                 });
 

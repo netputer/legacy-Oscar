@@ -23,7 +23,7 @@
                 GA.log({
                     'event' : 'video.download.action',
                     'action' : 'btn_click',
-                    's' : source,
+                    'pos' : source,
                     'video_id' : this.props.video.id,
                     'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName
                 });

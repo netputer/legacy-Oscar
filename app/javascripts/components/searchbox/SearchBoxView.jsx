@@ -158,7 +158,7 @@
                     'event' : 'video.common.action',
                     'action' : 'search',
                     'keyword' : evt.target.keyword.value,
-                    's' : this.props.source
+                    'pos' : this.props.source
                 });
 
                 if (this.props.onAction) {
