@@ -20,6 +20,10 @@
     &.show {
         opacity: 1;
         pointer-events: all;
+
+        .o-series-panel-content {
+            margin-top: 0;
+        }
     }
 }
 
