@@ -32,7 +32,7 @@
                     url : url,
                     name : title,
                     icon : '',
-                    source : 'oscar-dora-ext',
+                    pos : 'oscar-dora-ext',
                     dservice : dservice
                 }
             });

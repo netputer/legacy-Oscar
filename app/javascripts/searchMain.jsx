@@ -74,7 +74,7 @@
                     'event' : 'video.common.action',
                     'action' : 'detail_view',
                     'video_id' : id,
-                    's' : 'search'
+                    'pos' : 'search'
                 });
             } else {
                 seriesDetailPanelView.setState({

@@ -62,7 +62,7 @@
                 GA.log({
                     'event' : 'video.download.action',
                     'action' : 'btn_click',
-                    's' : 'episode_list',
+                    'pos' : 'episode_list',
                     'video_id' : episode.video_id,
                     'episode_id' : episode.id,
                     'video_source' : episode.downloadUrls[0].providerName
