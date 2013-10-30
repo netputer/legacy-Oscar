@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 (function (window) {
     define([
-        'jquery',
+        '$',
         'React',
         '_',
         'Backbone'

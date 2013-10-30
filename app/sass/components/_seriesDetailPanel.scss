@@ -13,7 +13,7 @@
     -webkit-transition: all .2s linear;
 
     .o-series-panel-content {
-        -webkit-transform: translate3d(0, -50px, 0);
+        margin-top: -50px;
         -webkit-transition: all .2s linear;
     }
 
@@ -22,7 +22,7 @@
         pointer-events: all;
 
         .o-series-panel-content {
-            -webkit-transform: translate3d(0, 0, 0);
+            margin-top: 0;
         }
     }
 }

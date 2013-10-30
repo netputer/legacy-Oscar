@@ -32,15 +32,21 @@
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
                 success : deferred.resolve,
-                error : deferred.reject
+                error : deferred.reject,
+                cache : true,
+                ifModified : false,
             });
 
             return deferred.promise();
         };
 
         var closeDetailPanel = function () {
+            seriesDetailPanelView.setState({
+                show : false
+            });
+        
             catePageRouter.navigate(window.location.hash.split('/')[0], {
-                trigger : true
+                trigger : false
             });
         };
 

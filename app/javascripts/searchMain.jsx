@@ -42,8 +42,12 @@
         };
 
         var closeDetailPanel = function () {
+            seriesDetailPanelView.setState({
+                show : false
+            });
+
             searchPageRouter.navigate('#q/' + searchPageRouter.getQuery(), {
-                trigger : true
+                trigger : false
             });
         };
 
