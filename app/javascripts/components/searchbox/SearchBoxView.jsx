@@ -6,7 +6,6 @@
         'GA',
         'React',
         'utilities/KeyMapping',
-        'searchpage/SearchPageRouter',
         'components/searchbox/SuggestionItemModel'
     ], function (
         $,
@@ -14,11 +13,9 @@
         GA,
         React,
         KeyMapping,
-        SearchPageRouter,
         SuggestionItemModel
     ) {
 
-        var searchPageRouter = SearchPageRouter.getInstance();
         var queryAsync = function (keyword) {
             var deferred = $.Deferred();
 
