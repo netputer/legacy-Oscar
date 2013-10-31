@@ -78,7 +78,7 @@
                 return (
                     <li className="o-list-item w-hbox w-component-card">
                         <div className="o-mask item-cover"
-                            style={{ 'background-image' : 'url(' + data.cover.l + ')' }}
+                            style={{ 'background-image' : 'url(' + (data.cover.l || "") + ')' }}
                             onClick={this.clickItem} />
                         <InfoView video={this.props.video} onSelect={this.clickItem} />
                         <PictureView data={data.pictures.s} />
