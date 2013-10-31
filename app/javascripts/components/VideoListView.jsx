@@ -51,14 +51,14 @@
                 };
 
                 return (
-                    <li class="o-categories-item-big w-component-card o-mask"
+                    <li className="o-categories-item-big w-component-card o-mask"
                         key={data.title}
                         style={style}
                         onClick={this.onClick} >
-                        <div class="info-ctn w-vbox">
-                            <h3 class="title">{this.props.data.title}</h3>
+                        <div className="info-ctn w-vbox">
+                            <h3 className="title">{this.props.data.title}</h3>
                             {this.renderInfo()}
-                            <button class="w-btn w-btn-primary">下载</button>
+                            <button className="w-btn w-btn-primary">下载</button>
                         </div>
                     </li>
                 );
@@ -127,11 +127,11 @@
                 }
 
                 info = [
-                    <span key="actors" class="actors w-wc">{headInfo}</span>,
-                    <span key="episode" class="episode">{episode}</span>
+                    <span key="actors" className="actors w-wc">{headInfo}</span>,
+                    <span key="episode" className="episode">{episode}</span>
                 ];
 
-                return <p class="info-text">{info}</p>
+                return <p className="info-text">{info}</p>
             }
         });
 
@@ -193,15 +193,15 @@
                 var propTitle = data.title.length > 10 ? data.title : '';
 
                 return (
-                    <li class="o-categories-item w-component-card" title={propTitle} onClick={this.onClick}>
-                        <div class="cover o-mask">
+                    <li className="o-categories-item w-component-card" title={propTitle} onClick={this.onClick}>
+                        <div className="cover o-mask">
                             <img src={data.cover.l}/>
                         </div>
-                        <div class="info">
-                            <span class="title w-wc w-text-secondary">{title}</span>
-                            <span class="actors w-wc w-text-info">{actors}</span>
-                            <span class="episode w-wc w-text-info">{episode}</span>
-                            <button class="download w-btn w-btn-primary w-btn-mini" onClick={this.download}>下载</button>
+                        <div className="info">
+                            <span className="title w-wc w-text-secondary">{title}</span>
+                            <span className="actors w-wc w-text-info">{actors}</span>
+                            <span className="episode w-wc w-text-info">{episode}</span>
+                            <button className="download w-btn w-btn-primary w-btn-mini" onClick={this.download}>下载</button>
                         </div>
                     </li>
                 );
@@ -225,13 +225,13 @@
                     if (this.props.loaded) {
                         return (<WanxiaodouView data-type="NO_VIDEO" />);
                     } else {
-                        return <div class="o-categories-ctn"/>;
+                        return <div className="o-categories-ctn"/>;
                     }
                 } else {
                     return (
-                        <div class="o-categories-ctn">
-                            <h4 class="w-text-secondary title" onClick={this.clickTitle}>{Wording[this.props.cate]}</h4>
-                            <ul class="o-categories-item-container w-cf">
+                        <div className="o-categories-ctn">
+                            <h4 className="w-text-secondary title" onClick={this.clickTitle}>{Wording[this.props.cate]}</h4>
+                            <ul className="o-categories-item-container w-cf">
                                 <BigItemView data={this.props.list[0]} onVideoSelect={this.props.onVideoSelect} />
                                 {this.renderItem()}
                             </ul>

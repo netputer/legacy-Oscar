@@ -201,9 +201,9 @@
             },
             render : function () {
                 return (
-                    <div class="o-ctn">
+                    <div className="o-ctn">
                         <SearchBoxView
-                            class="o-search-box-ctn"
+                            className="o-search-box-ctn"
                             onAction={this.onSearchAction}
                             keyword={this.state.keyword}
                             source="search" />

@@ -30,7 +30,7 @@
             },
             getProviderEle : function () {
                 var text = this.props.video.get('providerNames').join(' / ');
-                return <span class="provider w-wc w-text-info">{Wording.PROVIDERNAMES_LABEL + (text || Wording.INTERNET)}</span>
+                return <span className="provider w-wc w-text-info">{Wording.PROVIDERNAMES_LABEL + (text || Wording.INTERNET)}</span>
             },
             getDownloadBtn : function (source) {
                 var text = '';
@@ -45,7 +45,7 @@
                     break;
                 }
 
-                return <button class="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>{text}</button>
+                return <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>{text}</button>
             },
             getActorsEle : function () {
                 var text = '';
@@ -56,7 +56,7 @@
                     text = Wording.ACTORS_LABEL + video.get('actors');
                 }
 
-                return <div class="actors w-text-secondary w-wc">{text}</div>;
+                return <div className="actors w-text-secondary w-wc">{text}</div>;
             },
             getCateEle : function () {
                 var text = '';
@@ -72,18 +72,18 @@
                     break;
                 }
 
-                return <div class="w-text-secondary w-wc">{text}</div>;
+                return <div className="w-text-secondary w-wc">{text}</div>;
             },
             getRatingEle : function () {
                 var ele;
                 var data = this.props.video.toJSON();
                 if (data.rating !== Wording.NO_RATING) {
-                    ele = <span class="h4">{data.rating}</span>;
+                    ele = <span className="h4">{data.rating}</span>;
                 } else {
                     ele = data.rating;
                 }
 
-                return <div class="w-text-secondary w-wc">{Wording.RATING_LABEL}{ele}</div>;
+                return <div className="w-text-secondary w-wc">{Wording.RATING_LABEL}{ele}</div>;
             }
         };
 

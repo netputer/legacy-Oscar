@@ -89,33 +89,33 @@
             },
             render : function () {
                 return (
-                    <div class="o-ctn">
+                    <div className="o-ctn">
                         <SearchBoxView
-                            class="o-search-box-ctn"
+                            className="o-search-box-ctn"
                             onAction={this.onSearchAction}
                             source="homepage" />
                         <VideoListView cate="TV" list={this.state.listTv} onVideoSelect={this.onVideoSelect} />
                         <div>
-                            <div class="o-category-banner w-component-card banner1" onClick={this.clickBanner.bind(this, 'tv', 'areas=美国')}></div>
-                            <div class="o-category-banner w-component-card banner2" onClick={this.clickBanner.bind(this, 'tv', 'categories=言情')}></div>
+                            <div className="o-category-banner w-component-card banner1" onClick={this.clickBanner.bind(this, 'tv', 'areas=美国')}></div>
+                            <div className="o-category-banner w-component-card banner2" onClick={this.clickBanner.bind(this, 'tv', 'categories=言情')}></div>
                             <FilterSectionView title={Wording.REGION} type="tv" filter="areas" />
                         </div>
                         <VideoListView cate="MOVIE" list={this.state.listMovie} onVideoSelect={this.onVideoSelect} />
                         <div>
-                            <div class="o-category-banner w-component-card banner3" onClick={this.clickBanner.bind(this, 'movie', 'categories=动作')}></div>
-                            <div class="o-category-banner w-component-card banner4" onClick={this.clickBanner.bind(this, 'movie', 'categories=偶像')}></div>
+                            <div className="o-category-banner w-component-card banner3" onClick={this.clickBanner.bind(this, 'movie', 'categories=动作')}></div>
+                            <div className="o-category-banner w-component-card banner4" onClick={this.clickBanner.bind(this, 'movie', 'categories=偶像')}></div>
                             <FilterSectionView title={Wording.MOVIE} type="movie" filter="categories" />
                         </div>
                         <VideoListView cate="COMIC" list={this.state.listComic} onVideoSelect={this.onVideoSelect} />
                         <div>
-                            <div class="o-category-banner w-component-card banner5" onClick={this.clickBanner.bind(this, 'comic', 'categories=神魔')}></div>
-                            <div class="o-category-banner w-component-card banner6" onClick={this.clickBanner.bind(this, 'comic', 'categories=loli')}></div>
+                            <div className="o-category-banner w-component-card banner5" onClick={this.clickBanner.bind(this, 'comic', 'categories=神魔')}></div>
+                            <div className="o-category-banner w-component-card banner6" onClick={this.clickBanner.bind(this, 'comic', 'categories=loli')}></div>
                             <FilterSectionView title={Wording.COMIC} type="comic" filter="categories" />
                         </div>
                         <VideoListView cate="VARIETY" list={this.state.listVariety} onVideoSelect={this.onVideoSelect} />
                         <div>
-                            <div class="o-category-banner w-component-card banner7" onClick={this.clickBanner.bind(this, 'variety', 'categories=访谈')}></div>
-                            <div class="o-category-banner w-component-card banner8" onClick={this.clickBanner.bind(this, 'variety', 'categories=选秀')}></div>
+                            <div className="o-category-banner w-component-card banner7" onClick={this.clickBanner.bind(this, 'variety', 'categories=访谈')}></div>
+                            <div className="o-category-banner w-component-card banner8" onClick={this.clickBanner.bind(this, 'variety', 'categories=选秀')}></div>
                             <FilterSectionView title={Wording.VARIETY} type="variety" filter="categories" />
                         </div>
                         <FooterView />

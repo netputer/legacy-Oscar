@@ -57,11 +57,11 @@
 
                 if (video && !this.state.loading) {
                     return (
-                        <div class={className} style={style} onClick={this.clickCtn} ref="ctn">
-                            <div class="o-series-panel-content w-vbox">
+                        <div className={className} style={style} onClick={this.clickCtn} ref="ctn">
+                            <div className="o-series-panel-content w-vbox">
                                 <SeriesHeaderView video={video} />
-                                <div class="body-ctn">
-                                    <div class="body">
+                                <div className="body-ctn">
+                                    <div className="body">
                                         {video.get('type') !== 'MOVIE' ? <DownloadListView video={video} /> :　''}
                                         <DescriptionView video={video} />
                                         <StillsView video={video} />
@@ -69,13 +69,13 @@
                                     </div>
                                     <ExtraInfoView video={video} />
                                 </div>
-                                <div class="o-close" onClick={this.props.closeDetailPanel} />
+                                <div className="o-close" onClick={this.props.closeDetailPanel} />
                             </div>
                         </div>
                     );
                 } else {
                     return (
-                        <div class={className} style={style} onClick={this.clickCtn} ref="ctn"><LoadingView /></div>
+                        <div className={className} style={style} onClick={this.clickCtn} ref="ctn"><LoadingView /></div>
                     );
                 }
             }

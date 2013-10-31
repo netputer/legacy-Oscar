@@ -53,14 +53,14 @@
 
                 if (this.props.video.get('pictures').s.length > 0) {
                     return (
-                        <div class="o-stills-ctn">
-                            <div class="header-ctn w-hbox">
-                                <div class="info">
-                                    <h5 class="w-text-secondary">{Wording.STILLS}<span class="count w-text-info h6">{FormatString(Wording.STILLS_COUNT, video.get('pictures').s.length)}</span></h5>
+                        <div className="o-stills-ctn">
+                            <div className="header-ctn w-hbox">
+                                <div className="info">
+                                    <h5 className="w-text-secondary">{Wording.STILLS}<span className="count w-text-info h6">{FormatString(Wording.STILLS_COUNT, video.get('pictures').s.length)}</span></h5>
                                 </div>
-                                <div class="navigator">
-                                    <div class={this.state.disablePrev ? 'prev disabled' : 'prev'} onClick={this.clickPrev} />
-                                    <div class={this.state.disableNext ? 'next disabled' : 'next'} onClick={this.clickNext} />
+                                <div className="navigator">
+                                    <div className={this.state.disablePrev ? 'prev disabled' : 'prev'} onClick={this.clickPrev} />
+                                    <div className={this.state.disableNext ? 'next disabled' : 'next'} onClick={this.clickNext} />
                                 </div>
                             </div>
                             {this.renderSmallPicture()}
@@ -78,7 +78,7 @@
                     return (
                         <li key={index}
                             style={style}
-                            class="o-stills-small-item o-mask"
+                            className="o-stills-small-item o-mask"
                             ref={"item" + index}
                             onClick={this.clickSmallStills.bind(this, index)}>
                         </li>
@@ -90,7 +90,7 @@
                 };
 
                 return (
-                    <ul class={this.state.showLarge ? 'o-stills-small-ctn w-cf hide' : 'o-stills-small-ctn w-cf'}
+                    <ul className={this.state.showLarge ? 'o-stills-small-ctn w-cf hide' : 'o-stills-small-ctn w-cf'}
                         ref="o-stills-small-ctn"
                         style={style}>
                         {item}

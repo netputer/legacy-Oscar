@@ -15,7 +15,7 @@
         var DotView = React.createClass({
             render : function () {
                 return (
-                    <div class="o-pagination-dot w-text-info" dangerouslySetInnerHTML={{ __html : '&middot;' }} />
+                    <div className="o-pagination-dot w-text-info" dangerouslySetInnerHTML={{ __html : '&middot;' }} />
                 );
             }
         });
@@ -62,14 +62,14 @@
                 }
 
                 if (this.props.total === 0) {
-                    return (<ul class="o-pagination-ctn" />);
+                    return (<ul className="o-pagination-ctn" />);
                 } else {
                     return (
-                        <div class="o-pagination-ctn w-text-primary">
-                            <a class={previousClass} onClick={this.goPrevious}>上一页</a>
+                        <div className="o-pagination-ctn w-text-primary">
+                            <a className={previousClass} onClick={this.goPrevious}>上一页</a>
                             <DotView />
                             {this.getPageCount(start, count)}
-                            <a class={nextClass} onClick={this.goNext}>下一页</a>
+                            <a className={nextClass} onClick={this.goNext}>下一页</a>
                         </div>
                     );
                 }
@@ -94,10 +94,10 @@
             getPageCount : function (start, count) {
                 var result = [];
                 if (this.props.current !== 1) {
-                    result.push(<a class="o-pagecount-item" onClick={this.onSelect.bind(this, 1)}>1</a>);
+                    result.push(<a className="o-pagecount-item" onClick={this.onSelect.bind(this, 1)}>1</a>);
                     result.push(<DotView />);
                 } else {
-                    result.push(<a class="o-pagecount-item current">1</a>);
+                    result.push(<a className="o-pagecount-item current">1</a>);
                     result.push(<DotView />);
                 }
 
@@ -118,9 +118,9 @@
                     var i;
                     for (i = start; i <= end; i ++) {
                         if (this.props.current !== i) {
-                            result.push(<a class="o-pagecount-item" onClick={this.onSelect.bind(this, i)}>{i}</a>);
+                            result.push(<a className="o-pagecount-item" onClick={this.onSelect.bind(this, i)}>{i}</a>);
                         } else {
-                            result.push(<a class="o-pagecount-item current">{i}</a>);
+                            result.push(<a className="o-pagecount-item current">{i}</a>);
                         }
                         result.push(<DotView />);
                     }
@@ -132,9 +132,9 @@
                 }
 
                 if (this.props.current !== this.props.total) {
-                    result.push(<a class="o-pagecount-item" onClick={this.onSelect.bind(this, this.props.total)}>{this.props.total}</a>);
+                    result.push(<a className="o-pagecount-item" onClick={this.onSelect.bind(this, this.props.total)}>{this.props.total}</a>);
                 } else {
-                    result.push(<a class="o-pagecount-item current" onClick={this.onSelect.bind(this, this.props.total)}>{this.props.total}</a>);
+                    result.push(<a className="o-pagecount-item current" onClick={this.onSelect.bind(this, this.props.total)}>{this.props.total}</a>);
                 }
 
                 result.push(<DotView />);

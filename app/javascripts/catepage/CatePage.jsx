@@ -197,9 +197,9 @@
             render : function () {
                 var loadingView = this.state.loading ? <LoadingView fixed="true" /> : '';
                 return (
-                    <div class="o-ctn">
+                    <div className="o-ctn">
                         <SearchBoxView
-                            class="o-search-box-ctn"
+                            className="o-search-box-ctn"
                             onAction={this.onSearchAction}
                             source={queryType} />
                         <h4>{queryType && Wording[queryType.toUpperCase()]}</h4>

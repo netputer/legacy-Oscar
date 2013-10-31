@@ -48,18 +48,18 @@
                     }
 
                     if (item.name) {
-                        return <li onClick={this.clickItem.bind(this, prop, item)} class={className} key={i}>{item.name}</li>
+                        return <li onClick={this.clickItem.bind(this, prop, item)} className={className} key={i}>{item.name}</li>
                     } else {
-                        return <li onClick={this.clickItem.bind(this, prop, item)} class={className} key={i}>{Number(item.begin) === 0 ? Wording.EARLY : item.begin}</li>
+                        return <li onClick={this.clickItem.bind(this, prop, item)} className={className} key={i}>{Number(item.begin) === 0 ? Wording.EARLY : item.begin}</li>
                     }
                 }, this);
 
                 var className = !this.props.filterSelected[prop] ? 'item selected' : 'item';
                 return (
-                    <li class="o-filter-cate-ctn">
-                        <span class="title w-text-info">{title}</span>
-                        <ul class="o-filter-cate w-text-secondary">
-                            <li onClick={this.clickItem.bind(this, prop, 'all')} class={className} >{Wording.ALL}</li>
+                    <li className="o-filter-cate-ctn">
+                        <span className="title w-text-info">{title}</span>
+                        <ul className="o-filter-cate w-text-secondary">
+                            <li onClick={this.clickItem.bind(this, prop, 'all')} className={className} >{Wording.ALL}</li>
                             {eles}
                         </ul>
                     </li>
@@ -87,14 +87,14 @@
                     if (item.type === 'rel' && this.props.filters.categories) {
                         return;
                     } else {
-                        return <li onClick={this.clickItem.bind(this, 'rank', item)} class={className} key={i}>{item.name}</li>
+                        return <li onClick={this.clickItem.bind(this, 'rank', item)} className={className} key={i}>{item.name}</li>
                     }
                 }, this);
 
                 return (
-                    <li class="o-filter-cate-ctn">
-                        <span class="title w-text-info">{Wording.SORT}</span>
-                        <ul class="o-filter-cate w-text-secondary">
+                    <li className="o-filter-cate-ctn">
+                        <span className="title w-text-info">{Wording.SORT}</span>
+                        <ul className="o-filter-cate w-text-secondary">
                             {eles}
                         </ul>
                     </li>
@@ -119,16 +119,16 @@
 
                 var eles = _.map(filters, function (item, i) {
                     var className = selected === item.type ? 'item selected' : 'item';
-                    return <li onClick={this.clickItem.bind(this, 'type', item)} class={className} key={i}>{item.name}</li>
+                    return <li onClick={this.clickItem.bind(this, 'type', item)} className={className} key={i}>{item.name}</li>
                 }, this);
 
                 var className = !selected ? 'item selected' : 'item';
 
                 return (
-                    <li class="o-filter-cate-ctn">
-                        <span class="title w-text-info">{Wording.CHANNEL}</span>
-                        <ul class="o-filter-cate w-text-secondary">
-                            <li onClick={this.clickItem.bind(this, 'type', '')} class={className}>{Wording.ALL}</li>
+                    <li className="o-filter-cate-ctn">
+                        <span className="title w-text-info">{Wording.CHANNEL}</span>
+                        <ul className="o-filter-cate w-text-secondary">
+                            <li onClick={this.clickItem.bind(this, 'type', '')} className={className}>{Wording.ALL}</li>
                             {eles}
                         </ul>
                     </li>
@@ -136,7 +136,7 @@
             },
             render : function () {
                 return (
-                    <ul class="o-filter-ctn">
+                    <ul className="o-filter-ctn">
                         {this.props.filters.categories ? '' : this.generateTypeEle()}
                         {this.props.filters.categories ? this.generateEle(Wording.CATEGORY, 'categories') : ''}
                         {this.generateEle(Wording.AREAS, 'areas')}

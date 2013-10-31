@@ -32,8 +32,8 @@
                     }, this);
 
                     return (
-                        <div class="o-search-result-ctn">
-                            <div class="summary h5 w-text-info">共 {this.props.total} 条搜索结果</div>
+                        <div className="o-search-result-ctn">
+                            <div className="summary h5 w-text-info">共 {this.props.total} 条搜索结果</div>
                             <ul>{listItemViews}</ul>
                             {loadingView}
                         </div>
@@ -42,7 +42,7 @@
                     if (this.props.loaded) {
                         return <WanxiaodouView data-tip={this.props.keyword} data-type="NO_SEARCH_RESULT" />;
                     } else {
-                        return <div class="o-search-result-ctn" />;
+                        return <div className="o-search-result-ctn" />;
                     }
                 }
             }
