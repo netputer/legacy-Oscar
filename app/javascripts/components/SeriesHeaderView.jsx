@@ -19,7 +19,7 @@
                 var data = this.props.video.toJSON();
 
                 var stillsBgStyle = {
-                    'background-image' : 'url(' + data.cover.s + ')'
+                    'background-image' : 'url(' + (data.cover.s || "") + ')'
                 };
 
                 return (
