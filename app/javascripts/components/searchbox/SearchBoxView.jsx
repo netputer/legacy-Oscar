@@ -33,7 +33,7 @@
             },
             render : function () {
                 return (
-                    <li class={'o-search-box-suggestion-item' + (this.props.model.get('selected') ? ' selected' : '')}
+                    <li className={'o-search-box-suggestion-item' + (this.props.model.get('selected') ? ' selected' : '')}
                         dangerouslySetInnerHTML={{__html : this.props.model.get('body')}}
                         onClick={this.clickItem} />
                 );
@@ -47,7 +47,7 @@
                 });
 
                 return (
-                    <ul class="o-search-box-suggestion"
+                    <ul className="o-search-box-suggestion"
                         style={{display : lists.length > 0 ? 'block' : 'none'}}>
                         {lists}
                     </ul>
@@ -170,11 +170,11 @@
             },
             render : function () {
                 return (
-                    <form class="o-search-box w-form-inline" action="search.html" method="get" onSubmit={this.submitForm}>
-                        <div class="o-search-box-wrap">
+                    <form className="o-search-box w-form-inline" action="search.html" method="get" onSubmit={this.submitForm}>
+                        <div className="o-search-box-wrap">
                             <input
                             ref="searchBoxInput"
-                                class="o-search-box-input w-form-inline w-input-large"
+                                className="o-search-box-input w-form-inline w-input-large"
                                 placeholder="搜索片名、演员、导演"
                                 type="text"
                                 name="keyword"
@@ -184,7 +184,7 @@
                                 onKeyDown={this.keypressInput} />
                             <SuggestionListView resultModels={this.state.resultModels} />
                         </div>
-                        <button class="w-btn w-btn-large w-btn-primary">搜索</button>
+                        <button className="w-btn w-btn-large w-btn-primary">搜索</button>
                     </form>
                 );
             }

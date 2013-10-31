@@ -36,18 +36,18 @@
 
                 if (hasDownload) {
                     return (
-                        <li class="item">
-                            <button class="button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
+                        <li className="item">
+                            <button className="button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
                             {count}
                             </button>
-                            <span class="size w-text-info w-wc">{ReadableSize(episode.downloadUrls[0].size)}</span>
+                            <span className="size w-text-info w-wc">{ReadableSize(episode.downloadUrls[0].size)}</span>
                         </li>
                     );
 
                 } else {
                     return (
-                        <li class="item">
-                            <button class="button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
+                        <li className="item">
+                            <button className="button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
                             {count}
                             </button>
                         </li>
@@ -89,12 +89,12 @@
                 };
 
                 return (
-                    <div class="o-download-list-ctn">
+                    <div className="o-download-list-ctn">
                         <h5>{Wording.EPISODE_DOWNLOAD}</h5>
-                        <ul class="list-ctn" ref="ctn" style={style}>
+                        <ul className="list-ctn" ref="ctn" style={style}>
                             {this.createList(episode)}
                         </ul>
-                        {episode.length > 12 && <span onClick={this.clickExpend} class="link">{Wording.LOAD_MORE}</span>}
+                        {episode.length > 12 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
                     </div>
                 );
             },

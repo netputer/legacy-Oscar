@@ -14,10 +14,10 @@
         var CommentItem = React.createClass({
             render : function () {
                 return (
-                    <li class="item">
-                        <div class="author w-text-info">{this.props.comment.author}</div>
-                        <div class="date w-text-info">{FormatDate('yyyy-MM-dd', this.props.comment.date)}</div>
-                        <div class="w-text-secondary">{this.props.comment.comment}</div>
+                    <li className="item">
+                        <div className="author w-text-info">{this.props.comment.author}</div>
+                        <div className="date w-text-info">{FormatDate('yyyy-MM-dd', this.props.comment.date)}</div>
+                        <div className="w-text-secondary">{this.props.comment.comment}</div>
                     </li>
                 );
             }
@@ -32,14 +32,14 @@
                     return (
                         <div>
                             <h5>{Wording.COMMENT}</h5>
-                            <ul class="o-comment-list">{commentsList}</ul>
+                            <ul className="o-comment-list">{commentsList}</ul>
                         </div>
                     );
                 } else {
                     return (
                         <div>
                             <h5>{Wording.COMMENT}</h5>
-                            <h6 class="w-text-info">{Wording.NO_DATA}</h6>
+                            <h6 className="w-text-info">{Wording.NO_DATA}</h6>
                         </div>
                     );
                 }

@@ -28,13 +28,13 @@
                 var data = this.props.video.toJSON();
 
                 return (
-                    <div class="info-container">
-                        <h4 class="title w-wc" dangerouslySetInnerHTML={{ __html : data.title }} onClick={this.props.onSelect}></h4>
+                    <div className="info-container">
+                        <h4 className="title w-wc" dangerouslySetInnerHTML={{ __html : data.title }} onClick={this.props.onSelect}></h4>
                         {this.getActorsEle()}
                         {this.getCateEle()}
                         {this.getRatingEle()}
-                        <div class="download-ctn w-hbox">
-                            <button class="button-download w-btn w-btn-primary" onClick={this.clickBtnDownload}>{Wording.DOWNLOAD}</button>
+                        <div className="download-ctn w-hbox">
+                            <button className="button-download w-btn w-btn-primary" onClick={this.clickBtnDownload}>{Wording.DOWNLOAD}</button>
                             {this.getProviderEle()}
                         </div>
                     </div>
@@ -45,7 +45,7 @@
         var PictureView = React.createClass({
             render : function () {
                 return (
-                    <ul class="thumb-container w-hbox">
+                    <ul className="thumb-container w-hbox">
                     {this.renderItems()}
                     </ul>
                 );
@@ -59,7 +59,7 @@
                 for (i = 0; i < len; i++) {
                     result.push(
                         <li
-                            class="thumb-item o-mask"
+                            className="thumb-item o-mask"
                             style={{ 'background-image' : 'url(' + pictures[i] + ')' }}
                             key={pictures[i]} />
                     );
@@ -76,8 +76,8 @@
             render : function () {
                 var data = this.props.video.toJSON();
                 return (
-                    <li class="o-list-item w-hbox w-component-card">
-                        <div class="o-mask item-cover"
+                    <li className="o-list-item w-hbox w-component-card">
+                        <div className="o-mask item-cover"
                             style={{ 'background-image' : 'url(' + data.cover.l + ')' }}
                             onClick={this.clickItem} />
                         <InfoView video={this.props.video} onSelect={this.clickItem} />

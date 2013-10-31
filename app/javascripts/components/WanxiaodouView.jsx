@@ -32,9 +32,9 @@
                 tip = FormatString(TYPE[type], [tip]);
 
                 return (
-                    <div class="o-wanxiaodou-container">
-                        <div class={className}></div>
-                        <span class="wanxiaodou-tip w-text-info" dangerouslySetInnerHTML={{__html : tip}}></span>
+                    <div className="o-wanxiaodou-container">
+                        <div className={className}></div>
+                        <span className="wanxiaodou-tip w-text-info" dangerouslySetInnerHTML={{__html : tip}}></span>
                     </div>
                 );
             }
