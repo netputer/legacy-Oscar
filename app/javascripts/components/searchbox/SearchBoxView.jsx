@@ -49,7 +49,7 @@
 
         var SuggestionListView = React.createClass({
             clickItem : function (keyword) {
-                this.props.clickHandler.call(this , keyword);
+                this.props.clickHandler.call(this , keyword, 'click');
             },
             render : function () {
                 var lists = _.map(this.props.resultModels, function (model) {
@@ -85,6 +85,13 @@
                             });
                         })
                     });
+                    GA.log({
+                        'event' : 'video.common.action',
+                        'action' : 'search_suggestion',
+                        'keyword' : evt.target.value,
+                        'type' : 'display',
+                        'pos' : this.props.source
+                    });
                 }.bind(this));
             },
             hideSuggestion : function () {
@@ -118,7 +125,7 @@
                     model.on('change:selected', this.modelChangeHander, this);
                 }, this);
             },
-            doSearch : function (key) {
+            doSearch : function (key, event) {
                 if(typeof key === 'string' && this.props.onAction) {
                     var keyword = key.replace('<em>', '').replace('</em>', '');
                     this.setState({
@@ -128,12 +135,16 @@
 
                     this.refs['searchBoxInput'].getDOMNode().value = keyword;
 
-                    GA.log({
-                        'event' : 'video.common.action',
-                        'action' : 'search',
-                        'keyword' : keyword,
-                        'pos' : this.props.source
-                    });
+                    if(event !== undefined && event !== 'submit') {
+                        GA.log({
+                            'event' : 'video.common.action',
+                            'action' : 'search_suggestion',
+                            'keyword' : keyword,
+                            'type' : 'click',
+                            'event' : event,
+                            'pos' : this.props.source
+                        });
+                    }
                 }
             },
             keypressInput : function (evt) {
@@ -155,7 +166,7 @@
                             return item.get('selected');
                         });
                         if (selectedItem !== undefined) {
-                            this.doSearch(selectedItem.get('body'));
+                            this.doSearch(selectedItem.get('body'), 'keyboard');
                         }
                     }
                     break;
@@ -201,7 +212,7 @@
             },
             submitForm : function (evt) {
                 evt.preventDefault();
-                this.doSearch(evt.target.keyword.value);
+                this.doSearch(evt.target.keyword.value, 'submit');
             },
             render : function () {
                 return (
