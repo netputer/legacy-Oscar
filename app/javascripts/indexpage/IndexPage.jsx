@@ -5,6 +5,7 @@
         'IO',
         'Actions',
         'Wording',
+        'GA',
         'mixins/FilterNullValues',
         'components/searchbox/SearchBoxView',
         'components/VideoListView',
@@ -15,6 +16,7 @@
         IO,
         Actions,
         Wording,
+        GA,
         FilterNullValues,
         SearchBoxView,
         VideoListView,
@@ -47,32 +49,42 @@
                     listMovie : [],
                     listComic : [],
                     listVariety : []
-                }
+                };
             },
             componentDidMount : function () {
-                queryAsync('tv').done(function (resp) {
+                var start = performance.timing.navigationStart;
+
+                $.when(queryAsync('tv').done(function (resp) {
                     this.setState({
                         listTv : resp.videoList
                     });
-                }.bind(this));
 
-                queryAsync('movie').done(function (resp) {
+                    GA.log({
+                        'event' : 'video.performance',
+                        'page' : 'index',
+                        'metric' : 'tti',
+                        'time' : new Date().getTime() - start
+                    });
+                }.bind(this)), queryAsync('movie').done(function (resp) {
                     this.setState({
                         listMovie : resp.videoList
                     });
-                }.bind(this));
-
-                queryAsync('comic').done(function (resp) {
+                }.bind(this)), queryAsync('comic').done(function (resp) {
                     this.setState({
                         listComic : resp.videoList
                     });
-                }.bind(this));
-
-                queryAsync('variety').done(function (resp) {
+                }.bind(this)), queryAsync('variety').done(function (resp) {
                     this.setState({
                         listVariety : resp.videoList
                     });
-                }.bind(this));
+                }.bind(this))).done(function () {
+                    GA.log({
+                        'event' : 'video.performance',
+                        'page' : 'index',
+                        'metric' : 'loaded',
+                        'time' : new Date().getTime() - start
+                    });
+                });
             },
             onSearchAction : function (query) {
                 $('<a>').attr({

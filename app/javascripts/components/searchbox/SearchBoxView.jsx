@@ -77,7 +77,8 @@
                 };
             },
             showSuggestion : function (evt) {
-                queryAsync(evt.target.value).done(function (resp) {
+                var value = evt.target.value;
+                queryAsync(value).done(function (resp) {
                     this.setState({
                         resultModels : _.map(resp, function (item) {
                             return new SuggestionItemModel({
@@ -88,7 +89,7 @@
                     GA.log({
                         'event' : 'video.common.action',
                         'action' : 'search_suggestion',
-                        'keyword' : evt.target.value,
+                        'keyword' : value,
                         'type' : 'display',
                         'pos' : this.props.source
                     });
