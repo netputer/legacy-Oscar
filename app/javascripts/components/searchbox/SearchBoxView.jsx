@@ -138,8 +138,9 @@
                     if(event !== undefined && event !== 'submit') {
                         GA.log({
                             'event' : 'video.common.action',
-                            'action' : 'search',
+                            'action' : 'search_suggestion',
                             'keyword' : keyword,
+                            'type' : 'click',
                             'event' : event,
                             'pos' : this.props.source
                         });
