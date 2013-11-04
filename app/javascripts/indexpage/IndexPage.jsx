@@ -35,6 +35,7 @@
                     rank_type : 'hot',
                     pos : 'w/indexpage',
                 },
+                timeout : 1000 * 20,
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -77,7 +78,7 @@
                     this.setState({
                         listVariety : resp.videoList
                     });
-                }.bind(this))).done(function () {
+                }.bind(this))).always(function () {
                     GA.log({
                         'event' : 'video.performance',
                         'page' : 'index',
