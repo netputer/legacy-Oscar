@@ -21,9 +21,9 @@
 
         var ElementsGenerator = {
 
-            clickButtonDownload : function (source, subscribeUrl) {
+            clickButtonDownload : function (source, video) {
                 DownloadHelper.download(this.props.video.get('videoEpisodes'));
-                this.showSubscribeBubble('download_all', subscribeUrl);
+                this.showSubscribeBubble('download_all', video);
                 GA.log({
                     'event' : 'video.download.action',
                     'action' : 'btn_click',
@@ -32,18 +32,26 @@
                     'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : ''
                 });
             },
-            showSubscribeBubble : function (source, subscribeUrl) {
+            showSubscribeBubble : function (source, video) {
                 if (this.props.subscribed === 0) {
                     this.bubbleView.setState({
                         show : true,
                         source : source
                     });
                     if (source === 'subscribe') {
-                        this.bubbleView.doSubscribe(subscribeUrl);
+                        this.bubbleView.doSubscribe(video, source);
                     }
+
+                    GA.log({
+                        'event' : 'video.misc.action',
+                        'action' : 'subscribe_popup',
+                        'type' : 'display',
+                        'pos' : source,
+                        'video_id' : this.props.video.id
+                    });
                 } else {
                     if (source === 'subscribe') {
-                        this.bubbleView.doUnsubscribe(subscribeUrl);
+                        this.bubbleView.doUnsubscribe(video);
                     }
                 }
             },
@@ -86,7 +94,7 @@
                     text = Wording.SUBSCRIBE;
                 }
 
-                return <button class="button-subscribe w-btn" onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video.get('subscribeUrl'))} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
+                return <button class="button-subscribe w-btn" onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video)} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
             },
             getActorsEle : function () {
                 var text = '';

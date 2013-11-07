@@ -130,10 +130,17 @@
             },
             showSubscribeBubble : function () {
                 if (this.bubbleView.state !== null && !this.bubbleView.state.show && this.props.video.get('subscribeUrl') !== undefined) {
-                        this.bubbleView.setState({
-                            show : true,
-                            source : 'episode'
-                        });
+                    this.bubbleView.setState({
+                        show : true,
+                        source : 'episode'
+                    });
+                    GA.log({
+                        'event' : 'video.misc.action',
+                        'action' : 'subscribe_popup',
+                        'type' : 'display',
+                        'pos' : 'download_newest',
+                        'video_id' : this.props.video.id
+                    });
                 }
             }
         });

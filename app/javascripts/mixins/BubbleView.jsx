@@ -25,10 +25,17 @@
             getBubbleClassName : function (className) {
                 return this.state.show ? ('bubble ' + className + ' show') : ('bubble ' + className);
             },
-            closeBubble : function () {
+            closeBubble : function (type) {
                 this.setState({
                     show : false,
                     source : ''
+                });
+                GA.log({
+                    'event' : 'video.misc.action',
+                    'action' : 'subscribe_popup',
+                    'type' : type,
+                    'pos' : 'bubble_button',
+                    'video_id' : this.props.video !== undefined ? this.props.video.id : ''
                 });
             }
         }
