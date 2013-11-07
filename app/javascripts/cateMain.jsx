@@ -63,7 +63,8 @@
             if (id) {
                 seriesDetailPanelView.setState({
                     show : true,
-                    loading : true
+                    loading : true,
+                    subscribed : 0
                 });
 
                 queryAsync(id).done(function (resp) {

@@ -5,16 +5,39 @@
         'React',
         'Wording',
         'utilities/FormatString',
-        'mixins/ElementsGenerator'
+        'mixins/ElementsGenerator',
+        'components/SubscribeBubbleView'
     ], function (
         React,
         Wording,
         FormatString,
-        ElementsGenerator
+        ElementsGenerator,
+        SubscribeBubbleView
     ) {
 
         var SeriesHeaderView = React.createClass({
             mixins : [ElementsGenerator],
+            componentWillMount : function () {
+                this.bubbleView = <SubscribeBubbleView video={this.props.video} subscribeHandler={this.subscribeCallback} />
+            },
+            componentDidMount : function () {
+                if (this.props.video.get('subscribeUrl') !== undefined) {
+                    $.ajax({
+                        url : 'http://feed.wandoujia.com/api/v1/subscription/subscribed',
+                        data : {
+                            uri : this.props.video.get('subscribeUrl')
+                        },
+                        success : function (data) {
+                            if (data === 'true') {
+                                this.props.subscribeHandler.call(this, 1);
+                            }
+                        }.bind(this)
+                    });
+                }
+            },
+            subscribeCallback : function (statusCode) {
+                this.props.subscribeHandler.call(this, statusCode);
+            },
             render : function () {
                 var data = this.props.video.toJSON();
 
@@ -33,6 +56,8 @@
                                 {this.getRatingEle()}
                                 <div className="download-info">
                                     {this.getDownloadBtn('download_all')}
+                                    {this.getSubscribeBtn('subscribe')}
+                                    {this.bubbleView}
                                 </div>
                             </div>
                         </div>
