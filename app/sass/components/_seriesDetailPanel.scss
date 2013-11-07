@@ -1,6 +1,7 @@
 @import "components/stills";
 @import "components/downloadList";
 @import "components/comment";
+@import "components/bubble";
 
 .o-series-panel {
     background-color: rgba(0, 0, 0, .4);
@@ -78,7 +79,7 @@
             -webkit-box-flex: 1;
             -webkit-box-pack: end;
 
-            .button-download {
+            .button-download, .button-subscribe {
                 margin-top: 10px;
             }
         }

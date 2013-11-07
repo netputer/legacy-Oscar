@@ -7,26 +7,52 @@
         'Wording',
         'GA',
         'main/DownloadHelper',
-        'utilities/FormatString'
+        'utilities/FormatString',
+        'components/SubscribeBubbleView'
     ], function (
         React,
         _,
         Wording,
         GA,
         DownloadHelper,
-        FormatString
+        FormatString,
+        SubscribeBubbleView
     ) {
-        var ElementsGenerator = {
-            clickButtonDownload : function (source) {
-                DownloadHelper.download(this.props.video.get('videoEpisodes'));
 
+        var ElementsGenerator = {
+
+            clickButtonDownload : function (source, subscribeUrl) {
+                DownloadHelper.download(this.props.video.get('videoEpisodes'));
+                this.showSubscribeBubble('download_all', subscribeUrl);
                 GA.log({
                     'event' : 'video.download.action',
                     'action' : 'btn_click',
                     'pos' : source,
                     'video_id' : this.props.video.id,
-                    'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName
+                    'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : ''
                 });
+            },
+            showSubscribeBubble : function (source, subscribeUrl) {
+                if (this.props.subscribed === 0) {
+                    this.bubbleView.setState({
+                        show : true,
+                        source : source
+                    });
+                    if (source === 'subscribe') {
+                        this.bubbleView.doSubscribe(subscribeUrl);
+                    }
+                } else {
+                    if (source === 'subscribe') {
+                        this.bubbleView.doUnsubscribe(subscribeUrl);
+                    }
+                }
+            },
+            mouseEvent : function (evt) {
+                if (evt === 'onMouseEnter' && this.props.subscribed === 1) {
+                    this.subscribeCallback.call(this, -1);
+                } else if (evt == 'onMouseLeave' && this.props.subscribed === -1) {
+                    this.subscribeCallback.call(this, 1);
+                }
             },
             getProviderEle : function () {
                 var text = this.props.video.get('providerNames').join(' / ');
@@ -45,7 +71,22 @@
                     break;
                 }
 
-                return <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>{text}</button>
+                return <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.video.get('subscribeUrl'))}>{text}</button>
+            },
+            getSubscribeBtn : function (source) {
+                var text;
+                if (this.props.video.get('subscribeUrl') === undefined) {
+                    return false;
+                }
+                if (this.props.subscribed === 1) {
+                    text = Wording.SUBSCRIBING;
+                } else if (this.props.subscribed === -1) {
+                    text = Wording.UNSUBSCRIBE;
+                } else {
+                    text = Wording.SUBSCRIBE;
+                }
+
+                return <button class="button-subscribe w-btn" onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video.get('subscribeUrl'))} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
             },
             getActorsEle : function () {
                 var text = '';
