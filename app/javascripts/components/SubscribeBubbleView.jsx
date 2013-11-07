@@ -20,7 +20,6 @@
             mixins : [BubbleView],
             doSubscribe : function (video, source) {
                var uri;
-
                uri = typeof video === 'object' ? video.get('subscribeUrl') : this.props.video.get('subscribeUrl');
 
                 $.ajax({
