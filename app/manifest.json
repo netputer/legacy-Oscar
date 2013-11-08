@@ -10,7 +10,8 @@
         "device",
         "window",
         "apps",
-        "video"
+        "video",
+        "account"
     ],
     "permissions": [
         "file:///*/*"
