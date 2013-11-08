@@ -58,7 +58,8 @@
         indexPageRouter.on('route:detail', function (query) {
             seriesDetailPanelView.setState({
                 show : true,
-                loading : true
+                loading : true,
+                subscribed : 0
             });
 
             queryAsync(query).done(function (resp) {

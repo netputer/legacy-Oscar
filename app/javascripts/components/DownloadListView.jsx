@@ -9,7 +9,8 @@
         'utilities/FormatString',
         'utilities/FormatDate',
         'utilities/ReadableSize',
-        'main/DownloadHelper'
+        'main/DownloadHelper',
+        'components/SubscribeBubbleView'
     ], function (
         React,
         _,
@@ -19,7 +20,8 @@
         FormatString,
         FormatDate,
         ReadableSize,
-        DownloadHelper
+        DownloadHelper,
+        SubscribeBubbleView
     ) {
 
         var ItemView = React.createClass({
@@ -58,6 +60,9 @@
                 var episode = this.props.episode;
                 if (!!episode.downloadUrls) {
                     DownloadHelper.download([episode]);
+                    if (this.props.key === 0) {
+                        this.props.clickHandler.call(this, true);
+                    }
                 }
                 GA.log({
                     'event' : 'video.download.action',
@@ -76,13 +81,20 @@
                     expendIndex : 0
                 };
             },
+            componentWillMount : function () {
+                this.bubbleView = <SubscribeBubbleView video={this.props.video} subscribeHandler={this.subscribeCallback} />
+            },
             componentWillReceiveProps : function () {
                 this.setState({
                     expendIndex : 0
                 });
             },
+            subscribeCallback : function (statusCode) {
+                this.props.subscribeHandler.call(this, statusCode);
+            },
             render : function () {
                 var episode = this.props.video.get('videoEpisodes');
+
 
                 var style = {
                     'max-height' : 42 * 5 * this.state.expendIndex + 84
@@ -95,6 +107,7 @@
                             {this.createList(episode)}
                         </ul>
                         {episode.length > 12 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
+                        {this.bubbleView}
                     </div>
                 );
             },
@@ -110,10 +123,25 @@
             },
             createList : function (videoEpisodes) {
                 var listItems = _.map(videoEpisodes, function (item, i) {
-                    return <ItemView episode={item} key={i} />;
-                });
+                    return <ItemView episode={item} key={i} clickHandler={this.showSubscribeBubble} />;
+                }.bind(this));
 
                 return listItems;
+            },
+            showSubscribeBubble : function () {
+                if (this.bubbleView.state !== null && !this.bubbleView.state.show && this.props.video.get('subscribeUrl') !== undefined) {
+                    this.bubbleView.setState({
+                        show : true,
+                        source : 'episode'
+                    });
+                    GA.log({
+                        'event' : 'video.misc.action',
+                        'action' : 'subscribe_popup',
+                        'type' : 'display',
+                        'pos' : 'download_newest',
+                        'video_id' : this.props.video.id
+                    });
+                }
             }
         });
 

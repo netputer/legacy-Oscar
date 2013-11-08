@@ -28,7 +28,8 @@
         var SeriesDetailPanelView = React.createClass({
             getInitialState : function () {
                 return {
-                    show : false
+                    show : false,
+                    subscribed : 0
                 };
             },
             componentDidMount : function () {
@@ -43,6 +44,11 @@
                 if (evt.nativeEvent.srcElement.contains(this.refs.ctn.getDOMNode())) {
                     this.props.closeDetailPanel()
                 }
+            },
+            isSubscribed : function (statusCode) {
+                this.setState({
+                    subscribed : statusCode
+                });
             },
             render : function () {
                 $('body').toggleClass('overflow', this.state.show);
@@ -59,10 +65,10 @@
                     return (
                         <div className={className} style={style} onClick={this.clickCtn} ref="ctn">
                             <div className="o-series-panel-content w-vbox">
-                                <SeriesHeaderView video={video} />
+                                <SeriesHeaderView video={video} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
                                 <div className="body-ctn">
                                     <div className="body">
-                                        {video.get('type') !== 'MOVIE' ? <DownloadListView video={video} /> :　''}
+                                        {video.get('type') !== 'MOVIE' ? <DownloadListView video={video} subscribeHandler={this.isSubscribed} /> :　''}
                                         <DescriptionView video={video} />
                                         <StillsView video={video} />
                                         <CommentaryView comments={video.get('marketComments')[0].comments} />
