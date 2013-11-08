@@ -3,15 +3,29 @@
     define([
         'Backbone',
         '$',
-        '_'
+        '_',
+        'MessageRouterMixin',
+        'BackendSocket'
     ], function (
         Backbone,
         $,
-        _
+        _,
+        MessageRouterMixin,
+        BackendSocket
     ) {
-        var IO = {};
+        var IO = _.extend({}, Backbone.Events);
 
-        IO.Backend = {};
+        MessageRouterMixin.mixin(IO);
+
+        IO.Backend = _.extend({}, Backbone.Events);
+
+        MessageRouterMixin.mixin(IO.Backend);
+
+        IO.Backend.socket = new BackendSocket('wdjs://window/events');
+
+        IO.Backend.socket.onmessage = function (message) {
+            IO.Backend.trigger('message', message);
+        };
 
         IO.Backend.requestAsync = function (url, options) {
             var deferred = $.Deferred();
@@ -61,7 +75,10 @@
             return deferred.promise();
         };
 
-        IO.Cloud = {};
+        IO.Cloud = _.extend({}, Backbone.Events);
+
+        MessageRouterMixin.mixin(IO.Cloud);
+
         IO.Cloud.requestAsync = $.ajax;
 
         /* these are short-cuts for Backend and Cloud */
@@ -83,6 +100,14 @@
                     IO.Backend.requestAsync.apply(IO.Backend, arguments) :
                     IO.Cloud.requestAsync.apply(IO.Cloud, arguments);
         };
+
+        /* global `onmessage` event will merge streams into one and append source property */
+        IO.Backend.on('message', function (event) {
+            IO.trigger('message', _.extend(event, { source : 'backend' }));
+        });
+        IO.Cloud.on('message', function (event) {
+            IO.trigger('message', _.extend(event, { source : 'cloud' }));
+        });
 
         // Override the sync API of Backbone.js
         if (Backbone && Backbone.sync) {
