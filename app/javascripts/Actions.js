@@ -6,9 +6,15 @@
         var Actions = {
             actions : {
                 VIDEO_DOWNLOAD : 'wdj://video/download.json',
+                ACCOUNT_LOGIN : 'wdj://account/login.json',
+                ACCOUNT_INFO : 'wdj://account/account_info.json',
+
                 SEARCH : 'http://oscar.wandoujia.com/api/v1/search/',
                 QUERY_TYPE : 'http://oscar.wandoujia.com/api/v1/typeOptFields/',
                 QUERY_SERIES : 'http://oscar.wandoujia.com/api/v1/videos/'
+            },
+            events : {
+                ACCOUNT_STATE_CHANGE : 'account.state_changed',
             },
             enums : {
                 source : 'windows'
