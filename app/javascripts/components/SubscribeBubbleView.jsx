@@ -6,6 +6,7 @@
         '_',
         '$',
         'Wording',
+        'Account',
         'mixins/BubbleView',
         'GA'
     ], function (
@@ -13,14 +14,28 @@
         _,
         $,
         Wording,
+        Account,
         BubbleView,
         GA
     ) {
+
+        var isLogin = Account.get('isLogin');
+
+        Account.on('change', function() {
+            isLogin = Account.get('isLogin');
+        });
+
         var SubscribeBubbleView = React.createClass({
             mixins : [BubbleView],
             doSubscribe : function (video, source) {
-               var uri;
-               uri = typeof video === 'object' ? video.get('subscribeUrl') : this.props.video.get('subscribeUrl');
+
+                if (!isLogin) {
+                    Account.loginAsync();
+                    return false;
+                }
+
+                var uri;
+                uri = typeof video === 'object' ? video.get('subscribeUrl') : this.props.video.get('subscribeUrl');
 
                 $.ajax({
                     url : 'http://feed.wandoujia.com/api/v1/subscription/add',
