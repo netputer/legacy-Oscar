@@ -8,7 +8,6 @@
         'GA',
         'main/DownloadHelper',
         'utilities/FormatString',
-        'Account',
         'components/SubscribeBubbleView'
     ], function (
         React,
@@ -17,14 +16,8 @@
         GA,
         DownloadHelper,
         FormatString,
-        Account,
         SubscribeBubbleView
     ) {
-        var isLogin = Account.get('isLogin');
-
-        Account.on('change', function() {
-            isLogin = Account.get('isLogin');
-        });
 
         var ElementsGenerator = {
 
@@ -40,12 +33,6 @@
                 });
             },
             showSubscribeBubble : function (source, video) {
-
-                if (source === 'subscribe' && !isLogin) {
-                    Account.loginAsync();
-                    return false;
-                }
-
                 if (this.props.subscribed === 0) {
                     this.bubbleView.setState({
                         show : true,
