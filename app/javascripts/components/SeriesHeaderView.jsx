@@ -25,11 +25,14 @@
                     $.ajax({
                         url : 'http://feed.wandoujia.com/api/v1/subscription/subscribed',
                         data : {
-                            uri : this.props.video.get('subscribeUrl')
+                            uri : this.props.video.get('subscribeUrl'),
+                            user : 'device_only'
                         },
                         success : function (data) {
                             if (data === 'true') {
                                 this.props.subscribeHandler.call(this, 1);
+                            } else {
+                                this.props.subscribeHandler.call(this, 0);
                             }
                         }.bind(this)
                     });
@@ -40,7 +43,6 @@
             },
             render : function () {
                 var data = this.props.video.toJSON();
-
                 var stillsBgStyle = {
                     'background-image' : 'url(' + (data.cover.s || "") + ')'
                 };

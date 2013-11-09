@@ -29,7 +29,7 @@
             getInitialState : function () {
                 return {
                     show : false,
-                    subscribed : 0
+                    subscribed : -2
                 };
             },
             componentDidMount : function () {
@@ -68,7 +68,7 @@
                                 <SeriesHeaderView video={video} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
                                 <div className="body-ctn">
                                     <div className="body">
-                                        {video.get('type') !== 'MOVIE' ? <DownloadListView video={video} subscribeHandler={this.isSubscribed} /> :　''}
+                                        {video.get('type') !== 'MOVIE' ? <DownloadListView subscribed={this.state.subscribed} video={video} subscribeHandler={this.isSubscribed} /> :　''}
                                         <DescriptionView video={video} />
                                         <StillsView video={video} />
                                         <CommentaryView comments={video.get('marketComments')[0].comments} />

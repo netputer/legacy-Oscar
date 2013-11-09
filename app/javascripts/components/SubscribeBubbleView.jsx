@@ -25,7 +25,8 @@
                 $.ajax({
                     url : 'http://feed.wandoujia.com/api/v1/subscription/add',
                     data : {
-                        uri : uri
+                        uri : uri,
+                        user : 'device_only'
                     },
                     complete : function (xhr) {
                         if (xhr.status === 200) {
@@ -52,7 +53,8 @@
                 $.ajax({
                     url : 'http://feed.wandoujia.com/api/v1/subscription/remove',
                     data : {
-                        uri : video.get('subscribeUrl')
+                        uri : video.get('subscribeUrl'),
+                        user : 'device_only'
                     },
                     complete : function (xhr) {
                         if (xhr.status === 200) {
