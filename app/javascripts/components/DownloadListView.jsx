@@ -129,6 +129,9 @@
                 return listItems;
             },
             showSubscribeBubble : function () {
+                if (this.props.subscribed === -2) {
+                    return false;
+                }
                 if (this.bubbleView.state !== null && !this.bubbleView.state.show && this.props.video.get('subscribeUrl') !== undefined) {
                     this.bubbleView.setState({
                         show : true,

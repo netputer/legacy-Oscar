@@ -64,7 +64,7 @@
                 seriesDetailPanelView.setState({
                     show : true,
                     loading : true,
-                    subscribed : 0
+                    subscribed : -2
                 });
 
                 queryAsync(id).done(function (resp) {

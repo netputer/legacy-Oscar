@@ -23,7 +23,9 @@
 
             clickButtonDownload : function (source, video) {
                 DownloadHelper.download(this.props.video.get('videoEpisodes'));
-                this.showSubscribeBubble('download_all', video);
+                if (this.props.subscribed !== -2) {
+                    this.showSubscribeBubble('download_all', video);
+                }
                 GA.log({
                     'event' : 'video.download.action',
                     'action' : 'btn_click',
@@ -83,7 +85,7 @@
             },
             getSubscribeBtn : function (source) {
                 var text;
-                if (this.props.video.get('subscribeUrl') === undefined) {
+                if (this.props.video.get('subscribeUrl') === undefined || this.props.subscribed === -2) {
                     return false;
                 }
                 if (this.props.subscribed === 1) {
