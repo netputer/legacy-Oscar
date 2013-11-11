@@ -144,9 +144,11 @@
                 }, this);
             },
             onSearchAction : function (keyword) {
-                searchPageRouter.navigate('q/' + keyword, {
-                    trigger : true
-                });
+                if (keyword.length) {
+                    searchPageRouter.navigate('q/' + keyword, {
+                        trigger : true
+                    });
+                }
             },
             onPaginationSelect : function (target) {
                 this.queryAsync(this.state.query, target).done(function () {

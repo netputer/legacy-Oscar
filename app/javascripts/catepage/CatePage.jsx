@@ -185,9 +185,11 @@
                 window.location.hash = queryType + '/detail/' + id;
             },
             onSearchAction : function (query) {
-                $('<a>').attr({
-                    href : 'search.html#q/' + query
-                })[0].click();
+                if (query.length) {
+                    $('<a>').attr({
+                        href : 'search.html#q/' + query
+                    })[0].click();
+                }
             },
             onPaginationSelect : function (page) {
                 this.doSearchAsync(page).done(function () {
