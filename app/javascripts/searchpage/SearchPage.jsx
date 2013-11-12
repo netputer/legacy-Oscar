@@ -164,7 +164,6 @@
                 });
             },
             onFilterSelect : function (prop, item) {
-                console.log(item)
                 switch (prop) {
                 case 'years':
                     if (!item) {
