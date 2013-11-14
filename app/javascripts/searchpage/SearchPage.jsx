@@ -4,6 +4,7 @@
         'React',
         'IO',
         'Actions',
+        'Wording',
         'mixins/FilterNullValues',
         'utilities/QueryString',
         'components/searchbox/SearchBoxView',
@@ -17,6 +18,7 @@
         React,
         IO,
         Actions,
+        Wording,
         FilterNullValues,
         QueryString,
         SearchBoxView,
@@ -32,6 +34,7 @@
         var queryType;
         var queryRegion = QueryString.get('areas') || '';
         var queryYear = QueryString.get('year') || '';
+        var queryYearText;
         var queryRankType = 'rel';
 
         var searchPageRouter = SearchPageRouter.getInstance();
@@ -144,9 +147,11 @@
                 }, this);
             },
             onSearchAction : function (keyword) {
-                searchPageRouter.navigate('q/' + keyword, {
-                    trigger : true
-                });
+                if (keyword.length) {
+                    searchPageRouter.navigate('q/' + keyword, {
+                        trigger : true
+                    });
+                }
             },
             onPaginationSelect : function (target) {
                 this.queryAsync(this.state.query, target).done(function () {
@@ -163,11 +168,16 @@
                 case 'years':
                     if (!item) {
                         queryYear = '';
-                    } else {
-                        if (typeof item === 'string') {
+                        queryYearText = '';
+                    } else if (typeof item === 'string') {
                             queryYear = '';
-                        } else {
+                            queryYearText = '';
+                    } else {
+                        queryYearText = item.name;
+                        if (item.name !== undefined && item.name.indexOf(Wording.TIME) > 0) {
                             queryYear = item.begin + '-' + item.end;
+                        } else {
+                            queryYear = item.name;
                         }
                     }
                     break;
@@ -190,7 +200,7 @@
                     filterSelected : {
                         type : queryType,
                         areas : queryRegion,
-                        years : queryYear,
+                        years : queryYearText,
                         rank : queryRankType,
                         currentPage : 1,
                         pageTotal : 0

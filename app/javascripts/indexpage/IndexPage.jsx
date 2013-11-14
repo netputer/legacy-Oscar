@@ -88,9 +88,11 @@
                 });
             },
             onSearchAction : function (query) {
-                $('<a>').attr({
-                    href : 'search.html#q/' + query
-                })[0].click();
+                if (query.length) {
+                    $('<a>').attr({
+                        href : 'search.html#q/' + query
+                    })[0].click();
+                }
             },
             onVideoSelect : function (id) {
                 window.location.hash = '#detail/' + id;

@@ -37,6 +37,7 @@
         var queryCategories = QueryString.get('categories') || '';
         var queryRegion = QueryString.get('areas') || '';
         var queryYear = QueryString.get('year') || '';
+        var queryYearText;
         var queryRankType = 'hot';
 
         var resetParams = function () {
@@ -141,11 +142,16 @@
                 case 'years':
                     if (!item) {
                         queryYear = '';
-                    } else {
-                        if (typeof item === 'string') {
+                        queryYearText = '';
+                    } else if (typeof item === 'string') {
                             queryYear = '';
-                        } else {
+                            queryYearText = '';
+                    } else {
+                        queryYearText = item.name;
+                        if (item.name !== undefined && item.name.indexOf(Wording.TIME) > 0) {
                             queryYear = item.begin + '-' + item.end;
+                        } else {
+                            queryYear = item.name;
                         }
                     }
                     break;
@@ -174,7 +180,7 @@
                         pageTotal : 0,
                         categories : queryCategories,
                         areas : queryRegion,
-                        years : queryYear,
+                        years : queryYearText,
                         rank : queryRankType
                     }
                 });
@@ -185,9 +191,11 @@
                 window.location.hash = queryType + '/detail/' + id;
             },
             onSearchAction : function (query) {
-                $('<a>').attr({
-                    href : 'search.html#q/' + query
-                })[0].click();
+                if (query.length) {
+                    $('<a>').attr({
+                        href : 'search.html#q/' + query
+                    })[0].click();
+                }
             },
             onPaginationSelect : function (page) {
                 this.doSearchAsync(page).done(function () {
