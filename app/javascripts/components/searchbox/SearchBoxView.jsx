@@ -162,11 +162,11 @@
                     break;
                 case KeyMapping.ENTER:
                     if (resultModels.length > 0) {
-                        evt.preventDefault();
                         selectedItem = _.find(resultModels, function (item) {
                             return item.get('selected');
                         });
                         if (selectedItem !== undefined) {
+                            evt.preventDefault();
                             this.doSearch(selectedItem.get('body'), 'keyboard');
                         }
                     }
