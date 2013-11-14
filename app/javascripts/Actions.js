@@ -11,7 +11,9 @@
 
                 SEARCH : 'http://oscar.wandoujia.com/api/v1/search/',
                 QUERY_TYPE : 'http://oscar.wandoujia.com/api/v1/typeOptFields/',
-                QUERY_SERIES : 'http://oscar.wandoujia.com/api/v1/videos/'
+                QUERY_SERIES : 'http://oscar.wandoujia.com/api/v1/videos/',
+
+                TOPIC : 'http://oscar.wandoujia.com/api/v1/topics'
             },
             events : {
                 ACCOUNT_STATE_CHANGE : 'account.state_changed',
