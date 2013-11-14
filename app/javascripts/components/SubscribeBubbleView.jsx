@@ -38,10 +38,14 @@
                             }
                             GA.log({
                                 'event' : 'video.misc.action',
-                                'action' : 'subscribe_popup',
+                                'action' : source === 'subscribe' ? 'subscribe' : 'subscribe_popup',
                                 'type' : 'subscribe',
-                                'pos' : source !== undefined ? source : 'episode',
-                                'video_id' : typeof video === 'object' ? video.id : this.props.video.id
+                                'pos' : source === 'subscribe' ? 'detail' : 'popup',
+                                'video_id' : typeof video === 'object' ? video.id : this.props.video.id,
+                                'video_title' : typeof video === 'object' ? video.title : this.props.video.title,
+                                'video_type' : typeof video === 'object' ? video.type : this.props.video.type,
+                                'video_category' : typeof video === 'object' ? video.categories : this.props.video.categories,
+                                'video_area' : typeof video === 'object' ? video.region : this.props.video.region
                             });
 
                         }
@@ -65,10 +69,14 @@
                             });
                             GA.log({
                                 'event' : 'video.misc.action',
-                                'action' : 'subscribe_popup',
+                                'action' : 'subscribe',
                                 'type' : 'unsubscribe',
                                 'pos' :  'subscribe',
-                                'video_id' : video.id
+                                'video_id' : video.id,
+                                'video_title' : video.title,
+                                'video_type' : video.type,
+                                'video_category' : video.categories,
+                                'video_area' : video.region
                             });
                         }
                     }.bind(this)

@@ -33,20 +33,24 @@
                 });
             },
             clickPrev : function () {
-                var smallIndex = Math.max(this.state.smallIndex - 1, 0);
-                this.setState({
-                    smallIndex : smallIndex,
-                    disablePrev : smallIndex === 0,
-                    disableNext : smallIndex === (this.props.video.get('pictures').s.length - 4)
-                });
+                if (!this.state.disablePrev) {
+                    var smallIndex = Math.max(this.state.smallIndex - 1, 0);
+                    this.setState({
+                        smallIndex : smallIndex,
+                        disablePrev : smallIndex === 0,
+                        disableNext : smallIndex === (this.props.video.get('pictures').s.length - 4)
+                    });
+                }
             },
             clickNext : function () {
-                var smallIndex = Math.min(this.state.smallIndex + 1, this.props.video.get('pictures').l.length - 4);
-                this.setState({
-                    smallIndex : smallIndex,
-                    disablePrev : smallIndex === 0,
-                    disableNext : smallIndex === (this.props.video.get('pictures').s.length - 4)
-                });
+                if (!this.state.disableNext) {
+                    var smallIndex = Math.min(this.state.smallIndex + 1, this.props.video.get('pictures').l.length - 4);
+                    this.setState({
+                        smallIndex : smallIndex,
+                        disablePrev : smallIndex === 0,
+                        disableNext : smallIndex === (this.props.video.get('pictures').s.length - 4)
+                    });
+                }
             },
             render : function () {
                 var video = this.props.video;
