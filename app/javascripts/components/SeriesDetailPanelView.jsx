@@ -61,27 +61,33 @@
 
                 var video = this.props.video;
 
-                if (video && !this.state.loading) {
-                    return (
-                        <div className={className} style={style} onClick={this.clickCtn} ref="ctn">
-                            <div className="o-series-panel-content w-vbox">
-                                <SeriesHeaderView video={video} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
-                                <div className="body-ctn">
-                                    <div className="body">
-                                        {video.get('type') !== 'MOVIE' ? <DownloadListView subscribed={this.state.subscribed} video={video} subscribeHandler={this.isSubscribed} /> :　''}
-                                        <DescriptionView video={video} />
-                                        <StillsView video={video} />
-                                        <CommentaryView comments={video.get('marketComments')[0].comments} />
+                if (video) {
+                    if (!this.state.loading) {
+                        return (
+                            <div className={className} style={style} onClick={this.clickCtn} ref="ctn">
+                                <div className="o-series-panel-content w-vbox">
+                                    <SeriesHeaderView video={video} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
+                                    <div className="body-ctn">
+                                        <div className="body">
+                                            {video.get('type') !== 'MOVIE' ? <DownloadListView subscribed={this.state.subscribed} video={video} subscribeHandler={this.isSubscribed} /> :　''}
+                                            <DescriptionView video={video} />
+                                            <StillsView video={video} />
+                                            <CommentaryView comments={video.get('marketComments')[0].comments} />
+                                        </div>
+                                        <ExtraInfoView video={video} />
                                     </div>
-                                    <ExtraInfoView video={video} />
+                                    <div className="o-close" onClick={this.props.closeDetailPanel} />
                                 </div>
-                                <div className="o-close" onClick={this.props.closeDetailPanel} />
                             </div>
-                        </div>
-                    );
+                        );
+                    } else {
+                        return (
+                            <div className={className} style={style} onClick={this.clickCtn} ref="ctn"><LoadingView /></div>
+                        );
+                    }
                 } else {
                     return (
-                        <div className={className} style={style} onClick={this.clickCtn} ref="ctn"><LoadingView /></div>
+                        <div className={className} style={style} onClick={this.clickCtn} ref="ctn"></div>
                     );
                 }
             }

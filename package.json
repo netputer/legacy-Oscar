@@ -1,7 +1,10 @@
 {
     "name": "WandouLabs-Oscar",
-    "repository": "https://github.com/wandoulabs/Oscar",
-    "version": "1.0.15",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wandoulabs/Oscar"
+    },
+    "version": "1.0.17",
     "dependencies": {},
     "devDependencies": {
         "grunt": "~0.4.1",
@@ -20,9 +23,10 @@
         "grunt-contrib-htmlmin": "~0.1.3",
         "grunt-contrib-requirejs": "~0.4.0",
         "grunt-contrib-compress": "~0.4.0",
-        "grunt-usemin": "git+https://github.com/yeoman/grunt-usemin.git",
+        "grunt-usemin": "~0.1.12",
         "grunt-react": "~0.4.0",
-        "grunt-bump": "~0.0.11"
+        "grunt-bump": "~0.0.11",
+        "grunt-conventional-changelog": "1.0.0"
     },
     "engines": {
         "node": ">=0.8.0"

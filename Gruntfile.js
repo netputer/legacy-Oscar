@@ -267,6 +267,12 @@ module.exports = function (grunt) {
         'compress'
     ]);
 
+    grunt.registerTask(['update'], [
+        'bump-only:patch',
+        'changelog',
+        'bump-commit'
+    ]);
+
     grunt.registerTask(['build:release'], [
         'bump',
         'build'
