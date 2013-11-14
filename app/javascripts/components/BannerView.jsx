@@ -70,7 +70,6 @@
             slider : function (index) {
                 if (banner.length > 1) {
                     setInterval(function () {
-                        console.log(index)
                         document.getElementsByClassName('dot')[index++].click();
 
                         if (index >= banner.length) {
