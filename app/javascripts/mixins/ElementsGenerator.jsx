@@ -26,6 +26,7 @@
                 if (this.props.subscribed !== -2) {
                     this.showSubscribeBubble('download_all', video);
                 }
+
                 GA.log({
                     'event' : 'video.download.action',
                     'action' : 'btn_click',

@@ -64,13 +64,16 @@
                         this.props.clickHandler.call(this, true);
                     }
                 }
+
                 GA.log({
                     'event' : 'video.download.action',
                     'action' : 'btn_click',
                     'pos' : 'episode_list',
                     'video_id' : episode.video_id,
                     'episode_id' : episode.id,
-                    'video_source' : episode.downloadUrls[0].providerName
+                    'video_source' : episode.downloadUrls[0].providerName,
+                    'video_title' : episode.title,
+                    'video_type' : this.props.type
                 });
             }
         });
@@ -115,6 +118,7 @@
                 this.setState({
                     expendIndex : this.state.expendIndex + 1
                 });
+
                 GA.log({
                     'event' : 'video.misc.action',
                     'action' : 'more_episode_clicked',
@@ -122,8 +126,14 @@
                 });
             },
             createList : function (videoEpisodes) {
+                var type = this.props.video.get('type');
                 var listItems = _.map(videoEpisodes, function (item, i) {
-                    return <ItemView episode={item} key={i} clickHandler={this.showSubscribeBubble} />;
+                    console.log();
+                    return <ItemView
+                                episode={item}
+                                key={i}
+                                clickHandler={this.showSubscribeBubble}
+                                type={type} />;
                 }.bind(this));
 
                 return listItems;
@@ -137,6 +147,7 @@
                         show : true,
                         source : 'episode'
                     });
+
                     GA.log({
                         'event' : 'video.misc.action',
                         'action' : 'subscribe_popup',
