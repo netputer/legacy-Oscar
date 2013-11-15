@@ -34,6 +34,19 @@
                     max : 10,
                     rank_type : 'hot',
                     pos : 'w/indexpage',
+                    opt_fields : [
+                        'title',
+                        'type',
+                        'actors',
+                        'pictures.l',
+                        'cover.l',
+                        'latestEpisodeNum',
+                        'latestEpisodeDate',
+                        'totalEpisodesNum',
+                        'marketRatings.rating',
+                        'categories',
+                        'presenters'
+                    ].join(',')
                 },
                 timeout : 1000 * 20,
                 success : deferred.resolve,
@@ -52,7 +65,7 @@
                     listVariety : []
                 };
             },
-            componentDidMount : function () {
+            componentWillMount : function () {
                 var start = performance.timing.navigationStart;
 
                 $.when(queryAsync('tv').done(function (resp) {

@@ -7,8 +7,6 @@
         _,
         FilterFunction
     ) {
-        console.log('MessageRouterMixin - File loaded.');
-
         var id = 1;
 
         var reg = function (route, callback, context) {

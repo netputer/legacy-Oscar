@@ -1,8 +1,6 @@
 /*global console, define*/
 (function (window) {
     define([], function () {
-        console.log('BackendSocket - File loaded.');
-
         var setTimeout = window.setTimeout;
 
         var CONNECTING = 0;
