@@ -92,8 +92,21 @@
                 }
             },
             onVideoSelect : function (video) {
+                console.log(video)
                 if (topicName !== undefined) {
                     window.location.hash = '#' + topicName + '/detail/' + video.id;
+                    GA.log({
+                        'event' : 'video.download.action',
+                        'action' : 'btn_click',
+                        'pos' : 'topic',
+                        'video_id' : video.id,
+                        'video_title' : video.title,
+                        'video_type' : video.type,
+                        'video_category' : video.categories,
+                        'video_year' : video.year,
+                        'video_area' : video.region
+                    });
+
                 }
             },
             clickBanner : function (cate, query) {
@@ -103,7 +116,7 @@
             },
             render : function () {
                     var listItemViews = _.map(this.state.list, function (video) {
-                        return <VideoListItemView video={video} key={video.id} onVideoSelect={this.onVideoSelect} />
+                        return <VideoListItemView source="topic" video={video} key={video.id} onVideoSelect={this.onVideoSelect} />
                     }, this);
                 return (
                     <div className="o-ctn">

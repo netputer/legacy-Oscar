@@ -39,6 +39,14 @@
 
 
         var ItemView = React.createClass({
+            onClick : function () {
+                GA.log({
+                    'event' : 'video.common.action',
+                    'action' : 'topic_clicked',
+                    'keyword' : this.props.data.name,
+                    'pos' : this.props.source
+                });
+            },
             render : function () {
                 var data = this.props.data;
                 var link = '/topic.html?type=' + this.props.source + '#' + data.name;
@@ -46,7 +54,7 @@
                 var imageUrl = data.picture;
                 return (
                     <li className="banner-item">
-                        <a href={link} title={title}>
+                        <a href={link} title={title} onClick={this.onClick}>
                             <img src={imageUrl} alt={title} />
                         </a>
                     </li>
