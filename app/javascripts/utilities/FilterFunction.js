@@ -1,7 +1,6 @@
 /*global define*/
 (function (window) {
     define([], function () {
-        console.log('FilterFunction - File loaded.');
         var FilterFunction = {};
 
         var VARIABLE_NAME = 'data';

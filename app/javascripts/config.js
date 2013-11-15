@@ -20,3 +20,9 @@ require.config({
         }
     }
 });
+
+if (window.OneRingRequest === undefined) {
+    window.OneRingRequest = window.OneRingStreaming = function () {
+        return;
+    };
+}
