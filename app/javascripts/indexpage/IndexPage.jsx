@@ -37,6 +37,7 @@
                     opt_fields : [
                         'title',
                         'type',
+                        'id',
                         'actors',
                         'pictures.l',
                         'cover.l',
@@ -108,6 +109,7 @@
                 }
             },
             onVideoSelect : function (id) {
+                console.log(id)
                 window.location.hash = '#detail/' + id;
             },
             clickBanner : function (cate, query) {
