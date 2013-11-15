@@ -109,7 +109,6 @@
                 }
             },
             onVideoSelect : function (id) {
-                console.log(id)
                 window.location.hash = '#detail/' + id;
             },
             clickBanner : function (cate, query) {
