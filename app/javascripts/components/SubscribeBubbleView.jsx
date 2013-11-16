@@ -24,6 +24,9 @@
 
                 $.ajax({
                     url : 'http://feed.wandoujia.com/api/v1/subscription/add',
+                    xhrFields: {
+                        withCredentials: true
+                    },
                     data : {
                         uri : uri,
                         user : 'device_only'

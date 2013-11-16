@@ -27,6 +27,9 @@
                 if (this.props.video.get('subscribeUrl') !== undefined) {
                     $.ajax({
                         url : 'http://feed.wandoujia.com/api/v1/subscription/subscribed',
+                        xhrFields: {
+                            withCredentials: true
+                        },
                         data : {
                             uri : this.props.video.get('subscribeUrl'),
                             user : 'device_only'
