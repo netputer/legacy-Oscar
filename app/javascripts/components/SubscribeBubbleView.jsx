@@ -37,7 +37,7 @@
                                 });
                             }
                             GA.log({
-                                'event' : 'video.common.action',
+                                'event' : source === 'subscribe' ? 'video.common.action' : 'video.misc.action',
                                 'action' : source === 'subscribe' ? 'subscribe' : 'subscribe_popup',
                                 'type' : 'subscribe',
                                 'pos' : source === 'subscribe' ? 'detail' : 'popup',
