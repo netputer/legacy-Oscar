@@ -8,6 +8,7 @@
         'GA',
         'main/DownloadHelper',
         'utilities/FormatString',
+        'utilities/FormatDate',
         'components/SubscribeBubbleView'
     ], function (
         React,
@@ -16,27 +17,40 @@
         GA,
         DownloadHelper,
         FormatString,
+        FormatDate,
         SubscribeBubbleView
     ) {
 
         var ElementsGenerator = {
-
             clickButtonDownload : function (source, video) {
+                _.each(this.props.video.get('videoEpisodes'), function (episode) {
+                    if (['TV', 'COMIC', 'VARIETY'].indexOf(this.props.video.get('type')) >= 0) {
+                        if (this.props.video.get('type') === 'VARIETY') {
+                            episode.title = this.props.video.get('title') + '_' + FormatString(Wording.EPISODE_NUM_VARIETY, FormatDate('yyyy-MM-dd', episode.episodeDate)) + '_' + episode.id;
+                        } else {
+                            episode.title = this.props.video.get('title') + '_' + FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum) + '_' + episode.id;
+                        }
+                    } else {
+                        episode.title = this.props.video.get('title') + '_' + episode.id;
+                    }
+                }, this);
+
                 DownloadHelper.download(this.props.video.get('videoEpisodes'));
                 if (this.props.subscribed !== -2) {
                     this.showSubscribeBubble('download_all', video);
                 }
+
                 GA.log({
                     'event' : 'video.download.action',
                     'action' : 'btn_click',
                     'pos' : source,
                     'video_id' : this.props.video.id,
                     'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
-                    'video_title' : this.props.video.title,
-                    'video_type' : this.props.video.type,
-                    'video_category' : this.props.video.categories,
-                    'video_year' : this.props.video.year,
-                    'video_area' : this.props.video.region
+                    'video_title' : this.props.video.get('title'),
+                    'video_type' : this.props.video.get('type'),
+                    'video_category' : this.props.video.get('categories'),
+                    'video_year' : this.props.video.get('year'),
+                    'video_area' : this.props.video.get('region')
                 });
             },
             showSubscribeBubble : function (source, video) {
@@ -54,7 +68,13 @@
                         'action' : 'subscribe_popup',
                         'type' : 'display',
                         'pos' : source,
-                        'video_id' : this.props.video.id
+                        'video_id' : this.props.video.id,
+                        'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
+                        'video_title' : this.props.video.get('title'),
+                        'video_type' : this.props.video.get('type'),
+                        'video_category' : this.props.video.get('categories'),
+                        'video_year' : this.props.video.get('year'),
+                        'video_area' : this.props.video.get('region')
                     });
                 } else {
                     if (source === 'subscribe') {
