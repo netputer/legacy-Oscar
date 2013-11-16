@@ -115,7 +115,9 @@
                         return (
                             <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
                                 {text}
-                                <span className="more-provider" onClick={this.moreProvider}></span>
+                                <div className="more-provider" onClick={this.moreProvider}>
+                                    <span className="arrow"></span>
+                                </div>
                             </button>
                         );
                     }

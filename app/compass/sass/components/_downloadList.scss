@@ -24,13 +24,21 @@
             }
 
             .more-provider {
-                border-bottom: none;
-                border-left: 4px dashed transparent;
-                border-right: 4px dashed transparent;
-                border-top: 5px solid #fff;
+                height: 100%;
                 position: absolute;
-                top: 9px;
-                right: 2px;
+                right: 0;
+                top: 0;
+                width: 14px;
+
+                .arrow {
+                    border-bottom: none;
+                    border-left: 4px dashed transparent;
+                    border-right: 4px dashed transparent;
+                    border-top: 5px solid #fff;
+                    position: absolute;
+                    top: 9px;
+                    right: 2px;
+                }
             }
 
             .size {

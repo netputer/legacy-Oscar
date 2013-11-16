@@ -95,15 +95,23 @@
     position: relative;
     
     .more-provider {
-        border-bottom: none;
-        border-left: 4px dashed transparent;
-        border-right: 4px dashed transparent;
-        border-top: 5px solid #fff;
-        height: 0;
+        height: 100%;
         position: absolute;
-        right: 4px;
-        top: 12px;
-        width: 0;
+        right: 0;
+        top: 0;
+        width: 14px;
+
+        .arrow {
+            border-bottom: none;
+            border-left: 4px dashed transparent;
+            border-right: 4px dashed transparent;
+            border-top: 5px solid #fff;
+            height: 0;
+            position: absolute;
+            right: 4px;
+            top: 12px;
+            width: 0;
+        }
     }
 }
 
