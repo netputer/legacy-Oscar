@@ -30,7 +30,7 @@
 
         var ItemView = React.createClass({
             componentWillMount : function () {
-                this.providersBubbleView = <ProvidersBubbleView episode={this.props.episode} id="providerItems" />
+                this.providersBubbleView = <ProvidersBubbleView video={this.props.video} episode={this.props.episode} id="providerItems" />
             },
             showProviderItems : function () {
                 clickedProviderArrow = 1;
@@ -50,7 +50,11 @@
                 var episode = this.props.episode;
                 var hasDownload = !!episode.downloadUrls;
                 var moreProvider = function () {
-                    return <span className="more-provider" onClick={this.showProviderItems}></span>;
+                    return (
+                        <div className="more-provider" onClick={this.showProviderItems}>
+                            <span className="arrow"></span>
+                        </div>
+                    );
                 }.bind(this);
                 var count;
                 if (episode.episodeNum) {
@@ -163,6 +167,7 @@
                 var title = this.props.video.get('title');
                 var listItems = _.map(videoEpisodes, function (item, i) {
                     return <ItemView
+                                video={this.props.video}
                                 episode={item}
                                 title={title}
                                 key={i}
