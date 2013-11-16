@@ -95,21 +95,22 @@
     position: relative;
     
     .more-provider {
+        border-left: 1px solid rgba(255, 255, 255, .8);
+        display: inline-block;
         height: 100%;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 14px;
+        margin: 0 -9px 0 6px;
+        padding: 0 5px;
+
 
         .arrow {
             border-bottom: none;
             border-left: 4px dashed transparent;
             border-right: 4px dashed transparent;
             border-top: 5px solid #fff;
+            display: inline-block;
             height: 0;
-            position: absolute;
-            right: 4px;
-            top: 12px;
+            position: relative;
+            top: -1px;
             width: 0;
         }
     }
