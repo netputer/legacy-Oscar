@@ -58,6 +58,13 @@
             },
             clickDownload : function () {
                 var episode = this.props.episode;
+                if (['TV', 'COMIC', 'VARIETY'].indexOf(this.props.type) >= 0) {
+                    if (this.props.type === 'VARIETY') {
+                        episode.title = this.props.title + '_' + FormatString(Wording.EPISODE_NUM_VARIETY, FormatDate('yyyy-MM-dd', episode.episodeDate)) + '_' + episode.id;
+                    } else {
+                        episode.title = this.props.title + '_' + FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum) + '_' + episode.id;
+                    }
+                }
                 if (!!episode.downloadUrls) {
                     DownloadHelper.download([episode]);
                     if (this.props.key === 0) {
@@ -127,10 +134,11 @@
             },
             createList : function (videoEpisodes) {
                 var type = this.props.video.get('type');
+                var title = this.props.video.get('title');
                 var listItems = _.map(videoEpisodes, function (item, i) {
-                    console.log();
                     return <ItemView
                                 episode={item}
+                                title={title}
                                 key={i}
                                 clickHandler={this.showSubscribeBubble}
                                 type={type} />;
