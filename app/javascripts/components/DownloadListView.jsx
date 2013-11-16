@@ -73,7 +73,6 @@
                             {episode.downloadUrls.length > 1 ? this.providersBubbleView : ''}
                         </li>
                     );
-
                 } else {
                     return (
                         <li className="item">
@@ -87,13 +86,6 @@
             clickDownload : function () {
                 if (clickedProviderArrow === 0) {
                     var episode = this.props.episode;
-                    if (['TV', 'COMIC', 'VARIETY'].indexOf(this.props.type) >= 0) {
-                        if (this.props.type === 'VARIETY') {
-                            episode.title = this.props.title + '_' + FormatString(Wording.EPISODE_NUM_VARIETY, FormatDate('yyyy-MM-dd', episode.episodeDate)) + '_' + episode.id;
-                        } else {
-                            episode.title = this.props.title + '_' + FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum) + '_' + episode.id;
-                        }
-                    }
                     if (!!episode.downloadUrls) {
                         DownloadHelper.download([episode]);
                         if (this.props.key === 0) {

@@ -2,10 +2,14 @@
     define([
         'Backbone',
         '_',
+        'utilities/FormatString',
+        'utilities/FormatDate',
         'Wording'
     ], function (
         Backbone,
         _,
+        FormatString,
+        FormatDate,
         Wording
     ) {
 
@@ -59,6 +63,18 @@
                     episodes[0].title = data.title;
                     data.videoEpisodes = episodes;
                 }
+
+                _.each(data.videoEpisodes, function (episode) {
+                    if (['TV', 'COMIC', 'VARIETY'].indexOf(data.type) >= 0) {
+                        if (data.type === 'VARIETY') {
+                            episode.title = data.title + '_' + FormatString(Wording.EPISODE_NUM_VARIETY, FormatDate('yyyy-MM-dd', episode.episodeDate)) + '_' + episode.id;
+                        } else {
+                            episode.title = data.title + '_' + FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum) + '_' + episode.id;
+                        }
+                    } else {
+                        episode.title = data.title + '_' + episode.id;
+                    }
+                }, this);
 
                 this.set(data);
             },

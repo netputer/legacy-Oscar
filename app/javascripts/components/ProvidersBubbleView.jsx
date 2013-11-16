@@ -23,7 +23,12 @@
         var ProvidersBubbleView = React.createClass({
             mixins : [BubbleView],
             downloadFromProvider : function (url) {
-                DownloadHelper.downloadFromProvider(url);
+                if (this.props.episode) {
+                    DownloadHelper.downloadFromProvider(this.props.episode.title, url);
+                } else {
+                    DownloadHelper.downloadFromProvider(this.props.video.get('videoEpisodes')[0].title, url);
+                }
+
                 this.setState({
                     providersBubbleShow : false,
                     providerItemsBubbleShow : false
