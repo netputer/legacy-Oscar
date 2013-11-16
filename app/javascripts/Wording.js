@@ -42,5 +42,7 @@ define({
     STILLS : '剧照',
     STILLS_COUNT : '{1} 张',
     PROVIDERNAMES_LABEL : '来源：',
-    INTERNET : '互联网'
+    INTERNET : '互联网',
+    EPISODE_NUM_SHORTEN : '第{1}集',
+    EPISODE_NUM_VARIETY : '第{1}期'
 });

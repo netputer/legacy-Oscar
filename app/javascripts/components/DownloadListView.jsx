@@ -83,21 +83,31 @@
             clickDownload : function () {
                 if (clickedProviderArrow === 0) {
                     var episode = this.props.episode;
+                    if (['TV', 'COMIC', 'VARIETY'].indexOf(this.props.type) >= 0) {
+                        if (this.props.type === 'VARIETY') {
+                            episode.title = this.props.title + '_' + FormatString(Wording.EPISODE_NUM_VARIETY, FormatDate('yyyy-MM-dd', episode.episodeDate)) + '_' + episode.id;
+                        } else {
+                            episode.title = this.props.title + '_' + FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum) + '_' + episode.id;
+                        }
+                    }
                     if (!!episode.downloadUrls) {
                         DownloadHelper.download([episode]);
                         if (this.props.key === 0) {
                             this.props.clickHandler.call(this, true);
                         }
+                        GA.log({
+                            'event' : 'video.download.action',
+                            'action' : 'btn_click',
+                            'pos' : 'episode_list',
+                            'video_id' : episode.video_id,
+                            'episode_id' : episode.id,
+                            'video_source' : episode.downloadUrls[0].providerName,
+                            'video_title' : episode.title,
+                            'video_type' : this.props.type
+                        });
                     }
-                    GA.log({
-                        'event' : 'video.download.action',
-                        'action' : 'btn_click',
-                        'pos' : 'episode_list',
-                        'video_id' : episode.video_id,
-                        'episode_id' : episode.id,
-                        'video_source' : episode.downloadUrls[0].providerName
-                    });
                 }
+
             }
         });
 
@@ -141,6 +151,7 @@
                 this.setState({
                     expendIndex : this.state.expendIndex + 1
                 });
+
                 GA.log({
                     'event' : 'video.misc.action',
                     'action' : 'more_episode_clicked',
@@ -148,8 +159,15 @@
                 });
             },
             createList : function (videoEpisodes) {
+                var type = this.props.video.get('type');
+                var title = this.props.video.get('title');
                 var listItems = _.map(videoEpisodes, function (item, i) {
-                    return <ItemView episode={item} key={i} clickHandler={this.showSubscribeBubble} />;
+                    return <ItemView
+                                episode={item}
+                                title={title}
+                                key={i}
+                                clickHandler={this.showSubscribeBubble}
+                                type={type} />;
                 }.bind(this));
 
                 return listItems;
@@ -163,6 +181,7 @@
                         subscribeBubbleShow : true,
                         source : 'episode'
                     });
+
                     GA.log({
                         'event' : 'video.misc.action',
                         'action' : 'subscribe_popup',
