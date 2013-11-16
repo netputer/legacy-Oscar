@@ -33,7 +33,7 @@
                             this.props.subscribeHandler.call(this, 1);
                             if (source !== 'subscribe') {
                                 this.setState({
-                                    show : false
+                                    subscribeBubbleShow : false
                                 });
                             }
                             GA.log({
@@ -64,7 +64,7 @@
                         if (xhr.status === 200) {
                             this.props.subscribeHandler.call(this, 0);
                             this.setState({
-                                show : false,
+                                subscribeBubbleShow : false,
                                 source : ''
                             });
                             GA.log({
@@ -83,7 +83,7 @@
                 });
             },
             render : function () {
-                var className = this.getBubbleClassName('bubble-subscribe')
+                var className = this.getBubbleClassName('subscribe')
 
                 if (this.state.source === 'subscribe') {
                     return (

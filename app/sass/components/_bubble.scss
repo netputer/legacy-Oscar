@@ -41,9 +41,8 @@
 .bubble-subscribe {
     @include box-shadow(0 2px 4px rgba(0, 0, 0, .2));
     background: #fff;
-    top: 174px;
-    left: 131px;
-    position: absolute;
+    position: relative;
+    top: 10px;
     width: 320px;
     z-index: 2;
 
@@ -56,4 +55,32 @@
         color: #666;
         margin: 0 0 4px;
     }
+}
+
+.bubble-providers, .bubble-provideritems {
+    @include box-shadow(0 2px 4px rgba(0, 0, 0, .2));
+    background: #fff;
+    width: 175px;
+    padding: 8px 0;
+
+    li {
+        line-height: 24px;
+        padding: 0 10px;
+
+        &:hover {
+            background: #eee;
+            cursor: pointer;
+        }
+    }
+
+    .provider-size {
+        color: #999;
+        margin-left: 8px;
+    }
+}
+
+.bubble-provideritems {
+    margin-top: -16px;
+    position: absolute;
+    z-index: 2;
 }

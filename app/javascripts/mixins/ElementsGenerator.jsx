@@ -7,46 +7,48 @@
         'Wording',
         'GA',
         'main/DownloadHelper',
-        'utilities/FormatString',
-        'components/SubscribeBubbleView'
+        'utilities/FormatString'
     ], function (
         React,
         _,
         Wording,
         GA,
         DownloadHelper,
-        FormatString,
-        SubscribeBubbleView
+        FormatString
     ) {
+
+        var clickedProviderArrow = 0;
 
         var ElementsGenerator = {
 
             clickButtonDownload : function (source, video) {
-                DownloadHelper.download(this.props.video.get('videoEpisodes'));
-                if (this.props.subscribed !== -2) {
-                    this.showSubscribeBubble('download_all', video);
+                if (clickedProviderArrow === 0) {
+                    DownloadHelper.download(this.props.video.get('videoEpisodes'));
+                    if (this.props.subscribed !== -2) {
+                        this.showSubscribeBubble('download_all', video);
+                    }
+                    GA.log({
+                        'event' : 'video.download.action',
+                        'action' : 'btn_click',
+                        'pos' : source,
+                        'video_id' : this.props.video.id,
+                        'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
+                        'video_title' : this.props.video.title,
+                        'video_type' : this.props.video.type,
+                        'video_category' : this.props.video.categories,
+                        'video_year' : this.props.video.year,
+                        'video_area' : this.props.video.region
+                    });
                 }
-                GA.log({
-                    'event' : 'video.download.action',
-                    'action' : 'btn_click',
-                    'pos' : source,
-                    'video_id' : this.props.video.id,
-                    'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
-                    'video_title' : this.props.video.title,
-                    'video_type' : this.props.video.type,
-                    'video_category' : this.props.video.categories,
-                    'video_year' : this.props.video.year,
-                    'video_area' : this.props.video.region
-                });
             },
             showSubscribeBubble : function (source, video) {
                 if (this.props.subscribed === 0) {
-                    this.bubbleView.setState({
-                        show : true,
+                    this.subscribeBubbleView.setState({
+                        subscribeBubbleShow : true,
                         source : source
                     });
                     if (source === 'subscribe') {
-                        this.bubbleView.doSubscribe(video, source);
+                        this.subscribeBubbleView.doSubscribe(video, source);
                     }
 
                     GA.log({
@@ -58,7 +60,7 @@
                     });
                 } else {
                     if (source === 'subscribe') {
-                        this.bubbleView.doUnsubscribe(video);
+                        this.subscribeBubbleView.doUnsubscribe(video);
                     }
                 }
             },
@@ -69,6 +71,19 @@
                     this.subscribeCallback.call(this, 1);
                 }
             },
+            moreProvider : function () {
+                clickedProviderArrow = 1;
+                if (clickedProviderArrow === 1) {
+                    this.providersBubbleView.setState({
+                        providersBubbleShow : !(this.providersBubbleView.state.providersBubbleShow)
+                    });
+                }
+
+                setTimeout(function () {
+                    clickedProviderArrow = 0;
+                }, 500);
+
+            },
             getProviderEle : function () {
                 var text = this.props.video.get('providerNames').join(' / ');
                 return <span className="provider w-wc w-text-info">{Wording.PROVIDERNAMES_LABEL + (text || Wording.INTERNET)}</span>
@@ -78,6 +93,14 @@
                 switch (this.props.video.get('type')) {
                 case 'MOVIE':
                     text = Wording.DOWNLOAD;
+                    if (this.props.video.get('videoEpisodes')[0].downloadUrls.length > 1) {
+                        return (
+                            <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
+                                {text}
+                                <span className="more-provider" onClick={this.moreProvider}></span>
+                            </button>
+                        );
+                    }
                     break;
                 case 'TV':
                 case 'VARIETY':
@@ -87,6 +110,7 @@
                 }
 
                 return <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.video.get('subscribeUrl'))}>{text}</button>
+
             },
             getSubscribeBtn : function (source) {
                 var text;
