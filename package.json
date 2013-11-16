@@ -4,7 +4,7 @@
         "type": "git",
         "url": "https://github.com/wandoulabs/Oscar"
     },
-    "version": "1.0.19",
+    "version": "2.4.5",
     "dependencies": {},
     "devDependencies": {
         "grunt": "~0.4.1",
