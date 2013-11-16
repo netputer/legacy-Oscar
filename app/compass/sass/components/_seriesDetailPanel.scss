@@ -72,12 +72,12 @@
 
     .info-ctn {
         margin-left: 15px;
-        overflow: hidden;
         -webkit-box-flex: 1;
 
         .info {
             -webkit-box-flex: 1;
             -webkit-box-pack: end;
+            position: relative;
 
             .button-download,
             .button-subscribe {
@@ -85,4 +85,30 @@
             }
         }
     }
+}
+
+.download-info {
+    height: 40px;
+}
+
+.button-download {
+    position: relative;
+    
+    .more-provider {
+        border-bottom: none;
+        border-left: 4px dashed transparent;
+        border-right: 4px dashed transparent;
+        border-top: 5px solid #fff;
+        height: 0;
+        position: absolute;
+        right: 4px;
+        top: 12px;
+        width: 0;
+    }
+}
+
+.providers {
+    background: #fff;
+    display: inline-block;
+
 }

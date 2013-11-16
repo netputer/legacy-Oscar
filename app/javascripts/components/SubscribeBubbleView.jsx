@@ -33,11 +33,11 @@
                             this.props.subscribeHandler.call(this, 1);
                             if (source !== 'subscribe') {
                                 this.setState({
-                                    show : false
+                                    subscribeBubbleShow : false
                                 });
                             }
                             GA.log({
-                                'event' : 'video.common.action',
+                                'event' : source === 'subscribe' ? 'video.common.action' : 'video.misc.action',
                                 'action' : source === 'subscribe' ? 'subscribe' : 'subscribe_popup',
                                 'type' : 'subscribe',
                                 'pos' : source === 'subscribe' ? 'detail' : 'popup',
@@ -64,7 +64,7 @@
                         if (xhr.status === 200) {
                             this.props.subscribeHandler.call(this, 0);
                             this.setState({
-                                show : false,
+                                subscribeBubbleShow : false,
                                 source : ''
                             });
                             GA.log({
@@ -83,7 +83,7 @@
                 });
             },
             render : function () {
-                var className = this.getBubbleClassName('bubble-subscribe')
+                var className = this.getBubbleClassName('subscribe')
 
                 if (this.state.source === 'subscribe') {
                     return (

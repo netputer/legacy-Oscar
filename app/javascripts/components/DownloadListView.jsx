@@ -10,7 +10,8 @@
         'utilities/FormatDate',
         'utilities/ReadableSize',
         'main/DownloadHelper',
-        'components/SubscribeBubbleView'
+        'components/SubscribeBubbleView',
+        'components/ProvidersBubbleView'
     ], function (
         React,
         _,
@@ -21,14 +22,36 @@
         FormatDate,
         ReadableSize,
         DownloadHelper,
-        SubscribeBubbleView
+        SubscribeBubbleView,
+        ProvidersBubbleView
     ) {
 
+        var clickedProviderArrow = 0;
+
         var ItemView = React.createClass({
+            componentWillMount : function () {
+                this.providersBubbleView = <ProvidersBubbleView episode={this.props.episode} id="providerItems" />
+            },
+            showProviderItems : function () {
+                clickedProviderArrow = 1;
+                if (clickedProviderArrow === 1) {
+                    this.providersBubbleView.setState({
+                        providerItemsBubbleShow : !(this.providersBubbleView.state.providerItemsBubbleShow)
+                    });
+                }
+
+                setTimeout(function () {
+                    clickedProviderArrow = 0;
+                }, 500);
+
+
+            },
             render : function () {
                 var episode = this.props.episode;
                 var hasDownload = !!episode.downloadUrls;
-
+                var moreProvider = function () {
+                    return <span className="more-provider" onClick={this.showProviderItems}></span>;
+                }.bind(this);
                 var count;
                 if (episode.episodeNum) {
                     count = FormatString(Wording.EPISODE_NUM, episode.episodeNum);
@@ -40,9 +63,10 @@
                     return (
                         <li className="item">
                             <button className="button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
-                            {count}
+                            {count} {episode.downloadUrls.length > 1 ? moreProvider() : ''}
                             </button>
                             <span className="size w-text-info w-wc">{ReadableSize(episode.downloadUrls[0].size)}</span>
+                            {episode.downloadUrls.length > 1 ? this.providersBubbleView : ''}
                         </li>
                     );
 
@@ -57,31 +81,33 @@
                 }
             },
             clickDownload : function () {
-                var episode = this.props.episode;
-                if (['TV', 'COMIC', 'VARIETY'].indexOf(this.props.type) >= 0) {
-                    if (this.props.type === 'VARIETY') {
-                        episode.title = this.props.title + '_' + FormatString(Wording.EPISODE_NUM_VARIETY, FormatDate('yyyy-MM-dd', episode.episodeDate)) + '_' + episode.id;
-                    } else {
-                        episode.title = this.props.title + '_' + FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum) + '_' + episode.id;
+                if (clickedProviderArrow === 0) {
+                    var episode = this.props.episode;
+                    if (['TV', 'COMIC', 'VARIETY'].indexOf(this.props.type) >= 0) {
+                        if (this.props.type === 'VARIETY') {
+                            episode.title = this.props.title + '_' + FormatString(Wording.EPISODE_NUM_VARIETY, FormatDate('yyyy-MM-dd', episode.episodeDate)) + '_' + episode.id;
+                        } else {
+                            episode.title = this.props.title + '_' + FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum) + '_' + episode.id;
+                        }
                     }
-                }
-                if (!!episode.downloadUrls) {
-                    DownloadHelper.download([episode]);
-                    if (this.props.key === 0) {
-                        this.props.clickHandler.call(this, true);
+                    if (!!episode.downloadUrls) {
+                        DownloadHelper.download([episode]);
+                        if (this.props.key === 0) {
+                            this.props.clickHandler.call(this, true);
+                        }
+                        GA.log({
+                            'event' : 'video.download.action',
+                            'action' : 'btn_click',
+                            'pos' : 'episode_list',
+                            'video_id' : episode.video_id,
+                            'episode_id' : episode.id,
+                            'video_source' : episode.downloadUrls[0].providerName,
+                            'video_title' : episode.title,
+                            'video_type' : this.props.type
+                        });
                     }
                 }
 
-                GA.log({
-                    'event' : 'video.download.action',
-                    'action' : 'btn_click',
-                    'pos' : 'episode_list',
-                    'video_id' : episode.video_id,
-                    'episode_id' : episode.id,
-                    'video_source' : episode.downloadUrls[0].providerName,
-                    'video_title' : episode.title,
-                    'video_type' : this.props.type
-                });
             }
         });
 
@@ -92,7 +118,7 @@
                 };
             },
             componentWillMount : function () {
-                this.bubbleView = <SubscribeBubbleView video={this.props.video} subscribeHandler={this.subscribeCallback} />
+                this.subscribeBubbleView = <SubscribeBubbleView video={this.props.video} subscribeHandler={this.subscribeCallback} />
             },
             componentWillReceiveProps : function () {
                 this.setState({
@@ -117,7 +143,7 @@
                             {this.createList(episode)}
                         </ul>
                         {episode.length > 12 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
-                        {this.bubbleView}
+                        {this.subscribeBubbleView}
                     </div>
                 );
             },
@@ -150,9 +176,9 @@
                 if (this.props.subscribed === -2) {
                     return false;
                 }
-                if (this.bubbleView.state !== null && !this.bubbleView.state.show && this.props.video.get('subscribeUrl') !== undefined) {
-                    this.bubbleView.setState({
-                        show : true,
+                if (this.subscribeBubbleView.state !== null && !this.subscribeBubbleView.state.show && this.props.video.get('subscribeUrl') !== undefined) {
+                    this.subscribeBubbleView.setState({
+                        subscribeBubbleShow : true,
                         source : 'episode'
                     });
 

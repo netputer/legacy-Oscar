@@ -6,19 +6,22 @@
         'Wording',
         'utilities/FormatString',
         'mixins/ElementsGenerator',
-        'components/SubscribeBubbleView'
+        'components/SubscribeBubbleView',
+        'components/ProvidersBubbleView'
     ], function (
         React,
         Wording,
         FormatString,
         ElementsGenerator,
-        SubscribeBubbleView
+        SubscribeBubbleView,
+        ProvidersBubbleView
     ) {
 
         var SeriesHeaderView = React.createClass({
             mixins : [ElementsGenerator],
             componentWillMount : function () {
-                this.bubbleView = <SubscribeBubbleView video={this.props.video} subscribeHandler={this.subscribeCallback} />
+                this.subscribeBubbleView = <SubscribeBubbleView video={this.props.video} subscribeHandler={this.subscribeCallback} />
+                this.providersBubbleView = <ProvidersBubbleView video={this.props.video} id="providers" />
             },
             componentDidMount : function () {
                 if (this.props.video.get('subscribeUrl') !== undefined) {
@@ -59,7 +62,8 @@
                                 <div className="download-info">
                                     {this.getDownloadBtn('download_all')}
                                     {this.getSubscribeBtn('subscribe')}
-                                    {this.bubbleView}
+                                    {this.subscribeBubbleView}
+                                    {this.providersBubbleView}
                                 </div>
                             </div>
                         </div>

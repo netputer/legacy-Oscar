@@ -72,6 +72,18 @@
             }
         };
 
+        DownloadHelper.downloadFromProvider = function (provider) {
+            var url = provider.url;
+            var dServiceURL = provider.accelUrl;
+
+            if (dservice) {
+                downloadAsync(provider.title + '-' + (provider.providerName || ''), dServiceURL);
+            } else {
+                downloadAsync(provider.title + '-' + (provider.providerName || ''), url);
+            }
+
+        };
+
         return DownloadHelper;
     });
 }(this));

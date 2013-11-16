@@ -18,16 +18,20 @@
 
             getInitialState : function () {
                 return {
-                    show : false,
+                    subscribeBubbleShow : false,
+                    providersBubbleShow : false,
+                    providerItemsBubbleShow : false,
                     source : ''
                 }
             },
-            getBubbleClassName : function (className) {
-                return this.state.show ? ('bubble ' + className + ' show') : ('bubble ' + className);
+            getBubbleClassName : function (name) {
+                return this.state[name + 'BubbleShow'] ? ('bubble bubble-' + name + ' show') : ('bubble bubble-' + name);
             },
             closeBubble : function (type) {
                 this.setState({
-                    show : false,
+                    subscribeBubbleShow : false,
+                    providersBubbleShow : false,
+                    providerItemsBubbleShow : false,
                     source : ''
                 });
                 GA.log({
