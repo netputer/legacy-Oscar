@@ -31,7 +31,7 @@
                         'event' : 'video.download.action',
                         'action' : 'btn_click',
                         'pos' : source,
-                        'video_id' : this.props.video.get('id'),
+                        'video_id' : this.props.video.id,
                         'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
                         'video_title' : this.props.video.get('title'),
                         'video_type' : this.props.video.get('type'),
@@ -56,7 +56,7 @@
                         'action' : 'subscribe_popup',
                         'type' : 'display',
                         'pos' : source,
-                        'video_id' : this.props.video.get('id')
+                        'video_id' : this.props.video.id
                     });
                 } else {
                     if (source === 'subscribe') {
