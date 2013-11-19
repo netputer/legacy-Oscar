@@ -50,7 +50,7 @@
             render : function () {
                 var className = this.getBubbleClassName(this.props.id).toLowerCase();
                 var urls;
-                if (this.props.video !== undefined) {
+                if (this.props.episode === undefined) {
                     urls = this.props.video.get('videoEpisodes')[0].downloadUrls;
                 } else {
                     urls = this.props.episode.downloadUrls;
