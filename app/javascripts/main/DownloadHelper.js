@@ -25,7 +25,6 @@
         }());
 
         var downloadAsync = function (title, url) {
-            console.log(title);
             var deferred = $.Deferred();
             IO.requestAsync({
                 url : Actions.actions.VIDEO_DOWNLOAD,
@@ -48,7 +47,6 @@
                         var downloadURL = item.downloadUrls[0];
                         var dServiceURL = downloadURL.accelUrl;
                         var url = downloadURL.url;
-                        console.log();
                         if (dservice) {
                             downloadAsync(item.title, dServiceURL);
                         } else {
