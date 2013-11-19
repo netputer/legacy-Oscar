@@ -1,3 +1,11 @@
+<a name="v2.4.6"></a>
+### v2.4.6 (2013-11-19)
+
+
+#### Bug Fixes
+
+* 修复剧集下拉列表空白的问题 ([d40fe45253](https://github.com/wandoulabs/Oscar/commit/d40fe45253ab56ec08986110ae53801334a9f829))
+
 <a name="v1.0.19"></a>
 ### v1.0.19 (2013-11-16)
 
