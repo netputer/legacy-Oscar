@@ -1,3 +1,11 @@
+<a name="v1.0.19"></a>
+### v1.0.19 (2013-11-16)
+
+
+#### Features
+
+* 调整下载文件的名称，让 P3 能够正确识别 ([e7e46d54](https://github.com/wandoulabs/Oscar/commit/e7e46d5415ac3f966c93e3377b2463a15fdcac4f))
+
 <a name="v1.0.18"></a>
 ### v1.0.18 (2013-11-16)
 

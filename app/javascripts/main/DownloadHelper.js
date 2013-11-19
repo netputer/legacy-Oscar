@@ -42,18 +42,15 @@
 
         DownloadHelper.download = function (episodes) {
             if (episodes.length > 1) {
-                var title = episodes[0].title;
-
                 _.each(episodes, function (item) {
                     if (item.downloadUrls) {
                         var downloadURL = item.downloadUrls[0];
                         var dServiceURL = downloadURL.accelUrl;
                         var url = downloadURL.url;
-
                         if (dservice) {
-                            downloadAsync(title + '-' + item.episodeNum, dServiceURL);
+                            downloadAsync(item.title, dServiceURL);
                         } else {
-                            downloadAsync(title + '-' + item.episodeNum, url);
+                            downloadAsync(item.title, url);
                         }
                     }
                 });
@@ -65,21 +62,21 @@
                 var url = downloadURL.url;
 
                 if (dservice) {
-                    downloadAsync(episodes.title + '-' + (episodes.episodeNum || ''), dServiceURL);
+                    downloadAsync(episodes.title, dServiceURL);
                 } else {
-                    downloadAsync(episodes.title + '-' + (episodes.episodeNum || ''), url);
+                    downloadAsync(episodes.title, url);
                 }
             }
         };
 
-        DownloadHelper.downloadFromProvider = function (provider) {
+        DownloadHelper.downloadFromProvider = function (title, provider) {
             var url = provider.url;
             var dServiceURL = provider.accelUrl;
 
             if (dservice) {
-                downloadAsync(provider.title + '-' + (provider.providerName || ''), dServiceURL);
+                downloadAsync(title, dServiceURL);
             } else {
-                downloadAsync(provider.title + '-' + (provider.providerName || ''), url);
+                downloadAsync(title, url);
             }
 
         };

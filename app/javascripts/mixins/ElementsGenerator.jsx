@@ -22,18 +22,6 @@
         var ElementsGenerator = {
             clickButtonDownload : function (source, video) {
                 if (clickedProviderArrow === 0) {
-                    _.each(this.props.video.get('videoEpisodes'), function (episode) {
-                        if (['TV', 'COMIC', 'VARIETY'].indexOf(this.props.video.get('type')) >= 0) {
-                            if (this.props.video.get('type') === 'VARIETY') {
-                                episode.title = this.props.video.get('title') + '_' + FormatString(Wording.EPISODE_NUM_VARIETY, FormatDate('yyyy-MM-dd', episode.episodeDate)) + '_' + episode.id;
-                            } else {
-                                episode.title = this.props.video.get('title') + '_' + FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum) + '_' + episode.id;
-                            }
-                        } else {
-                            episode.title = this.props.video.get('title') + '_' + episode.id;
-                        }
-                    }, this);
-
                     DownloadHelper.download(this.props.video.get('videoEpisodes'));
                     if (this.props.subscribed !== -2) {
                         this.showSubscribeBubble('download_all', video);
