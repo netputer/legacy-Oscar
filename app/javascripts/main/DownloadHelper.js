@@ -17,6 +17,8 @@
 
         var dservice = false;
 
+        var providers;
+
         (function () {
             var ua = window.navigator.userAgent.split(' ');
             var version = ua[ua.length - 1];
@@ -40,7 +42,59 @@
             return deferred.promise();
         };
 
-        DownloadHelper.download = function (episodes) {
+
+        var getProvidersAsync = function () {
+            var deferred = $.Deferred();
+            $.ajax({
+                url : Actions.actions.PROVIDERS,
+                success : deferred.resolve
+            })
+            return deferred.promise();
+        };
+
+        var downloadPlayerAsync = function(title) {
+            _.some(providers, function (provider) {
+                if (title === provider.title) {
+                    var icon = provider.iconUrl;
+                    var url = provider.appDownloadUrl + '#name=' + title + '&icon=' + icon + '&content-type=application';
+                    $('<a>').attr({'href' : url, 'download' : title})[0].click();
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        };
+
+        var downloadPlayer = function(player, title, index) {
+            if (player.promotType & 1) {
+                var downloadAppText = '正在下载安装' + player.providerName + '...';
+                var downloadVideoText = '已开始下载' + title + '...';
+                var eleIndex = index !== undefined ? index : 0;
+                var ele = document.getElementsByClassName('bubble-download-tips')[eleIndex];
+                var cachedHtml = ele.innerHTML;
+                ele.innerHTML = downloadAppText;
+                ele.style.opacity = '1';
+                setTimeout(function () {
+                    ele.innerHTML = downloadVideoText;
+                    setTimeout(function () {
+                        ele.style.opacity = '0';
+                        ele.innerHTML = cachedHtml;
+                    }, 3000)
+                }, 3000)
+
+                if (providers === undefined) {
+                    getProvidersAsync().done(function (resp) {
+                        providers = resp;
+                        downloadPlayerAsync(player.providerName);
+                    });
+                } else {
+                    downloadPlayerAsync(player.providerName)
+                }
+
+            }
+        };
+
+        DownloadHelper.download = function (episodes, installPlayer, eleIndex) {
             if (episodes.length > 1) {
                 _.each(episodes, function (item) {
                     if (item.downloadUrls) {
@@ -55,23 +109,30 @@
                     }
                 });
             } else {
-                episodes = episodes[0];
+                episode = episodes[0];
 
-                var downloadURL = episodes.downloadUrls[0];
+                if (!!installPlayer) {
+                    downloadPlayer(episode.downloadUrls[0], episode.title, eleIndex);
+                }
+
+                var downloadURL = episode.downloadUrls[0];
                 var dServiceURL = downloadURL.accelUrl;
                 var url = downloadURL.url;
 
                 if (dservice) {
-                    downloadAsync(episodes.title, dServiceURL);
+                    downloadAsync(episode.title, dServiceURL);
                 } else {
-                    downloadAsync(episodes.title, url);
+                    downloadAsync(episode.title, url);
                 }
             }
         };
 
-        DownloadHelper.downloadFromProvider = function (title, provider) {
+        DownloadHelper.downloadFromProvider = function (title, provider, installPlayer) {
             var url = provider.url;
             var dServiceURL = provider.accelUrl;
+            if (!!installPlayer) {
+                downloadPlayer(provider, title);
+            }
 
             if (dservice) {
                 downloadAsync(title, dServiceURL);

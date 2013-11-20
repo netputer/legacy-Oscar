@@ -7,6 +7,7 @@
         'Wording',
         'GA',
         'main/DownloadHelper',
+        'utilities/ReadableSize',
         'utilities/FormatString'
     ], function (
         React,
@@ -14,6 +15,7 @@
         Wording,
         GA,
         DownloadHelper,
+        ReadableSize,
         FormatString
     ) {
 
@@ -22,7 +24,15 @@
         var ElementsGenerator = {
             clickButtonDownload : function (source, video) {
                 if (clickedProviderArrow === 0) {
-                    DownloadHelper.download(this.props.video.get('videoEpisodes'));
+                    var installPlayerApp = this.refs !== undefined && this.refs['player-app'].state.checked;
+                    DownloadHelper.download(this.props.video.get('videoEpisodes'), installPlayerApp);
+
+                    if (installPlayerApp === false) {
+                        sessionStorage.setItem('unchecked', 'unchecked');
+                    } else {
+                        sessionStorage.removeItem('unchecked');
+                    }
+
                     if (this.props.subscribed !== -2) {
                         this.showSubscribeBubble('download_all', video);
                     }
@@ -96,19 +106,25 @@
             },
             getDownloadBtn : function (source) {
                 var text = '';
+                var moreProviderView = function () {
+                    return (
+                        <div className="more-provider" onClick={this.moreProvider}>
+                            <span className="arrow"></span>
+                        </div>
+                    );
+                }.bind(this);
                 switch (this.props.video.get('type')) {
                 case 'MOVIE':
                     text = Wording.DOWNLOAD;
-                    if (this.props.video.get('videoEpisodes')[0].downloadUrls.length > 1) {
                         return (
                             <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
                                 {text}
-                                <div className="more-provider" onClick={this.moreProvider}>
-                                    <span className="arrow"></span>
-                                </div>
+                                <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.video.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
+
+                                {this.props.video.get('videoEpisodes')[0].downloadUrls.length > 1 ? moreProviderView() : ''}
+
                             </button>
                         );
-                    }
                     break;
                 case 'TV':
                 case 'VARIETY':
@@ -117,8 +133,11 @@
                     break;
                 }
 
-                return <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.video.get('subscribeUrl'))}>{text}</button>
-
+                return (
+                    <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.video.get('subscribeUrl'))}>
+                        {text}
+                    </button>
+                );
             },
             getSubscribeBtn : function (source) {
                 var text;
@@ -134,6 +153,25 @@
                 }
 
                 return <button class="button-subscribe w-btn" onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video)} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
+            },
+            getCheckbox : function (name) {
+                if (this.props.video.get('type') === 'MOVIE') {
+                    if (sessionStorage.getItem('unchecked') !== null) {
+                        return (
+                            <div className="player-app">
+                                <input id="player-app" ref="player-app" type="checkbox" />
+                                <label htmlFor="player-app">同时下载视频应用</label>
+                            </div>
+                        );
+                    } else {
+                        return (
+                            <div className="player-app">
+                                <input id="player-app" ref="player-app" type="checkbox" defaultChecked />
+                                <label htmlFor="player-app">同时下载视频应用</label>
+                            </div>
+                        ); 
+                    }
+                }
             },
             getActorsEle : function () {
                 var text = '';

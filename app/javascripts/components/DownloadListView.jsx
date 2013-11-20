@@ -57,27 +57,30 @@
                     );
                 }.bind(this);
                 var count;
+                var style = {
+                    display : this.props.key >= this.props.expendIndex * 12 ? 'none' : 'inline-block'
+                };
                 if (episode.episodeNum) {
                     count = FormatString(Wording.EPISODE_NUM, episode.episodeNum);
                 } else {
                     count = FormatDate('第MM-dd期', episode.episodeDate);
                 }
-
                 if (hasDownload) {
                     return (
-                        <li className="item">
+                        <li className="item" style={style}>
                             <button className="button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
                             {count} {episode.downloadUrls.length > 1 ? moreProvider() : ''}
                             </button>
-                            <span className="size w-text-info w-wc">{ReadableSize(episode.downloadUrls[0].size)}</span>
+                            <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.downloadUrls[0].providerName}</em> {ReadableSize(episode.downloadUrls[0].size)}</span>
                             {episode.downloadUrls.length > 1 ? this.providersBubbleView : ''}
                         </li>
                     );
                 } else {
                     return (
-                        <li className="item">
+                        <li className="item" style={style}>
                             <button className="button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
                             {count}
+                            <span className="size placeholder bubble-download-tips"></span>
                             </button>
                         </li>
                     );
@@ -87,7 +90,15 @@
                 if (clickedProviderArrow === 0) {
                     var episode = this.props.episode;
                     if (!!episode.downloadUrls) {
-                        DownloadHelper.download([episode]);
+                        var installPlayerApp = !!document.getElementById('player-app') && document.getElementById('player-app').checked;
+                        DownloadHelper.download([episode], installPlayerApp, this.props.key);
+
+                        if (installPlayerApp === false) {
+                            sessionStorage.setItem('unchecked', 'unchecked');
+                        } else {
+                            sessionStorage.removeItem('unchecked');
+                        }
+
                         if (this.props.key === 0) {
                             this.props.clickHandler.call(this, true);
                         }
@@ -110,7 +121,7 @@
         var DownloadListView = React.createClass({
             getInitialState : function () {
                 return {
-                    expendIndex : 0
+                    expendIndex : 1
                 };
             },
             componentWillMount : function () {
@@ -118,7 +129,7 @@
             },
             componentWillReceiveProps : function () {
                 this.setState({
-                    expendIndex : 0
+                    expendIndex : 1
                 });
             },
             subscribeCallback : function (statusCode) {
@@ -126,22 +137,37 @@
             },
             render : function () {
                 var episode = this.props.video.get('videoEpisodes');
-
-
-                var style = {
-                    'max-height' : 42 * 5 * this.state.expendIndex + 84
-                };
-
-                return (
-                    <div className="o-download-list-ctn">
-                        <h5>{Wording.EPISODE_DOWNLOAD}</h5>
-                        <ul className="list-ctn" ref="ctn" style={style}>
-                            {this.createList(episode)}
-                        </ul>
-                        {episode.length > 12 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
-                        {this.subscribeBubbleView}
-                    </div>
-                );
+                if (sessionStorage.getItem('unchecked') !== null) {
+                    return (
+                        <div className="o-download-list-ctn">
+                            <h5>{Wording.EPISODE_DOWNLOAD}</h5>
+                            <div className="player-app">
+                                <input id="player-app" ref="player-app" type="checkbox" />
+                                <label htmlFor="player-app">同时下载视频应用</label>
+                            </div>
+                            <ul className="list-ctn" ref="ctn">
+                                {this.createList(episode)}
+                            </ul>
+                            {episode.length > this.state.expendIndex * 12 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
+                            {this.subscribeBubbleView}
+                        </div>
+                    );
+                } else {
+                    return (
+                        <div className="o-download-list-ctn">
+                            <h5>{Wording.EPISODE_DOWNLOAD}</h5>
+                            <div className="player-app">
+                                <input id="player-app" ref="player-app" type="checkbox" defaultChecked />
+                                <label htmlFor="player-app">同时下载视频应用</label>
+                            </div>
+                            <ul className="list-ctn" ref="ctn">
+                                {this.createList(episode)}
+                            </ul>
+                            {episode.length > this.state.expendIndex * 12 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
+                            {this.subscribeBubbleView}
+                        </div>
+                    );
+                }
             },
             clickExpend : function () {
                 this.setState({
@@ -163,6 +189,7 @@
                                 episode={item}
                                 title={title}
                                 key={i}
+                                expendIndex={this.state.expendIndex}
                                 clickHandler={this.showSubscribeBubble}
                                 type={type} />;
                 }.bind(this));

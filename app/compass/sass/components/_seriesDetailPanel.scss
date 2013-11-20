@@ -90,10 +90,29 @@
 .download-info {
     height: 40px;
 }
-
 .button-download {
     position: relative;
     
+    .size {
+        margin-top: 13px;
+        opacity: 0;
+        overflow: initial;
+        pointer-events: none;
+        -webkit-transition: opacity .1s linear;
+
+        em {
+            color: #fff;
+            font-style: normal;
+            margin-right: 3px;
+        }
+    }
+
+    &:hover {
+        .size {
+            opacity: 1;
+        }
+    }
+
     .more-provider {
         border-left: 1px solid rgba(255, 255, 255, .8);
         display: inline-block;
@@ -120,4 +139,17 @@
     background: #fff;
     display: inline-block;
 
+}
+
+.player-app {
+    display: inline-block;
+    margin-left: 12px;
+    position: relative;
+    top: 6px;
+
+    label {
+        display: inline-block;
+        font-size: 12px;
+        margin: 0 0 0 4px;
+    }
 }
