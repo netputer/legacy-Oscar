@@ -65,6 +65,7 @@
                                 <div className="download-info">
                                     {this.getDownloadBtn('download_all')}
                                     {this.getSubscribeBtn('subscribe')}
+                                    {this.getCheckbox('app')}
                                     {this.subscribeBubbleView}
                                     {this.providersBubbleView}
                                 </div>

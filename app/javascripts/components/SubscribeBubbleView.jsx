@@ -74,7 +74,7 @@
                                 'event' : 'video.common.action',
                                 'action' : 'subscribe',
                                 'type' : 'unsubscribe',
-                                'pos' :  'subscribe',
+                                'pos' :  'detail',
                                 'video_id' : video.id,
                                 'video_title' : video.title,
                                 'video_type' : video.type,

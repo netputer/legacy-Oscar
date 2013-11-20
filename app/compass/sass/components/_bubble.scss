@@ -60,8 +60,9 @@
 .bubble-providers, .bubble-provideritems {
     @include box-shadow(0 2px 4px rgba(0, 0, 0, .2));
     background: #fff;
-    width: 175px;
     padding: 8px 0;
+    position: relative;
+    width: 175px;
 
     li {
         line-height: 24px;
@@ -80,7 +81,33 @@
 }
 
 .bubble-provideritems {
-    margin-top: -16px;
     position: absolute;
     z-index: 2;
 }
+
+.bubble-download-tips {
+    background: #222;
+    color: #ddd;
+    display: block;
+    font-size: 10px;
+    left: 0;
+    line-height: 26px;
+    margin-top: 6px;
+    padding: 0 5px;
+    position: absolute;
+
+    &:before {
+        border-bottom: 5px solid #222;
+        border-left: 5px dashed transparent;
+        border-right: 5px dashed transparent;
+        border-top: none;
+        content: '';
+        display: block;
+        height: 0;
+        left: 28px;
+        position: absolute;
+        top: -5px;
+        width: 0;
+    }
+}
+

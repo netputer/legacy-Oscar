@@ -13,7 +13,8 @@
                 QUERY_TYPE : 'http://oscar.wandoujia.com/api/v1/typeOptFields/',
                 QUERY_SERIES : 'http://oscar.wandoujia.com/api/v1/videos/',
 
-                TOPIC : 'http://oscar.wandoujia.com/api/v1/topics'
+                TOPIC : 'http://oscar.wandoujia.com/api/v1/topics',
+                PROVIDERS : 'http://videos.wandoujia.com/api/v1/providers'
             },
             events : {
                 ACCOUNT_STATE_CHANGE : 'account.state_changed',

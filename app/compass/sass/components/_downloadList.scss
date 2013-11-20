@@ -1,13 +1,20 @@
 .o-download-list-ctn {
+    h5 {
+        display: inline-block;
+    }
+    .player-app {
+        margin: 10px 6px 0 12px;
+        position: initial;
+        float: right;
+    }
+
     .list-ctn {
-        max-height: 84px;
-        overflow: hidden;
         -webkit-transition: all .2s linear;
 
         .item {
             display: inline-block;
-            height: 42px;
-            margin-right: 5px;
+            margin: 0 5px 16px 0;
+            position: relative;
             vertical-align: top;
 
             .button-download {
@@ -36,13 +43,24 @@
             }
 
             .size {
-                display: block;
-                font-size: 10px;
                 opacity: 0;
-                overflow: hidden;
-                text-align: center;
+                overflow: initial;
+                pointer-events: none;
+                z-index: 2;
                 -webkit-transition: opacity .1s linear;
+
+                em {
+                    color: #fff;
+                    font-style: normal;
+                    margin-right: 3px;
+                }
+
+                &.placeholder {
+                    display: none;
+                }
             }
+
+
 
             &:hover {
                 .size {
