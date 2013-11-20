@@ -1,3 +1,11 @@
+<a name="v2.4.7"></a>
+### v2.4.7 (2013-11-20)
+
+
+#### Features
+
+* 视频播放应用推广 ([e1abcb56](https://github.com/wandoulabs/Oscar/commit/e1abcb56cfb02dc68822bbb2e752ae4cf68ae0bf))
+
 <a name="v2.4.6"></a>
 ### v2.4.6 (2013-11-19)
 
