@@ -9,6 +9,7 @@ define({
     SUBSCRIBE : '手机追追看',
     SUBSCRIBING : '正在追',
     UNSUBSCRIBE : '不追了',
+    LOADING : '请稍候...',
     COMMENT : '评论',
     LOAD_MORE : '显示更多',
     EXTRA_INFO : '其他信息',

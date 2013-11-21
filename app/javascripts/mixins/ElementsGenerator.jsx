@@ -27,12 +27,6 @@
                     var installPlayerApp = this.refs !== undefined && this.refs['player-app'].state.checked;
                     DownloadHelper.download(this.props.video.get('videoEpisodes'), installPlayerApp);
 
-                    if (installPlayerApp === false) {
-                        sessionStorage.setItem('unchecked', 'unchecked');
-                    } else {
-                        sessionStorage.removeItem('unchecked');
-                    }
-
                     if (this.props.subscribed !== -2) {
                         this.showSubscribeBubble('download_all', video);
                     }
@@ -53,12 +47,16 @@
             },
             showSubscribeBubble : function (source, video) {
                 if (this.props.subscribed === 0) {
-                    this.subscribeBubbleView.setState({
-                        subscribeBubbleShow : true,
-                        source : source
-                    });
                     if (source === 'subscribe') {
+                        this.subscribeCallback.call(this, 2);
                         this.subscribeBubbleView.doSubscribe(video, source);
+                    }
+
+                    if (source !== 'subscribe' || sessionStorage.getItem('subscribe') === null) {
+                        this.subscribeBubbleView.setState({
+                            subscribeBubbleShow : true,
+                            source : source
+                        });
                     }
 
                     GA.log({
@@ -76,6 +74,7 @@
                     });
                 } else {
                     if (source === 'subscribe') {
+                        this.subscribeCallback.call(this, 2);
                         this.subscribeBubbleView.doUnsubscribe(video);
                     }
                 }
@@ -141,32 +140,56 @@
             },
             getSubscribeBtn : function (source) {
                 var text;
+                var baseClassName = 'button-subscribe w-btn';
+                var className;
+
                 if (this.props.video.get('subscribeUrl') === undefined || this.props.subscribed === -2) {
                     return false;
                 }
                 if (this.props.subscribed === 1) {
+                    className = baseClassName + ' subscribing';
                     text = Wording.SUBSCRIBING;
                 } else if (this.props.subscribed === -1) {
+                    className = baseClassName + ' unsubscribe';
                     text = Wording.UNSUBSCRIBE;
+                } else if (this.props.subscribed === 2) {
+                    className = baseClassName + ' loading';
+                    text = Wording.LOADING;
                 } else {
+                        className = baseClassName;
                     text = Wording.SUBSCRIBE;
                 }
 
-                return <button class="button-subscribe w-btn" onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video)} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
+                GA.log({
+                    'event' : 'video.misc.action',
+                    'action' : 'subscribe_button',
+                    'type' : 'display',
+                    'pos' : 'subscribe_button',
+                    'video_id' : this.props.video !== undefined ? this.props.video.id : ''
+                });
+
+                return <button id="button-subscribe" class={className} onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video)} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
+            },
+            handleChange : function (event) {
+                if (event.target.checked === false) {
+                    sessionStorage.setItem('unchecked', 'unchecked');
+                } else {
+                    sessionStorage.removeItem('unchecked');
+                }
             },
             getCheckbox : function (name) {
                 if (this.props.video.get('type') === 'MOVIE') {
                     if (sessionStorage.getItem('unchecked') !== null) {
                         return (
                             <div className="player-app">
-                                <input id="player-app" ref="player-app" type="checkbox" />
+                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" />
                                 <label htmlFor="player-app">同时下载视频应用</label>
                             </div>
                         );
                     } else {
                         return (
                             <div className="player-app">
-                                <input id="player-app" ref="player-app" type="checkbox" defaultChecked />
+                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" defaultChecked />
                                 <label htmlFor="player-app">同时下载视频应用</label>
                             </div>
                         ); 

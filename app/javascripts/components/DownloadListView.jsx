@@ -93,15 +93,16 @@
                         var installPlayerApp = !!document.getElementById('player-app') && document.getElementById('player-app').checked;
                         DownloadHelper.download([episode], installPlayerApp, this.props.key);
 
-                        if (installPlayerApp === false) {
-                            sessionStorage.setItem('unchecked', 'unchecked');
-                        } else {
-                            sessionStorage.removeItem('unchecked');
-                        }
+                            for (var i=0; i <= this.props.key && i <= 5; i++) {
+                                if (this.props.video.get('videoEpisodes')[i].downloadUrls !== undefined) {
+                                    if (this.props.key === i) {
+                                        this.props.clickHandler.call(this, true);
+                                    }
+                                    break;
+                                }
 
-                        if (this.props.key === 0) {
-                            this.props.clickHandler.call(this, true);
-                        }
+                            }
+
                         GA.log({
                             'event' : 'video.download.action',
                             'action' : 'btn_click',
@@ -135,6 +136,13 @@
             subscribeCallback : function (statusCode) {
                 this.props.subscribeHandler.call(this, statusCode);
             },
+            handleChange : function (event) {
+                if (event.target.checked === false) {
+                    sessionStorage.setItem('unchecked', 'unchecked');
+                } else {
+                    sessionStorage.removeItem('unchecked');
+                }
+            },
             render : function () {
                 var episode = this.props.video.get('videoEpisodes');
                 if (sessionStorage.getItem('unchecked') !== null) {
@@ -142,7 +150,7 @@
                         <div className="o-download-list-ctn">
                             <h5>{Wording.EPISODE_DOWNLOAD}</h5>
                             <div className="player-app">
-                                <input id="player-app" ref="player-app" type="checkbox" />
+                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" />
                                 <label htmlFor="player-app">同时下载视频应用</label>
                             </div>
                             <ul className="list-ctn" ref="ctn">
@@ -157,7 +165,7 @@
                         <div className="o-download-list-ctn">
                             <h5>{Wording.EPISODE_DOWNLOAD}</h5>
                             <div className="player-app">
-                                <input id="player-app" ref="player-app" type="checkbox" defaultChecked />
+                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" defaultChecked />
                                 <label htmlFor="player-app">同时下载视频应用</label>
                             </div>
                             <ul className="list-ctn" ref="ctn">
@@ -197,7 +205,7 @@
                 return listItems;
             },
             showSubscribeBubble : function () {
-                if (this.props.subscribed === -2) {
+                if (this.props.subscribed !== 0) {
                     return false;
                 }
                 if (this.subscribeBubbleView.state !== null && !this.subscribeBubbleView.state.show && this.props.video.get('subscribeUrl') !== undefined) {
