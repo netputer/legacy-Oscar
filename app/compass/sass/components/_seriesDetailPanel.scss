@@ -82,6 +82,24 @@
             .button-download,
             .button-subscribe {
                 margin-top: 10px;
+
+                &.subscribing {
+                    background: url(../images/check_mark.png) no-repeat 5px center;
+                    padding-left: 24px;
+                }
+
+                &.unsubscribe {
+                    background-image: -webkit-linear-gradient(#f4504a, #e0392f);
+                    box-shadow: initial;
+                    color: #fff;
+                    padding-left: 17px;
+                    padding-right: 17px;
+                    -webkit-box-shadow: initial;
+                }
+
+                &.loading {
+                    color: #999;
+                }
             }
         }
     }

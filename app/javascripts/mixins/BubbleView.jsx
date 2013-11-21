@@ -28,6 +28,9 @@
                 return this.state[name + 'BubbleShow'] ? ('bubble bubble-' + name + ' show') : ('bubble bubble-' + name);
             },
             closeBubble : function (type) {
+                if (type === 'ok') {
+                    sessionStorage.setItem('subscribe', 'ok');
+                }
                 this.setState({
                     subscribeBubbleShow : false,
                     providersBubbleShow : false,
