@@ -28,17 +28,20 @@
 
         var clickedProviderArrow = 0;
 
+        var episodeKey;
+
         var ItemView = React.createClass({
             componentWillMount : function () {
                 this.providersBubbleView = <ProvidersBubbleView video={this.props.video} episode={this.props.episode} id="providerItems" />
             },
-            showProviderItems : function () {
+            showProviderItems : function (key) {
                 clickedProviderArrow = 1;
 
                 var EventListener = function (event) {
-                    if (event.target.className !== 'arrow' && event.target.className !== 'more-provider') {
+                    if ((event.target.className !== 'arrow' && event.target.className !== 'more-provider') || (episodeKey !== key)) {
                         toggleBubbleState(false);
                     }
+                    episodeKey = key
                     document.body.removeEventListener('click', EventListener, false);
                 };
 
@@ -51,10 +54,6 @@
                 if (clickedProviderArrow === 1) {
                     document.body.addEventListener('click', EventListener, false);
                     toggleBubbleState(!this.providersBubbleView.state.providerItemsBubbleShow);
-                    
-                    this.providersBubbleView.setState({
-                        providersBubbleShow : true
-                    });
                 }
 
                 setTimeout(function () {
@@ -66,7 +65,7 @@
                 var hasDownload = !!episode.downloadUrls;
                 var moreProvider = function () {
                     return (
-                        <div className="more-provider" onClick={this.showProviderItems}>
+                        <div className="more-provider" onClick={this.showProviderItems.bind(this, this.props.key)}>
                             <span className="arrow"></span>
                         </div>
                     );
