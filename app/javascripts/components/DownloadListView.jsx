@@ -34,17 +34,32 @@
             },
             showProviderItems : function () {
                 clickedProviderArrow = 1;
-                if (clickedProviderArrow === 1) {
+
+                var EventListener = function (event) {
+                    if (event.target.className !== 'arrow' && event.target.className !== 'more-provider') {
+                        toggleBubbleState(false);
+                    }
+                    document.body.removeEventListener('click', EventListener, false);
+                };
+
+                var toggleBubbleState = function (boolean) {
                     this.providersBubbleView.setState({
-                        providerItemsBubbleShow : !(this.providersBubbleView.state.providerItemsBubbleShow)
+                        providerItemsBubbleShow : boolean
+                    });
+                }.bind(this);
+
+                if (clickedProviderArrow === 1) {
+                    document.body.addEventListener('click', EventListener, false);
+                    toggleBubbleState(!this.providersBubbleView.state.providerItemsBubbleShow);
+                    
+                    this.providersBubbleView.setState({
+                        providersBubbleShow : true
                     });
                 }
 
                 setTimeout(function () {
                     clickedProviderArrow = 0;
                 }, 500);
-
-
             },
             render : function () {
                 var episode = this.props.episode;
@@ -100,7 +115,6 @@
                                     }
                                     break;
                                 }
-
                             }
 
                         GA.log({
@@ -139,6 +153,10 @@
             handleChange : function (event) {
                 if (event.target.checked === false) {
                     sessionStorage.setItem('unchecked', 'unchecked');
+                    GA.log({
+                        'event' : 'video.misc.action',
+                        'action' : 'app_promotion_unchecked'
+                    });
                 } else {
                     sessionStorage.removeItem('unchecked');
                 }
