@@ -55,9 +55,11 @@
         var downloadPlayerAsync = function(title) {
             _.some(providers, function (provider) {
                 if (title === provider.title) {
+                    console.log(provider)
                     var icon = provider.iconUrl;
-                    var url = provider.appDownloadUrl + '#name=' + title + '&icon=' + icon + '&content-type=application';
+                    var url = provider.appDownloadUrl + '?pos=oscar-promotion#name=' + title + '&icon=' + icon + '&content-type=application';
                     $('<a>').attr({'href' : url, 'download' : title})[0].click();
+                    sessionStorage.setItem(title, 'installed');
                     return true;
                 } else {
                     return false;
@@ -66,20 +68,17 @@
         };
 
         var downloadPlayer = function(player, title, index) {
-            if (player.promotType & 1) {
-                var downloadAppText = '正在下载安装' + player.providerName + '...';
-                var downloadVideoText = '已开始下载' + title + '...';
+            if (player.promotType & 1 && sessionStorage.getItem(player.providerName) === null) {
+                var downloadAppText = '同时为您下载' + player.providerName + '...';
                 var eleIndex = index !== undefined ? index : 0;
                 var ele = document.getElementsByClassName('bubble-download-tips')[eleIndex];
                 var cachedHtml = ele.innerHTML;
                 ele.innerHTML = downloadAppText;
                 ele.style.opacity = '1';
+
                 setTimeout(function () {
-                    ele.innerHTML = downloadVideoText;
-                    setTimeout(function () {
-                        ele.style.opacity = '0';
-                        ele.innerHTML = cachedHtml;
-                    }, 3000)
+                    ele.style.opacity = '';
+                    ele.innerHTML = cachedHtml;
                 }, 3000)
 
                 if (providers === undefined) {
@@ -127,11 +126,23 @@
             }
         };
 
-        DownloadHelper.downloadFromProvider = function (title, provider, installPlayer) {
+        DownloadHelper.downloadFromProvider = function (episode, provider, installPlayer, index) {
+            var title = episode.title;
             var url = provider.url;
             var dServiceURL = provider.accelUrl;
+            var eleIndex = index !== undefined ? index : 0;
+
             if (!!installPlayer) {
-                downloadPlayer(provider, title);
+                downloadPlayer(provider, title, eleIndex);
+                GA.log({
+                    'event' : 'video.download.action',
+                    'action' : 'video_app_download',
+                    'pos' : 'detail',
+                    'video_id' : episode.video_id,
+                    'video_source' : title,
+                    'video_title' : episode.title
+                });
+
             }
 
             if (dservice) {

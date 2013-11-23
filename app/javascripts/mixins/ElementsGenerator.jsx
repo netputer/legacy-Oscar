@@ -88,10 +88,23 @@
             },
             moreProvider : function () {
                 clickedProviderArrow = 1;
-                if (clickedProviderArrow === 1) {
+
+                var EventListener = function (event) {
+                    if (event.target.className !== 'arrow' && event.target.className !== 'more-provider') {
+                        toggleBubbleState(false);
+                    }
+                    document.body.removeEventListener('click', EventListener, false);
+                };
+
+                var toggleBubbleState = function (boolean) {
                     this.providersBubbleView.setState({
-                        providersBubbleShow : !(this.providersBubbleView.state.providersBubbleShow)
+                        providersBubbleShow : boolean
                     });
+                }.bind(this);
+
+                if (clickedProviderArrow === 1) {
+                    document.body.addEventListener('click', EventListener, false);
+                    toggleBubbleState(!this.providersBubbleView.state.providersBubbleShow);
                 }
 
                 setTimeout(function () {
@@ -160,14 +173,6 @@
                     text = Wording.SUBSCRIBE;
                 }
 
-                GA.log({
-                    'event' : 'video.misc.action',
-                    'action' : 'subscribe_button',
-                    'type' : 'display',
-                    'pos' : 'subscribe_button',
-                    'video_id' : this.props.video !== undefined ? this.props.video.id : ''
-                });
-
                 return <button id="button-subscribe" class={className} onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video)} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
             },
             handleChange : function (event) {
@@ -189,7 +194,7 @@
                     } else {
                         return (
                             <div className="player-app">
-                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" defaultChecked />
+                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" />
                                 <label htmlFor="player-app">同时下载视频应用</label>
                             </div>
                         ); 
