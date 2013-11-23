@@ -173,14 +173,6 @@
                     text = Wording.SUBSCRIBE;
                 }
 
-                GA.log({
-                    'event' : 'video.misc.action',
-                    'action' : 'subscribe_button',
-                    'type' : 'display',
-                    'pos' : 'subscribe_button',
-                    'video_id' : this.props.video !== undefined ? this.props.video.id : ''
-                });
-
                 return <button id="button-subscribe" class={className} onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video)} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
             },
             handleChange : function (event) {
