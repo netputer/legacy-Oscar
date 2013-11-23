@@ -182,7 +182,7 @@
                         <div className="o-download-list-ctn">
                             <h5>{Wording.EPISODE_DOWNLOAD}</h5>
                             <div className="player-app">
-                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" defaultChecked />
+                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" />
                                 <label htmlFor="player-app">同时下载视频应用</label>
                             </div>
                             <ul className="list-ctn" ref="ctn">
