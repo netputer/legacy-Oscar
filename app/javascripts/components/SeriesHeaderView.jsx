@@ -4,6 +4,7 @@
     define([
         'React',
         'Wording',
+        'GA',
         'utilities/FormatString',
         'mixins/ElementsGenerator',
         'components/SubscribeBubbleView',
@@ -11,6 +12,7 @@
     ], function (
         React,
         Wording,
+        GA,
         FormatString,
         ElementsGenerator,
         SubscribeBubbleView,
@@ -37,6 +39,19 @@
                         success : function (data) {
                             if (data === 'true') {
                                 this.props.subscribeHandler.call(this, 1);
+                                GA.log({
+                                    'event' : 'video.misc.action',
+                                    'action' : 'subscribe_button',
+                                    'type' : 'display',
+                                    'pos' : 'subscribe_button',
+                                    'video_id' : this.props.video !== undefined ? this.props.video.id : '',
+                                    'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
+                                    'video_title' : this.props.video.get('title'),
+                                    'video_type' : this.props.video.get('type'),
+                                    'video_category' : this.props.video.get('categories'),
+                                    'video_year' : this.props.video.get('year'),
+                                    'video_area' : this.props.video.get('region')
+                                });
                             } else {
                                 this.props.subscribeHandler.call(this, 0);
                             }
