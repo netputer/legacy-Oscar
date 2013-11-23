@@ -25,9 +25,10 @@
             downloadFromProvider : function (url) {
                 var installPlayerApp = !!document.getElementById('player-app') && document.getElementById('player-app').checked;
                 if (this.props.episode) {
-                    DownloadHelper.downloadFromProvider(this.props.episode.title, url, installPlayerApp);
+                    var index = this.props.video.get('videoEpisodes').indexOf(this.props.episode);
+                    DownloadHelper.downloadFromProvider(this.props.episode, url, installPlayerApp, index);
                 } else {
-                    DownloadHelper.downloadFromProvider(this.props.video.get('videoEpisodes')[0].title, url, installPlayerApp);
+                    DownloadHelper.downloadFromProvider(this.props.video.get('videoEpisodes')[0], url, installPlayerApp);
                 }
 
                 this.setState({
@@ -66,7 +67,6 @@
                         <ul>{items}</ul>
                     </div>
                 );
-
             }
         });
 

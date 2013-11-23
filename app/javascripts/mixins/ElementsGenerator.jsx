@@ -88,10 +88,23 @@
             },
             moreProvider : function () {
                 clickedProviderArrow = 1;
-                if (clickedProviderArrow === 1) {
+
+                var EventListener = function (event) {
+                    if (event.target.className !== 'arrow' && event.target.className !== 'more-provider') {
+                        toggleBubbleState(false);
+                    }
+                    document.body.removeEventListener('click', EventListener, false);
+                };
+
+                var toggleBubbleState = function (boolean) {
                     this.providersBubbleView.setState({
-                        providersBubbleShow : !(this.providersBubbleView.state.providersBubbleShow)
+                        providersBubbleShow : boolean
                     });
+                }.bind(this);
+
+                if (clickedProviderArrow === 1) {
+                    document.body.addEventListener('click', EventListener, false);
+                    toggleBubbleState(!this.providersBubbleView.state.providersBubbleShow);
                 }
 
                 setTimeout(function () {

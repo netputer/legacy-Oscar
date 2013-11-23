@@ -28,30 +28,44 @@
 
         var clickedProviderArrow = 0;
 
+        var episodeKey;
+
         var ItemView = React.createClass({
             componentWillMount : function () {
                 this.providersBubbleView = <ProvidersBubbleView video={this.props.video} episode={this.props.episode} id="providerItems" />
             },
-            showProviderItems : function () {
+            showProviderItems : function (key) {
                 clickedProviderArrow = 1;
-                if (clickedProviderArrow === 1) {
+
+                var EventListener = function (event) {
+                    if ((event.target.className !== 'arrow' && event.target.className !== 'more-provider') || (episodeKey !== key)) {
+                        toggleBubbleState(false);
+                    }
+                    episodeKey = key
+                    document.body.removeEventListener('click', EventListener, false);
+                };
+
+                var toggleBubbleState = function (boolean) {
                     this.providersBubbleView.setState({
-                        providerItemsBubbleShow : !(this.providersBubbleView.state.providerItemsBubbleShow)
+                        providerItemsBubbleShow : boolean
                     });
+                }.bind(this);
+
+                if (clickedProviderArrow === 1) {
+                    document.body.addEventListener('click', EventListener, false);
+                    toggleBubbleState(!this.providersBubbleView.state.providerItemsBubbleShow);
                 }
 
                 setTimeout(function () {
                     clickedProviderArrow = 0;
                 }, 500);
-
-
             },
             render : function () {
                 var episode = this.props.episode;
                 var hasDownload = !!episode.downloadUrls;
                 var moreProvider = function () {
                     return (
-                        <div className="more-provider" onClick={this.showProviderItems}>
+                        <div className="more-provider" onClick={this.showProviderItems.bind(this, this.props.key)}>
                             <span className="arrow"></span>
                         </div>
                     );
@@ -100,7 +114,6 @@
                                     }
                                     break;
                                 }
-
                             }
 
                         GA.log({
@@ -139,6 +152,10 @@
             handleChange : function (event) {
                 if (event.target.checked === false) {
                     sessionStorage.setItem('unchecked', 'unchecked');
+                    GA.log({
+                        'event' : 'video.misc.action',
+                        'action' : 'app_promotion_unchecked'
+                    });
                 } else {
                     sessionStorage.removeItem('unchecked');
                 }
