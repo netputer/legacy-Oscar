@@ -1,3 +1,17 @@
+<a name="v2.5.4"></a>
+### v2.5.4 (2013-11-25)
+
+<a name="v2.5.3"></a>
+### v2.5.3 (2013-11-21)
+
+<a name="v2.4.8"></a>
+### v2.4.8 (2013-11-21)
+
+
+#### Bug Fixes
+
+* 删除 RequireJS build block ([cfe43339](https://github.com/wandoulabs/Oscar/commit/cfe43339ac2abf04bb353d4fe8809866f35a54f5))
+
 <a name="v2.4.7"></a>
 ### v2.4.7 (2013-11-20)
 
