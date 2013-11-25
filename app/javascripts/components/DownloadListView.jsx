@@ -38,10 +38,10 @@
                 clickedProviderArrow = 1;
 
                 var EventListener = function (event) {
-                    if ((event.target.className !== 'arrow' && event.target.className !== 'more-provider') || (episodeKey !== key)) {
+                    if ((event.target.className !== 'arrow' && event.target.name !== 'more-provider') || (episodeKey !== key)) {
                         toggleBubbleState(false);
                     }
-                    episodeKey = key
+                    episodeKey = key;
                     document.body.removeEventListener('click', EventListener, false);
                 };
 
@@ -49,6 +49,11 @@
                     this.providersBubbleView.setState({
                         providerItemsBubbleShow : boolean
                     });
+                    if (boolean) {
+                        document.getElementsByClassName('item')[key].className = 'item active';
+                    } else {
+                        document.getElementsByClassName('item')[key].className = 'item';
+                    }
                 }.bind(this);
 
                 if (clickedProviderArrow === 1) {
@@ -62,31 +67,38 @@
             },
             render : function () {
                 var episode = this.props.episode;
-                var hasDownload = !!episode.downloadUrls;
-                var moreProvider = function () {
-                    return (
-                        <div className="more-provider" onClick={this.showProviderItems.bind(this, this.props.key)}>
-                            <span className="arrow"></span>
-                        </div>
-                    );
-                }.bind(this);
+                var downloadSource = episode.downloadUrls.length;
                 var count;
                 var style = {
-                    display : this.props.key >= this.props.expendIndex * 12 ? 'none' : 'inline-block'
+                    display : this.props.key >= this.props.expendIndex * 10 ? 'none' : 'inline-block'
                 };
                 if (episode.episodeNum) {
                     count = FormatString(Wording.EPISODE_NUM, episode.episodeNum);
                 } else {
                     count = FormatDate('第MM-dd期', episode.episodeDate);
                 }
-                if (hasDownload) {
+                if (downloadSource > 1) {
+                    return (
+                        <li className="item" style={style}>
+                            <div className="w-btn-group">
+                                <button className="button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
+                                    {count}
+                                    <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.downloadUrls[0].providerName}</em> {ReadableSize(episode.downloadUrls[0].size)}</span>
+                                </button>
+                                <button name="more-provider" className="w-btn w-btn-primary more-provider" onClick={this.showProviderItems.bind(this, this.props.key)}>
+                                    <span className="arrow"></span>
+                                </button>
+                                {this.providersBubbleView}
+                            </div>
+                        </li>
+                    );
+                } else if (downloadSource === 1) {
                     return (
                         <li className="item" style={style}>
                             <button className="button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
-                            {count} {episode.downloadUrls.length > 1 ? moreProvider() : ''}
+                                {count}
+                                <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.downloadUrls[0].providerName}</em> {ReadableSize(episode.downloadUrls[0].size)}</span>
                             </button>
-                            <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.downloadUrls[0].providerName}</em> {ReadableSize(episode.downloadUrls[0].size)}</span>
-                            {episode.downloadUrls.length > 1 ? this.providersBubbleView : ''}
                         </li>
                     );
                 } else {
@@ -173,7 +185,7 @@
                             <ul className="list-ctn" ref="ctn">
                                 {this.createList(episode)}
                             </ul>
-                            {episode.length > this.state.expendIndex * 12 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
+                            {episode.length > this.state.expendIndex * 10 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
                             {this.subscribeBubbleView}
                         </div>
                     );
@@ -188,7 +200,7 @@
                             <ul className="list-ctn" ref="ctn">
                                 {this.createList(episode)}
                             </ul>
-                            {episode.length > this.state.expendIndex * 12 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
+                            {episode.length > this.state.expendIndex * 10 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
                             {this.subscribeBubbleView}
                         </div>
                     );

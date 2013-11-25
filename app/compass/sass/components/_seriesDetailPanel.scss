@@ -88,18 +88,20 @@
                     padding-left: 24px;
                 }
 
-                &.unsubscribe {
-                    background-image: -webkit-linear-gradient(#f4504a, #e0392f);
+                &.w-btn-danger {
                     box-shadow: initial;
-                    color: #fff;
                     padding-left: 17px;
                     padding-right: 17px;
-                    text-shadow: initial;
-                    -webkit-box-shadow: initial;
                 }
 
                 &.loading {
                     color: #999;
+                }
+            }
+
+            .w-btn-group {
+                .button-download, .button-subscribe {
+                    margin-top: 0;
                 }
             }
         }
@@ -111,7 +113,7 @@
 }
 .button-download {
     position: relative;
-    
+
     .size {
         margin-top: 13px;
         opacity: 0;
@@ -131,26 +133,34 @@
             opacity: 1;
         }
     }
+}
 
+.more-provider {
+    .arrow {
+        border-bottom: none;
+        border-left: 4px dashed transparent;
+        border-right: 4px dashed transparent;
+        border-top: 4px solid #fff;
+        display: inline-block;
+        height: 0;
+        position: relative;
+        top: -2px;
+        width: 0;
+    }
+}
+
+.w-btn-group {
+    .button-download {
+        min-width: 60px;
+    }
     .more-provider {
-        border-left: 1px solid rgba(255, 255, 255, .8);
+        border-width: 0;
+        border-left-width: 1px;
         display: inline-block;
         height: 100%;
-        margin: 0 -9px 0 6px;
         padding: 0 5px;
-
-
-        .arrow {
-            border-bottom: none;
-            border-left: 4px dashed transparent;
-            border-right: 4px dashed transparent;
-            border-top: 5px solid #fff;
-            display: inline-block;
-            height: 0;
-            position: relative;
-            top: -1px;
-            width: 0;
-        }
+        -webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, .2)), to(rgba(0, 0, 0, 0))) 1 100%;
+        -webkit-border-image: -webkit-linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 1 100%;
     }
 }
 
