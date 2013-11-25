@@ -82,7 +82,7 @@
             mouseEvent : function (evt) {
                 if (evt === 'onMouseEnter' && this.props.subscribed === 1) {
                     this.subscribeCallback.call(this, -1);
-                } else if (evt == 'onMouseLeave' && this.props.subscribed === -1) {
+                } else if (evt === 'onMouseLeave' && this.props.subscribed === -1) {
                     this.subscribeCallback.call(this, 1);
                 }
             },
@@ -90,7 +90,7 @@
                 clickedProviderArrow = 1;
 
                 var EventListener = function (event) {
-                    if (event.target.className !== 'arrow' && event.target.className !== 'more-provider') {
+                    if (event.target.className !== 'arrow' && event.target.name !== 'more-provider') {
                         toggleBubbleState(false);
                     }
                     document.body.removeEventListener('click', EventListener, false);
@@ -100,6 +100,11 @@
                     this.providersBubbleView.setState({
                         providersBubbleShow : boolean
                     });
+                    if (boolean) {
+                        document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider active';
+                    } else {
+                        document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider';
+                    }
                 }.bind(this);
 
                 if (clickedProviderArrow === 1) {
@@ -118,25 +123,30 @@
             },
             getDownloadBtn : function (source) {
                 var text = '';
-                var moreProviderView = function () {
-                    return (
-                        <div className="more-provider" onClick={this.moreProvider}>
-                            <span className="arrow"></span>
-                        </div>
-                    );
-                }.bind(this);
                 switch (this.props.video.get('type')) {
                 case 'MOVIE':
                     text = Wording.DOWNLOAD;
+                    if (this.props.video.get('videoEpisodes')[0].downloadUrls.length > 1) {
+                        return (
+                            <div className="w-btn-group">
+                                <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
+                                    {text}
+                                    <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.video.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
+                                </button>
+                                <button id="more-provider" name="more-provider" className="w-btn w-btn-primary more-provider" onClick={this.moreProvider}>
+                                    <span className="arrow"></span>
+                                </button>
+                            </div>
+
+                        );
+                    } else {
                         return (
                             <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
                                 {text}
                                 <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.video.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
-
-                                {this.props.video.get('videoEpisodes')[0].downloadUrls.length > 1 ? moreProviderView() : ''}
-
                             </button>
                         );
+                    }
                     break;
                 case 'TV':
                 case 'VARIETY':
@@ -163,7 +173,7 @@
                     className = baseClassName + ' subscribing';
                     text = Wording.SUBSCRIBING;
                 } else if (this.props.subscribed === -1) {
-                    className = baseClassName + ' unsubscribe';
+                    className = baseClassName + ' w-btn-danger';
                     text = Wording.UNSUBSCRIBE;
                 } else if (this.props.subscribed === 2) {
                     className = baseClassName + ' loading';

@@ -19,13 +19,13 @@
 
         .item {
             display: inline-block;
-            margin: 0 5px 8px 0;
+            margin: 0 8px 8px 0;
             position: relative;
             vertical-align: top;
 
             .button-download {
                 padding: 2px 5px;
-                min-width: 68px;
+                min-width: 80px;
 
                 &:not(:hover):not(:active) {
                     background-color: #fff;
@@ -34,16 +34,27 @@
                     color: $standardColor;
                     text-shadow: none;
                 }
+            }
 
-                &:hover {
-                    .more-provider {
-                        display: inline-block;
-                    }
+            .w-btn-group {
+                border-color: #2c8e00;
+                height: 24px;
+                margin-top: 0;
+
+                .w-btn-mini {
+                    height: 22px;
+                }
+
+                .button-download {
+                    min-width: 78px;
+                }
+
+                .bubble-provideritems {
+                    margin-top: 1px;
                 }
             }
 
             .more-provider {
-                margin: 0 -6px 0 3px;
                 padding: 0 2px;
                 display: none;
             }
@@ -74,5 +85,18 @@
                 }
             }
         }
+
+
+        .item:hover, .item.active {
+            .w-btn-group {
+                .button-download {
+                    min-width: 65px;
+                }
+                .more-provider {
+                    display: inline-block;
+                }
+            }
+        }
+
     }
 }
