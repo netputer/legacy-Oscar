@@ -3,7 +3,7 @@ require.config({
         $ : '../components/jquery/jquery',
         _ : '../components/underscore/underscore',
         Backbone : '../components/backbone/backbone',
-        React : '../components/react/react'
+        React : '../components/react/react-with-addons'
     },
     shim : {
         $ : {

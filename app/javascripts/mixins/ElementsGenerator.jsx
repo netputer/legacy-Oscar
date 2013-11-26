@@ -126,9 +126,10 @@
                 switch (this.props.video.get('type')) {
                 case 'MOVIE':
                     text = Wording.DOWNLOAD;
+                    console.log(this.props.video.get('videoEpisodes')[0].downloadUrls.length);
                     if (this.props.video.get('videoEpisodes')[0].downloadUrls.length > 1) {
                         return (
-                            <div className="w-btn-group">
+                            <div className="o-btn-group">
                                 <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
                                     {text}
                                     <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.video.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
@@ -194,21 +195,12 @@
             },
             getCheckbox : function (name) {
                 if (this.props.video.get('type') === 'MOVIE') {
-                    if (sessionStorage.getItem('unchecked') !== null) {
-                        return (
-                            <div className="player-app">
-                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" />
-                                <label htmlFor="player-app">同时下载视频应用</label>
-                            </div>
-                        );
-                    } else {
-                        return (
-                            <div className="player-app">
-                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" />
-                                <label htmlFor="player-app">同时下载视频应用</label>
-                            </div>
-                        ); 
-                    }
+                    return (
+                        <label class="download-app">
+                            <input class="w-checkbox" ref="player-app" onChange={this.handleChange} type="checkbox" />
+                            同时下载视频应用
+                        </label>
+                    );
                 }
             },
             getActorsEle : function () {

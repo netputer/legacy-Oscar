@@ -1,13 +1,4 @@
-.o-download-list-ctn {
-    h5 {
-        display: inline-block;
-    }
-    .player-app {
-        margin: 10px 6px 0 12px;
-        position: initial;
-        float: right;
-    }
-
+.o-button-list-ctn {
     .bubble-subscribe {
         left: 130px;
         position: absolute;
@@ -23,7 +14,7 @@
             position: relative;
             vertical-align: top;
 
-            .button-download {
+            .button {
                 padding: 2px 5px;
                 min-width: 80px;
 
@@ -36,27 +27,23 @@
                 }
             }
 
-            .w-btn-group {
-                border-color: #2c8e00;
-                height: 24px;
-                margin-top: 0;
-
-                .w-btn-mini {
-                    height: 22px;
+            .o-btn-group {
+                .more-provider {
+                    display: none;
                 }
 
-                .button-download {
-                    min-width: 78px;
-                }
+                &:hover {
+                    .button {
+                        border-radius: 3px 0 0 3px;
+                        min-width: 60px;
+                    }
 
-                .bubble-provideritems {
-                    margin-top: 1px;
+                    .more-provider {
+                        display: inline-block;
+                        padding: 2px 5px;
+                        min-width: 20px;
+                    }
                 }
-            }
-
-            .more-provider {
-                padding: 0 2px;
-                display: none;
             }
 
             .size {
@@ -85,18 +72,5 @@
                 }
             }
         }
-
-
-        .item:hover, .item.active {
-            .w-btn-group {
-                .button-download {
-                    min-width: 65px;
-                }
-                .more-provider {
-                    display: inline-block;
-                }
-            }
-        }
-
     }
 }
