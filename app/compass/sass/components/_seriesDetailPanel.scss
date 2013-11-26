@@ -83,17 +83,12 @@
 
     .download-app {
         float: none;
-        margin: 10px 0 0 15px;
-        vertical-align: middle;
+        margin: 0 0 0 15px;
     }
 
     .o-btn-group {
         .button-download {
             border-radius: 3px 0 0 3px;
-        }
-
-        .more-provider {
-            margin-top: 10px;
         }
     }
 
@@ -115,8 +110,6 @@
 
             .button-download,
             .button-subscribe {
-                margin-top: 10px;
-
                 &.subscribing {
                     background: url(../images/check_mark.png) no-repeat 5px center;
                     padding-left: 24px;
@@ -144,6 +137,7 @@
 
 .download-info {
     height: 40px;
+    padding-top: 10px;
 }
 
 .button-download {

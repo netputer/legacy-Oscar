@@ -162,6 +162,42 @@
                     </button>
                 );
             },
+            clickButtonPlay : function (url) {
+                var episode = this.props.video.get('videoEpisodes')[0];
+                var video = this.props.video.toJSON();
+
+                var $a = $('<a>').attr({
+                    href : url,
+                    target : '_default'
+                })[0].click();
+
+                GA.log({
+                    'event' : 'video.play.action',
+                    'action' : 'btn_click',
+                    'video_source' : episode.playInfo[0].title,
+                    'video_id' : episode.video_id,
+                    'episode_id' : episode.id,
+                    'video_title' : video.title,
+                    'video_type' : video.type,
+                    'video_category' : video.categories,
+                    'video_year' : video.year,
+                    'video_area' : video.region,
+                    'video_num' : video.totalEpisodesNum
+                });
+            },
+            getPlayBtn : function (source) {
+                var episodes  = this.props.video.get('videoEpisodes');
+                if (this.props.video.get('type') === 'MOVIE' && episodes[0].playInfo.length > 0 && episodes[0].playInfo[0].url !== undefined) {
+                    return (
+                        <button className="button-play w-btn w-btn-primary" onClick={this.clickButtonPlay.bind(this, episodes[0].playInfo[0].url)}>
+                            {Wording.PLAY}
+                        </button>
+                    );
+
+                } else {
+                    return '';
+                }
+            },
             getSubscribeBtn : function (source) {
                 var text;
                 var baseClassName = 'button-subscribe w-btn';
