@@ -1,3 +1,16 @@
+<a name="v2.5.5"></a>
+### v2.5.5 (2013-11-26)
+
+
+#### Bug Fixes
+
+* 修正视频来源按钮样式 ([82380582](https://github.com/wandoulabs/Oscar/commit/82380582db739fa46e742588dd0dfd63a59ea0d2))
+
+
+#### Features
+
+* 视频播放功能一期（在浏览器打开） ([b0bf0217](https://github.com/wandoulabs/Oscar/commit/b0bf0217f25ff985711fc070450430015bdde624))
+
 <a name="v2.5.4"></a>
 ### v2.5.4 (2013-11-25)
 
