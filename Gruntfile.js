@@ -115,6 +115,8 @@ module.exports = function (grunt) {
                     dest : '<%= paths.tmp %>',
                     src : [
                         'stylesheets/*.*',
+                        'thirdparty/Adonis/dist/adonis.css',
+                        'thirdparty/Adonis/images/*.*',
                         'javascripts/**/*.js',
                         'components/**/*.*',
                         '*.html'
@@ -128,6 +130,8 @@ module.exports = function (grunt) {
                     cwd : '<%= paths.app %>',
                     dest : '<%= paths.dist %>',
                     src : [
+                        'thirdparty/Adonis/dist/adonis.css',
+                        'thirdparty/Adonis/images/*.*',
                         'images/{,*/}*.{webp,gif,png,jpg,jpeg}',
                         'manifest.json',
                         'icon*.png'
@@ -241,10 +245,19 @@ module.exports = function (grunt) {
                 tagMessage : 'Version %VERSION%',
                 push : false
             }
+        },
+        shell: {
+            buildAdonis : {
+                options : {
+                    stdout : true
+                },
+                command : ['cd app/thirdparty/Adonis', 'grunt build'].join('&&')
+            }
         }
     });
 
     grunt.registerTask('server', [
+        'shell:buildAdonis',
         'clean:server',
         'compass:server',
         'react:server',
@@ -256,6 +269,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'react:server',
+        'shell:buildAdonis',
         'copy:tmp',
         'copy:dist',
         'requirejs:dist',
