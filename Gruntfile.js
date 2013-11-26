@@ -33,7 +33,8 @@ module.exports = function (grunt) {
                     '<%= paths.tmp %>/images/**/*'
                 ],
                 options : {
-                    livereload : true
+                    livereload : true,
+                    spawn : false
                 }
             },
             react : {
