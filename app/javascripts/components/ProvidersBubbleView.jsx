@@ -59,8 +59,8 @@
                 }
 
                 var items = _.map(urls, function (url, index) {
-                        return <li onClick={this.downloadFromProvider.bind(this, url)}>来源: {url.providerName} <span className="provider-size">{ReadableSize(url.size)}</span></li>
-                    }.bind(this));
+                        return <li key={index} onClick={this.downloadFromProvider.bind(this, url)}>来源: {url.providerName} <span className="provider-size">{ReadableSize(url.size)}</span></li>
+                    }, this);
 
                 return (
                     <div className={className}>

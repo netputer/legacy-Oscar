@@ -1,4 +1,11 @@
 @import "sprite/*.png";
+
+@import "../../thirdparty/Adonis/sass/standardColors";
+html,
+body {
+    height: 100%;
+}
+
 body {
     background-image: url(../images/bg_100X100.png);
 
@@ -9,7 +16,8 @@ body {
     }
 }
 
-ul {
+ul,
+menu {
     list-style: none;
 }
 

@@ -1,0 +1,25 @@
+.o-player-ctn {
+    background-color: rgba(0, 0, 0, .7);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+
+    .frame-ctn {
+        bottom: 30px;
+        display: block;
+        left: 30px;
+        position: absolute;
+        right: 30px;
+        top: 30px;
+
+        .frame {
+            border: none;
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+    }
+}

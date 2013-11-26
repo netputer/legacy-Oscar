@@ -126,7 +126,7 @@
                 switch (this.props.video.get('type')) {
                 case 'MOVIE':
                     text = Wording.DOWNLOAD;
-                    console.log(this.props.video.get('videoEpisodes')[0].downloadUrls.length);
+
                     if (this.props.video.get('videoEpisodes')[0].downloadUrls.length > 1) {
                         return (
                             <div className="o-btn-group">
