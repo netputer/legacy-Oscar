@@ -96,7 +96,7 @@
                 }.bind(this));
             },
             hideSuggestion : function () {
-                setTimeout(function() {                
+                setTimeout(function() {
                     this.setState({
                         resultModels : []
                     });
@@ -227,7 +227,7 @@
                         <div className="o-search-box-wrap">
                             <input
                                 ref="searchBoxInput"
-                                className="o-search-box-input w-form-inline w-input-large"
+                                className="o-search-box-input w-input w-form-inline w-input-large"
                                 placeholder="搜索片名、演员、导演"
                                 type="text"
                                 name="keyword"
