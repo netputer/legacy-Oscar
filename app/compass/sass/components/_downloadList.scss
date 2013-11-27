@@ -1,4 +1,64 @@
+@import "../../thirdparty/Adonis/sass/standardColors";
+@import "compass/css3";
+
 .o-button-list-ctn {
+    .button {
+        background-color: #fff;
+        background-image: none;
+        box-shadow: none;
+        color: $standardColor;
+        text-shadow: none;
+        padding: 2px 5px;
+        min-width: 80px;
+
+        &:hover,
+        &.hover {
+            @include background-image(linear-gradient($btnPrimaryHoverBgColorFrom, $btnPrimaryHoverBgColorTo));
+            @include filter-gradient($btnPrimaryHoverBgColorFrom, $btnPrimaryHoverBgColorTo);
+            @include single-box-shadow(0, 1px, 0, false, #79d367, true);
+
+            color: $btnPrimaryTextColor;
+        }
+
+        &:active,
+        &.active {
+            @include background-image(linear-gradient($btnPrimaryActiveBgColorFrom, $btnPrimaryActiveBgColorTo));
+            @include filter-gradient($btnPrimaryActiveBgColorFrom, $btnPrimaryActiveBgColorTo);
+            @include single-box-shadow(0, 1px, 0, false, #72c261, true);
+
+            color: $btnPrimaryTextColor;
+        }
+
+        &:disabled,
+        &.disabled {
+            background-color: #fff;
+            background-image: none;
+            box-shadow: none;
+            color: $standardColor;
+            text-shadow: none;
+        }
+    }
+
+    .o-btn-group {
+        .more-provider {
+            display: none;
+        }
+
+        &:hover {
+            .button {
+                border-radius: 3px 0 0 3px;
+                min-width: 60px;
+                width: 60px;
+            }
+
+            .more-provider {
+                display: inline-block;
+                padding: 2px 5px;
+                min-width: 20px;
+            }
+        }
+    }
+
     .bubble-subscribe {
         left: 130px;
         position: absolute;
@@ -13,38 +73,6 @@
             margin: 0 8px 8px 0;
             position: relative;
             vertical-align: top;
-
-            .button {
-                padding: 2px 5px;
-                min-width: 80px;
-
-                &:not(:hover):not(:active) {
-                    background-color: #fff;
-                    background-image: none;
-                    box-shadow: none;
-                    color: $standardColor;
-                    text-shadow: none;
-                }
-            }
-
-            .o-btn-group {
-                .more-provider {
-                    display: none;
-                }
-
-                &:hover {
-                    .button {
-                        border-radius: 3px 0 0 3px;
-                        min-width: 60px;
-                    }
-
-                    .more-provider {
-                        display: inline-block;
-                        padding: 2px 5px;
-                        min-width: 20px;
-                    }
-                }
-            }
 
             .size {
                 opacity: 0;
