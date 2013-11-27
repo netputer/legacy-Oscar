@@ -81,7 +81,7 @@
 
                 if (!episode.downloadUrls) {
                     return (
-                        <li className="item">
+                        <li className="item" style={style}>
                             <button className="button button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
                                 {count}
                                 <span className="size placeholder bubble-download-tips"></span>
@@ -130,7 +130,7 @@
                 if (clickedProviderArrow === 0) {
                     var episode = this.props.episode;
                     if (!!episode.downloadUrls) {
-                        var installPlayerApp = !!document.getElementById('player-app') && document.getElementById('player-app').checked;
+                        var installPlayerApp = !!document.getElementById('install-app') && document.getElementById('install-app').checked;
                         DownloadHelper.download([episode], installPlayerApp, this.props.key);
 
                         for (var i=0; i <= this.props.key && i <= 5; i++) {
@@ -184,7 +184,7 @@
                         </ul>
                         <div>
                             {episode.length > this.state.expendIndex * 10 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
-                            <label class="download-app"><input class="w-checkbox" ref="player-app" type="checkbox" />
+                            <label class="download-app"><input id="install-app" class="w-checkbox" ref="player-app" type="checkbox" />
                             同时下载视频应用</label>
                         </div>
                         {this.subscribeBubbleView}
