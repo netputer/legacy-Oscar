@@ -6,6 +6,7 @@
         'Wording',
         'GA',
         'utilities/FormatString',
+        'utilities/FormatDate',
         'VideoPlayer'
     ], function (
         React,
@@ -13,6 +14,7 @@
         Wording,
         GA,
         FormatString,
+        FormatDate,
         VideoPlayer
     ) {
         var ItemView = React.createClass({

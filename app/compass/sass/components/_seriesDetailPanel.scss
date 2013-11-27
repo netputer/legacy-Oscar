@@ -185,14 +185,20 @@
         margin-left: 0;
     }
 
-    .button-download {
-        min-width: 60px;
-    }
-
     .more-provider {
         border-left-width: 0;
         border-radius: 0 3px 3px 0;
         min-width: 20px;
+    }
+
+    &:hover {
+        .button-download {
+            @include background-image(linear-gradient($btnPrimaryHoverBgColorFrom, $btnPrimaryHoverBgColorTo));
+            @include filter-gradient($btnPrimaryHoverBgColorFrom, $btnPrimaryHoverBgColorTo);
+            @include single-box-shadow(0, 1px, 0, false, #79d367, true);
+
+            color: $btnPrimaryTextColor;
+        }
     }
 }
 
