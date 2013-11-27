@@ -175,6 +175,13 @@
             subscribeCallback : function (statusCode) {
                 this.props.subscribeHandler.call(this, statusCode);
             },
+            onChangeCheckbox : function (evt) {
+                GA.log({
+                    'event' : 'video.misc.actions',
+                    'action' : 'app_promotion_checkbox_clicked',
+                    'type' : evt.target.checked
+                });
+            },
             render : function () {
                 var episode = this.props.video.get('videoEpisodes');
                 return (
@@ -184,7 +191,7 @@
                         </ul>
                         <div>
                             {episode.length > this.state.expendIndex * 10 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
-                            <label class="download-app"><input id="install-app" class="w-checkbox" ref="player-app" type="checkbox" />
+                            <label class="download-app"><input id="install-app" class="w-checkbox" ref="player-app" type="checkbox" onChange={this.onChangeCheckbox} />
                             同时下载视频应用</label>
                         </div>
                         {this.subscribeBubbleView}

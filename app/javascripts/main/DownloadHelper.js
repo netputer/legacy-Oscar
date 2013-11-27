@@ -48,7 +48,7 @@
             $.ajax({
                 url : Actions.actions.PROVIDERS,
                 success : deferred.resolve
-            })
+            });
             return deferred.promise();
         };
 
@@ -90,6 +90,9 @@
                     downloadPlayerAsync(player.providerName)
                 }
 
+                GA.log({
+                    'event' : 'video.app.promotion'
+                });
             }
         };
 

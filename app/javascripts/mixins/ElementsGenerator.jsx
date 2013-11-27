@@ -223,12 +223,18 @@
 
                 return <button id="button-subscribe" class={className} onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video)} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
             },
-            handleChange : function (event) {
+            handleChange : function (evt) {
                 if (event.target.checked === false) {
                     sessionStorage.setItem('unchecked', 'unchecked');
                 } else {
                     sessionStorage.removeItem('unchecked');
                 }
+
+                GA.log({
+                    'event' : 'video.misc.actions',
+                    'action' : 'app_promotion_checkbox_clicked',
+                    'type' : evt.target.checked
+                });
             },
             getCheckbox : function (name) {
                 if (this.props.video.get('type') === 'MOVIE') {

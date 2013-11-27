@@ -23,7 +23,7 @@
         var ProvidersBubbleView = React.createClass({
             mixins : [BubbleView],
             downloadFromProvider : function (url) {
-                var installPlayerApp = !!document.getElementById('player-app') && document.getElementById('player-app').checked;
+                var installPlayerApp = !!document.getElementById('install-app') && document.getElementById('install-app').checked;
                 if (this.props.episode) {
                     var index = this.props.video.get('videoEpisodes').indexOf(this.props.episode);
                     DownloadHelper.downloadFromProvider(this.props.episode, url, installPlayerApp, index);
