@@ -59,7 +59,7 @@
                 }.bind(this);
 
                 if (clickedProviderArrow === 1) {
-                    document.body.addEventListener('click', EventListener, false);
+                    document.body.addEventListener('click', EventListener, true);
                     toggleBubbleState(!this.providersBubbleView.state.providerItemsBubbleShow);
                 }
 
