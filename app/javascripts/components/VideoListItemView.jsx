@@ -5,6 +5,7 @@
         '_',
         'Backbone',
         'Wording',
+        'GA',
         'utilities/FormatString',
         'mixins/ElementsGenerator'
     ], function (
@@ -12,6 +13,7 @@
         _,
         Backbone,
         Wording,
+        GA,
         FormatString,
         ElementsGenerator
     ) {
@@ -22,6 +24,7 @@
                     ElementsGenerator.clickButtonDownload.call(this, this.props.source);
                 } else {
                     this.props.onSelect();
+
                     GA.log({
                         'event' : 'video.common.action',
                         'action' : 'detail_view',

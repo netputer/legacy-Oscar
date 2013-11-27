@@ -21,6 +21,7 @@
             clickBtn : function () {
                 var video = this.props.video.toJSON();
                 var episode = this.props.episode;
+
                 // if (this.props.episode.playInfo[0].params && this.props.episode.playInfo[0].params.html5) {
                 //     VideoPlayer.show(this.props.episode.playInfo[0].params.html5);
                 // } else {
@@ -75,7 +76,7 @@
                     count = FormatDate('第MM-dd期', episode.episodeDate);
                 }
 
-                if (!episode.playInfo || episode.playInfo.length === 0) {
+                if (!episode.playInfo || episode.playInfo.length === 0 || episode.playInfo[0].url === undefined) {
                     return (
                         <li className="item" style={style}>
                             <button disabled onClick={this.clickBtn} className="button w-btn w-btn-mini w-btn-primary">
