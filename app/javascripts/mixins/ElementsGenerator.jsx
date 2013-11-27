@@ -185,6 +185,22 @@
                     'video_area' : video.region,
                     'video_num' : video.totalEpisodesNum
                 });
+
+                $.ajax({
+                    url : 'http://oscar.wandoujia.com/api/v1/monitor',
+                    data : {
+                        event : 'video_play_start',
+                        client : {
+                            type : 'windows'
+                        },
+                        resource : {
+                            videoId : episode.video_id,
+                            videoEpisodeId : episode.id,
+                            provider : episode.playInfo[0].title,
+                            url : episode.playInfo[0].url
+                        }
+                    }
+                });
             },
             getPlayBtn : function (source) {
                 var episodes  = this.props.video.get('videoEpisodes');
