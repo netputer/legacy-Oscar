@@ -25,7 +25,7 @@
             clickButtonDownload : function (source, video) {
                 if (clickedProviderArrow === 0) {
                     var installPlayerApp = this.refs !== undefined && this.refs['player-app'].state.checked;
-                    console.log(installPlayerApp);
+
                     DownloadHelper.download(this.props.video.get('videoEpisodes'), installPlayerApp);
 
                     if (this.props.subscribed !== -2) {

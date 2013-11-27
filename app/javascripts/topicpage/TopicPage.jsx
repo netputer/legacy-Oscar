@@ -82,7 +82,7 @@
                     }.bind(this));
 
                 }, this);
-                
+
             },
             onSearchAction : function (query) {
                 if (query.length) {
@@ -92,7 +92,6 @@
                 }
             },
             onVideoSelect : function (video) {
-                console.log(video)
                 if (topicName !== undefined) {
                     window.location.hash = '#' + topicName + '/detail/' + video.id;
                     GA.log({
