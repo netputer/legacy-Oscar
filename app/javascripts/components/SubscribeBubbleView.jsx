@@ -91,7 +91,7 @@
                     return (
                         <div className={className}>
                             <div class="bubble-inner arrow-subscribe">
-                                <h6>自动下载，最新聚集不错过</h6>
+                                <h6>自动下载，最新剧集不错过</h6>
                                 <p>打开手机追追看后，每次剧集有更新的时候，豌豆荚都会在手机上直接帮您下好，您不必担心错过最新一集。</p>
                                 <p>下载仅使用 Wi-Fi 网络，不会花费您的流量。</p>
                                 <button class="w-btn w-btn-primary" onClick={this.closeBubble.bind(this, 'ok')}>知道了</button>
@@ -102,7 +102,7 @@
                     return (
                         <div className={className}>
                             <div class="bubble-inner arrow-subscribe">
-                                <h6>自动下载，最新聚集不错过</h6>
+                                <h6>自动下载，最新剧集不错过</h6>
                                 <p>打开手机追追看后，每次剧集有更新的时候，豌豆荚都会在手机上直接帮您下好，您不必担心错过最新一集。</p>
                                 <p>下载仅使用 Wi-Fi 网络，不会花费您的流量。</p>
                                 <button class="w-btn w-btn-primary" onClick={this.doSubscribe.bind(this, false)}>追追看</button>
