@@ -177,7 +177,7 @@
             },
             onChangeCheckbox : function (evt) {
                 GA.log({
-                    'event' : 'video.misc.actions',
+                    'event' : 'video.misc.action',
                     'action' : 'app_promotion_checkbox_clicked',
                     'type' : evt.target.checked
                 });
