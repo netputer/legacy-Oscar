@@ -39,6 +39,7 @@
                                     subscribeBubbleShow : false
                                 });
                             }
+
                             GA.log({
                                 'event' : source === 'subscribe' ? 'video.common.action' : 'video.misc.action',
                                 'action' : source === 'subscribe' ? 'subscribe' : 'subscribe_popup',
@@ -54,7 +55,6 @@
                         }
                     }.bind(this)
                 });
-
             },
             doUnsubscribe : function (video) {
                 $.ajax({
@@ -62,6 +62,9 @@
                     data : {
                         uri : video.get('subscribeUrl'),
                         user : 'device_only'
+                    },
+                    xhrFields: {
+                        withCredentials: true
                     },
                     complete : function (xhr) {
                         if (xhr.status === 200) {
