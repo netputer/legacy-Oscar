@@ -25,14 +25,16 @@
         SubscribeBubbleView,
         ProvidersBubbleView
     ) {
-
         var clickedProviderArrow = 0;
 
         var episodeKey;
 
         var ItemView = React.createClass({
             componentWillMount : function () {
-                this.providersBubbleView = <ProvidersBubbleView video={this.props.video} episode={this.props.episode} id="providerItems" />
+                this.providersBubbleView = <ProvidersBubbleView
+                                                video={this.props.video}
+                                                episode={this.props.episode}
+                                                id="providerItems" />
             },
             showProviderItems : function (key) {
                 clickedProviderArrow = 1;
@@ -57,7 +59,7 @@
                 }.bind(this);
 
                 if (clickedProviderArrow === 1) {
-                    document.body.addEventListener('click', EventListener, false);
+                    document.body.addEventListener('click', EventListener, true);
                     toggleBubbleState(!this.providersBubbleView.state.providerItemsBubbleShow);
                 }
 
@@ -67,7 +69,6 @@
             },
             render : function () {
                 var episode = this.props.episode;
-                var downloadSource = episode.downloadUrls.length;
                 var count;
                 var style = {
                     display : this.props.key >= this.props.expendIndex * 10 ? 'none' : 'inline-block'
@@ -77,15 +78,28 @@
                 } else {
                     count = FormatDate('第MM-dd期', episode.episodeDate);
                 }
+
+                if (!episode.downloadUrls) {
+                    return (
+                        <li className="item" style={style}>
+                            <button className="button button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
+                                {count}
+                                <span className="size placeholder bubble-download-tips"></span>
+                            </button>
+                        </li>
+                    );
+                }
+                var downloadSource = episode.downloadUrls.length;
+
                 if (downloadSource > 1) {
                     return (
                         <li className="item" style={style}>
-                            <div className="w-btn-group">
-                                <button className="button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
+                            <div className="o-btn-group">
+                                <button className="button button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
                                     {count}
                                     <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.downloadUrls[0].providerName}</em> {ReadableSize(episode.downloadUrls[0].size)}</span>
                                 </button>
-                                <button name="more-provider" className="w-btn w-btn-primary more-provider" onClick={this.showProviderItems.bind(this, this.props.key)}>
+                                <button name="more-provider" className="w-btn w-btn-primary w-btn-mini more-provider" onClick={this.showProviderItems.bind(this, this.props.key)}>
                                     <span className="arrow"></span>
                                 </button>
                                 {this.providersBubbleView}
@@ -95,7 +109,7 @@
                 } else if (downloadSource === 1) {
                     return (
                         <li className="item" style={style}>
-                            <button className="button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
+                            <button className="button button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
                                 {count}
                                 <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.downloadUrls[0].providerName}</em> {ReadableSize(episode.downloadUrls[0].size)}</span>
                             </button>
@@ -104,9 +118,9 @@
                 } else {
                     return (
                         <li className="item" style={style}>
-                            <button className="button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
-                            {count}
-                            <span className="size placeholder bubble-download-tips"></span>
+                            <button className="button button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
+                                {count}
+                                <span className="size placeholder bubble-download-tips"></span>
                             </button>
                         </li>
                     );
@@ -116,17 +130,17 @@
                 if (clickedProviderArrow === 0) {
                     var episode = this.props.episode;
                     if (!!episode.downloadUrls) {
-                        var installPlayerApp = !!document.getElementById('player-app') && document.getElementById('player-app').checked;
+                        var installPlayerApp = !!document.getElementById('install-app') && document.getElementById('install-app').checked;
                         DownloadHelper.download([episode], installPlayerApp, this.props.key);
 
-                            for (var i=0; i <= this.props.key && i <= 5; i++) {
-                                if (this.props.video.get('videoEpisodes')[i].downloadUrls !== undefined) {
-                                    if (this.props.key === i) {
-                                        this.props.clickHandler.call(this, true);
-                                    }
-                                    break;
+                        for (var i=0; i <= this.props.key && i <= 5; i++) {
+                            if (this.props.video.get('videoEpisodes')[i].downloadUrls !== undefined) {
+                                if (this.props.key === i) {
+                                    this.props.clickHandler.call(this, true);
                                 }
+                                break;
                             }
+                        }
 
                         GA.log({
                             'event' : 'video.download.action',
@@ -161,50 +175,28 @@
             subscribeCallback : function (statusCode) {
                 this.props.subscribeHandler.call(this, statusCode);
             },
-            handleChange : function (event) {
-                if (event.target.checked === false) {
-                    sessionStorage.setItem('unchecked', 'unchecked');
-                    GA.log({
-                        'event' : 'video.misc.action',
-                        'action' : 'app_promotion_unchecked'
-                    });
-                } else {
-                    sessionStorage.removeItem('unchecked');
-                }
+            onChangeCheckbox : function (evt) {
+                GA.log({
+                    'event' : 'video.misc.actions',
+                    'action' : 'app_promotion_checkbox_clicked',
+                    'type' : evt.target.checked
+                });
             },
             render : function () {
                 var episode = this.props.video.get('videoEpisodes');
-                if (sessionStorage.getItem('unchecked') !== null) {
-                    return (
-                        <div className="o-download-list-ctn">
-                            <h5>{Wording.EPISODE_DOWNLOAD}</h5>
-                            <div className="player-app">
-                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" />
-                                <label htmlFor="player-app">同时下载视频应用</label>
-                            </div>
-                            <ul className="list-ctn" ref="ctn">
-                                {this.createList(episode)}
-                            </ul>
+                return (
+                    <div className="o-button-list-ctn">
+                        <ul className="list-ctn" ref="ctn">
+                            {this.createList(episode)}
+                        </ul>
+                        <div>
                             {episode.length > this.state.expendIndex * 10 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
-                            {this.subscribeBubbleView}
+                            <label class="download-app"><input id="install-app" class="w-checkbox" ref="player-app" type="checkbox" onChange={this.onChangeCheckbox} />
+                            同时下载视频应用</label>
                         </div>
-                    );
-                } else {
-                    return (
-                        <div className="o-download-list-ctn">
-                            <h5>{Wording.EPISODE_DOWNLOAD}</h5>
-                            <div className="player-app">
-                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" />
-                                <label htmlFor="player-app">同时下载视频应用</label>
-                            </div>
-                            <ul className="list-ctn" ref="ctn">
-                                {this.createList(episode)}
-                            </ul>
-                            {episode.length > this.state.expendIndex * 10 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
-                            {this.subscribeBubbleView}
-                        </div>
-                    );
-                }
+                        {this.subscribeBubbleView}
+                    </div>
+                );
             },
             clickExpend : function () {
                 this.setState({
@@ -214,7 +206,8 @@
                 GA.log({
                     'event' : 'video.misc.action',
                     'action' : 'more_episode_clicked',
-                    'video_id' : this.props.video.id
+                    'video_id' : this.props.video.id,
+                    'tab' : 'download'
                 });
             },
             createList : function (videoEpisodes) {
@@ -229,7 +222,7 @@
                                 expendIndex={this.state.expendIndex}
                                 clickHandler={this.showSubscribeBubble}
                                 type={type} />;
-                }.bind(this));
+                }, this);
 
                 return listItems;
             },

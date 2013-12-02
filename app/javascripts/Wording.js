@@ -23,7 +23,7 @@ define({
     VARIETY : '综艺',
     NO_DATA : '暂无数据',
     NO_RATING : '暂无评分',
-    EPISODE_DOWNLOAD : '分集下载',
+    EPISODE_DOWNLOAD : '下载',
     EPISODE_NUM : '第 {1} 集',
     ALIAS_LABEL : '别名：',
     SCREENWRITERS_LABEL : '编剧：',
@@ -45,5 +45,6 @@ define({
     PROVIDERNAMES_LABEL : '来源：',
     INTERNET : '互联网',
     EPISODE_NUM_SHORTEN : '第{1}集',
-    EPISODE_NUM_VARIETY : '第{1}期'
+    EPISODE_NUM_VARIETY : '第{1}期',
+    PLAY : '播放'
 });

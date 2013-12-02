@@ -23,7 +23,7 @@
         var ProvidersBubbleView = React.createClass({
             mixins : [BubbleView],
             downloadFromProvider : function (url) {
-                var installPlayerApp = !!document.getElementById('player-app') && document.getElementById('player-app').checked;
+                var installPlayerApp = !!document.getElementById('install-app') && document.getElementById('install-app').checked;
                 if (this.props.episode) {
                     var index = this.props.video.get('videoEpisodes').indexOf(this.props.episode);
                     DownloadHelper.downloadFromProvider(this.props.episode, url, installPlayerApp, index);
@@ -59,8 +59,8 @@
                 }
 
                 var items = _.map(urls, function (url, index) {
-                        return <li onClick={this.downloadFromProvider.bind(this, url)}>来源: {url.providerName} <span className="provider-size">{ReadableSize(url.size)}</span></li>
-                    }.bind(this));
+                        return <li key={index} onClick={this.downloadFromProvider.bind(this, url)}>来源: {url.providerName} <span className="provider-size">{ReadableSize(url.size)}</span></li>
+                    }, this);
 
                 return (
                     <div className={className}>

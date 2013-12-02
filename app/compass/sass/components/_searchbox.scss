@@ -36,12 +36,10 @@
         }
 
         .o-search-box-input {
-            border-radius: 0;
-            box-shadow: initial;
             width: 315px;
-           -webkit-appearance:none;
 
-           &:focus, &:hover {
+           &:focus,
+           &:hover {
                 border-radius: 0;
                 border-color: #e6e6e6;
                 box-shadow: initial;

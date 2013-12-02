@@ -28,10 +28,11 @@
 
         var downloadAsync = function (title, url) {
             var deferred = $.Deferred();
+
             IO.requestAsync({
                 url : Actions.actions.VIDEO_DOWNLOAD,
                 data : {
-                    url : url,
+                    url : url + '&source=windows2x',
                     name : title,
                     icon : '',
                     pos : 'oscar-dora-ext',
@@ -48,14 +49,13 @@
             $.ajax({
                 url : Actions.actions.PROVIDERS,
                 success : deferred.resolve
-            })
+            });
             return deferred.promise();
         };
 
-        var downloadPlayerAsync = function(title) {
+        var downloadPlayerAsync = function (title) {
             _.some(providers, function (provider) {
                 if (title === provider.title) {
-                    console.log(provider)
                     var icon = provider.iconUrl;
                     var url = provider.appDownloadUrl + '?pos=oscar-promotion#name=' + title + '&icon=' + icon + '&content-type=application';
                     $('<a>').attr({'href' : url, 'download' : title})[0].click();
@@ -90,6 +90,9 @@
                     downloadPlayerAsync(player.providerName)
                 }
 
+                GA.log({
+                    'event' : 'video.app.promotion'
+                });
             }
         };
 

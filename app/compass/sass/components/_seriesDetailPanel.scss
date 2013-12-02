@@ -1,3 +1,5 @@
+ @import "../../thirdparty/Adonis/sass/standardColors";
+
 @import "components/stills";
 @import "components/downloadList";
 @import "components/comment";
@@ -16,6 +18,22 @@
     .o-series-panel-content {
         margin-top: -50px;
         -webkit-transition: all .2s linear;
+
+        .tab-ctn {
+            border-bottom: 1px $borderColor solid;
+            margin-bottom: 10px;
+
+            .tab {
+                border-bottom: 2px transparent solid;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 10px;
+
+                &.selected {
+                    border-bottom-color: $standardColor;
+                }
+            }
+        }
     }
 
     &.show {
@@ -63,6 +81,17 @@
     border-bottom: 1px $borderColor solid;
     padding: 5px 5px 15px;
 
+    .download-app {
+        float: none;
+        margin: 0 0 0 15px;
+    }
+
+    .o-btn-group {
+        .button-download {
+            border-radius: 3px 0 0 3px;
+        }
+    }
+
     .stills {
         background-position: center center;
         background-size: cover;
@@ -81,8 +110,6 @@
 
             .button-download,
             .button-subscribe {
-                margin-top: 10px;
-
                 &.subscribing {
                     background: url(../images/check_mark.png) no-repeat 5px center;
                     padding-left: 24px;
@@ -110,7 +137,9 @@
 
 .download-info {
     height: 40px;
+    padding-top: 10px;
 }
+
 .button-download {
     position: relative;
 
@@ -149,18 +178,27 @@
     }
 }
 
-.w-btn-group {
-    .button-download {
-        min-width: 60px;
+.o-btn-group {
+    display: inline-block;
+
+    .w-btn + .w-btn {
+        margin-left: 0;
     }
+
     .more-provider {
-        border-width: 0;
-        border-left-width: 1px;
-        display: inline-block;
-        height: 100%;
-        padding: 0 5px;
-        -webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, .2)), to(rgba(0, 0, 0, 0))) 1 100%;
-        -webkit-border-image: -webkit-linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 1 100%;
+        border-left-width: 0;
+        border-radius: 0 3px 3px 0;
+        min-width: 20px;
+    }
+
+    &:hover {
+        .button-download {
+            @include background-image(linear-gradient($btnPrimaryHoverBgColorFrom, $btnPrimaryHoverBgColorTo));
+            @include filter-gradient($btnPrimaryHoverBgColorFrom, $btnPrimaryHoverBgColorTo);
+            @include single-box-shadow(0, 1px, 0, false, #79d367, true);
+
+            color: $btnPrimaryTextColor;
+        }
     }
 }
 
@@ -170,15 +208,8 @@
 
 }
 
-.player-app {
+.download-app {
     display: inline-block;
-    margin-left: 12px;
-    position: relative;
-    top: 6px;
-
-    label {
-        display: inline-block;
-        font-size: 12px;
-        margin: 0 0 0 4px;
-    }
+    float: right;
+    font-size: 12px;
 }

@@ -1,11 +1,10 @@
-@import "../../thirdparty/Adonis/sass/adonis";
-
 @import "main";
 
 @import "components/searchbox";
 @import "components/categoryList";
 @import "components/filterSection";
 @import "components/seriesDetailPanel";
+@import "components/videoPlayer";
 
 .o-category-banner {
     cursor: pointer;

@@ -25,6 +25,7 @@
             clickButtonDownload : function (source, video) {
                 if (clickedProviderArrow === 0) {
                     var installPlayerApp = this.refs !== undefined && this.refs['player-app'].state.checked;
+
                     DownloadHelper.download(this.props.video.get('videoEpisodes'), installPlayerApp);
 
                     if (this.props.subscribed !== -2) {
@@ -126,9 +127,10 @@
                 switch (this.props.video.get('type')) {
                 case 'MOVIE':
                     text = Wording.DOWNLOAD;
+
                     if (this.props.video.get('videoEpisodes')[0].downloadUrls.length > 1) {
                         return (
-                            <div className="w-btn-group">
+                            <div className="o-btn-group">
                                 <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
                                     {text}
                                     <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.video.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
@@ -161,6 +163,58 @@
                     </button>
                 );
             },
+            clickButtonPlay : function (url) {
+                var episode = this.props.video.get('videoEpisodes')[0];
+                var video = this.props.video.toJSON();
+
+                var $a = $('<a>').attr({
+                    href : url,
+                    target : '_default'
+                })[0].click();
+
+                GA.log({
+                    'event' : 'video.play.action',
+                    'action' : 'btn_click',
+                    'video_source' : episode.playInfo[0].title,
+                    'video_id' : episode.video_id,
+                    'episode_id' : episode.id,
+                    'video_title' : video.title,
+                    'video_type' : video.type,
+                    'video_category' : video.categories,
+                    'video_year' : video.year,
+                    'video_area' : video.region,
+                    'video_num' : video.totalEpisodesNum
+                });
+
+                $.ajax({
+                    url : 'http://oscar.wandoujia.com/api/v1/monitor',
+                    data : {
+                        event : 'video_play_start',
+                        client : {
+                            type : 'windows'
+                        },
+                        resource : {
+                            videoId : episode.video_id,
+                            videoEpisodeId : episode.id,
+                            provider : episode.playInfo[0].title,
+                            url : episode.playInfo[0].url
+                        }
+                    }
+                });
+            },
+            getPlayBtn : function (source) {
+                var episodes  = this.props.video.get('videoEpisodes');
+                if (this.props.video.get('type') === 'MOVIE' && episodes[0].playInfo.length > 0 && episodes[0].playInfo[0].url !== undefined) {
+                    return (
+                        <button className="button-play w-btn" onClick={this.clickButtonPlay.bind(this, episodes[0].playInfo[0].url)}>
+                            {Wording.PLAY}
+                        </button>
+                    );
+
+                } else {
+                    return ' ';
+                }
+            },
             getSubscribeBtn : function (source) {
                 var text;
                 var baseClassName = 'button-subscribe w-btn';
@@ -185,30 +239,27 @@
 
                 return <button id="button-subscribe" class={className} onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video)} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
             },
-            handleChange : function (event) {
+            handleChange : function (evt) {
                 if (event.target.checked === false) {
                     sessionStorage.setItem('unchecked', 'unchecked');
                 } else {
                     sessionStorage.removeItem('unchecked');
                 }
+
+                GA.log({
+                    'event' : 'video.misc.actions',
+                    'action' : 'app_promotion_checkbox_clicked',
+                    'type' : evt.target.checked
+                });
             },
             getCheckbox : function (name) {
                 if (this.props.video.get('type') === 'MOVIE') {
-                    if (sessionStorage.getItem('unchecked') !== null) {
-                        return (
-                            <div className="player-app">
-                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" />
-                                <label htmlFor="player-app">同时下载视频应用</label>
-                            </div>
-                        );
-                    } else {
-                        return (
-                            <div className="player-app">
-                                <input id="player-app" ref="player-app" onChange={this.handleChange} type="checkbox" />
-                                <label htmlFor="player-app">同时下载视频应用</label>
-                            </div>
-                        ); 
-                    }
+                    return (
+                        <label class="download-app">
+                            <input class="w-checkbox" ref="player-app" onChange={this.handleChange} type="checkbox" />
+                            同时下载视频应用
+                        </label>
+                    );
                 }
             },
             getActorsEle : function () {

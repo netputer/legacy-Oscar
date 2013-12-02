@@ -79,6 +79,7 @@
                                 {this.getRatingEle()}
                                 <div className="download-info">
                                     {this.getDownloadBtn('download_all')}
+                                    {this.getPlayBtn()}
                                     {this.getSubscribeBtn('subscribe')}
                                     {this.getCheckbox('app')}
                                     {this.subscribeBubbleView}

@@ -1,3 +1,5 @@
+@import "compass/css3";
+
 .bubble {
     padding: 15px;
     display: none;
@@ -40,6 +42,7 @@
 
 .bubble-subscribe {
     @include box-shadow(0 2px 4px rgba(0, 0, 0, .2));
+
     background: #fff;
     position: relative;
     top: 10px;

@@ -25,7 +25,10 @@
                 marketComments : [[{
                     comments : []
                 }]],
-                providerNames : []
+                providerNames : [],
+                episode : {
+                    downloadUrls : []
+                }
             },
             pretreatData : function () {
                 var data = this.toJSON();

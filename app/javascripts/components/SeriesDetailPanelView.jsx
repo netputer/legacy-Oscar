@@ -5,9 +5,11 @@
         'React',
         '$',
         '_',
+        'Wording',
         'components/DescriptionView',
         'components/StillsView',
         'components/DownloadListView',
+        'components/PlayListView',
         'components/SeriesHeaderView',
         'components/CommentaryView',
         'components/ExtraInfoView',
@@ -16,9 +18,11 @@
         React,
         $,
         _,
+        Wording,
         DescriptionView,
         StillsView,
         DownloadListView,
+        PlayListView,
         SeriesHeaderView,
         CommentaryView,
         ExtraInfoView,
@@ -29,8 +33,16 @@
             getInitialState : function () {
                 return {
                     show : false,
-                    subscribed : -2
+                    subscribed : -2,
+                    selectedTab : 'download'
                 };
+            },
+            componentWillReceiveProps : function (newProps) {
+                if (newProps.video !== undefined && newProps.video.get('type') !== 'MOVIE') {
+                    this.setState({
+                        selectedTab : 'download'
+                    });
+                }
             },
             componentDidMount : function () {
                 $(window).on('resize', _.throttle(function () {
@@ -42,13 +54,36 @@
             },
             clickCtn : function (evt) {
                 if (evt.nativeEvent.srcElement.contains(this.refs.ctn.getDOMNode())) {
-                    this.props.closeDetailPanel()
+                    this.props.closeDetailPanel();
                 }
             },
             isSubscribed : function (statusCode) {
                 this.setState({
                     subscribed : statusCode
                 });
+            },
+            clickTab : function (target) {
+                this.setState({
+                    selectedTab : target
+                });
+            },
+            getList : function () {
+                var video = this.props.video;
+                if (this.state.selectedTab === 'download') {
+                    return <DownloadListView subscribed={this.state.subscribed} video={video} subscribeHandler={this.isSubscribed} />;
+                } else {
+                    return <PlayListView video={video} />;
+                }
+            },
+            getTabs : function () {
+                return (
+                    <menu class="tab-ctn">
+                        <li onClick={this.clickTab.bind(this, 'download')}
+                            class={this.state.selectedTab === 'download' ? 'h5 tab selected' : 'h5 tab'}>{Wording.EPISODE_DOWNLOAD}</li>
+                        <li onClick={this.clickTab.bind(this, 'play')}
+                            class={this.state.selectedTab === 'play' ? 'h5 tab selected' : 'h5 tab'}>{Wording.PLAY}</li>
+                    </menu>
+                );
             },
             render : function () {
                 $('body').toggleClass('overflow', this.state.show);
@@ -69,7 +104,8 @@
                                     <SeriesHeaderView video={video} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
                                     <div className="body-ctn">
                                         <div className="body">
-                                            {video.get('type') !== 'MOVIE' ? <DownloadListView subscribed={this.state.subscribed} video={video} subscribeHandler={this.isSubscribed} /> :　''}
+                                            {this.props.video.get('type') === 'MOVIE' ? '' : this.getTabs()}
+                                            {this.props.video.get('type') === 'MOVIE' ? '' : this.getList()}
                                             <DescriptionView video={video} />
                                             <StillsView video={video} />
                                             <CommentaryView comments={video.get('marketComments')[0].comments} />
@@ -82,12 +118,21 @@
                         );
                     } else {
                         return (
-                            <div className={className} style={style} onClick={this.clickCtn} ref="ctn"><LoadingView /></div>
+                            <div className={className}
+                                style={style}
+                                onClick={this.clickCtn}
+                                ref="ctn">
+                                <LoadingView />
+                            </div>
                         );
                     }
                 } else {
                     return (
-                        <div className={className} style={style} onClick={this.clickCtn} ref="ctn"></div>
+                        <div className={className}
+                            style={style}
+                            onClick={this.clickCtn}
+                            ref="ctn">
+                        </div>
                     );
                 }
             }

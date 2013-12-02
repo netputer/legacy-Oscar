@@ -12,7 +12,8 @@
         'components/SeriesDetailPanelView',
         'mixins/FilterNullValues',
         'main/models/VideoModel',
-        'components/DownloadListView'
+        'components/DownloadListView',
+        'VideoPlayer'
     ], function (
         React,
         Backbone,
@@ -24,7 +25,8 @@
         SeriesDetailPanelView,
         FilterNullValues,
         VideoModel,
-        DownloadListView
+        DownloadListView,
+        VideoPlayer
     ) {
         var queryAsync = function (id) {
             var deferred = $.Deferred();
@@ -96,7 +98,11 @@
 
         $('body').on('keydown', function (evt) {
             if (evt.keyCode === 27) {
-                closeDetailPanel();
+                if (VideoPlayer.isShow) {
+                    VideoPlayer.close();
+                } else {
+                    closeDetailPanel();
+                }
             }
         });
     });

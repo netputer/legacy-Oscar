@@ -1,3 +1,37 @@
+<a name="v2.5.6"></a>
+### v2.5.6 (2013-11-28)
+
+
+#### Bug Fixes
+
+* 没有播放地址时禁用播放按钮 ([6373c066](https://github.com/wandoulabs/Oscar/commit/6373c0661247c5dfa0067c829d5519ffbfd41f1e))
+* 搜索框样式 ([ff1c5f00](https://github.com/wandoulabs/Oscar/commit/ff1c5f002438ed140008afb96dd3f3ceb03c1409))
+* 连续点击下拉菜单无法正常收起 ([5a18a4ff](https://github.com/wandoulabs/Oscar/commit/5a18a4fffc1b78ea660faa52055f647cb7698ee9))
+* 综艺点击「播放」Tab 后，页面无法再进行任何操作 ([a365d450](https://github.com/wandoulabs/Oscar/commit/a365d45039e2d3b319024c75df1809c5693bae35))
+* 电视剧勾选了 checkbox 后不下载应用 ([60ba18b4](https://github.com/wandoulabs/Oscar/commit/60ba18b431ad3d49e37e7262f225946eb47eb5d3))
+* 「追追看」按钮间距 ([142ac3cb](https://github.com/wandoulabs/Oscar/commit/142ac3cb24f0bc79eb184803beead1c43442e638))
+* 下载按钮 hover 样式 ([d5162ef9](https://github.com/wandoulabs/Oscar/commit/d5162ef9ad80580ce915c5445aa72ef03f88597f))
+
+
+#### Features
+
+* 下载地址添加 source=windows2x 参数 ([fd03d8bb](https://github.com/wandoulabs/Oscar/commit/fd03d8bbbf702e4b6b00cc5f76dfaadbba3f2a21))
+* 播放视频时 callback 给 server 进行统计 ([4690eee8](https://github.com/wandoulabs/Oscar/commit/4690eee820fe2ba2c48e4384047ca9f2b5740bd6))
+* 下载视频应用 checkbox 的点击 log ([7d4ea2ce](https://github.com/wandoulabs/Oscar/commit/7d4ea2ce57d4cda0dee579c66e52c79539825dd1))
+
+<a name="v2.5.5"></a>
+### v2.5.5 (2013-11-26)
+
+
+#### Bug Fixes
+
+* 修正视频来源按钮样式 ([82380582](https://github.com/wandoulabs/Oscar/commit/82380582db739fa46e742588dd0dfd63a59ea0d2))
+
+
+#### Features
+
+* 视频播放功能一期（在浏览器打开） ([b0bf0217](https://github.com/wandoulabs/Oscar/commit/b0bf0217f25ff985711fc070450430015bdde624))
+
 <a name="v2.5.4"></a>
 ### v2.5.4 (2013-11-25)
 
