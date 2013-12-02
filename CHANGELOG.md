@@ -1,3 +1,11 @@
+<a name="v2.5.7"></a>
+### v2.5.7 (2013-12-02)
+
+
+#### Bug Fixes
+
+* 「追追看」按钮展示的统计 log ([b39a54b6](https://github.com/wandoulabs/Oscar/commit/b39a54b6b172af97bbb825b2f4e3f92f8c52739b))
+
 <a name="v2.5.6"></a>
 ### v2.5.6 (2013-11-28)
 
