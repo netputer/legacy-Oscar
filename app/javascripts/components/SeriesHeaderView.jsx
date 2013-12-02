@@ -29,8 +29,8 @@
                 if (this.props.video.get('subscribeUrl') !== undefined) {
                     $.ajax({
                         url : 'http://feed.wandoujia.com/api/v1/subscription/subscribed',
-                        xhrFields: {
-                            withCredentials: true
+                        xhrFields : {
+                            withCredentials : true
                         },
                         data : {
                             uri : this.props.video.get('subscribeUrl'),
@@ -39,6 +39,9 @@
                         success : function (data) {
                             if (data === 'true') {
                                 this.props.subscribeHandler.call(this, 1);
+                            } else {
+                                this.props.subscribeHandler.call(this, 0);
+
                                 GA.log({
                                     'event' : 'video.misc.action',
                                     'action' : 'subscribe_button',
@@ -52,8 +55,6 @@
                                     'video_year' : this.props.video.get('year'),
                                     'video_area' : this.props.video.get('region')
                                 });
-                            } else {
-                                this.props.subscribeHandler.call(this, 0);
                             }
                         }.bind(this)
                     });
