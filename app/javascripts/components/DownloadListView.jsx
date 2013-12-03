@@ -25,8 +25,6 @@
         SubscribeBubbleView,
         ProvidersBubbleView
     ) {
-        var clickedProviderArrow = 0;
-
         var episodeKey;
 
         var ItemView = React.createClass({
@@ -36,14 +34,14 @@
                                                 episode={this.props.episode}
                                                 id="providerItems" />
             },
-            showProviderItems : function (key) {
-                clickedProviderArrow = 1;
-
+            updateEpisodeKey : function (key) {
+                episodeKey = key;
+            },
+            showProviderItems : function (key, event) {
                 var EventListener = function (event) {
-                    if ((event.target.className !== 'arrow' && event.target.name !== 'more-provider') || (episodeKey !== key)) {
+                    if ((event.target.className !== 'arrow' && event.target.name !== 'more-provider') || episodeKey !== key) {
                         toggleBubbleState(false);
                     }
-                    episodeKey = key;
                     document.body.removeEventListener('click', EventListener, false);
                 };
 
@@ -58,14 +56,9 @@
                     }
                 }.bind(this);
 
-                if (clickedProviderArrow === 1) {
-                    document.body.addEventListener('click', EventListener, true);
-                    toggleBubbleState(!this.providersBubbleView.state.providerItemsBubbleShow);
-                }
+                document.body.addEventListener('click', EventListener, false);
+                toggleBubbleState(!this.providersBubbleView.state.providerItemsBubbleShow);
 
-                setTimeout(function () {
-                    clickedProviderArrow = 0;
-                }, 500);
             },
             render : function () {
                 var episode = this.props.episode;
@@ -99,7 +92,7 @@
                                     {count}
                                     <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.downloadUrls[0].providerName}</em> {ReadableSize(episode.downloadUrls[0].size)}</span>
                                 </button>
-                                <button name="more-provider" className="w-btn w-btn-primary w-btn-mini more-provider" onClick={this.showProviderItems.bind(this, this.props.key)}>
+                                <button name="more-provider" className="w-btn w-btn-primary w-btn-mini more-provider" onMouseEnter={this.updateEpisodeKey.bind(this, this.props.key)} onClick={this.showProviderItems.bind(this, this.props.key)}>
                                     <span className="arrow"></span>
                                 </button>
                                 {this.providersBubbleView}
@@ -127,32 +120,30 @@
                 }
             },
             clickDownload : function () {
-                if (clickedProviderArrow === 0) {
-                    var episode = this.props.episode;
-                    if (!!episode.downloadUrls) {
-                        var installPlayerApp = !!document.getElementById('install-app') && document.getElementById('install-app').checked;
-                        DownloadHelper.download([episode], installPlayerApp, this.props.key);
+                var episode = this.props.episode;
+                if (!!episode.downloadUrls) {
+                    var installPlayerApp = !!document.getElementById('install-app') && document.getElementById('install-app').checked;
+                    DownloadHelper.download([episode], installPlayerApp, this.props.key);
 
-                        for (var i=0; i <= this.props.key && i <= 5; i++) {
-                            if (this.props.video.get('videoEpisodes')[i].downloadUrls !== undefined) {
-                                if (this.props.key === i) {
-                                    this.props.clickHandler.call(this, true);
-                                }
-                                break;
+                    for (var i=0; i <= this.props.key && i <= 5; i++) {
+                        if (this.props.video.get('videoEpisodes')[i].downloadUrls !== undefined) {
+                            if (this.props.key === i) {
+                                this.props.clickHandler.call(this, true);
                             }
+                            break;
                         }
-
-                        GA.log({
-                            'event' : 'video.download.action',
-                            'action' : 'btn_click',
-                            'pos' : 'episode_list',
-                            'video_id' : episode.video_id,
-                            'episode_id' : episode.id,
-                            'video_source' : episode.downloadUrls[0].providerName,
-                            'video_title' : episode.title,
-                            'video_type' : this.props.type
-                        });
                     }
+
+                    GA.log({
+                        'event' : 'video.download.action',
+                        'action' : 'btn_click',
+                        'pos' : 'episode_list',
+                        'video_id' : episode.video_id,
+                        'episode_id' : episode.id,
+                        'video_source' : episode.downloadUrls[0].providerName,
+                        'video_title' : episode.title,
+                        'video_type' : this.props.type
+                    });
                 }
 
             }
