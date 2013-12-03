@@ -1,3 +1,11 @@
+<a name="v2.5.8"></a>
+### v2.5.8 (2013-12-03)
+
+
+#### Bug Fixes
+
+* JSON.Stringify 播放统计参数 ([20823fbc](https://github.com/wandoulabs/Oscar/commit/20823fbc569544abb2ad989b4e55840338aab44f))
+
 <a name="v2.5.7"></a>
 ### v2.5.7 (2013-12-02)
 
