@@ -19,32 +19,28 @@
         FormatString
     ) {
 
-        var clickedProviderArrow = 0;
-
         var ElementsGenerator = {
             clickButtonDownload : function (source, video) {
-                if (clickedProviderArrow === 0) {
-                    var installPlayerApp = this.refs !== undefined && this.refs['player-app'].state.checked;
+                var installPlayerApp = this.refs !== undefined && this.refs['player-app'].state.checked;
 
-                    DownloadHelper.download(this.props.video.get('videoEpisodes'), installPlayerApp);
+                DownloadHelper.download(this.props.video.get('videoEpisodes'), installPlayerApp);
 
-                    if (this.props.subscribed !== -2) {
-                        this.showSubscribeBubble('download_all', video);
-                    }
-
-                    GA.log({
-                        'event' : 'video.download.action',
-                        'action' : 'btn_click',
-                        'pos' : source,
-                        'video_id' : this.props.video.id,
-                        'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
-                        'video_title' : this.props.video.get('title'),
-                        'video_type' : this.props.video.get('type'),
-                        'video_category' : this.props.video.get('categories'),
-                        'video_year' : this.props.video.get('year'),
-                        'video_area' : this.props.video.get('region')
-                    });
+                if (this.props.subscribed !== -2) {
+                    this.showSubscribeBubble('download_all', video);
                 }
+
+                GA.log({
+                    'event' : 'video.download.action',
+                    'action' : 'btn_click',
+                    'pos' : source,
+                    'video_id' : this.props.video.id,
+                    'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
+                    'video_title' : this.props.video.get('title'),
+                    'video_type' : this.props.video.get('type'),
+                    'video_category' : this.props.video.get('categories'),
+                    'video_year' : this.props.video.get('year'),
+                    'video_area' : this.props.video.get('region')
+                });
             },
             showSubscribeBubble : function (source, video) {
                 if (this.props.subscribed === 0) {
@@ -88,7 +84,6 @@
                 }
             },
             moreProvider : function () {
-                clickedProviderArrow = 1;
 
                 var EventListener = function (event) {
                     if (event.target.className !== 'arrow' && event.target.name !== 'more-provider') {
@@ -108,15 +103,8 @@
                     }
                 }.bind(this);
 
-                if (clickedProviderArrow === 1) {
-                    document.body.addEventListener('click', EventListener, false);
-                    toggleBubbleState(!this.providersBubbleView.state.providersBubbleShow);
-                }
-
-                setTimeout(function () {
-                    clickedProviderArrow = 0;
-                }, 500);
-
+                document.body.addEventListener('click', EventListener, false);
+                toggleBubbleState(!this.providersBubbleView.state.providersBubbleShow);
             },
             getProviderEle : function () {
                 var text = this.props.video.get('providerNames').join(' / ');
