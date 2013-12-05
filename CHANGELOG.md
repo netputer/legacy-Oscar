@@ -1,3 +1,11 @@
+<a name="v2.5.9"></a>
+### v2.5.9 (2013-12-05)
+
+
+#### Bug Fixes
+
+* Dservice 开启 ([ea1811dd](https://github.com/wandoulabs/Oscar/commit/ea1811ddc4e3bcb98887a7e410ed1d39d0dd08ee))
+
 <a name="v2.5.8"></a>
 ### v2.5.8 (2013-12-03)
 
