@@ -17,6 +17,7 @@ define({
     CATEGORY : '类型',
     TIME : '年代',
     ALL : '全部',
+    INDEX : '首页',
     TV : '电视剧',
     MOVIE : '电影',
     COMIC : '动漫',
