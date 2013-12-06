@@ -17,8 +17,6 @@
     ) {
 
 
-        var banner = {};
-
         var bannerWidth = 740;
 
         var getBannerAsync = function (type) {
@@ -76,11 +74,11 @@
                 this.refs['dot'].getDOMNode().className += ' current';
             },
             slider : function (index) {
-                if (banner.length > 1) {
+                if (this.state.banner.length > 1) {
                     setInterval(function () {
                         document.getElementsByClassName('dot')[index++].click();
 
-                        if (index >= banner.length) {
+                        if (index >= this.state.banner.length) {
                             index = 0;
                         }
                     }, 3000);
@@ -101,26 +99,39 @@
         });
 
         var BannerView = React.createClass({
+           getInitialState : function () {
+                return {
+                    banner :  {}
+                };
+            },
+            componentWillMount : function () {
+                this.getBanner();
+            },
             getBanner : function () {
                 if (this.props.source !== undefined) {
-                    getBannerAsync(this.props.source).done(function (resp) {
-                        banner = resp;
+                    getBannerAsync(this.props.source).done(function(resp) {
+                        this.setState({
+                            banner : resp
+                        });
                     }.bind(this));
                 }
             },
             renderItem : function (source) {
-                var result = _.map(banner, function (item) {
-                    return (
-                        <ItemView data={item} source={source} />
-                    );
-                });
+                if (this.state.banner.length > 0) {
+                    var result = _.map(this.state.banner, function (item) {
+                        return (
+                            <ItemView data={item} source={source} />
+                        );
+                    });
+                }
+
                 return result;
 
-            }.bind(this),
+            },
             renderDot : function () {
                 var result;
-                if (banner.length > 1) {
-                    result = _.map(banner, function (item, index) {
+                if (this.state.banner.length > 1) {
+                    result = _.map(this.state.banner, function (item, index) {
                         return (
                             <DotView index={index} />
                         );
@@ -129,7 +140,6 @@
                 return result;
             },
             render : function () {
-                this.getBanner();
 
                 return (
                     <div class="banner">
