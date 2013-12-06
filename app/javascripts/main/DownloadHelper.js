@@ -15,16 +15,16 @@
     ) {
         var DownloadHelper = {};
 
-        var dservice = false;
+        var dservice = true;
 
         var providers;
 
-        (function () {
-            var ua = window.navigator.userAgent.split(' ');
-            var version = ua[ua.length - 1];
-            var v = version.split('.')[1];
-            dservice = parseInt(v, 10) >= 65;
-        }());
+        // (function () {
+        //     var ua = window.navigator.userAgent.split(' ');
+        //     var version = ua[ua.length - 1];
+        //     var v = version.split('.')[1];
+        //     dservice = parseInt(v, 10) >= 65;
+        // }());
 
         var downloadAsync = function (title, url, isDservice) {
             var deferred = $.Deferred();
