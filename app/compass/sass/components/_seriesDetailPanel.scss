@@ -20,14 +20,21 @@
         -webkit-transition: all .2s linear;
 
         .tab-ctn {
-            border-bottom: 1px $borderColor solid;
+            border-bottom: 2px $borderColor solid;
+            height: 27px;
             margin-bottom: 10px;
+            position: relative;
 
             .tab {
                 border-bottom: 2px transparent solid;
                 cursor: pointer;
                 display: inline-block;
                 padding: 5px 10px;
+                position: absolute;
+
+                & + .tab {
+                    left: 48px;
+                }
 
                 &.selected {
                     border-bottom-color: $standardColor;
@@ -135,6 +142,13 @@
     }
 }
 
+.o-serires-description {
+    h5 {
+        clear: both;
+    }
+}
+
+
 .download-info {
     height: 40px;
     padding-top: 10px;
@@ -212,8 +226,14 @@
 
 }
 
+.load-more {
+    display: block;
+    float: left;
+    width:  calc(100% - 116px);
+}
 .download-app {
-    display: inline-block;
-    float: right;
+    display: block;
+    float: left;
     font-size: 12px;
+    width: 116px;
 }
