@@ -1,3 +1,12 @@
+<a name="v2.5.10"></a>
+### v2.5.10 (2013-12-06)
+
+
+#### Features
+
+* 全量开启 D-service ([8e723b0c](https://github.com/wandoulabs/Oscar/commit/8e723b0c50196a758b03cc3b58568916f7622521))
+* 首页增加专题展示 ([7759bacb](https://github.com/wandoulabs/Oscar/commit/7759bacb3945661d2fb6885bb3320bf0055492bc))
+
 <a name="v2.5.9"></a>
 ### v2.5.9 (2013-12-05)
 
