@@ -47,7 +47,7 @@
             },
             render : function () {
                 var data = this.props.data;
-                var link = '/topic.html?type=' + this.props.source + '#' + data.name;
+                var link = 'topic.html?type=' + this.props.source + '#' + data.name;
                 var title = data.cnName;
                 var imageUrl = data.picture;
                 return (
