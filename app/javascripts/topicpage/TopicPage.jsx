@@ -36,6 +36,14 @@
 
         var queryType = QueryString.get('type') || '';
 
+        var backUrl;
+
+        if (queryType === 'index') {
+            backUrl = 'index.html';
+        } else {
+            backUrl = 'cate.html#' + queryType;
+        }
+
         var queryAsync = function (name, type) {
             var deferred = $.Deferred();
 
@@ -123,8 +131,8 @@
                             className="o-search-box-ctn"
                             onAction={this.onSearchAction}
                             source="homepage" />
-                        <div class="topic">
-                            <h5>{Wording[queryType.toUpperCase()]}</h5>
+                        <div className="topic">
+                            <a className="cate-name" href={backUrl}>{Wording[queryType.toUpperCase()]}</a>
                             <h4>{topicCnName}</h4>
                             <ul>{listItemViews}</ul>
                         </div>
