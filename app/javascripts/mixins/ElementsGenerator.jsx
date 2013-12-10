@@ -192,7 +192,7 @@
             },
             getPlayBtn : function (source) {
                 var episodes  = this.props.video.get('videoEpisodes');
-                if (this.props.video.get('type') === 'MOVIE' && episodes[0].playInfo.length > 0 && episodes[0].playInfo[0].url !== undefined) {
+                if (this.props.video.get('type') === 'MOVIE' && episodes[0].playInfo !== undefined && episodes[0].playInfo.length > 0 && episodes[0].playInfo[0].url !== undefined) {
                     return (
                         <button className="button-play w-btn" onClick={this.clickButtonPlay.bind(this, episodes[0].playInfo[0].url)}>
                             {Wording.PLAY}

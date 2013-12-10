@@ -59,7 +59,7 @@
             </div>
         ), document.body);
 
-        topicPageRouter.on('route:filter', function (topic, id) {
+        topicPageRouter.on('route:topic', function (topic, id) {
             if (id) {
                 seriesDetailPanelView.setState({
                     show : true,
