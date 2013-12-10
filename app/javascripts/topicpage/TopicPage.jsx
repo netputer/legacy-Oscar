@@ -32,7 +32,7 @@
 
         var topicName;
 
-        var topicCnName = "";
+        var topicCnName = '';
 
         var queryType = QueryString.get('type') || '';
 
