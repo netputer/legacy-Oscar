@@ -1,3 +1,18 @@
+<a name="v2.5.9"></a>
+### v2.5.9 (2013-12-13)
+
+
+#### Bug Fixes
+
+* 修复窗口 resize 时详情页位置变化的 bug ([8e1e27a4](https://github.com/wandoulabs/Oscar/commit/8e1e27a4f92ba6dcb4b764d98f25271eabe04ca0))
+* 不能取消订阅 ([7b1f8af8](https://github.com/wandoulabs/Oscar/commit/7b1f8af8f51c12d29c428eba585b538b1853b1bc))
+* 「追追看」按钮展示的统计 log ([b39a54b6](https://github.com/wandoulabs/Oscar/commit/b39a54b6b172af97bbb825b2f4e3f92f8c52739b))
+
+
+#### Features
+
+* 首页增加专题展示 ([7759bacb](https://github.com/wandoulabs/Oscar/commit/7759bacb3945661d2fb6885bb3320bf0055492bc))
+
 <a name="v2.5.7"></a>
 ### v2.5.7 (2013-12-02)
 
