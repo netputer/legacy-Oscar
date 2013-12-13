@@ -15,18 +15,18 @@
     ) {
         var DownloadHelper = {};
 
-        var dservice = false;
+        var dservice = true;
 
         var providers;
 
-        (function () {
-            var ua = window.navigator.userAgent.split(' ');
-            var version = ua[ua.length - 1];
-            var v = version.split('.')[1];
-            dservice = parseInt(v, 10) >= 65;
-        }());
+        // (function () {
+        //     var ua = window.navigator.userAgent.split(' ');
+        //     var version = ua[ua.length - 1];
+        //     var v = version.split('.')[1];
+        //     dservice = parseInt(v, 10) >= 65;
+        // }());
 
-        var downloadAsync = function (title, url) {
+        var downloadAsync = function (title, url, isDservice) {
             var deferred = $.Deferred();
 
             IO.requestAsync({
@@ -36,7 +36,7 @@
                     name : title,
                     icon : '',
                     pos : 'oscar-dora-ext',
-                    dservice : dservice
+                    dservice : isDservice
                 }
             });
 
@@ -104,9 +104,9 @@
                         var dServiceURL = downloadURL.accelUrl;
                         var url = downloadURL.url;
                         if (dservice) {
-                            downloadAsync(item.title, dServiceURL);
+                            downloadAsync(item.title, dServiceURL, dservice);
                         } else {
-                            downloadAsync(item.title, url);
+                            downloadAsync(item.title, url, dservice);
                         }
                     }
                 });
@@ -122,9 +122,9 @@
                 var url = downloadURL.url;
 
                 if (dservice) {
-                    downloadAsync(episode.title, dServiceURL);
+                    downloadAsync(episode.title, dServiceURL, dservice);
                 } else {
-                    downloadAsync(episode.title, url);
+                    downloadAsync(episode.title, url, dservice);
                 }
             }
         };
@@ -149,9 +149,9 @@
             }
 
             if (dservice) {
-                downloadAsync(title, dServiceURL);
+                downloadAsync(title, dServiceURL, dservice);
             } else {
-                downloadAsync(title, url);
+                downloadAsync(title, url, dservice);
             }
 
         };

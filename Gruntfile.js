@@ -279,8 +279,7 @@ module.exports = function (grunt) {
         'htmlmin',
         'concat',
         'uglify',
-        'usemin',
-        'compress'
+        'usemin'
     ]);
 
     grunt.registerTask(['update'], [
