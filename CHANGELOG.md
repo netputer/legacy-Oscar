@@ -1,3 +1,36 @@
+<a name="v2.6.0"></a>
+## v2.6.0 (2013-12-13)
+
+
+#### Bug Fixes
+
+* 修复窗口 resize 时详情页位置变化的 bug ([8e1e27a4](https://github.com/wandoulabs/Oscar/commit/8e1e27a4f92ba6dcb4b764d98f25271eabe04ca0))
+
+<a name="v2.5.10"></a>
+### v2.5.10 (2013-12-06)
+
+
+#### Features
+
+* 全量开启 D-service ([8e723b0c](https://github.com/wandoulabs/Oscar/commit/8e723b0c50196a758b03cc3b58568916f7622521))
+* 首页增加专题展示 ([7759bacb](https://github.com/wandoulabs/Oscar/commit/7759bacb3945661d2fb6885bb3320bf0055492bc))
+
+<a name="v2.5.9"></a>
+### v2.5.9 (2013-12-05)
+
+
+#### Bug Fixes
+
+* Dservice 开启 ([ea1811dd](https://github.com/wandoulabs/Oscar/commit/ea1811ddc4e3bcb98887a7e410ed1d39d0dd08ee))
+
+<a name="v2.5.8"></a>
+### v2.5.8 (2013-12-03)
+
+
+#### Bug Fixes
+
+* JSON.Stringify 播放统计参数 ([20823fbc](https://github.com/wandoulabs/Oscar/commit/20823fbc569544abb2ad989b4e55840338aab44f))
+
 <a name="v2.5.7"></a>
 ### v2.5.7 (2013-12-02)
 

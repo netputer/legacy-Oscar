@@ -50,15 +50,15 @@
                     url : 'http://oscar.wandoujia.com/api/v1/monitor',
                     data : {
                         event : 'video_play_start',
-                        client : {
+                        client : JSON.stringify({
                             type : 'windows'
-                        },
-                        resource : {
+                        }),
+                        resource : JSON.stringify({
                             videoId : episode.video_id,
                             videoEpisodeId : episode.id,
                             provider : episode.playInfo[0].title,
                             url : episode.playInfo[0].url
-                        }
+                        })
                     }
                 });
             },
