@@ -33,7 +33,7 @@
                 url : Actions.actions.VIDEO_DOWNLOAD,
                 data : {
                     url : url + '&source=windows2x',
-                    name : title.replace(/<\/?em>/g, ''),
+                    name : title,
                     icon : '',
                     pos : 'oscar-dora-ext',
                     dservice : dservice
