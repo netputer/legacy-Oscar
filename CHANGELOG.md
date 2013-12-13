@@ -1,3 +1,11 @@
+<a name="v2.6.0"></a>
+## v2.6.0 (2013-12-13)
+
+
+#### Bug Fixes
+
+* 修复窗口 resize 时详情页位置变化的 bug ([8e1e27a4](https://github.com/wandoulabs/Oscar/commit/8e1e27a4f92ba6dcb4b764d98f25271eabe04ca0))
+
 <a name="v2.5.10"></a>
 ### v2.5.10 (2013-12-06)
 
