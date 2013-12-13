@@ -47,8 +47,7 @@
             componentDidMount : function () {
                 $(window).on('resize', _.throttle(function () {
                     $(this.refs.ctn.getDOMNode()).css({
-                        height : window.innerHeight,
-                        top : window.scrollY
+                        height : window.innerHeight
                     });
                 }.bind(this), 50));
             },
