@@ -43,6 +43,18 @@
             return deferred.promise();
         };
 
+        var batchDownloadAsync = function (data) {
+            var deferred = $.Deferred();
+
+            IO.requestAsync({
+                url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x',
+                type : 'POST',
+                data : {videos : data}
+            });
+
+            return deferred.promise();
+        };
+
 
         var getProvidersAsync = function () {
             var deferred = $.Deferred();
@@ -98,18 +110,34 @@
 
         DownloadHelper.download = function (episodes, installPlayer, eleIndex) {
             if (episodes.length > 1) {
+                var data = [];
+                var clientVersion = parseFloat(navigator.userAgent.split(' ')[navigator.userAgent.split(' ').length-1].substr(0, 4));
                 _.each(episodes, function (item) {
                     if (item.downloadUrls) {
                         var downloadURL = item.downloadUrls[0];
                         var dServiceURL = downloadURL.accelUrl;
                         var url = downloadURL.url;
+                        var downloadInfo = {};
+                        downloadInfo.title = item.title;
+                        downloadInfo.size = downloadURL.size;
+                        downloadInfo.dservice = dservice;
+
                         if (dservice) {
-                            downloadAsync(item.title, dServiceURL, dservice);
+                            url = dServiceURL;
+                            downloadInfo.url = dServiceURL;
+                        } else {
+                            downloadInfo.url = url;
+                        }
+                        if (clientVersion > 2.68) {
+                            data.push(downloadInfo);
                         } else {
                             downloadAsync(item.title, url, dservice);
                         }
                     }
                 });
+                if (clientVersion > 2.68) {
+                    batchDownloadAsync(data);
+                }
             } else {
                 episode = episodes[0];
 
