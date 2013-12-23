@@ -111,6 +111,7 @@
         DownloadHelper.download = function (episodes, installPlayer, eleIndex) {
             if (episodes.length > 1) {
                 var data = [];
+                var clientVersion = parseFloat(navigator.userAgent.split(' ')[navigator.userAgent.split(' ').length-1].substr(0, 4));
                 _.each(episodes, function (item) {
                     if (item.downloadUrls) {
                         var downloadURL = item.downloadUrls[0];
@@ -119,18 +120,24 @@
                         var downloadInfo = {};
                         downloadInfo.title = item.title;
                         downloadInfo.size = downloadURL.size;
-                        downloadInfo.dservice = !!dservice;
+                        downloadInfo.dservice = dservice;
 
                         if (dservice) {
+                            url = dServiceURL;
                             downloadInfo.url = dServiceURL;
                         } else {
                             downloadInfo.url = url;
                         }
-                        data.push(downloadInfo);
+                        if (clientVersion > 2.68) {
+                            data.push(downloadInfo);
+                        } else {
+                            downloadAsync(item.title, url, dservice);
+                        }
                     }
                 });
-
-                batchDownloadAsync(data);
+                if (clientVersion > 2.68) {
+                    batchDownloadAsync(data);
+                }
             } else {
                 episode = episodes[0];
 
