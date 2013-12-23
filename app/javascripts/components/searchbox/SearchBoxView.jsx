@@ -120,8 +120,6 @@
                 _.each(this.state.resultModels, function (model) {
                     model.off('change:selected', this.modelChangeHander, this);
                 }, this);
-
-                this.refs['searchBoxInput'].getDOMNode().value = this.props.keyword;
             },
             componentDidUpdate : function () {
                 _.each(this.state.resultModels, function (model) {
