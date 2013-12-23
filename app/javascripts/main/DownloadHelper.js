@@ -43,6 +43,18 @@
             return deferred.promise();
         };
 
+        var batchDownloadAsync = function (data) {
+            var deferred = $.Deferred();
+
+            IO.requestAsync({
+                url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x',
+                type : 'POST',
+                data : JSON.stringify(data)
+            });
+
+            return deferred.promise();
+        };
+
 
         var getProvidersAsync = function () {
             var deferred = $.Deferred();
@@ -98,18 +110,27 @@
 
         DownloadHelper.download = function (episodes, installPlayer, eleIndex) {
             if (episodes.length > 1) {
+                var data = [];
                 _.each(episodes, function (item) {
                     if (item.downloadUrls) {
                         var downloadURL = item.downloadUrls[0];
                         var dServiceURL = downloadURL.accelUrl;
                         var url = downloadURL.url;
+                        var downloadInfo = {};
+                        downloadInfo.title = item.title;
+                        downloadInfo.size = downloadURL.size;
+                        downloadInfo.dservice = !!dservice;
+
                         if (dservice) {
-                            downloadAsync(item.title, dServiceURL, dservice);
+                            downloadInfo.url = dServiceURL;
                         } else {
-                            downloadAsync(item.title, url, dservice);
+                            downloadInfo.url = url;
                         }
+                        data.push(downloadInfo);
                     }
                 });
+
+                batchDownloadAsync(data);
             } else {
                 episode = episodes[0];
 

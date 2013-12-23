@@ -6,6 +6,7 @@
         var Actions = {
             actions : {
                 VIDEO_DOWNLOAD : 'wdj://video/download.json',
+                BATCH_DOWNLOAD : 'wdj://video/batch_download.json',
                 ACCOUNT_LOGIN : 'wdj://account/login.json',
                 ACCOUNT_INFO : 'wdj://account/account_info.json',
 
