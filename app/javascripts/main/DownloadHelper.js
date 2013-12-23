@@ -49,7 +49,7 @@
             IO.requestAsync({
                 url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x',
                 type : 'POST',
-                data : JSON.stringify(data)
+                data : JSON.stringify({videos : data})
             });
 
             return deferred.promise();
