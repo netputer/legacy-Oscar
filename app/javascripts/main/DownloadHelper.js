@@ -5,13 +5,15 @@
         '_',
         '$',
         'GA',
-        'Actions'
+        'Actions',
+        'utilities/ClientInfo'
     ], function (
         IO,
         _,
         $,
         GA,
-        Actions
+        Actions,
+        ClientInfo
     ) {
         var DownloadHelper = {};
 
@@ -111,7 +113,7 @@
         DownloadHelper.download = function (episodes, installPlayer, eleIndex) {
             if (episodes.length > 1) {
                 var data = [];
-                var clientVersion = parseFloat(navigator.userAgent.split(' ')[navigator.userAgent.split(' ').length-1].substr(0, 4));
+                var clientVersion = ClientInfo.getVersion();
                 _.each(episodes, function (item) {
                     if (item.downloadUrls) {
                         var downloadURL = item.downloadUrls[0];
