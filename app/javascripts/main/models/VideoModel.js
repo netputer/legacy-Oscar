@@ -4,12 +4,14 @@
         '_',
         'utilities/FormatString',
         'utilities/FormatDate',
+        'utilities/ClientInfo',
         'Wording'
     ], function (
         Backbone,
         _,
         FormatString,
         FormatDate,
+        ClientInfo,
         Wording
     ) {
 
@@ -68,14 +70,21 @@
                 }
 
                 _.each(data.videoEpisodes, function (episode) {
+                    var version = ClientInfo.getVersion();
+                    var tail = '';
+
+                    if (version < 2.70) {
+                        tail = '_' + episode.id;
+                    }
+
                     if (['TV', 'COMIC', 'VARIETY'].indexOf(data.type) >= 0) {
                         if (data.type === 'VARIETY') {
-                            episode.title = data.title + '_' + FormatString(Wording.EPISODE_NUM_VARIETY, FormatDate('yyyy-MM-dd', episode.episodeDate)) + '_' + episode.id;
+                            episode.title = data.title + '_' + FormatString(Wording.EPISODE_NUM_VARIETY, FormatDate('yyyy-MM-dd', episode.episodeDate)) + tail;
                         } else {
-                            episode.title = data.title + '_' + FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum) + '_' + episode.id;
+                            episode.title = data.title + '_' + FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum) + tail;
                         }
                     } else {
-                        episode.title = data.title + '_' + episode.id;
+                        episode.title = data.title + tail;
                     }
                 }, this);
 
