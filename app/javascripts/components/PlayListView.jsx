@@ -7,7 +7,8 @@
         'GA',
         'utilities/FormatString',
         'utilities/FormatDate',
-        'VideoPlayer'
+        'VideoPlayer',
+        'components/ProvidersBubbleView'
     ], function (
         React,
         $,
@@ -15,9 +16,45 @@
         GA,
         FormatString,
         FormatDate,
-        VideoPlayer
+        VideoPlayer,
+        ProvidersBubbleView
     ) {
+        var episodeKey;
+
         var ItemView = React.createClass({
+            componentWillMount : function () {
+                this.providersBubbleView = <ProvidersBubbleView
+                                                video={this.props.video}
+                                                episode={this.props.episode}
+                                                source="play"
+                                                id="providerItems" />
+            },
+            updateEpisodeKey : function (key) {
+                episodeKey = key;
+            },
+            showProviderItems : function (key, event) {
+                var EventListener = function (event) {
+                    if ((event.target.className !== 'arrow' && event.target.name !== 'more-provider') || episodeKey !== key) {
+                        toggleBubbleState(false);
+                    }
+                    document.body.removeEventListener('click', EventListener, false);
+                };
+
+                var toggleBubbleState = function (boolean) {
+                    this.providersBubbleView.setState({
+                        providerItemsBubbleShow : boolean
+                    });
+                    if (boolean) {
+                        document.getElementsByClassName('item')[key].className = 'item active';
+                    } else {
+                        document.getElementsByClassName('item')[key].className = 'item';
+                    }
+                }.bind(this);
+
+                document.body.addEventListener('click', EventListener, false);
+                toggleBubbleState(!this.providersBubbleView.state.providerItemsBubbleShow);
+
+            },
             clickBtn : function () {
                 var video = this.props.video.toJSON();
                 var episode = this.props.episode;
@@ -75,13 +112,27 @@
                 } else {
                     count = FormatDate('第MM-dd期', episode.episodeDate);
                 }
-
                 if (!episode.playInfo || episode.playInfo.length === 0 || episode.playInfo[0].url === undefined) {
                     return (
                         <li className="item" style={style}>
                             <button disabled onClick={this.clickBtn} className="button w-btn w-btn-mini w-btn-primary">
                                 {count}
                             </button>
+                        </li>
+                    );
+                } else if (episode.playInfo.length > 1) {
+                    return (
+                        <li className="item" style={style}>
+                            <div className="o-btn-group">
+                                <button className="button w-btn w-btn-mini w-btn-primary" onClick={this.clickBtn}>
+                                    {count}
+                                    <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.playInfo[0].title}</em></span>
+                                </button>
+                                <button name="more-provider" className="w-btn w-btn-primary w-btn-mini more-provider" onMouseEnter={this.updateEpisodeKey.bind(this, this.props.key)} onClick={this.showProviderItems.bind(this, this.props.key)}>
+                                    <span className="arrow"></span>
+                                </button>
+                                {this.providersBubbleView}
+                            </div>
                         </li>
                     );
                 } else {

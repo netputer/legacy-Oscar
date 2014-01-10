@@ -32,6 +32,7 @@
                 this.providersBubbleView = <ProvidersBubbleView
                                                 video={this.props.video}
                                                 episode={this.props.episode}
+                                                source="download"
                                                 id="providerItems" />
             },
             updateEpisodeKey : function (key) {
