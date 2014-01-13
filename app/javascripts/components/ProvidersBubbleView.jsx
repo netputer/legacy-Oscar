@@ -49,18 +49,39 @@
                     'video_area' : this.props.video.get('region')
                 });
             },
+            playInProvider : function (url) {
+                console.log(url);
+                var $a = $('<a>').attr({
+                    href : url,
+                    target : '_default'
+                })[0].click();
+
+            },
             render : function () {
                 var className = this.getBubbleClassName(this.props.id).toLowerCase();
-                var urls;
-                if (this.props.episode === undefined) {
-                    urls = this.props.video.get('videoEpisodes')[0].downloadUrls;
-                } else {
-                    urls = this.props.episode.downloadUrls;
+                var items;
+
+
+                if (this.props.source === 'play') {
+                    if (this.props.episode === undefined) {
+                        items = this.props.video.get('videoEpisodes')[0].playInfo;
+                    } else {
+                        items = this.props.episode.playInfo;
+                    }
+                    var items = _.map(items, function (item, index) {
+                            return <li key={index} onClick={this.playInProvider.bind(this, item.url)}>来源: {item.title}</li>
+                        }, this);
+                } else if (this.props.source === 'download') {
+                    if (this.props.episode === undefined) {
+                        items = this.props.video.get('videoEpisodes')[0].downloadUrls;
+                    } else {
+                        items = this.props.episode.downloadUrls;
+                    }
+                    var items = _.map(items, function (item, index) {
+                            return <li key={index} onClick={this.downloadFromProvider.bind(this, item)}>来源: {item.providerName} <span className="provider-size">{ReadableSize(item.size)}</span></li>
+                        }, this);
                 }
 
-                var items = _.map(urls, function (url, index) {
-                        return <li key={index} onClick={this.downloadFromProvider.bind(this, url)}>来源: {url.providerName} <span className="provider-size">{ReadableSize(url.size)}</span></li>
-                    }, this);
 
                 return (
                     <div className={className}>
