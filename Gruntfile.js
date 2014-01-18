@@ -24,8 +24,8 @@ module.exports = function (grunt) {
                 files : ['<%= paths.app %>/{,*/}*/{,*/}*.{scss,png}'],
                 tasks : ['compass:server']
             },
-            livereload: {
-                files: [
+            livereload : {
+                files : [
                     '<%= paths.app %>/*.html',
                     '<%= paths.tmp %>/stylesheets/*.css',
                     '<%= paths.app %>/javascripts/**/*.js',
@@ -59,9 +59,9 @@ module.exports = function (grunt) {
                 }
             }
         },
-        open: {
+        open : {
             server : {
-                path : 'http://127.0.0.1:<%= connect.options.port %>',
+                path : 'http ://127.0.0.1 :<%= connect.options.port %>',
                 app : 'Google Chrome Canary'
             }
         },
@@ -93,18 +93,27 @@ module.exports = function (grunt) {
             }
         },
         react : {
-            options : {
-                extension : 'jsx'
-            },
             server : {
-                files: {
-                    '<%= paths.tmp %>/javascripts/' : '<%= paths.app %>/javascripts/'
-                }
+                files : [
+                    {
+                        expand : true,
+                        cwd : '<%= paths.app %>/javascripts',
+                        src : ['**/*.jsx'],
+                        dest : '<%= paths.tmp %>/javascripts',
+                        ext : '.js'
+                    }
+                ]
             },
             dist : {
-                files: {
-                    '<%= paths.dist %>/javascripts/' : '<%= paths.app %>/javascripts/'
-                }
+                files : [
+                    {
+                        expand : true,
+                        cwd : '<%= paths.app %>/javascripts',
+                        src : ['**/*.jsx'],
+                        dest : '<%= paths.dist %>/javascripts',
+                        ext : '.js'
+                    }
+                ]
             }
         },
         htmlmin : {
@@ -145,7 +154,7 @@ module.exports = function (grunt) {
                         'thirdparty/Adonis/images/*.*',
                         'images/{,*/}*.{webp,gif,png,jpg,jpeg}',
                         'manifest.json',
-                        'components/**/*.*',
+                        'components/requirejs/require.js',
                         'icon*.png'
                     ]
                 }]
@@ -157,7 +166,7 @@ module.exports = function (grunt) {
                 cssDir : '<%= paths.app %>/stylesheets',
                 imagesDir : '<%= paths.app %>/compass/images',
                 relativeAssets : false,
-                httpGeneratedImagesPath: '../images'
+                httpGeneratedImagesPath : '../images'
             },
             dist : {
                 options : {
@@ -174,10 +183,10 @@ module.exports = function (grunt) {
                 }
             }
         },
-        rev: {
-            dist: {
-                files: {
-                    src: [
+        rev : {
+            dist : {
+                files : {
+                    src : [
                         '<%= paths.dist %>/javascripts/index.js',
                         '<%= paths.dist %>/javascripts/topic.js',
                         '<%= paths.dist %>/javascripts/search.js',
@@ -240,14 +249,14 @@ module.exports = function (grunt) {
                 }
             }
         },
-        compress: {
-            main: {
-                options: {
-                    archive: 'oscar.zip'
+        compress : {
+            main : {
+                options : {
+                    archive : 'oscar.zip'
                 },
-                files: [{
-                    src: ['<%= paths.dist %>/**/*.*'],
-                    dest: './'
+                files : [{
+                    src : ['<%= paths.dist %>/**/*.*'],
+                    dest : './'
                 }]
             }
         },
@@ -264,7 +273,7 @@ module.exports = function (grunt) {
                 push : false
             }
         },
-        shell: {
+        shell : {
             buildAdonis : {
                 options : {
                     stdout : true
@@ -307,12 +316,12 @@ module.exports = function (grunt) {
         'bump-commit'
     ]);
 
-    grunt.registerTask(['build:release'], [
+    grunt.registerTask(['build :release'], [
         'bump',
         'build'
     ]);
 
-    grunt.registerTask(['build:patch'], [
+    grunt.registerTask(['build :patch'], [
         'bump:patch',
         'build'
     ]);
