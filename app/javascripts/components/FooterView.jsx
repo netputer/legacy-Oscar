@@ -14,7 +14,7 @@
                     data : {
                         channel : 'web.navigate',
                         value : JSON.stringify({
-                            type : 'market',
+                            type : 'page',
                             id : 'http://apps.wandoujia.com/special/player'
                         })
                     }
@@ -27,7 +27,7 @@
                             &copy; 2010 - 2014 豌豆实验室<br />
                             除非特别注明，视频由第三方提供，豌豆荚仅根据您的指令提供搜索结果链接，与出处无关
                         </p>
-                        // <p>如果遇到视频无法播放，请尝试 <span className="link" onClick={this.clickInstall}>安装播放器</span></p>
+                        <p>如果遇到视频无法播放，请尝试 <span className="link" onClick={this.clickInstall}>安装播放器</span></p>
                     </footer>
                 );
             }
