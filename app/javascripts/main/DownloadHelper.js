@@ -38,7 +38,6 @@
                     name : title,
                     icon : '',
                     pos : 'oscar-dora-ext',
-                    xunlei : 'true',
                     dservice : isDservice
                 }
             });
@@ -53,8 +52,7 @@
                 url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x',
                 type : 'POST',
                 data : {
-                    videos : data,
-                    xunlei : 'true'
+                    videos : data
                 }
             });
 
