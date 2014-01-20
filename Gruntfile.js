@@ -316,12 +316,12 @@ module.exports = function (grunt) {
         'bump-commit'
     ]);
 
-    grunt.registerTask(['build :release'], [
+    grunt.registerTask(['build:release'], [
         'bump',
         'build'
     ]);
 
-    grunt.registerTask(['build :patch'], [
+    grunt.registerTask(['build:patch'], [
         'bump:patch',
         'build'
     ]);
