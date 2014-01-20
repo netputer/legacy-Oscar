@@ -38,6 +38,7 @@
                     name : title,
                     icon : '',
                     pos : 'oscar-dora-ext',
+                    xunlei : 'true',
                     dservice : isDservice
                 }
             });
@@ -51,7 +52,10 @@
             IO.requestAsync({
                 url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x',
                 type : 'POST',
-                data : {videos : data}
+                data : {
+                    videos : data,
+                    xunlei : 'true'
+                }
             });
 
             return deferred.promise();

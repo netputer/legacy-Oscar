@@ -142,11 +142,11 @@
             render : function () {
 
                 return (
-                    <div class="banner">
+                    <div className="banner">
                         <ul id="banner-container">
                             {this.renderItem.call(this, this.props.source)}
                         </ul>
-                        <div class="dots">
+                        <div className="dots">
                             {this.renderDot}
                         </div>
                     </div>

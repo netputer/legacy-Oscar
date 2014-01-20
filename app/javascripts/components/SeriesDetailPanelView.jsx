@@ -76,11 +76,11 @@
             },
             getTabs : function () {
                 return (
-                    <menu class="tab-ctn">
+                    <menu className="tab-ctn">
                         <li onClick={this.clickTab.bind(this, 'download')}
-                            class={this.state.selectedTab === 'download' ? 'h5 tab selected' : 'h5 tab'}>{Wording.EPISODE_DOWNLOAD}</li>
+                            className={this.state.selectedTab === 'download' ? 'h5 tab selected' : 'h5 tab'}>{Wording.EPISODE_DOWNLOAD}</li>
                         <li onClick={this.clickTab.bind(this, 'play')}
-                            class={this.state.selectedTab === 'play' ? 'h5 tab selected' : 'h5 tab'}>{Wording.PLAY}</li>
+                            className={this.state.selectedTab === 'play' ? 'h5 tab selected' : 'h5 tab'}>{Wording.PLAY}</li>
                     </menu>
                 );
             },

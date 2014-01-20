@@ -188,7 +188,7 @@
                 var episode = this.props.video.get('videoEpisodes');
 
                 return (
-                    <div class="o-button-list-ctn">
+                    <div className="o-button-list-ctn">
                         <ul className="list-ctn" ref="ctn">
                         {this.createList(this.props.video.get('videoEpisodes'))}
                         </ul>
