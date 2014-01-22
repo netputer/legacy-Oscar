@@ -21,6 +21,9 @@
 
         var providers;
 
+        var clientVersion = ClientInfo.getVersion();
+
+
         // (function () {
         //     var ua = window.navigator.userAgent.split(' ');
         //     var version = ua[ua.length - 1];
@@ -35,6 +38,7 @@
                 url : Actions.actions.VIDEO_DOWNLOAD,
                 data : {
                     url : url + '&source=windows2x',
+                    xunlei : clientVersion === 2.7005513 ? 'true' : 'false',
                     name : title,
                     icon : '',
                     pos : 'oscar-dora-ext',
@@ -47,9 +51,9 @@
 
         var batchDownloadAsync = function (data) {
             var deferred = $.Deferred();
-
+ 
             IO.requestAsync({
-                url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x',
+                url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x&xunlei=' + (clientVersion === 2.7005513 ? 'true' : 'false'),
                 type : 'POST',
                 data : {
                     videos : data
@@ -115,7 +119,6 @@
         DownloadHelper.download = function (episodes, installPlayer, eleIndex) {
             if (episodes.length > 1) {
                 var data = [];
-                var clientVersion = ClientInfo.getVersion();
                 _.each(episodes, function (item) {
                     if (item.downloadUrls) {
                         var downloadURL = item.downloadUrls[0];

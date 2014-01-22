@@ -1,10 +1,21 @@
 /*global define*/
 (function (window) {
-    define([], function () {
+    define(['_'], function (_) {
         var ClientInfo = {
-        	getVersion : function () {
-        		return	parseFloat(navigator.userAgent.split(' ')[navigator.userAgent.split(' ').length-1].substr(0, 4));
-        	}
+            getVersion : function () {
+                var originalVersion = navigator.userAgent.split(' ')[navigator.userAgent.split(' ').length - 1];
+                var version;
+                var arr = originalVersion.split('.');
+                _.each(arr, function (v, index) {
+                    if (index === 0) {
+                        version = v + '.';
+                    } else {
+                        version += v;
+                    }
+                });
+
+                return parseFloat(version);
+            }
         };
 
         return ClientInfo;
