@@ -183,7 +183,7 @@
                         </ul>
                         <div>
                             {episode.length > this.state.expendIndex * 10 && <span onClick={this.clickExpend} className="link load-more">{Wording.LOAD_MORE}</span>}
-                            <label class="download-app"><input id="install-app" class="w-checkbox" ref="player-app" type="checkbox" onChange={this.onChangeCheckbox} />
+                            <label className="download-app"><input id="install-app" className="w-checkbox" ref="player-app" type="checkbox" onChange={this.onChangeCheckbox} />
                             同时下载视频应用</label>
                         </div>
                         {this.subscribeBubbleView}

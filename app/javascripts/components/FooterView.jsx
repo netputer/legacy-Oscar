@@ -14,7 +14,7 @@
                     data : {
                         channel : 'web.navigate',
                         value : JSON.stringify({
-                            type : 'market',
+                            type : 'page',
                             id : 'http://apps.wandoujia.com/special/player'
                         })
                     }

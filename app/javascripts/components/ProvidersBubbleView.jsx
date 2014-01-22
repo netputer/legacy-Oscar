@@ -61,7 +61,6 @@
                 var className = this.getBubbleClassName(this.props.id).toLowerCase();
                 var items;
 
-
                 if (this.props.source === 'play') {
                     if (this.props.episode === undefined) {
                         items = this.props.video.get('videoEpisodes')[0].playInfo;
@@ -71,7 +70,7 @@
                     var items = _.map(items, function (item, index) {
                             return <li key={index} onClick={this.playInProvider.bind(this, item.url)}>来源: {item.title}</li>
                         }, this);
-                } else if (this.props.source === 'download') {
+                } else {
                     if (this.props.episode === undefined) {
                         items = this.props.video.get('videoEpisodes')[0].downloadUrls;
                     } else {

@@ -225,7 +225,7 @@
                     text = Wording.SUBSCRIBE;
                 }
 
-                return <button id="button-subscribe" class={className} onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video)} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
+                return <button id="button-subscribe" className={className} onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.video)} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
             },
             handleChange : function (evt) {
                 if (event.target.checked === false) {
@@ -243,8 +243,8 @@
             getCheckbox : function (name) {
                 if (this.props.video.get('type') === 'MOVIE') {
                     return (
-                        <label class="download-app">
-                            <input class="w-checkbox" ref="player-app" onChange={this.handleChange} type="checkbox" />
+                        <label className="download-app">
+                            <input className="w-checkbox" ref="player-app" onChange={this.handleChange} type="checkbox" />
                             同时下载视频应用
                         </label>
                     );
