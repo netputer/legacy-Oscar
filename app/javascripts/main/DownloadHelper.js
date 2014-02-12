@@ -38,7 +38,6 @@
                 url : Actions.actions.VIDEO_DOWNLOAD,
                 data : {
                     url : url + '&source=windows2x',
-                    xunlei : clientVersion === 2.7005513 ? 'true' : 'false',
                     name : title,
                     icon : '',
                     pos : 'oscar-dora-ext',
@@ -53,7 +52,7 @@
             var deferred = $.Deferred();
  
             IO.requestAsync({
-                url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x&xunlei=' + (clientVersion === 2.7005513 ? 'true' : 'false'),
+                url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x',
                 type : 'POST',
                 data : {
                     videos : data
