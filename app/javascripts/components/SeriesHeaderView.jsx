@@ -19,6 +19,8 @@
         ProvidersBubbleView
     ) {
 
+        var openFlag = 0;
+
         var SeriesHeaderView = React.createClass({
             mixins : [ElementsGenerator],
             componentWillMount : function () {
@@ -60,6 +62,12 @@
                     });
                 }
             },
+            componentWillReceiveProps : function (nextProps) {
+                if (nextProps.showSubscribeBubble === 'download_all' && openFlag === 0) {
+                    this.showSubscribeBubble(nextProps.showSubscribeBubble, this.props.video);
+                    openFlag = 1;
+                }
+            },
             subscribeCallback : function (statusCode) {
                 this.props.subscribeHandler.call(this, statusCode);
             },
@@ -87,6 +95,7 @@
                                     {this.providersBubbleView}
                                 </div>
                             </div>
+                            <a className="w-text-info legal-link" href="http://www.wandoujia.com/mobile/video_legal.html" target="_default">版权举报</a>
                         </div>
                     </div>
                 );

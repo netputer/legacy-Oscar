@@ -104,7 +104,7 @@
                 var count;
 
                 var style = {
-                    display : this.props.key >= this.props.expendIndex * 10 ? 'none' : 'inline-block'
+                    display : (this.props.key < 10 || this.props.key >= this.props.countEpisodes - 5 || this.props.key >= this.props.countEpisodes - this.props.expendIndex * 10 + 5) ? 'inline-block' : 'none'
                 };
 
                 if (episode.episodeNum) {
@@ -158,15 +158,18 @@
                     expendIndex : 1
                 });
             },
-            createList : function (videoEpisodes) {
+            createList : function (videoEpisodes, start, max) {
                 var type = this.props.video.get('type');
                 var title = this.props.video.get('title');
-                var listItems = _.map(videoEpisodes, function (item, i) {
+                var countEpisodes = this.props.video.get('videoEpisodes').length;
+                var episodes = videoEpisodes.slice(start, max);
+                var listItems = _.map(episodes, function (item, i) {
                     return <ItemView
                                 video={this.props.video}
                                 episode={item}
                                 title={title}
-                                key={i}
+                                countEpisodes={countEpisodes}
+                                key={start + i}
                                 expendIndex={this.state.expendIndex} />;
                 }, this);
 
@@ -190,9 +193,10 @@
                 return (
                     <div className="o-button-list-ctn">
                         <ul className="list-ctn" ref="ctn">
-                        {this.createList(this.props.video.get('videoEpisodes'))}
+                            {this.createList(episode, 0, 10)}
+                            {episode.length > this.state.expendIndex * 10 + 5 && <li className="load-more"><hr /><span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span></li>}
+                            {this.createList(episode, 10, episode.length)}
                         </ul>
-                        {episode.length > this.state.expendIndex * 10 && <span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span>}
                     </div>
                 );
             }

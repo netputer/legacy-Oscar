@@ -31,7 +31,10 @@
                 return (
                     <div className="extra-info">
                         <h5>{Wording.EXTRA_INFO}</h5>
-                        <dl>{content}</dl>
+                        <dl>
+                            {content}
+                            <dd className="w-wc"><a className="w-text-normal" href={'http://www.baidu.com/s?wd=' + this.props.video.get('title')} target="_default">其他来源</a></dd>
+                        </dl>
                     </div>
                 );
             }

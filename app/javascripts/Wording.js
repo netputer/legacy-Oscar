@@ -1,11 +1,12 @@
 /*global define*/
 define({
+    APP_INSTALL : '安装',
     ACTORS_LABEL : '主演：',
     PRESENTER_LABEL : '主持人：',
     RATING_LABEL : '评分：',
     YEAR : '{1} 年',
-    DOWNLOAD : '下载',
-    DOWNLOAD_ALL : '下载全部',
+    DOWNLOAD : '离线缓存',
+    DOWNLOAD_ALL : '全部离线缓存',
     SUBSCRIBE : '手机追追看',
     SUBSCRIBING : '正在追',
     UNSUBSCRIBE : '不追了',
@@ -24,7 +25,7 @@ define({
     VARIETY : '综艺',
     NO_DATA : '暂无数据',
     NO_RATING : '暂无评分',
-    EPISODE_DOWNLOAD : '下载',
+    EPISODE_DOWNLOAD : '离线缓存',
     EPISODE_NUM : '第 {1} 集',
     ALIAS_LABEL : '别名：',
     SCREENWRITERS_LABEL : '编剧：',
@@ -32,7 +33,7 @@ define({
     DUBBINGS_LABEL : '配音：',
     LANGUAGE_LABEL : '语言：',
     REGION_LABEL : '地区：',
-    DOWNLOADCOUNT_LABEL : '下载次数：',
+    DOWNLOADCOUNT_LABEL : '离线缓存次数：',
     REGION : '地区',
     EARLY : '更早',
     SORT : '排序',
@@ -47,5 +48,5 @@ define({
     INTERNET : '互联网',
     EPISODE_NUM_SHORTEN : '第{1}集',
     EPISODE_NUM_VARIETY : '第{1}期',
-    PLAY : '播放'
+    PLAY : '在线播放'
 });

@@ -4,6 +4,7 @@
 @import "components/downloadList";
 @import "components/comment";
 @import "components/bubble";
+@import "components/popup";
 
 .o-series-panel {
     background-color: rgba(0, 0, 0, .4);
@@ -33,7 +34,7 @@
                 position: absolute;
 
                 & + .tab {
-                    left: 48px;
+                    left: 78px;
                 }
 
                 &.selected {
@@ -109,6 +110,7 @@
 
     .info-ctn {
         margin-left: 15px;
+        position: relative;
         -webkit-box-flex: 1;
 
         .info {
@@ -139,6 +141,12 @@
                     margin-top: 0;
                 }
             }
+        }
+
+        .legal-link {
+            bottom: 0;
+            position: absolute;
+            right: 20px;
         }
     }
 }
@@ -224,13 +232,29 @@
 .providers {
     background: #fff;
     display: inline-block;
+    margin: 4px 0 6px;
 
 }
 
 .load-more {
     display: block;
-    float: left;
-    width:  calc(100% - 116px);
+    height: 14px;
+    margin: 2px 0 8px;
+    overflow: hidden;
+    text-align: center;
+    width: calc(100% - 8px);
+
+    hr {
+        background: #d4d4d4;
+        margin-left: -1px;
+    }
+
+    .link {
+        background: #fff;
+        padding: 0 6px;
+        position: relative;
+        top: -16px;
+    }
 }
 .download-app {
     display: block;

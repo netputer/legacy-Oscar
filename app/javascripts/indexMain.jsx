@@ -9,6 +9,7 @@
         'Actions',
         'indexpage/IndexPage',
         'indexpage/IndexPageRouter',
+        'components/DeclarationView',
         'components/SeriesDetailPanelView',
         'mixins/FilterNullValues',
         'main/models/VideoModel',
@@ -22,6 +23,7 @@
         Actions,
         IndexPage,
         IndexPageRouter,
+        DeclarationView,
         SeriesDetailPanelView,
         FilterNullValues,
         VideoModel,
@@ -48,12 +50,14 @@
             });
         };
 
+        var declarationView = <DeclarationView />
         var seriesDetailPanelView = <SeriesDetailPanelView closeDetailPanel={closeDetailPanel} />
 
         React.renderComponent((
             <div>
                 <IndexPage />
                 {seriesDetailPanelView}
+                <DeclarationView />
             </div>
         ), document.body);
 

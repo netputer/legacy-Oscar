@@ -21,12 +21,11 @@
 
         var ElementsGenerator = {
             clickButtonDownload : function (source, video) {
-                var installPlayerApp = this.refs !== undefined && this.refs['player-app'].state.checked;
 
-                DownloadHelper.download(this.props.video.get('videoEpisodes'), installPlayerApp);
-
-                if (this.props.subscribed !== -2) {
-                    this.showSubscribeBubble('download_all', video);
+                if (this.props.video.get('videoEpisodes').length > 1) {
+                    this.props.confirmCallback(1);
+                } else {
+                    DownloadHelper.download(this.props.video.get('videoEpisodes'));
                 }
 
                 GA.log({

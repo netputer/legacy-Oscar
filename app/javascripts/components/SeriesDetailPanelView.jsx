@@ -13,7 +13,8 @@
         'components/SeriesHeaderView',
         'components/CommentaryView',
         'components/ExtraInfoView',
-        'components/LoadingView'
+        'components/LoadingView',
+        'components/DownloadConfirmView'
     ], function (
         React,
         $,
@@ -26,14 +27,17 @@
         SeriesHeaderView,
         CommentaryView,
         ExtraInfoView,
-        LoadingView
+        LoadingView,
+        DownloadConfirmView
     ) {
 
         var SeriesDetailPanelView = React.createClass({
             getInitialState : function () {
                 return {
                     show : false,
+                    showConfirm : false,
                     subscribed : -2,
+                    showSubscribeBubble : '',
                     selectedTab : 'download'
                 };
             },
@@ -84,8 +88,22 @@
                     </menu>
                 );
             },
+            confirm : function (flag, close) {
+                var show = close !== undefined ? false : !!flag;
+                this.setState({
+                    showConfirm : show
+                });
+
+                if (flag === 1 && close !== undefined && this.state.subscribed !== -2) {
+                    this.setState({
+                        showSubscribeBubble : 'download_all'
+                    });
+                }
+            },
             render : function () {
-                $('body').toggleClass('overflow', this.state.show);
+                if (!!localStorage.getItem('declaration')) {
+                    $('body').toggleClass('overflow', this.state.show);
+                }
 
                 var style = {
                     height : window.innerHeight
@@ -100,7 +118,7 @@
                         return (
                             <div className={className} style={style} onClick={this.clickCtn} ref="ctn">
                                 <div className="o-series-panel-content w-vbox">
-                                    <SeriesHeaderView video={video} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
+                                    <SeriesHeaderView video={video} showSubscribeBubble={this.state.showSubscribeBubble} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} confirmCallback={this.confirm} />
                                     <div className="body-ctn">
                                         <div className="body">
                                             {this.props.video.get('type') === 'MOVIE' ? '' : this.getTabs()}
@@ -113,6 +131,7 @@
                                     </div>
                                     <div className="o-close" onClick={this.props.closeDetailPanel} />
                                 </div>
+                                <DownloadConfirmView video={video} showConfirm={this.state.showConfirm} confirmCallback={this.confirm} />
                             </div>
                         );
                     } else {
