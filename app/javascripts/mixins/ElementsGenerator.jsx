@@ -21,12 +21,11 @@
 
         var ElementsGenerator = {
             clickButtonDownload : function (source, video) {
-                var installPlayerApp = this.refs !== undefined && this.refs['player-app'].state.checked;
 
-                DownloadHelper.download(this.props.video.get('videoEpisodes'), installPlayerApp);
-
-                if (this.props.subscribed !== -2) {
-                    this.showSubscribeBubble('download_all', video);
+                if (this.props.video.get('videoEpisodes').length > 1) {
+                    this.props.confirmCallback(1);
+                } else {
+                    DownloadHelper.download(this.props.video.get('videoEpisodes'));
                 }
 
                 GA.log({
@@ -48,8 +47,12 @@
                         this.subscribeCallback.call(this, 2);
                         this.subscribeBubbleView.doSubscribe(video, source);
                     }
-
-                    if (source !== 'subscribe' || sessionStorage.getItem('subscribe') === null) {
+                    if (source === 'mouseleave') {
+                        this.subscribeBubbleView.setState({
+                            subscribeBubbleShow : false,
+                            source : source
+                        });
+                    } else if (source !== 'subscribe' || sessionStorage.getItem('subscribe') === null) {
                         this.subscribeBubbleView.setState({
                             subscribeBubbleShow : true,
                             source : source
@@ -77,13 +80,22 @@
                 }
             },
             mouseEvent : function (evt) {
-                if (evt === 'onMouseEnter' && this.props.subscribed === 1) {
-                    this.subscribeCallback.call(this, -1);
-                } else if (evt === 'onMouseLeave' && this.props.subscribed === -1) {
-                    this.subscribeCallback.call(this, 1);
+
+                if (evt === 'onMouseEnter') {
+                    this.showSubscribeBubble('mouseenter', this.props.video);
+
+                    if (this.props.subscribed === 1) {
+                        this.subscribeCallback.call(this, -1);
+                    }   
+                } else {
+                    this.showSubscribeBubble('mouseleave', this.props.video);
+                    if (evt === 'onMouseLeave' && this.props.subscribed === -1) {
+                        this.subscribeCallback.call(this, 1);
+                    }
                 }
             },
             moreProvider : function () {
+                this.showSubscribeBubble('hover', this.props.video);
 
                 var EventListener = function (event) {
                     if (event.target.className !== 'arrow' && event.target.name !== 'more-provider') {

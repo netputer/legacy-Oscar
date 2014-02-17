@@ -9,6 +9,7 @@
         'Actions',
         'catepage/CatePage',
         'catepage/CatePageRouter',
+        'components/DeclarationView',
         'main/models/VideoModel',
         'components/SeriesDetailPanelView',
         'mixins/FilterNullValues'
@@ -20,6 +21,7 @@
         Actions,
         CatePage,
         CatePageRouter,
+        DeclarationView,
         VideoModel,
         SeriesDetailPanelView,
         FilterNullValues
@@ -50,12 +52,14 @@
             });
         };
 
+        var declarationView = <DeclarationView />
         var seriesDetailPanelView = <SeriesDetailPanelView closeDetailPanel={closeDetailPanel} />
 
         React.renderComponent((
             <div>
                 <CatePage />
                 {seriesDetailPanelView}
+                <DeclarationView />
             </div>
         ), document.body);
 

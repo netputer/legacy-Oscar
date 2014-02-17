@@ -37,7 +37,7 @@
                 var selected = this.props.filterSelected[prop];
 
                 var eles = _.map(this.props.filters[prop], function (item, i) {
-                    var className = 'item';
+                    var className = 'filter-item';
                     if (item.name) {
                         className = selected === item.name ? className + ' selected' : className;
                     } else {
@@ -54,7 +54,7 @@
                     }
                 }, this);
 
-                var className = !this.props.filterSelected[prop] ? 'item selected' : 'item';
+                var className = !this.props.filterSelected[prop] ? 'filter-item selected' : 'filter-item';
                 return (
                     <li className="o-filter-cate-ctn">
                         <span className="title w-text-info">{title}</span>
@@ -83,7 +83,7 @@
                 var selected = this.props.filterSelected['rank'];
 
                 var eles = _.map(filters, function (item, i) {
-                    var className = selected === item.type ? 'item selected' : 'item';
+                    var className = selected === item.type ? 'filter-item selected' : 'filter-item';
                     if (item.type === 'rel' && this.props.filters.categories) {
                         return;
                     } else {
@@ -118,11 +118,11 @@
                 var selected = this.props.filterSelected['type'];
 
                 var eles = _.map(filters, function (item, i) {
-                    var className = selected === item.type ? 'item selected' : 'item';
+                    var className = selected === item.type ? 'filter-item selected' : 'filter-item';
                     return <li onClick={this.clickItem.bind(this, 'type', item)} className={className} key={i}>{item.name}</li>
                 }, this);
 
-                var className = !selected ? 'item selected' : 'item';
+                var className = !selected ? 'filter-item selected' : 'filter-item';
 
                 return (
                     <li className="o-filter-cate-ctn">

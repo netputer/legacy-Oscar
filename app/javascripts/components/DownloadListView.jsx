@@ -11,6 +11,7 @@
         'utilities/ReadableSize',
         'main/DownloadHelper',
         'components/SubscribeBubbleView',
+        'components/AppBubbleView',
         'components/ProvidersBubbleView'
     ], function (
         React,
@@ -23,15 +24,22 @@
         ReadableSize,
         DownloadHelper,
         SubscribeBubbleView,
+        AppBubbleView,
         ProvidersBubbleView
     ) {
         var episodeKey;
 
         var ItemView = React.createClass({
+            getInitialState : function () {
+                return {
+                    appName : ''
+                };
+            },
             componentWillMount : function () {
                 this.providersBubbleView = <ProvidersBubbleView
                                                 video={this.props.video}
                                                 episode={this.props.episode}
+                                                showProviderItem={this.showProviderItem}
                                                 source="download"
                                                 id="providerItems" />
             },
@@ -65,14 +73,13 @@
                 var episode = this.props.episode;
                 var count;
                 var style = {
-                    display : this.props.key >= this.props.expendIndex * 10 ? 'none' : 'inline-block'
+                    display : (this.props.key < 25 || this.props.countEpisodes <= 30 || this.props.key >= this.props.countEpisodes - 5 || this.props.key >= this.props.countEpisodes - this.props.expendIndex * 10 + 5) ? 'inline-block' : 'none'
                 };
                 if (episode.episodeNum) {
                     count = FormatString(Wording.EPISODE_NUM, episode.episodeNum);
                 } else {
                     count = FormatDate('第MM-dd期', episode.episodeDate);
                 }
-
                 if (!episode.downloadUrls) {
                     return (
                         <li className="item" style={style}>
@@ -97,6 +104,11 @@
                                     <span className="arrow"></span>
                                 </button>
                                 {this.providersBubbleView}
+                                <AppBubbleView
+                                    key={this.props.key}
+                                    video={this.props.video}
+                                    episode={this.props.episode}
+                                    name={this.state.appName} />
                             </div>
                         </li>
                     );
@@ -106,6 +118,11 @@
                             <button className="button button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
                                 {count}
                                 <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.downloadUrls[0].providerName}</em> {ReadableSize(episode.downloadUrls[0].size)}</span>
+                                <AppBubbleView
+                                    key={this.props.key}
+                                    video={this.props.video}
+                                    episode={this.props.episode}
+                                    name={this.state.appName} />
                             </button>
                         </li>
                     );
@@ -115,21 +132,36 @@
                             <button className="button button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
                                 {count}
                                 <span className="size placeholder bubble-download-tips"></span>
+                                <AppBubbleView
+                                    key={this.props.key}
+                                    video={this.props.video}
+                                    episode={this.props.episode}
+                                    name={this.state.appName} />
                             </button>
                         </li>
                     );
                 }
             },
+            showProviderItem : function (key, info) {
+                this.setState({
+                    appName : info.providerName
+                });
+                document.getElementsByClassName('item')[key].getElementsByClassName('bubble-app')[0].style.display = 'block';
+                setTimeout(function () {
+                    document.getElementsByClassName('item')[key].getElementsByClassName('bubble-app')[0].style.display = 'none';
+                }, 7000);
+            },
             clickDownload : function () {
                 var episode = this.props.episode;
                 if (!!episode.downloadUrls) {
-                    var installPlayerApp = !!document.getElementById('install-app') && document.getElementById('install-app').checked;
-                    DownloadHelper.download([episode], installPlayerApp, this.props.key);
+                    DownloadHelper.download([episode], this.props.key);
 
                     for (var i=0; i <= this.props.key && i <= 5; i++) {
                         if (this.props.video.get('videoEpisodes')[i].downloadUrls !== undefined) {
                             if (this.props.key === i) {
                                 this.props.clickHandler.call(this, true);
+                            } else if (!sessionStorage.getItem(episode.downloadUrls[0].providerName)) {
+                                this.showProviderItem(this.props.key, episode.downloadUrls[0]);
                             }
                             break;
                         }
@@ -179,12 +211,11 @@
                 return (
                     <div className="o-button-list-ctn">
                         <ul className="list-ctn" ref="ctn">
-                            {this.createList(episode)}
+                            {this.createList(episode, 0, 25)}
+                            {episode.length > this.state.expendIndex * 10 + 5 && episode.length > 30 && <li className="load-more"><hr /><span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span></li>}
+                            {this.createList(episode, 25, episode.length)}
                         </ul>
                         <div>
-                            {episode.length > this.state.expendIndex * 10 && <span onClick={this.clickExpend} className="link load-more">{Wording.LOAD_MORE}</span>}
-                            <label className="download-app"><input id="install-app" className="w-checkbox" ref="player-app" type="checkbox" onChange={this.onChangeCheckbox} />
-                            同时下载视频应用</label>
                         </div>
                         {this.subscribeBubbleView}
                     </div>
@@ -202,18 +233,22 @@
                     'tab' : 'download'
                 });
             },
-            createList : function (videoEpisodes) {
+            createList : function (videoEpisodes, start, max) {
                 var type = this.props.video.get('type');
                 var title = this.props.video.get('title');
-                var listItems = _.map(videoEpisodes, function (item, i) {
+                var countEpisodes = this.props.video.get('videoEpisodes').length;
+                var episodes = videoEpisodes.slice(start, max);
+                var listItems = _.map(episodes, function (item, i) {
                     return <ItemView
-                                video={this.props.video}
-                                episode={item}
-                                title={title}
-                                key={i}
-                                expendIndex={this.state.expendIndex}
-                                clickHandler={this.showSubscribeBubble}
-                                type={type} />;
+                                    video={this.props.video}
+                                    episode={item}
+                                    title={title}
+                                    countEpisodes={countEpisodes}
+                                    key={start + i}
+                                    expendIndex={this.state.expendIndex}
+                                    clickHandler={this.showSubscribeBubble}
+                                    type={type} />;
+
                 }, this);
 
                 return listItems;

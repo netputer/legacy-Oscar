@@ -58,7 +58,7 @@
                         <div className="info-ctn w-vbox">
                             <h3 className="title">{this.props.data.title}</h3>
                             {this.renderInfo()}
-                            <button className="w-btn w-btn-primary">下载</button>
+                            <button className="w-btn w-btn-primary">离线缓存</button>
                         </div>
                     </li>
                 );
@@ -201,7 +201,7 @@
                             <span className="title w-wc w-text-secondary">{title}</span>
                             <span className="actors w-wc w-text-info">{actors}</span>
                             <span className="episode w-wc w-text-info">{episode}</span>
-                            <button className="download w-btn w-btn-primary w-btn-mini" onClick={this.download}>下载</button>
+                            <button className="download w-btn w-btn-primary w-btn-mini" onClick={this.download}>离线缓存</button>
                         </div>
                     </li>
                 );

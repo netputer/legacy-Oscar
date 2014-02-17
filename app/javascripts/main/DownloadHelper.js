@@ -38,7 +38,6 @@
                 url : Actions.actions.VIDEO_DOWNLOAD,
                 data : {
                     url : url + '&source=windows2x',
-                    xunlei : clientVersion === 2.7005513 ? 'true' : 'false',
                     name : title,
                     icon : '',
                     pos : 'oscar-dora-ext',
@@ -53,7 +52,7 @@
             var deferred = $.Deferred();
  
             IO.requestAsync({
-                url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x&xunlei=' + (clientVersion === 2.7005513 ? 'true' : 'false'),
+                url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x',
                 type : 'POST',
                 data : {
                     videos : data
@@ -73,50 +72,25 @@
             return deferred.promise();
         };
 
-        var downloadPlayerAsync = function (title) {
-            _.some(providers, function (provider) {
-                if (title === provider.title) {
-                    var icon = provider.iconUrl;
-                    var url = provider.appDownloadUrl + '?pos=oscar-promotion#name=' + title + '&icon=' + icon + '&content-type=application';
-                    $('<a>').attr({'href' : url, 'download' : title})[0].click();
-                    sessionStorage.setItem(title, 'installed');
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-        };
+        DownloadHelper.downloadPlayerAsync = function (provider) {
+            if (provider.title !== undefined) {
+                var title = provider.title;
+                var icon = provider.iconUrl;
+                var url = provider.appDownloadUrl + '?pos=oscar-promotion#name=' + title + '&icon=' + icon + '&content-type=application';
+                $('<a>').attr({'href' : url, 'download' : title})[0].click();
+                sessionStorage.setItem(title, 'installed');
 
-        var downloadPlayer = function(player, title, index) {
-            if (player.promotType & 1 && sessionStorage.getItem(player.providerName) === null) {
-                var downloadAppText = '同时为您下载' + player.providerName + '...';
-                var eleIndex = index !== undefined ? index : 0;
-                var ele = document.getElementsByClassName('bubble-download-tips')[eleIndex];
-                var cachedHtml = ele.innerHTML;
-                ele.innerHTML = downloadAppText;
-                ele.style.opacity = '1';
-
-                setTimeout(function () {
-                    ele.style.opacity = '';
-                    ele.innerHTML = cachedHtml;
-                }, 3000)
-
-                if (providers === undefined) {
-                    getProvidersAsync().done(function (resp) {
-                        providers = resp;
-                        downloadPlayerAsync(player.providerName);
-                    });
-                } else {
-                    downloadPlayerAsync(player.providerName)
-                }
-
-                GA.log({
+               GA.log({
                     'event' : 'video.app.promotion'
                 });
+
+                return true;
+            } else {
+                return false;
             }
         };
 
-        DownloadHelper.download = function (episodes, installPlayer, eleIndex) {
+        DownloadHelper.download = function (episodes, eleIndex) {
             if (episodes.length > 1) {
                 var data = [];
                 _.each(episodes, function (item) {
@@ -148,10 +122,6 @@
             } else {
                 episode = episodes[0];
 
-                if (!!installPlayer) {
-                    downloadPlayer(episode.downloadUrls[0], episode.title, eleIndex);
-                }
-
                 var downloadURL = episode.downloadUrls[0];
                 var dServiceURL = downloadURL.accelUrl;
                 var url = downloadURL.url;
@@ -164,24 +134,22 @@
             }
         };
 
-        DownloadHelper.downloadFromProvider = function (episode, provider, installPlayer, index) {
+        DownloadHelper.getProviders = function () {
+            if (providers) {
+                return providers;
+            } else {
+                return getProvidersAsync().then(function (resp) {
+                    providers = resp;
+                    return providers;
+                });
+            }
+        };
+
+        DownloadHelper.downloadFromProvider = function (episode, provider, index) {
             var title = episode.title;
             var url = provider.url;
             var dServiceURL = provider.accelUrl;
             var eleIndex = index !== undefined ? index : 0;
-
-            if (!!installPlayer) {
-                downloadPlayer(provider, title, eleIndex);
-                GA.log({
-                    'event' : 'video.download.action',
-                    'action' : 'video_app_download',
-                    'pos' : 'detail',
-                    'video_id' : episode.video_id,
-                    'video_source' : title,
-                    'video_title' : episode.title
-                });
-
-            }
 
             if (dservice) {
                 downloadAsync(title, dServiceURL, dservice);

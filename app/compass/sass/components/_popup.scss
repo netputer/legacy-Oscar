@@ -1,0 +1,37 @@
+.popup {
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: calc(100% + 5px);
+}
+
+.dark-bg {
+    background: rgba(0, 0, 0, .5);
+}
+
+.popup-window {
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 16px #999;
+    min-height: 150px;
+    margin: 200px auto;
+    overflow: hidden;
+    padding: 20px 30px;
+    width: 428px;
+
+    h2 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0 0 20px;
+    }
+
+    p {
+        line-height: 20px;
+        margin: 0;
+    }
+    .w-btn {
+        float: right;
+        margin: 20px 0 0 12px;
+    }
+}

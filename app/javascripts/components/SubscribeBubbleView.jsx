@@ -87,6 +87,14 @@
                     }.bind(this)
                 });
             },
+            mouseevent : function () {
+                if (this.state.source === 'mouseenter') {
+                    this.setState({
+                        subscribeBubbleShow : true,
+                        source : ''
+                    });
+                }
+            },
             render : function () {
                 var className = this.getBubbleClassName('subscribe')
 
@@ -94,20 +102,20 @@
                     return (
                         <div className={className}>
                             <div className="bubble-inner arrow-subscribe">
-                                <h6>自动下载，最新剧集不错过</h6>
+                                <h6>自动离线缓存，最新剧集不错过</h6>
                                 <p>打开手机追追看后，每次剧集有更新的时候，豌豆荚都会在手机上直接帮您下好，您不必担心错过最新一集。</p>
-                                <p>下载仅使用 Wi-Fi 网络，不会花费您的流量。</p>
+                                <p>离线缓存仅使用 Wi-Fi 网络，不会花费您的流量。</p>
                                 <button className="w-btn w-btn-primary" onClick={this.closeBubble.bind(this, 'ok')}>知道了</button>
                             </div>
                         </div>
                     );
                 } else {
                     return (
-                        <div className={className}>
+                        <div className={className} onMouseEnter={this.mouseevent} onMouseLeave={this.closeBubble.bind(this, 'cancel')}>
                             <div className="bubble-inner arrow-subscribe">
-                                <h6>自动下载，最新剧集不错过</h6>
+                                <h6>自动离线缓存，最新剧集不错过</h6>
                                 <p>打开手机追追看后，每次剧集有更新的时候，豌豆荚都会在手机上直接帮您下好，您不必担心错过最新一集。</p>
-                                <p>下载仅使用 Wi-Fi 网络，不会花费您的流量。</p>
+                                <p>离线缓存仅使用 Wi-Fi 网络，不会花费您的流量。</p>
                                 <button className="w-btn w-btn-primary" onClick={this.doSubscribe.bind(this, false)}>追追看</button>
                                 <button className="w-btn" onClick={this.closeBubble.bind(this, 'cancel')}>不追</button>
                             </div>

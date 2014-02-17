@@ -23,10 +23,12 @@
         var ProvidersBubbleView = React.createClass({
             mixins : [BubbleView],
             downloadFromProvider : function (url) {
-                var installPlayerApp = !!document.getElementById('install-app') && document.getElementById('install-app').checked;
                 if (this.props.episode) {
                     var index = this.props.video.get('videoEpisodes').indexOf(this.props.episode);
-                    DownloadHelper.downloadFromProvider(this.props.episode, url, installPlayerApp, index);
+                    DownloadHelper.downloadFromProvider(this.props.episode, url, index);
+                    if (!sessionStorage.getItem(url.providerName)) {
+                        this.props.showProviderItem.call(this, index, url);
+                    }
                 } else {
                     DownloadHelper.downloadFromProvider(this.props.video.get('videoEpisodes')[0], url, installPlayerApp);
                 }
@@ -50,7 +52,6 @@
                 });
             },
             playInProvider : function (url) {
-                console.log(url);
                 var $a = $('<a>').attr({
                     href : url,
                     target : '_default'
