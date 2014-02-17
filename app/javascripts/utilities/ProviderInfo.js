@@ -14,7 +14,6 @@
 
         var providers;
 
-
         var pickProvider = function (name) {
             return _.where(providers, {title : name});
         };

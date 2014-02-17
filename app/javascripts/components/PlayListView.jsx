@@ -104,7 +104,7 @@
                 var count;
 
                 var style = {
-                    display : (this.props.key < 10 || this.props.key >= this.props.countEpisodes - 5 || this.props.key >= this.props.countEpisodes - this.props.expendIndex * 10 + 5) ? 'inline-block' : 'none'
+                    display : (this.props.key < 25 || this.props.countEpisodes <= 30 || this.props.key >= this.props.countEpisodes - 5 || this.props.key >= this.props.countEpisodes - this.props.expendIndex * 10 + 5) ? 'inline-block' : 'none'
                 };
 
                 if (episode.episodeNum) {
@@ -193,9 +193,9 @@
                 return (
                     <div className="o-button-list-ctn">
                         <ul className="list-ctn" ref="ctn">
-                            {this.createList(episode, 0, 10)}
-                            {episode.length > this.state.expendIndex * 10 + 5 && <li className="load-more"><hr /><span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span></li>}
-                            {this.createList(episode, 10, episode.length)}
+                            {this.createList(episode, 0, 25)}
+                            {episode.length > this.state.expendIndex * 10 + 5 && episode.length > 30 && <li className="load-more"><hr /><span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span></li>}
+                            {this.createList(episode, 25, episode.length)}
                         </ul>
                     </div>
                 );
