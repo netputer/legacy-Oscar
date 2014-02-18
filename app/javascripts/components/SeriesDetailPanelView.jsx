@@ -6,6 +6,7 @@
         '$',
         '_',
         'Wording',
+        'utilities/ProviderInfo',
         'components/DescriptionView',
         'components/StillsView',
         'components/DownloadListView',
@@ -20,6 +21,7 @@
         $,
         _,
         Wording,
+        ProviderInfo,
         DescriptionView,
         StillsView,
         DownloadListView,
@@ -54,6 +56,9 @@
                         height : window.innerHeight
                     });
                 }.bind(this), 50));
+
+                ProviderInfo.init();
+
             },
             clickCtn : function (evt) {
                 if (evt.nativeEvent.srcElement.contains(this.refs.ctn.getDOMNode())) {

@@ -23,6 +23,11 @@
 
         var SeriesHeaderView = React.createClass({
             mixins : [ElementsGenerator],
+            getInitialState : function () {
+                return {
+                    appName : ''
+                };
+            },
             componentWillMount : function () {
                 this.subscribeBubbleView = <SubscribeBubbleView video={this.props.video} subscribeHandler={this.subscribeCallback} />
                 this.providersBubbleView = <ProvidersBubbleView video={this.props.video} id="providers" />
@@ -90,7 +95,6 @@
                                     {this.getDownloadBtn('download_all')}
                                     {this.getPlayBtn()}
                                     {this.getSubscribeBtn('subscribe')}
-                                    {this.getCheckbox('app')}
                                     {this.subscribeBubbleView}
                                     {this.providersBubbleView}
                                 </div>

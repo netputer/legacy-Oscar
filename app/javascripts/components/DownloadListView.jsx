@@ -39,14 +39,14 @@
                 this.providersBubbleView = <ProvidersBubbleView
                                                 video={this.props.video}
                                                 episode={this.props.episode}
-                                                showProviderItem={this.showProviderItem}
+                                                showAppBubble={this.showAppBubble}
                                                 source="download"
                                                 id="providerItems" />
             },
             updateEpisodeKey : function (key) {
                 episodeKey = key;
             },
-            showProviderItems : function (key, event) {
+            showProvidersBubble : function (key, event) {
                 var EventListener = function (event) {
                     if ((event.target.className !== 'arrow' && event.target.name !== 'more-provider') || episodeKey !== key) {
                         toggleBubbleState(false);
@@ -73,7 +73,7 @@
                 var episode = this.props.episode;
                 var count;
                 var style = {
-                    display : (this.props.key < 25 || this.props.countEpisodes <= 30 || this.props.key >= this.props.countEpisodes - 5 || this.props.key >= this.props.countEpisodes - this.props.expendIndex * 10 + 5) ? 'inline-block' : 'none'
+                    display : (this.props.key < 10 || this.props.countEpisodes <= 30 || this.props.key >= this.props.countEpisodes - 5 || this.props.key >= this.props.countEpisodes - this.props.expendIndex * 10 + 5) ? 'inline-block' : 'none'
                 };
                 if (episode.episodeNum) {
                     count = FormatString(Wording.EPISODE_NUM, episode.episodeNum);
@@ -84,7 +84,7 @@
                     return (
                         <li className="item" style={style}>
                             <button className="button button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
-                                {count}
+                                <span className="download-list-text">{count}</span>
                                 <span className="size placeholder bubble-download-tips"></span>
                             </button>
                         </li>
@@ -97,10 +97,10 @@
                         <li className="item" style={style}>
                             <div className="o-btn-group">
                                 <button className="button button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
-                                    {count}
+                                    <span className="download-list-text">{count}</span>
                                     <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.downloadUrls[0].providerName}</em> {ReadableSize(episode.downloadUrls[0].size)}</span>
                                 </button>
-                                <button name="more-provider" className="w-btn w-btn-primary w-btn-mini more-provider" onMouseEnter={this.updateEpisodeKey.bind(this, this.props.key)} onClick={this.showProviderItems.bind(this, this.props.key)}>
+                                <button name="more-provider" className="w-btn w-btn-primary w-btn-mini more-provider" onMouseEnter={this.updateEpisodeKey.bind(this, this.props.key)} onClick={this.showProvidersBubble.bind(this, this.props.key)}>
                                     <span className="arrow"></span>
                                 </button>
                                 {this.providersBubbleView}
@@ -116,7 +116,7 @@
                     return (
                         <li className="item" style={style}>
                             <button className="button button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
-                                {count}
+                                <span className="download-list-text">{count}</span>
                                 <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.downloadUrls[0].providerName}</em> {ReadableSize(episode.downloadUrls[0].size)}</span>
                                 <AppBubbleView
                                     key={this.props.key}
@@ -130,7 +130,7 @@
                     return (
                         <li className="item" style={style}>
                             <button className="button button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
-                                {count}
+                                <span className="download-list-text">{count}</span>
                                 <span className="size placeholder bubble-download-tips"></span>
                                 <AppBubbleView
                                     key={this.props.key}
@@ -142,7 +142,7 @@
                     );
                 }
             },
-            showProviderItem : function (key, info) {
+            showAppBubble : function (key, info) {
                 this.setState({
                     appName : info.providerName
                 });
@@ -161,7 +161,7 @@
                             if (this.props.key === i) {
                                 this.props.clickHandler.call(this, true);
                             } else if (!sessionStorage.getItem(episode.downloadUrls[0].providerName)) {
-                                this.showProviderItem(this.props.key, episode.downloadUrls[0]);
+                                this.showAppBubble(this.props.key, episode.downloadUrls[0]);
                             }
                             break;
                         }
@@ -211,9 +211,9 @@
                 return (
                     <div className="o-button-list-ctn">
                         <ul className="list-ctn" ref="ctn">
-                            {this.createList(episode, 0, 25)}
+                            {this.createList(episode, 0, 10)}
                             {episode.length > this.state.expendIndex * 10 + 5 && episode.length > 30 && <li className="load-more"><hr /><span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span></li>}
-                            {this.createList(episode, 25, episode.length)}
+                            {this.createList(episode, 10, episode.length)}
                         </ul>
                         <div>
                         </div>

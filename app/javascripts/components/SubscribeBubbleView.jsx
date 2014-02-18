@@ -87,14 +87,6 @@
                     }.bind(this)
                 });
             },
-            mouseevent : function () {
-                if (this.state.source === 'mouseenter') {
-                    this.setState({
-                        subscribeBubbleShow : true,
-                        source : ''
-                    });
-                }
-            },
             render : function () {
                 var className = this.getBubbleClassName('subscribe')
 
@@ -109,9 +101,19 @@
                             </div>
                         </div>
                     );
+                } else  if (this.state.source === 'mouseenter') {
+                    return (
+                        <div className={className}>
+                            <div className="bubble-inner arrow-subscribe">
+                                <h6>自动离线缓存，最新剧集不错过</h6>
+                                <p>打开手机追追看后，每次剧集有更新的时候，豌豆荚都会在手机上直接帮您下好，您不必担心错过最新一集。</p>
+                                <p>离线缓存仅使用 Wi-Fi 网络，不会花费您的流量。</p>
+                            </div>
+                        </div>
+                    );
                 } else {
                     return (
-                        <div className={className} onMouseEnter={this.mouseevent} onMouseLeave={this.closeBubble.bind(this, 'cancel')}>
+                        <div className={className}>
                             <div className="bubble-inner arrow-subscribe">
                                 <h6>自动离线缓存，最新剧集不错过</h6>
                                 <p>打开手机追追看后，每次剧集有更新的时候，豌豆荚都会在手机上直接帮您下好，您不必担心错过最新一集。</p>

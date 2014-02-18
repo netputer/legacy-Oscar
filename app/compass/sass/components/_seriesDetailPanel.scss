@@ -166,8 +166,17 @@
 .button-download {
     position: relative;
 
+    .download-text {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .download-list-text {
+        display: block;
+        margin-bottom: 4px;
+    }
+
     .size {
-        margin-top: 13px;
         opacity: 0;
         overflow: initial;
         pointer-events: none;
@@ -286,10 +295,4 @@
         position: relative;
         top: -16px;
     }
-}
-.download-app {
-    display: block;
-    float: left;
-    font-size: 12px;
-    width: 116px;
 }

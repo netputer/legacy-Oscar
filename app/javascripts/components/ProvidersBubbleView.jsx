@@ -27,10 +27,10 @@
                     var index = this.props.video.get('videoEpisodes').indexOf(this.props.episode);
                     DownloadHelper.downloadFromProvider(this.props.episode, url, index);
                     if (!sessionStorage.getItem(url.providerName)) {
-                        this.props.showProviderItem.call(this, index, url);
+                        this.props.showProviderBubble.call(this, index, url);
                     }
                 } else {
-                    DownloadHelper.downloadFromProvider(this.props.video.get('videoEpisodes')[0], url, installPlayerApp);
+                    DownloadHelper.downloadFromProvider(this.props.video.get('videoEpisodes')[0], url);
                 }
 
                 this.setState({

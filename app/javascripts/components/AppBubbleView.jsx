@@ -35,7 +35,11 @@
             downloadApp : function (provider) {
                 if (provider.title !== undefined) {
                     DownloadHelper.downloadPlayerAsync(provider);
-                    document.getElementsByClassName('item')[this.props.key].getElementsByClassName('bubble-app')[0].style.display = 'none';
+                    if (this.props.key) {
+                        document.getElementsByClassName('item')[this.props.key].getElementsByClassName('bubble-app')[0].style.display = 'none';
+                    } else {
+                        document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app')[0].style.display = 'none';
+                    }
                 }
             },
             render : function () {
