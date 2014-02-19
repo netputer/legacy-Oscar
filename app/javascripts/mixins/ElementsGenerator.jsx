@@ -7,6 +7,7 @@
         'Wording',
         'GA',
         'main/DownloadHelper',
+        'components/AppBubbleView',
         'utilities/ReadableSize',
         'utilities/FormatString'
     ], function (
@@ -15,16 +16,21 @@
         Wording,
         GA,
         DownloadHelper,
+        AppBubbleView,
         ReadableSize,
         FormatString
     ) {
 
         var ElementsGenerator = {
             clickButtonDownload : function (source, video) {
+                var episode = this.props.video.get('videoEpisodes')[0];
 
                 if (this.props.video.get('videoEpisodes').length > 1) {
                     this.props.confirmCallback(1);
                 } else {
+                    if (!sessionStorage.getItem(episode.downloadUrls[0].providerName)) {
+                        this.showAppBubble(episode.downloadUrls[0]);
+                    }
                     DownloadHelper.download(this.props.video.get('videoEpisodes'));
                 }
 
@@ -79,8 +85,18 @@
                     }
                 }
             },
+            showAppBubble : function (info) {
+                this.setState({
+                    appName : info.providerName
+                });
+                document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app')[0].style.display = 'block';
+                setTimeout(function () {
+                    if (document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app') !== undefined) {
+                        document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app')[0].style.display = 'none';
+                    }
+                }, 7000);
+            },
             mouseEvent : function (evt) {
-
                 if (evt === 'onMouseEnter') {
                     this.showSubscribeBubble('mouseenter', this.props.video);
 
@@ -132,20 +148,28 @@
                         return (
                             <div className="o-btn-group">
                                 <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
-                                    {text}
+                                    <span className="download-text">{text}</span>
                                     <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.video.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
                                 </button>
                                 <button id="more-provider" name="more-provider" className="w-btn w-btn-primary more-provider" onClick={this.moreProvider}>
                                     <span className="arrow"></span>
                                 </button>
+                                <AppBubbleView
+                                    video={this.props.video}
+                                    episode={this.props.episode}
+                                    name={this.state.appName} />
                             </div>
 
                         );
                     } else {
                         return (
                             <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
-                                {text}
+                                <span className="download-text">{text}</span>
                                 <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.video.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
+                                <AppBubbleView
+                                    video={this.props.video}
+                                    episode={this.props.episode}
+                                    name={this.state.appName} />
                             </button>
                         );
                     }
@@ -159,7 +183,7 @@
 
                 return (
                     <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.video.get('subscribeUrl'))}>
-                        {text}
+                        <span className="download-text">{text}</span>
                     </button>
                 );
             },
@@ -251,16 +275,6 @@
                     'action' : 'app_promotion_checkbox_clicked',
                     'type' : evt.target.checked
                 });
-            },
-            getCheckbox : function (name) {
-                if (this.props.video.get('type') === 'MOVIE') {
-                    return (
-                        <label className="download-app">
-                            <input className="w-checkbox" ref="player-app" onChange={this.handleChange} type="checkbox" />
-                            同时下载视频应用
-                        </label>
-                    );
-                }
             },
             getActorsEle : function () {
                 var text = '';

@@ -79,11 +79,6 @@
                 var url = provider.appDownloadUrl + '?pos=oscar-promotion#name=' + title + '&icon=' + icon + '&content-type=application';
                 $('<a>').attr({'href' : url, 'download' : title})[0].click();
                 sessionStorage.setItem(title, 'installed');
-
-               GA.log({
-                    'event' : 'video.app.promotion'
-                });
-
                 return true;
             } else {
                 return false;

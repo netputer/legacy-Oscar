@@ -4,30 +4,24 @@
     define([
         'React',
         'Wording',
-        'main/DownloadHelper'
+        'main/DownloadHelper',
+        'utilities/ProviderInfo'
     ], function (
         React,
         Wording,
-        DownloadHelper
+        DownloadHelper,
+        ProviderInfo
     ) {
 
-        var providers;
+        var providerInfo = {};
 
         var whiteList = ['alias', 'screenwriters', 'directors', 'dubbings', 'language', 'region', 'downloadCount', 'providerNames'];
 
-        var pickProvider = function (name) {
-            return _.where(providers, {title : name});
-        };
+
 
         var ExtraInfoView = React.createClass({
-            componentWillMount : function () {
-                if (typeof DownloadHelper.getProviders().done !== 'undefined') {
-                    providers = DownloadHelper.getProviders().done(function (resp) {
-                        providers = resp;
-                    });
-                } else {
-                    providers = DownloadHelper.getProviders();
-                }
+            pickProvider : function (name) {
+                return ProviderInfo.getObj(name);
             },
             clickButton : function (provider) {
                 if (provider) {
@@ -47,8 +41,8 @@
                                 var icon;
                                 var obj;
                                 _.each(data[field], function (f, i) {
-                                    if (pickProvider(f)[0] !== undefined) {
-                                        obj = pickProvider(f)[0];
+                                    if (this.pickProvider(f) !== undefined) {
+                                        obj = this.pickProvider(f);
                                         icon = obj.iconUrl.replace('256_256', '48_48');
                                     }
                                     content.push(<dd className="w-wc providers-item" key={field + f + i}><img src={icon} alt={f} />{f}<button className="w-btn w-btn-mini w-btn-primary" onClick={this.clickButton.bind(this, obj)}>{Wording.APP_INSTALL}</button></dd>);
