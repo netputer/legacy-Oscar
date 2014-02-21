@@ -40,6 +40,12 @@
                     } else {
                         document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app')[0].style.display = 'none';
                     }
+
+                    GA.log({
+                        'event' : 'video.app.promotion',
+                        'type' : 'passive',
+                        'app' : provider.title
+                    });
                 }
             },
             render : function () {

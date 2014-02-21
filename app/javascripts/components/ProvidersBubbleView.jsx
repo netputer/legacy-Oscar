@@ -27,10 +27,15 @@
                     var index = this.props.video.get('videoEpisodes').indexOf(this.props.episode);
                     DownloadHelper.downloadFromProvider(this.props.episode, url, index);
                     if (!sessionStorage.getItem(url.providerName)) {
-                        this.props.showProviderBubble.call(this, index, url);
+                        this.props.showAppBubble.call(this, index, url);
+                        sessionStorage.setItem(url.providerName, 'displayed');
                     }
                 } else {
                     DownloadHelper.downloadFromProvider(this.props.video.get('videoEpisodes')[0], url);
+                    if (!sessionStorage.getItem(url.providerName)) {
+                        this.props.showAppBubble.call(this, url);
+                        sessionStorage.setItem(url.providerName, 'displayed');
+                    }
                 }
 
                 this.setState({
