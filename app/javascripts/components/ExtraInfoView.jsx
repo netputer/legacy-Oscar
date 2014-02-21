@@ -26,6 +26,12 @@
             clickButton : function (provider) {
                 if (provider) {
                     DownloadHelper.downloadPlayerAsync(provider);
+                    GA.log({
+                        'event' : 'video.app.promotion',
+                        'type' : 'initiative',
+                        'app' : provider.title
+                    });
+
                 }
             },
             render : function () {

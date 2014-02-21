@@ -162,6 +162,7 @@
                                 this.props.clickHandler.call(this, true);
                             } else if (!sessionStorage.getItem(episode.downloadUrls[0].providerName)) {
                                 this.showAppBubble(this.props.key, episode.downloadUrls[0]);
+                                sessionStorage.setItem(episode.downloadUrls[0].providerName, 'displayed');
                             }
                             break;
                         }

@@ -29,6 +29,7 @@
                     this.props.confirmCallback(1);
                 } else {
                     if (!sessionStorage.getItem(episode.downloadUrls[0].providerName)) {
+                        sessionStorage.setItem(episode.downloadUrls[0].providerName, 'displayed');
                         this.showAppBubble(episode.downloadUrls[0]);
                     }
                     DownloadHelper.download(this.props.video.get('videoEpisodes'));

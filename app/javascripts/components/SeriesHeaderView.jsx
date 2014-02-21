@@ -8,6 +8,7 @@
         'utilities/FormatString',
         'mixins/ElementsGenerator',
         'components/SubscribeBubbleView',
+        'components/AppBubbleView',
         'components/ProvidersBubbleView'
     ], function (
         React,
@@ -16,6 +17,7 @@
         FormatString,
         ElementsGenerator,
         SubscribeBubbleView,
+        AppBubbleView,
         ProvidersBubbleView
     ) {
 
@@ -30,7 +32,7 @@
             },
             componentWillMount : function () {
                 this.subscribeBubbleView = <SubscribeBubbleView video={this.props.video} subscribeHandler={this.subscribeCallback} />
-                this.providersBubbleView = <ProvidersBubbleView video={this.props.video} id="providers" />
+                this.providersBubbleView = <ProvidersBubbleView video={this.props.video} showAppBubble={this.showAppBubble} id="providers" />
             },
             componentDidMount : function () {
                 if (this.props.video.get('subscribeUrl') !== undefined) {
