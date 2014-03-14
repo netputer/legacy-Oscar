@@ -6,6 +6,7 @@
         '$',
         '_',
         'Wording',
+        'mixins/Performance',
         'utilities/ProviderInfo',
         'components/DescriptionView',
         'components/StillsView',
@@ -21,6 +22,7 @@
         $,
         _,
         Wording,
+        Performance,
         ProviderInfo,
         DescriptionView,
         StillsView,
@@ -34,6 +36,7 @@
     ) {
 
         var SeriesDetailPanelView = React.createClass({
+            mixins : [Performance],
             getInitialState : function () {
                 return {
                     show : false,

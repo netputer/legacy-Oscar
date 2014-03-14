@@ -42,6 +42,7 @@
                     this.setState({
                         list : resp[this.props.filter]
                     });
+                    this.props.load();
                 }.bind(this));
             },
             clickItem : function (cate) {

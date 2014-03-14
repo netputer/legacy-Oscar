@@ -5,6 +5,7 @@
         'IO',
         'Actions',
         'Wording',
+        'mixins/Performance',
         'utilities/QueryString',
         'catepage/CatePageRouter',
         'components/FilterView',
@@ -20,6 +21,7 @@
         IO,
         Actions,
         Wording,
+        Performance,
         QueryString,
         CatePageRouter,
         FilterView,
@@ -89,7 +91,7 @@
         };
 
         var CatPage = React.createClass({
-            mixins : [FilterNullValues],
+            mixins : [FilterNullValues, Performance],
             getInitialState : function () {
                 return {
                     filters : {},
@@ -122,18 +124,25 @@
                     }, function () {
                         deferred.resolve();
                     });
+
+                    this.loaded();
                 }.bind(this));
 
                 return deferred.promise();
             },
-            componentDidMount : function () {
+            componentWillMount : function () {
                 catePageRouter.on('route:filter', function (cate) {
                     queryType = cate;
-
+                    this.initPerformance('category', 3, cate);
+                }, this);
+            },
+            componentDidMount : function () {
+                catePageRouter.on('route:filter', function (cate) {
                     queryAsync(cate).done(function (resp) {
                         this.setState({
                             filters : resp
                         });
+                        this.loaded();
                     }.bind(this));
 
                     this.doSearchAsync(this.state.currentPage);
@@ -190,6 +199,7 @@
                 this.doSearchAsync();
             },
             onVideoSelect : function (id) {
+                this.setTimeStamp(new Date().getTime(), id);
                 window.location.hash = queryType + '/detail/' + id;
             },
             onSearchAction : function (query) {

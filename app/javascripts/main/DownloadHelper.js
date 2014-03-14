@@ -6,6 +6,7 @@
         '$',
         'GA',
         'Actions',
+        'mixins/Performance',
         'utilities/ClientInfo'
     ], function (
         IO,
@@ -13,6 +14,7 @@
         $,
         GA,
         Actions,
+        Performance,
         ClientInfo
     ) {
         var DownloadHelper = {};
@@ -23,6 +25,7 @@
 
         var clientVersion = ClientInfo.getVersion();
 
+        var flag = 1;
 
         // (function () {
         //     var ua = window.navigator.userAgent.split(' ');
@@ -130,10 +133,18 @@
 
         DownloadHelper.getProviders = function () {
             if (providers) {
+                if (flag) {
+                    Performance.loaded();
+                    flag = 0;
+                }
                 return providers;
             } else {
                 return getProvidersAsync().then(function (resp) {
                     providers = resp;
+                    if (flag) {
+                        Performance.loaded();
+                        flag = 0;
+                    }
                     return providers;
                 });
             }
