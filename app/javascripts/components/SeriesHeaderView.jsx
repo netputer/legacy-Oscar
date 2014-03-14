@@ -67,6 +67,8 @@
                             }
                         }.bind(this)
                     });
+                } else {
+                    this.props.subscribeHandler.call(this);
                 }
             },
             componentWillReceiveProps : function (nextProps) {

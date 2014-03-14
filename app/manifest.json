@@ -1,6 +1,6 @@
 {
     "name": "视频",
-    "version": "2.6.6",
+    "version": "2.7.0",
     "description": "豌豆荚视频搜索",
     "icons": {
         "16": "icon30.png",
@@ -23,7 +23,6 @@
             ]
         }
     ],
-    "minimum_client_version": "1.0.0",
     "app": {
         "launch": {
             "web_url": "wdj-extension://__MSG_@@extension_id__/index.html"

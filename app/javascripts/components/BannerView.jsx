@@ -113,6 +113,7 @@
                         this.setState({
                             banner : resp
                         });
+                        this.props.load();
                     }.bind(this));
                 }
             },

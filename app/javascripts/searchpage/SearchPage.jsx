@@ -5,6 +5,7 @@
         'IO',
         'Actions',
         'Wording',
+        'mixins/Performance',
         'mixins/FilterNullValues',
         'utilities/QueryString',
         'components/searchbox/SearchBoxView',
@@ -19,6 +20,7 @@
         IO,
         Actions,
         Wording,
+        Performance,
         FilterNullValues,
         QueryString,
         SearchBoxView,
@@ -83,7 +85,7 @@
         var searchResultCollection = new SearchResultCollection();
 
         var SearchPage = React.createClass({
-            mixins : [FilterNullValues],
+            mixins : [FilterNullValues, Performance],
             getInitialState : function () {
                 return {
                     keyword : searchPageRouter.getQuery(),
@@ -124,9 +126,16 @@
                     }, function () {
                         deferred.resolve();
                     });
+
+                    this.loaded();
                 }.bind(this));
 
                 return deferred.promise();
+            },
+            componentWillMount : function () {
+                searchPageRouter.on('route:search', function (query) {
+                    this.initPerformance('search', 3, query);
+                }, this);
             },
             componentDidMount : function () {
                 searchPageRouter.on('route:search', function (query) {
@@ -141,6 +150,7 @@
                         this.setState({
                             filters : resp
                         });
+                        this.loaded();
                     }.bind(this));
 
                     this.queryAsync(query, this.state.currentPage);
@@ -159,6 +169,7 @@
                 }.bind(this));
             },
             onVideoSelect : function (video) {
+                this.setTimeStamp(new Date().getTime(), video.id);
                 searchPageRouter.navigate('#q/' + searchPageRouter.getQuery() + '/detail/' + video.id, {
                     trigger : true
                 });
