@@ -14,6 +14,7 @@
         var timeStamp;
         var query;
         var detailId = 0;
+        var cachedId = [];
 
         var Performance = {
             initPerformance : function (p, apiCount, q) {
@@ -37,8 +38,10 @@
                         'timeSpent' : new Date().getTime() - timeStamp
                     };
 
-                    this.delaySendLog(obj, 500);
-
+                    if (cachedId.indexOf(detailId) < 0) {
+                        this.delaySendLog(obj, 500);
+                        cachedId.push(detailId);
+                    }
                 }
                 return !(nextState === this.state);
             },

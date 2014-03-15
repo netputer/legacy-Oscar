@@ -245,7 +245,7 @@
                 var baseClassName = 'button-subscribe w-btn';
                 var className;
 
-                if (this.props.video.get('subscribeUrl') === undefined || this.props.subscribed === -2) {
+                if (this.props.video.get('subscribeUrl') === undefined || this.props.subscribed === -2 || this.props.subscribed === undefined) {
                     return false;
                 }
                 if (this.props.subscribed === 1) {
@@ -258,7 +258,7 @@
                     className = baseClassName + ' loading';
                     text = Wording.LOADING;
                 } else {
-                        className = baseClassName;
+                    className = baseClassName;
                     text = Wording.SUBSCRIBE;
                 }
 

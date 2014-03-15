@@ -65,6 +65,9 @@
                                     'video_area' : this.props.video.get('region')
                                 });
                             }
+                        }.bind(this),
+                        error : function () {
+                            this.props.subscribeHandler.call(this);
                         }.bind(this)
                     });
                 } else {
