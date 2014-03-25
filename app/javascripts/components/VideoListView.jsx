@@ -221,7 +221,7 @@
                 })[0].click();
             },
             render : function () {
-                if (this.props.list.length === 0) {
+                if (!this.props.list || this.props.list.length === 0) {
                     if (this.props.loaded) {
                         return (<WanxiaodouView data-type="NO_VIDEO" />);
                     } else {
