@@ -126,6 +126,8 @@
                     });
 
                     this.loaded();
+                }.bind(this)).fail( function () {
+                    this.abortTracking('loadComplete');
                 }.bind(this));
 
                 return deferred.promise();
@@ -143,6 +145,8 @@
                             filters : resp
                         });
                         this.loaded();
+                    }.bind(this)).fail( function () {
+                        this.abortTracking('loadComplete');
                     }.bind(this));
 
                     this.doSearchAsync(this.state.currentPage);

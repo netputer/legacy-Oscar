@@ -15,6 +15,7 @@
         var query;
         var detailId = 0;
         var cachedId = [];
+        var errorItems = [];
 
         var Performance = {
             initPerformance : function (p, apiCount, q) {
@@ -60,6 +61,11 @@
                     this.delaySendLog(obj, 5000);
                 }
             },
+            abortTracking : function (item) {
+                if (errorItems.indexOf(item) < 0) {
+                    errorItems.push(item);
+                }
+            },
             delaySendLog : function (obj, time) {
                 var o = {
                     'event' : doramon + '.performance',
@@ -77,7 +83,9 @@
                 }
 
                 setTimeout( function () {
-                    GA.log(o);
+                    if (errorItems.indexOf(o.metric) < 0) {
+                        GA.log(o);
+                    }
                 }, time);
             }
         }

@@ -70,7 +70,8 @@
             var deferred = $.Deferred();
             $.ajax({
                 url : Actions.actions.PROVIDERS,
-                success : deferred.resolve
+                success : deferred.resolve,
+                error : deferred.reject
             });
             return deferred.promise();
         };
@@ -142,11 +143,13 @@
                 return getProvidersAsync().then(function (resp) {
                     providers = resp;
                     if (flag) {
-                        Performance.loaded();
                         flag = 0;
                     }
+                    if (resp && resp[0]) {
+                        Performance.loaded();
+                    }
                     return providers;
-                });
+                }, Performance.abortTracking.bind(this, 'loadComplete'));
             }
         };
 

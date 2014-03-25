@@ -94,7 +94,7 @@
                         listVariety : resp.videoList
                     });
                     this.loaded();
-                }.bind(this)));
+                }.bind(this))).then(function(){}, this.abortTracking.bind(this, 'loadComplete'));
             },
             onSearchAction : function (query) {
                 if (query.length) {
