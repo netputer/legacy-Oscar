@@ -1,12 +1,12 @@
-/** @jsx React.DOM */
-/*global define*/
 (function (window) {
     define([
         '_',
-        'GA'
+        'GA',
+        'utilities/DoraemonInfo'
     ], function (
         _,
-        GA
+        GA,
+        DoraemonInfo
     ) {
         var doramon = 'video';
         var page;
@@ -71,7 +71,8 @@
                     'event' : doramon + '.performance',
                     'page' : page,
                     'metric' : obj.metric,
-                    'time' : obj.timeSpent
+                    'time' : obj.timeSpent,
+                    'version' : DoraemonInfo.version
                 };
 
                 if (detailId) {
