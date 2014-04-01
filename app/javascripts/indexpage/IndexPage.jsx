@@ -36,7 +36,7 @@
                 data : {
                     content_type : type,
                     max : 10,
-                    rank_type : 'hot',
+                    rank_type : 'update',
                     pos : 'w/indexpage',
                     opt_fields : [
                         'title',

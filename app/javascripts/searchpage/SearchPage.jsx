@@ -55,7 +55,25 @@
                     rank_type : queryRankType,
                     year : queryYear,
                     region : queryRegion,
-                    content_type : queryType
+                    content_type : queryType,
+                    opt_fields : [
+                        'title',
+                        'type',
+                        'id',
+                        'actors.*',
+                        'cover.l',
+                        'categories.name',
+                        'latestEpisodeNum',
+                        'latestEpisodeDate',
+                        'totalEpisodesNum',
+                        'marketRatings.rating',
+                        'videoEpisodes',
+                        'categories',
+                        'pictures.*',
+                        'year',
+                        'videoEpisodes.downloadUrls.*',
+                        'presenters'
+                    ].join(',')
                 },
                 success : function (resp) {
                     window.sessionId = resp.sessionId;
