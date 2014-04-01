@@ -122,7 +122,7 @@
                         rank : queryRankType
                     },
                     filters : {},
-                    loaded : false,
+                    loaded : false
                 }
             },
             queryAsync : function (query, page) {
