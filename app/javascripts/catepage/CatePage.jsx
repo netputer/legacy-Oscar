@@ -42,13 +42,13 @@
         var queryRegion = QueryString.get('areas') || '';
         var queryYear = QueryString.get('year') || '';
         var queryYearText;
-        var queryRankType = 'hot';
+        var queryRankType = 'update';
 
         var resetParams = function () {
             queryCategories = QueryString.get('categories') || '';
             queryRegion = QueryString.get('areas') || '';
             queryYear = QueryString.get('year') || '';
-            queryRankType = 'hot';
+            queryRankType = 'update';
         };
 
         var queryAsync = function (type) {
@@ -82,6 +82,20 @@
                     max : PAGE_SIZE,
                     start : page * PAGE_SIZE,
                     pos : 'w/catepage',
+                    opt_fields : [
+                        'title',
+                        'type',
+                        'id',
+                        'actors',
+                        'pictures.l',
+                        'cover.l',
+                        'latestEpisodeNum',
+                        'latestEpisodeDate',
+                        'totalEpisodesNum',
+                        'marketRatings.rating',
+                        'categories',
+                        'presenters'
+                    ].join(',')
                 },
                 success : deferred.resolve,
                 error : deferred.reject
