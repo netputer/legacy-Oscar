@@ -90,9 +90,13 @@
                 this.setState({
                     appName : info.providerName
                 });
-                document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app')[0].style.display = 'block';
+
+                if (document.getElementsByClassName('download-info')[0] !== undefined && document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app')[0] !== undefined) {
+                    document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app')[0].style.display = 'block';
+                }
+
                 setTimeout(function () {
-                    if (document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app') !== undefined) {
+                    if (document.getElementsByClassName('download-info')[0] !== undefined && document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app')[0] !== undefined) {
                         document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app')[0].style.display = 'none';
                     }
                 }, 7000);
