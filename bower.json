@@ -1,6 +1,6 @@
 {
     "name": "WandouLabs-Oscar",
-    "version": "2.7.4",
+    "version": "2.7.5",
     "dependencies": {
         "jquery": "~2.0.2",
         "requirejs": "~2.1.6",
