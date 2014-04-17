@@ -19,9 +19,9 @@
         var DeclarationView = React.createClass({
             mixins : [PopupView],
             render : function () {
-                $('body').toggleClass('overflow', this.state.show);
-
                 if (this.state.show) {
+                    $('body').toggleClass('overflow', this.state.show);
+
                     return (
                         <div className="declaration popup dark-bg">
                             <div className="popup-window">

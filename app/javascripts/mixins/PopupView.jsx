@@ -27,6 +27,8 @@
                 localStorage.setItem('declaration', '1');
                 if (location.hash.indexOf('detail/') > 0) {
                     $('body').addClass('overflow');
+                } else {
+                    $('body').removeClass('overflow');
                 }
             }
         }
