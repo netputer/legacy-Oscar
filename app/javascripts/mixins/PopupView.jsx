@@ -24,7 +24,10 @@
                 this.setState({
                     show : false
                 });
+
                 localStorage.setItem('declaration', '1');
+
+                $('body').toggleClass('overflow', location.hash.indexOf('detail/') > 0);
             }
         }
 

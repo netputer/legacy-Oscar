@@ -16,6 +16,7 @@
         var detailId = 0;
         var cachedId = [];
         var errorItems = [];
+        var sentItems = [];
 
         var Performance = {
             initPerformance : function (p, apiCount, q) {
@@ -84,7 +85,10 @@
                 }
 
                 setTimeout( function () {
-                    if (errorItems.indexOf(o.metric) < 0) {
+                    if (errorItems.indexOf(o.metric) < 0 && sentItems.indexOf(o.metric) < 0) {
+                        if (o.metric !== 'openDetail') {
+                            sentItems.push(o.metric);
+                        }
                         GA.log(o);
                     }
                 }, time);
