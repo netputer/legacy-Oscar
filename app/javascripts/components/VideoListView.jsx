@@ -97,6 +97,7 @@
                     }
 
                     var cates = data.categories;
+                    console.log(cates)
                     if (cates && cates.length > 0) {
                         var tmp = [];
                         _.map(cates, function (cate) {
