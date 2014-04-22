@@ -49,7 +49,7 @@
                         'latestEpisodeDate',
                         'totalEpisodesNum',
                         'marketRatings.rating',
-                        'categories',
+                        'categories.*',
                         'presenters'
                     ].join(',')
                 },

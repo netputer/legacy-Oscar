@@ -68,7 +68,7 @@
                         'totalEpisodesNum',
                         'marketRatings.rating',
                         'videoEpisodes',
-                        'categories',
+                        'categories.*',
                         'pictures.*',
                         'year',
                         'videoEpisodes.downloadUrls.*',
