@@ -84,7 +84,7 @@
                         items = this.props.episode.downloadUrls;
                     }
                     var items = _.map(items, function (item, index) {
-                            return <li key={index} onClick={this.downloadFromProvider.bind(this, this.props.video.get('cover').s, item)}>来源: {item.providerName} <span className="provider-size">{ReadableSize(item.size)}</span></li>
+                            return <li key={index} onClick={this.downloadFromProvider.bind(this, item, this.props.video.get('cover').s)}>来源: {item.providerName} <span className="provider-size">{ReadableSize(item.size)}</span></li>
                         }, this);
                 }
 
