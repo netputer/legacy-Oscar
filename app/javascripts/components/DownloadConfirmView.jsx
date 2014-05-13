@@ -50,7 +50,7 @@
             },
             clickButton : function (flag) {
                 if (!!flag) {
-                    DownloadHelper.download(this.props.video.get('videoEpisodes'));
+                    DownloadHelper.download(this.props.video.get('videoEpisodes'), this.props.video.get('cover').s);
 
                 }
                 this.props.confirmCallback.call(this, flag, true);

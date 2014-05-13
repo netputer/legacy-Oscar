@@ -154,7 +154,7 @@
             clickDownload : function () {
                 var episode = this.props.episode;
                 if (!!episode.downloadUrls) {
-                    DownloadHelper.download([episode], this.props.key);
+                    DownloadHelper.download([episode], this.props.video.get('cover').s);
 
                     for (var i=0; i <= this.props.key && i <= 5; i++) {
                         if (this.props.video.get('videoEpisodes')[i].downloadUrls !== undefined) {
