@@ -32,7 +32,7 @@
                         sessionStorage.setItem(episode.downloadUrls[0].providerName, 'displayed');
                         this.showAppBubble(episode.downloadUrls[0]);
                     }
-                    DownloadHelper.download(this.props.video.get('videoEpisodes'));
+                    DownloadHelper.download(this.props.video.get('videoEpisodes'), this.props.video.get('cover').s);
                 }
 
                 GA.log({

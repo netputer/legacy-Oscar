@@ -20,12 +20,10 @@
 
         var ProviderInfo = {
             init : function () {
-                if (typeof DownloadHelper.getProviders().done !== 'undefined') {
-                    providers = DownloadHelper.getProviders().done(function (resp) {
+                if (!providers) {
+                    DownloadHelper.getProviders().done(function (resp) {
                         providers = resp;
                     });
-                } else {
-                    providers = DownloadHelper.getProviders();
                 }
             },
             pickProvider : function (name) {

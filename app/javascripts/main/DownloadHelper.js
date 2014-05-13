@@ -34,7 +34,7 @@
         //     dservice = parseInt(v, 10) >= 65;
         // }());
 
-        var downloadAsync = function (title, url, isDservice) {
+        var downloadAsync = function (title, icon, url, isDservice) {
             var deferred = $.Deferred();
 
             IO.requestAsync({
@@ -42,7 +42,7 @@
                 data : {
                     url : url + '&source=windows2x',
                     name : title,
-                    icon : '',
+                    icon : icon || '',
                     pos : 'oscar-dora-ext',
                     dservice : isDservice
                 }
@@ -88,7 +88,7 @@
             }
         };
 
-        DownloadHelper.download = function (episodes, eleIndex) {
+        DownloadHelper.download = function (episodes, icon) {
             if (episodes.length > 1) {
                 var data = [];
                 _.each(episodes, function (item) {
@@ -99,6 +99,8 @@
                         var downloadInfo = {};
                         downloadInfo.title = item.title;
                         downloadInfo.size = downloadURL.size;
+                        downloadInfo.icon = icon;
+
                         downloadInfo.dservice = dservice;
 
                         if (dservice) {
@@ -110,7 +112,7 @@
                         if (clientVersion > 2.68) {
                             data.push(downloadInfo);
                         } else {
-                            downloadAsync(item.title, url, dservice);
+                            downloadAsync(item.title, icon, url, dservice);
                         }
                     }
                 });
@@ -125,9 +127,9 @@
                 var url = downloadURL.url;
 
                 if (dservice) {
-                    downloadAsync(episode.title, dServiceURL, dservice);
+                    downloadAsync(episode.title, icon, dServiceURL, dservice);
                 } else {
-                    downloadAsync(episode.title, url, dservice);
+                    downloadAsync(episode.title, icon, url, dservice);
                 }
             }
         };
@@ -153,16 +155,16 @@
             }
         };
 
-        DownloadHelper.downloadFromProvider = function (episode, provider, index) {
+        DownloadHelper.downloadFromProvider = function (episode, icon, provider, index) {
             var title = episode.title;
             var url = provider.url;
             var dServiceURL = provider.accelUrl;
             var eleIndex = index !== undefined ? index : 0;
 
             if (dservice) {
-                downloadAsync(title, dServiceURL, dservice);
+                downloadAsync(title, icon, dServiceURL, dservice);
             } else {
-                downloadAsync(title, url, dservice);
+                downloadAsync(title, icon, url, dservice);
             }
 
         };
