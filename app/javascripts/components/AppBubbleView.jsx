@@ -52,7 +52,7 @@
                 return (
                     <div className="bubble-app w-text-secondary">
                         <p>
-                            任务已开始 :) 为方便在手机上看视频 <br />推荐您安装下面的应用
+                            任务已开始 :) 为方便在手机上看视频 <br />推荐你安装下面的应用
                         </p>
                         <div className="app-item">
                             <img src={providerInfo.iconUrl} alt={this.props.name} />
