@@ -106,7 +106,7 @@
                                     {this.providersBubbleView}
                                 </div>
                             </div>
-                            <a className="w-text-info legal-link" href="http://www.wandoujia.com/mobile/video_legal.html" target="_default">版权举报</a>
+                            <a className="w-text-info legal-link" href="http://www.wandoujia.com/video_legal.html" target="_default">版权举报</a>
                         </div>
                     </div>
                 );
