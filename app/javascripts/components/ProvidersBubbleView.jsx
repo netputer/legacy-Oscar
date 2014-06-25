@@ -59,7 +59,7 @@
             },
             playInProvider : function (url) {
                 var $a = $('<a>').attr({
-                    href : url,
+                    href : url.indexOf('?') >= 0 ? url + '&ref=wdj2' : url + '?ref=wdj2',
                     target : '_default'
                 })[0].click();
 
@@ -75,7 +75,9 @@
                         items = this.props.episode.playInfo;
                     }
                     var items = _.map(items, function (item, index) {
-                            return <li key={index} onClick={this.playInProvider.bind(this, item.url)}>来源: {item.title}</li>
+                            if (item.url) {
+                                return <li key={index} onClick={this.playInProvider.bind(this, item.url)}>来源: {item.title}</li>
+                            }
                         }, this);
                 } else {
                     if (this.props.episode === undefined) {
