@@ -53,7 +53,6 @@
 
         var batchDownloadAsync = function (data) {
             var deferred = $.Deferred();
- 
             IO.requestAsync({
                 url : Actions.actions.BATCH_DOWNLOAD + '?source=windows2x',
                 type : 'POST',
@@ -100,6 +99,7 @@
                         downloadInfo.title = item.title;
                         downloadInfo.size = downloadURL.size;
                         downloadInfo.icon = icon;
+                        downloadInfo.videoEpisodeId = item.id;
 
                         downloadInfo.dservice = dservice;
 
@@ -116,6 +116,7 @@
                         }
                     }
                 });
+
                 if (clientVersion > 2.68) {
                     batchDownloadAsync(data);
                 }

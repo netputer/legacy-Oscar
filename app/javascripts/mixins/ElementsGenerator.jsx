@@ -197,7 +197,7 @@
                 var video = this.props.video.toJSON();
 
                 var $a = $('<a>').attr({
-                    href : url,
+                    href : url.indexOf('?') >= 0 ? url + '&ref=wdj2' : url + '?ref=wdj2',
                     target : '_default'
                 })[0].click();
 

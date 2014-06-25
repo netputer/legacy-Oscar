@@ -65,7 +65,7 @@
                 //     VideoPlayer.show(this.props.episode.playInfo[0].url);
                 // }
                 var $a = $('<a>').attr({
-                    href : episode.playInfo[0].url,
+                    href : episode.playInfo[0].url.indexOf('?') >= 0 ? episode.playInfo[0].url + '&ref=wdj2' : episode.playInfo[0].url + '?ref=wdj2',
                     target : '_default'
                 })[0].click();
 
