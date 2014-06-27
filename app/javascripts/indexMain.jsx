@@ -9,6 +9,7 @@
         'Actions',
         'indexpage/IndexPage',
         'indexpage/IndexPageRouter',
+        'components/DownloadTipView',
         'components/DeclarationView',
         'components/SeriesDetailPanelView',
         'mixins/FilterNullValues',
@@ -23,6 +24,7 @@
         Actions,
         IndexPage,
         IndexPageRouter,
+        DownloadTipView,
         DeclarationView,
         SeriesDetailPanelView,
         FilterNullValues,
@@ -57,6 +59,7 @@
             <div>
                 <IndexPage />
                 {seriesDetailPanelView}
+                <DownloadTipView />
                 <DeclarationView />
             </div>
         ), document.body);

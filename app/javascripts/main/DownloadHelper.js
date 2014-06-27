@@ -27,6 +27,8 @@
 
         var flag = 1;
 
+        var timer;
+
         // (function () {
         //     var ua = window.navigator.userAgent.split(' ');
         //     var version = ua[ua.length - 1];
@@ -75,6 +77,23 @@
             return deferred.promise();
         };
 
+
+        var showTip = function (episode, provider) {
+            var tipUrl;
+            _.map(episode.playInfo, function (item) {
+                if (item.title === provider.providerName) {
+                    tipUrl = item.url;
+                }
+            });
+            if (tipUrl) {
+                $('.source-from').text(tipUrl).parent().css('opacity', 1);
+                window.clearTimeout(timer);
+                timer = setTimeout(function () {
+                    $('.source-from').parent().css('opacity', 0);
+                }, 4000);
+            }
+        };
+
         DownloadHelper.downloadPlayerAsync = function (provider) {
             if (provider.title !== undefined) {
                 var title = provider.title;
@@ -111,9 +130,12 @@
                         }
                         if (clientVersion > 2.68) {
                             data.push(downloadInfo);
+
                         } else {
                             downloadAsync(item.title, icon, url, dservice);
                         }
+
+                        showTip(item, downloadURL);
                     }
                 });
 
@@ -132,6 +154,8 @@
                 } else {
                     downloadAsync(episode.title, icon, url, dservice);
                 }
+
+                showTip(episode, downloadURL);
             }
         };
 
@@ -168,6 +192,7 @@
                 downloadAsync(title, icon, url, dservice);
             }
 
+            showTip(episode, provider);
         };
 
         return DownloadHelper;
