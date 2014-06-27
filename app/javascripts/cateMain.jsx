@@ -9,6 +9,7 @@
         'Actions',
         'catepage/CatePage',
         'catepage/CatePageRouter',
+        'components/DownloadTipView',
         'components/DeclarationView',
         'main/models/VideoModel',
         'components/SeriesDetailPanelView',
@@ -21,6 +22,7 @@
         Actions,
         CatePage,
         CatePageRouter,
+        DownloadTipView,
         DeclarationView,
         VideoModel,
         SeriesDetailPanelView,
@@ -59,6 +61,7 @@
             <div>
                 <CatePage />
                 {seriesDetailPanelView}
+                <DownloadTipView />
                 <DeclarationView />
             </div>
         ), document.body);
