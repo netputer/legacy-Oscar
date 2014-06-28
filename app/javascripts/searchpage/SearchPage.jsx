@@ -72,6 +72,7 @@
                         'pictures.*',
                         'year',
                         'videoEpisodes.downloadUrls.*',
+                        'videoEpisodes.playInfo.*',
                         'presenters'
                     ].join(',')
                 },
