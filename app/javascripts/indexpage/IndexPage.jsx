@@ -9,7 +9,6 @@
         'mixins/Performance',
         'mixins/FilterNullValues',
         'components/searchbox/SearchBoxView',
-        'components/BannerView',
         'components/VideoListView',
         'components/FilterSectionView',
         'components/FooterView'
@@ -22,11 +21,12 @@
         Performance,
         FilterNullValues,
         SearchBoxView,
-        BannerView,
         VideoListView,
         FilterSectionView,
         FooterView
     ) {
+
+        var flag = 1;
 
         var queryAsync = function (type) {
             var deferred = $.Deferred();
@@ -68,11 +68,17 @@
                     listTv : [],
                     listMovie : [],
                     listComic : [],
-                    listVariety : []
+                    listVariety : [],
+                    shouldLoad : {
+                        tv : true,
+                        movie : true,
+                        comic : false,
+                        variety : false
+                    }
                 };
             },
             componentWillMount : function () {
-                this.initPerformance('index', 9);
+                this.initPerformance('index', 4);
 
                 $.when(queryAsync('tv').done(function (resp) {
                     this.setState({
@@ -84,17 +90,36 @@
                         listMovie : resp.videoList
                     });
                     this.loaded();
-                }.bind(this)), queryAsync('comic').done(function (resp) {
-                    this.setState({
-                        listComic : resp.videoList
-                    });
-                    this.loaded();
-                }.bind(this)), queryAsync('variety').done(function (resp) {
-                    this.setState({
-                        listVariety : resp.videoList
-                    });
-                    this.loaded();
                 }.bind(this))).then(function(){}, this.abortTracking.bind(this, 'loadComplete'));
+            },
+            componentDidMount : function () {
+                window.addEventListener('scroll', this.lazyLoad, false);
+            },
+            lazyLoad : function (evt) {
+                if ($(document).scrollTop() > 85 && flag) {
+                    flag = !flag;
+                    $.when(queryAsync('comic').done(function (resp) {
+                        this.setState({
+                            listComic : resp.videoList
+                        });
+                        this.loaded();
+                    }.bind(this)), queryAsync('variety').done(function (resp) {
+                        this.setState({
+                            listVariety : resp.videoList
+                        });
+                        this.loaded();
+                    }.bind(this)));
+
+                    this.setState({
+                        shouldLoad : {
+                            tv : true,
+                            movie : true,
+                            comic : true,
+                            variety : true
+                        }
+                    })
+                }
+
             },
             onSearchAction : function (query) {
                 if (query.length) {
@@ -119,32 +144,29 @@
                             className="o-search-box-ctn"
                             onAction={this.onSearchAction}
                             source="homepage" />
-                         <BannerView
-                            load={this.loaded}
-                            source="index" />
                         <VideoListView cate="TV" list={this.state.listTv} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div className="o-category-banner w-component-card banner1" onClick={this.clickBanner.bind(this, 'tv', 'areas=美国')}></div>
                             <div className="o-category-banner w-component-card banner2" onClick={this.clickBanner.bind(this, 'tv', 'categories=言情')}></div>
-                            <FilterSectionView load={this.loaded} title={Wording.REGION} type="tv" filter="areas" />
+                            <FilterSectionView load={this.loaded} title={Wording.REGION} shouldLoad={this.state.shouldLoad} type="tv" filter="areas" />
                         </div>
                         <VideoListView cate="MOVIE" list={this.state.listMovie} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div className="o-category-banner w-component-card banner3" onClick={this.clickBanner.bind(this, 'movie', 'categories=动作')}></div>
                             <div className="o-category-banner w-component-card banner4" onClick={this.clickBanner.bind(this, 'movie', 'categories=偶像')}></div>
-                            <FilterSectionView load={this.loaded} title={Wording.MOVIE} type="movie" filter="categories" />
+                            <FilterSectionView load={this.loaded} title={Wording.MOVIE} shouldLoad={this.state.shouldLoad} type="movie" filter="categories" />
                         </div>
                         <VideoListView cate="COMIC" list={this.state.listComic} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div className="o-category-banner w-component-card banner5" onClick={this.clickBanner.bind(this, 'comic', 'categories=神魔')}></div>
                             <div className="o-category-banner w-component-card banner6" onClick={this.clickBanner.bind(this, 'comic', 'categories=loli')}></div>
-                            <FilterSectionView load={this.loaded} title={Wording.COMIC} type="comic" filter="categories" />
+                            <FilterSectionView load={this.loaded} title={Wording.COMIC} shouldLoad={this.state.shouldLoad} type="comic" filter="categories" />
                         </div>
                         <VideoListView cate="VARIETY" list={this.state.listVariety} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div className="o-category-banner w-component-card banner7" onClick={this.clickBanner.bind(this, 'variety', 'categories=访谈')}></div>
                             <div className="o-category-banner w-component-card banner8" onClick={this.clickBanner.bind(this, 'variety', 'categories=选秀')}></div>
-                            <FilterSectionView load={this.loaded} title={Wording.VARIETY} type="variety" filter="categories" />
+                            <FilterSectionView load={this.loaded} title={Wording.VARIETY} shouldLoad={this.state.shouldLoad} type="variety" filter="categories" />
                         </div>
                         <FooterView />
                     </div>

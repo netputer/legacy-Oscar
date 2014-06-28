@@ -16,6 +16,13 @@
         FilterNullValues
     ) {
 
+        var loaded = {
+                tv : false,
+                movie : false,
+                comic : false,
+                variety : false
+            };
+
         var queryAsync = function (type) {
             var deferred = $.Deferred();
 
@@ -37,13 +44,16 @@
                     list : []
                 }
             },
-            componentDidMount : function () {
-                queryAsync(this.props.type).done(function (resp) {
-                    this.setState({
-                        list : resp[this.props.filter]
-                    });
-                    this.props.load();
-                }.bind(this));
+            componentWillReceiveProps : function (nextProps) {
+                if (nextProps.shouldLoad[nextProps.type] && !loaded[nextProps.type]) {
+                    loaded[nextProps.type] = true;
+                    queryAsync(nextProps.type).done(function (resp) {
+                        this.setState({
+                            list : resp[nextProps.filter]
+                        });
+                        nextProps.load();
+                    }.bind(this));
+                }
             },
             clickItem : function (cate) {
                 GA.log({

@@ -9,7 +9,6 @@
         'utilities/QueryString',
         'catepage/CatePageRouter',
         'components/FilterView',
-        'components/BannerView',
         'components/VideoListView',
         'components/searchbox/SearchBoxView',
         'components/PaginationView',
@@ -25,7 +24,6 @@
         QueryString,
         CatePageRouter,
         FilterView,
-        BannerView,
         VideoListView,
         SearchBoxView,
         PaginationView,
@@ -239,8 +237,6 @@
                         <SearchBoxView
                             className="o-search-box-ctn"
                             onAction={this.onSearchAction}
-                            source={queryType} />
-                        <BannerView
                             source={queryType} />
                         <h4>{queryType && Wording[queryType.toUpperCase()]}</h4>
                         <FilterView

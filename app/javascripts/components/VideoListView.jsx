@@ -5,7 +5,6 @@
         '_',
         'Backbone',
         'Wording',
-        'utilities/Download',
         'utilities/FormatString',
         'utilities/FormatDate',
         'components/WanxiaodouView'
@@ -14,7 +13,6 @@
         _,
         Backbone,
         Wording,
-        Download,
         FormatString,
         FormatDate,
         WanxiaodouView
@@ -210,7 +208,7 @@
                 var videoEpisodes = this.props.data.videoEpisodes;
                 var type = this.props.data.type;
 
-                Download.downloadVideo(videoEpisodes, type);
+                // Download.downloadVideo(videoEpisodes, type);
             }
         });
 
