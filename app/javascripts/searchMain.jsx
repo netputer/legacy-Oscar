@@ -10,6 +10,8 @@
         'searchpage/SearchPageRouter',
         'searchpage/SearchPage',
         'components/SeriesDetailPanelView',
+        'components/DownloadTipView',
+        'components/DeclarationView',
         'mixins/FilterNullValues',
         'main/models/VideoModel'
     ], function (
@@ -21,6 +23,8 @@
         SearchPageRouter,
         SearchPage,
         SeriesDetailPanelView,
+        DownloadTipView,
+        DeclarationView,
         FilterNullValues,
         VideoModel
     ) {
@@ -92,6 +96,8 @@
             <div>
                 <SearchPage />
                 {seriesDetailPanelView}
+                <DownloadTipView />
+                <DeclarationView />
             </div>
         , document.body);
 
