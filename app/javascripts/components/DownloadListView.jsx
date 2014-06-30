@@ -146,10 +146,13 @@
                 this.setState({
                     appName : info.providerName
                 });
-                document.getElementsByClassName('item')[key].getElementsByClassName('bubble-app')[0].style.display = 'block';
-                setTimeout(function () {
-                    document.getElementsByClassName('item')[key].getElementsByClassName('bubble-app')[0].style.display = 'none';
-                }, 7000);
+
+                if (document.getElementsByClassName('item')[key] !== undefined && document.getElementsByClassName('item')[key] !== undefined) {
+                    document.getElementsByClassName('item')[key].getElementsByClassName('bubble-app')[0].style.display = 'block';
+                    setTimeout(function () {
+                        document.getElementsByClassName('item')[key].getElementsByClassName('bubble-app')[0].style.display = 'none';
+                    }, 7000);
+                }
             },
             clickDownload : function () {
                 var episode = this.props.episode;

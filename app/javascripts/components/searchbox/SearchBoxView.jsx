@@ -78,22 +78,24 @@
             },
             showSuggestion : function (evt) {
                 var value = evt.target.value;
-                queryAsync(value).done(function (resp) {
-                    this.setState({
-                        resultModels : _.map(resp, function (item) {
-                            return new SuggestionItemModel({
-                                body : item
-                            });
-                        })
-                    });
-                    GA.log({
-                        'event' : 'video.misc.action',
-                        'action' : 'search_suggestion',
-                        'keyword' : value,
-                        'type' : 'display',
-                        'pos' : this.props.source
-                    });
-                }.bind(this));
+                if (value) {
+                    queryAsync(value).done(function (resp) {
+                        this.setState({
+                            resultModels : _.map(resp, function (item) {
+                                return new SuggestionItemModel({
+                                    body : item
+                                });
+                            })
+                        });
+                        GA.log({
+                            'event' : 'video.misc.action',
+                            'action' : 'search_suggestion',
+                            'keyword' : value,
+                            'type' : 'display',
+                            'pos' : this.props.source
+                        });
+                    }.bind(this));
+                }
             },
             hideSuggestion : function () {
                 setTimeout(function() {

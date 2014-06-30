@@ -3,11 +3,13 @@
 (function (window) {
     define([
         'React',
+        'GA',
         'Wording',
         'main/DownloadHelper',
         'utilities/ProviderInfo'
     ], function (
         React,
+        GA,
         Wording,
         DownloadHelper,
         ProviderInfo
