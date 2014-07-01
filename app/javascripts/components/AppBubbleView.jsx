@@ -58,7 +58,7 @@
                             任务已开始 :) 为方便在手机上看视频 <br />推荐你安装下面的应用
                         </p>
                         <div className="app-item">
-                            <img src={providerInfo.iconUrl} alt={this.props.name} />
+                            <img src={providerInfo ? providerInfo.iconUrl : ''} alt={this.props.name} />
                             <div className="app-info">
                                 <p><strong>{this.props.name}</strong></p>
                                 <a href="javascript:;" className="w-btn w-btn-mini w-btn-primary" onClick={this.downloadApp.bind(this, providerInfo)}>{Wording.APP_INSTALL}</a>

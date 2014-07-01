@@ -95,7 +95,7 @@
             onSearchAction : function (query) {
                 if (query.length) {
                     $('<a>').attr({
-                        href : 'search.html#q/' + query
+                        href : 'search.html?q=' + query
                     })[0].click();
                 }
             },

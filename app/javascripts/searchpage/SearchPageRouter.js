@@ -3,8 +3,7 @@
     define(['Backbone'], function (Backbone) {
         var SearchPageRouter = Backbone.Router.extend({
             routes : {
-                'q/:query' : 'search',
-                'q/:query/detail/:id' : 'search'
+                'detail/:id' : 'search'
             },
             getQuery : function () {
                 return window.location.hash.split('/')[1] || '';

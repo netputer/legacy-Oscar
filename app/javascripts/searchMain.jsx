@@ -50,14 +50,14 @@
                 show : false
             });
 
-            searchPageRouter.navigate('#q/' + searchPageRouter.getQuery(), {
+            searchPageRouter.navigate('#keep', {
                 trigger : false
             });
         };
 
         var seriesDetailPanelView = <SeriesDetailPanelView closeDetailPanel={closeDetailPanel} />
 
-        searchPageRouter.on('route:search', function (query, id) {
+        searchPageRouter.on('route:search', function (id) {
             if (id) {
                 seriesDetailPanelView.setState({
                     show : true,

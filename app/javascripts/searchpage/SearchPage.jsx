@@ -33,6 +33,7 @@
     ) {
         var PAGE_SIZE = 10;
 
+        var keyword = QueryString.get('q') || '';
         var queryType;
         var queryRegion = QueryString.get('areas') || '';
         var queryYear = QueryString.get('year') || '';
@@ -107,7 +108,7 @@
             mixins : [FilterNullValues, Performance],
             getInitialState : function () {
                 return {
-                    keyword : searchPageRouter.getQuery(),
+                    keyword : keyword,
                     result : [],
                     loading : false,
                     currentPage : 1,
@@ -159,11 +160,10 @@
                 }, this);
             },
             componentDidMount : function () {
-                searchPageRouter.on('route:search', function (query) {
                     this.setState({
-                        keyword : query || '',
+                        keyword : keyword || '',
                         loading : true,
-                        query : query
+                        query : keyword
                     });
 
                     queryTypeAsync('tv').done(function (resp) {
@@ -176,14 +176,12 @@
                         this.abortTracking('loadComplete');
                     }.bind(this));
 
-                    this.queryAsync(query, this.state.currentPage);
-                }, this);
+                    this.queryAsync(keyword, this.state.currentPage);
             },
             onSearchAction : function (keyword) {
                 if (keyword.length) {
-                    searchPageRouter.navigate('q/' + keyword, {
-                        trigger : true
-                    });
+                    history.pushState(null, null, '?q=' + keyword);
+                    this.queryAsync(keyword, this.state.currentPage);
                 }
             },
             onPaginationSelect : function (target) {
@@ -193,9 +191,7 @@
             },
             onVideoSelect : function (video) {
                 this.setTimeStamp(new Date().getTime(), video.id);
-                searchPageRouter.navigate('#q/' + searchPageRouter.getQuery() + '/detail/' + video.id, {
-                    trigger : true
-                });
+                window.location.hash = '#detail/' + video.id;
             },
             onFilterSelect : function (prop, item) {
                 switch (prop) {
