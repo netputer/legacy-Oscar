@@ -5,6 +5,7 @@
         '$',
         'Wording',
         'GA',
+        'main/Log',
         'utilities/FormatString',
         'utilities/FormatDate',
         'VideoPlayer',
@@ -14,6 +15,7 @@
         $,
         Wording,
         GA,
+        Log,
         FormatString,
         FormatDate,
         VideoPlayer,
@@ -68,6 +70,10 @@
                     href : episode.playInfo[0].url.indexOf('?') >= 0 ? episode.playInfo[0].url + '&ref=wdj2' : episode.playInfo[0].url + '?ref=wdj2',
                     target : '_default'
                 })[0].click();
+
+                Log.consume({type : 'online_play', source : 'manual'}, episode);
+
+
 
                 GA.log({
                     'event' : 'video.play.action',

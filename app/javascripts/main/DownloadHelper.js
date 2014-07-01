@@ -5,6 +5,7 @@
         '_',
         '$',
         'GA',
+        'main/Log',
         'Actions',
         'mixins/Performance',
         'utilities/ClientInfo'
@@ -13,6 +14,7 @@
         _,
         $,
         GA,
+        Log,
         Actions,
         Performance,
         ClientInfo
@@ -136,6 +138,7 @@
                         }
 
                         showTip(item, downloadURL);
+                        Log.consume({type : 'download', source : 'download_all'}, item);
                     }
                 });
 
@@ -156,6 +159,7 @@
                 }
 
                 showTip(episode, downloadURL);
+                Log.consume({type : 'download', source : 'manual'}, episode);
             }
         };
 
@@ -193,6 +197,7 @@
             }
 
             showTip(episode, provider);
+            Log.consume({type : 'download', source : 'manual'}, episode);
         };
 
         return DownloadHelper;

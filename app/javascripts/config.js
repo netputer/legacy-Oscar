@@ -3,7 +3,8 @@ require.config({
         $ : '../components/jquery/jquery',
         _ : '../components/underscore/underscore',
         Backbone : '../components/backbone/backbone',
-        React : '../components/react/react-with-addons'
+        React : '../components/react/react-with-addons',
+        $R : '../components/reactive/reactive'
     },
     shim : {
         $ : {
@@ -13,6 +14,10 @@ require.config({
         _ : {
             deps : [],
             exports : '_'
+        },
+        $R : {
+            deps : [],
+            exports : '$R'
         },
         Backbone : {
             deps : ['$', '_'],
