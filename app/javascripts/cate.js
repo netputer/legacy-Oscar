@@ -1,4 +1,4 @@
-define(['config', 'utilities/ClientInfo', 'utilities/DoraemonInfo', 'GA'], function (config, ClientInfo, DoraemonInfo, GA) {
+require(['config', 'utilities/ClientInfo', 'utilities/DoraemonInfo', 'GA'], function (config, ClientInfo, DoraemonInfo, GA) {
     Bugsnag.appVersion = DoraemonInfo.version;
 
     Bugsnag.metaData = {
