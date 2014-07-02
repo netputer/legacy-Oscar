@@ -7,9 +7,5 @@ define(['config', 'utilities/ClientInfo', 'utilities/DoraemonInfo', 'GA'], funct
         }
     };
 
-    Bugsnag.beforeNotify = function(payload) {
-        return location.host.indexOf('127.0.0.1') < 0;
-    }
-
     require(['searchMain']);
 });
