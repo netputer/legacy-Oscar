@@ -15,6 +15,10 @@
                 });
 
                 return parseFloat(version);
+            },
+            originalVersion : function () {
+                var originalVersion = navigator.userAgent.split(' ')[navigator.userAgent.split(' ').length - 1];
+                return originalVersion;
             }
         };
 
