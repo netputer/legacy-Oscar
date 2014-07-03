@@ -108,13 +108,12 @@
             mixins : [FilterNullValues, Performance],
             getInitialState : function () {
                 return {
-                    keyword : keyword,
                     result : [],
                     loading : false,
                     currentPage : 1,
                     pageTotal : 0,
                     currentPage : 1,
-                    query : '',
+                    query : keyword,
                     total : 0,
                     correctQuery : '',
                     filterSelected : {
@@ -155,28 +154,38 @@
                 return deferred.promise();
             },
             componentWillMount : function () {
-                searchPageRouter.on('route:search', function (query) {
-                    this.initPerformance('search', 3, query);
-                }, this);
+                this.initPerformance('search', 3, keyword);
+
+                searchPageRouter.on('route:compate', function (key) {
+                    if (key) {
+                        keyword = key;
+
+                        history.pushState(null, null, '?q=' + keyword);
+
+                        $('.o-search-box-input').val(keyword);
+
+                        this.setState({
+                            query : keyword
+                        });
+
+                        this.queryAsync(keyword, this.state.currentPage);
+                    }
+                }.bind(this));
+
             },
             componentDidMount : function () {
+
+                queryTypeAsync('tv').done(function (resp) {
+                    delete resp.categories;
                     this.setState({
-                        keyword : keyword || '',
-                        loading : true,
-                        query : keyword
+                        filters : resp
                     });
+                    this.loaded();
+                }.bind(this)).fail( function () {
+                    this.abortTracking('loadComplete');
+                }.bind(this));
 
-                    queryTypeAsync('tv').done(function (resp) {
-                        delete resp.categories;
-                        this.setState({
-                            filters : resp
-                        });
-                        this.loaded();
-                    }.bind(this)).fail( function () {
-                        this.abortTracking('loadComplete');
-                    }.bind(this));
-
-                    this.queryAsync(keyword, this.state.currentPage);
+                this.queryAsync(keyword, this.state.currentPage);
             },
             onSearchAction : function (keyword) {
                 if (keyword.length) {
@@ -245,7 +254,7 @@
                         <SearchBoxView
                             className="o-search-box-ctn"
                             onAction={this.onSearchAction}
-                            keyword={this.state.keyword}
+                            keyword={this.state.query}
                             source="search" />
                         <FilterView
                             filters={this.state.filters}
@@ -253,7 +262,7 @@
                             filterSelected={this.state.filterSelected}
                             source="search" />
                         <SearchResultView
-                            keyword={this.state.keyword}
+                            keyword={this.state.query}
                             list={this.state.result}
                             loading={this.state.loading}
                             total={this.state.total}

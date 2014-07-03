@@ -3,6 +3,7 @@
     define(['Backbone'], function (Backbone) {
         var SearchPageRouter = Backbone.Router.extend({
             routes : {
+                'q/:key' : 'compate',
                 'detail/:id' : 'search'
             },
             getQuery : function () {

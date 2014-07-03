@@ -7,5 +7,9 @@ require(['config', 'utilities/ClientInfo', 'utilities/DoraemonInfo', 'GA'], func
         }
     };
 
+    Bugsnag.beforeNotify = function(payload) {
+        return (location.host.indexOf('127.0.0.1') < 0) && (location.pathname.indexOf('/Users/') !== 0);
+    }
+
     require(['searchMain']);
 });
