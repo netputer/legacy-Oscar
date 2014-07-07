@@ -168,24 +168,35 @@
                             query : keyword
                         });
 
+                        queryTypeAsync('tv').done(function (resp) {
+                            delete resp.categories;
+                            this.setState({
+                                filters : resp
+                            });
+                            this.loaded();
+                        }.bind(this)).fail( function () {
+                            this.abortTracking('loadComplete');
+                        }.bind(this));
+
                         this.queryAsync(keyword, this.state.currentPage);
                     }
                 }.bind(this));
 
             },
             componentDidMount : function () {
+                if (keyword) {
+                    queryTypeAsync('tv').done(function (resp) {
+                        delete resp.categories;
+                        this.setState({
+                            filters : resp
+                        });
+                        this.loaded();
+                    }.bind(this)).fail( function () {
+                        this.abortTracking('loadComplete');
+                    }.bind(this));
 
-                queryTypeAsync('tv').done(function (resp) {
-                    delete resp.categories;
-                    this.setState({
-                        filters : resp
-                    });
-                    this.loaded();
-                }.bind(this)).fail( function () {
-                    this.abortTracking('loadComplete');
-                }.bind(this));
-
-                this.queryAsync(keyword, this.state.currentPage);
+                    this.queryAsync(keyword, this.state.currentPage);
+                }
             },
             onSearchAction : function (keyword) {
                 if (keyword.length) {
