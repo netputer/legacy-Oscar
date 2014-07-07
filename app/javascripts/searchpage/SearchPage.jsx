@@ -5,6 +5,7 @@
         'IO',
         'Actions',
         'Wording',
+        'main/Log',
         'mixins/Performance',
         'mixins/FilterNullValues',
         'utilities/QueryString',
@@ -20,6 +21,7 @@
         IO,
         Actions,
         Wording,
+        Log,
         Performance,
         FilterNullValues,
         QueryString,
@@ -202,6 +204,8 @@
                 if (keyword.length) {
                     history.pushState(null, null, '?q=' + keyword);
                     this.queryAsync(keyword, this.state.currentPage);
+                    Log.updateUrl();
+                    Log.pageShow();
                 }
             },
             onPaginationSelect : function (target) {

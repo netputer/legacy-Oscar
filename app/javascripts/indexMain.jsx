@@ -6,6 +6,7 @@
         'Backbone',
         'IO',
         'GA',
+        'main/Log',
         'Actions',
         'indexpage/IndexPage',
         'indexpage/IndexPageRouter',
@@ -21,6 +22,7 @@
         Backbone,
         IO,
         GA,
+        Log,
         Actions,
         IndexPage,
         IndexPageRouter,
@@ -32,6 +34,8 @@
         DownloadListView,
         VideoPlayer
     ) {
+        var showFlag = 0;
+
         var queryAsync = function (id) {
             var deferred = $.Deferred();
 
@@ -83,14 +87,11 @@
                         loading : false
                     });
                 }
+
+                Log.pageShow();
+
             });
 
-            GA.log({
-                'event' : 'video.common.action',
-                'action' : 'detail_view',
-                'video_id' : query,
-                'pos' : 'homepage'
-            });
         });
 
         indexPageRouter.on('route:index', function () {
@@ -99,9 +100,19 @@
                     show : false
                 });
             }
+
+            if (!showFlag) {
+                Log.updateUrl();
+                Log.pageShow();
+                showFlag = 1;
+            }
         });
 
         Backbone.history.start();
+        if (location.href.indexOf('detail/') < 0 && !showFlag) {
+            Log.pageShow();
+            showFlag = 1;
+        }
 
         $('body').on('keydown', function (evt) {
             if (evt.keyCode === 27) {
