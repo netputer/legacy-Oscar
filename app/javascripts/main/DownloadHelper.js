@@ -138,6 +138,7 @@
                         }
 
                         showTip(item, downloadURL);
+                        item.providerName = downloadURL.providerName;
                         Log.consume({type : 'download', source : 'download_all'}, item);
                     }
                 });
@@ -159,6 +160,7 @@
                 }
 
                 showTip(episode, downloadURL);
+                episode.providerName = downloadURL.providerName;
                 Log.consume({type : 'download', source : 'manual'}, episode);
             }
         };
@@ -197,6 +199,7 @@
             }
 
             showTip(episode, provider);
+            episode.providerName = provider.providerName;
             Log.consume({type : 'download', source : 'manual'}, episode);
         };
 

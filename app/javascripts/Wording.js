@@ -19,7 +19,7 @@ define({
     EPISODE_NUM : '第 {1} 集',
     EPISODE_NUM_SHORTEN : '第{1}集',
     EPISODE_NUM_VARIETY : '第{1}期',
-    EXTRA_INFO : '其他信息',
+    EXTRA_INFO : '其它信息',
     HOT : '热门',
     INDEX : '首页',
     INTERNET : '互联网',
