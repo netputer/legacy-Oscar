@@ -30,7 +30,9 @@
                 ProviderInfo.init();
             },
             componentWillReceiveProps : function (nextProps) {
-                providerInfo = ProviderInfo.getObj(nextProps.name);
+                if (nextProps.name) {
+                    providerInfo = ProviderInfo.getObj(nextProps.name);
+                }
             },
             downloadApp : function (provider) {
                 if (provider.title !== undefined) {

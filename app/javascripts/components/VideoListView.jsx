@@ -39,7 +39,7 @@
                 var src = '';
 
                 if (pictures) {
-                    src = pictures.l[0];
+                    src = pictures.l !== undefined ? pictures.l[0] : pictures.s[0];
                 } else if (data.cover.l){
                     src = data.cover.l;
                 }

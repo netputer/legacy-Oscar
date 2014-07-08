@@ -38,7 +38,24 @@
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
                 data : {
-                    sessionId : window.sessionId || ''
+                    sessionId : window.sessionId || '',
+                    opt_fields : [
+                        'title',
+                        'type',
+                        'id',
+                        'description',
+                        'actors.*',
+                        'cover.l',
+                        'categories.name',
+                        'latestEpisodeNum',
+                        'latestEpisodeDate',
+                        'totalEpisodesNum',
+                        'marketRatings.rating',
+                        'categories.*',
+                        'pictures.s',
+                        'year',
+                        'presenters'
+                    ].join(',')
                 },
                 success : deferred.resolve,
                 error : deferred.reject
