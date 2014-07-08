@@ -88,21 +88,6 @@
             return deferred.promise();
         };
 
-        var queryEpisodesAsync = function (id) {
-            var deferred = $.Deferred();
-
-            IO.requestAsync({
-                url : Actions.actions.QUERY_SERIES + id,
-                data : {
-                    opt_fields : 'videoEpisodes.*'
-                },
-                success : deferred.resolve,
-                error : deferred.reject
-            });
-
-            return deferred.promise();
-        };
-
         var searchResultCollection = new SearchResultCollection();
 
         var SearchPage = React.createClass({
@@ -152,8 +137,8 @@
 
                     _.each(resp.videoList, function (item, index) {
                         if (item.type === 'MOVIE') {
-                            queryEpisodesAsync(item.id).done(function (res) {
-                                resp.videoList[index]['videoEpisodes'] = res.videoEpisodes
+                            QueryHelper.queryEpisodesAsync(item.id).done(function (res) {
+                                resp.videoList[index]['videoEpisodes'] = res.videoEpisodes;
 
                                 searchResultCollection.reset(resp.videoList);
                                 this.setState({

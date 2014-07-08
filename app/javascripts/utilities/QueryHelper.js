@@ -30,7 +30,21 @@
                 }
 
                 return deferred.promise();
-            }
+            },
+            queryEpisodesAsync = function (id) {
+                var deferred = $.Deferred();
+
+                IO.requestAsync({
+                    url : Actions.actions.QUERY_SERIES + id,
+                    data : {
+                        opt_fields : 'videoEpisodes.*'
+                    },
+                    success : deferred.resolve,
+                    error : deferred.reject
+                });
+
+                return deferred.promise();
+            };
         };
 
         return QueryHelper;
