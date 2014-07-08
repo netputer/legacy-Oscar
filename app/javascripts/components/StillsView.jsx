@@ -44,7 +44,7 @@
             },
             clickNext : function () {
                 if (!this.state.disableNext) {
-                    var smallIndex = Math.min(this.state.smallIndex + 1, this.props.video.get('pictures').l.length - 4);
+                    var smallIndex = Math.min(this.state.smallIndex + 1, this.props.video.get('pictures').s.length - 4);
                     this.setState({
                         smallIndex : smallIndex,
                         disablePrev : smallIndex === 0,
