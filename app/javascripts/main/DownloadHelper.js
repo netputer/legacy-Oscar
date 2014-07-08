@@ -74,9 +74,7 @@
             var data = sessionStorage.getItem('provider');
 
             if (data) {
-                setTimeout(function () {
-                    deferred.resolve(JSON.parse(data));
-                }, 0);
+                deferred.resolve(JSON.parse(data));
             } else {
                 $.ajax({
                     url : Actions.actions.PROVIDERS,
