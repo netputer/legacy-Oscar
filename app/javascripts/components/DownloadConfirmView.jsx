@@ -48,10 +48,17 @@
                     size : getData(this.props.video.get('videoEpisodes'), 'size')
                 }
             },
+            componentWillReceiveProps : function (newProps) {
+                if (newProps.video.get('videoEpisodes').length) {
+                    this.setState({
+                        episodes : getData(newProps.video.get('videoEpisodes'), 'episodes'),
+                        size : getData(newProps.video.get('videoEpisodes'), 'size')
+                    });
+                }
+            },
             clickButton : function (flag) {
                 if (!!flag) {
                     DownloadHelper.download(this.props.video.get('videoEpisodes'), this.props.video.get('cover').s);
-
                 }
                 this.props.confirmCallback.call(this, flag, true);
                 

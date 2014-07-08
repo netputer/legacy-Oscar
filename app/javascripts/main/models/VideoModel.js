@@ -63,10 +63,14 @@
                     data.description = data.description.trim();
                 }
 
-                if (data.type === 'MOVIE') {
+                if (data.type === 'MOVIE' && data.videoEpisodes) {
                     var episodes = data.videoEpisodes;
                     episodes[0].title = data.title;
                     data.videoEpisodes = episodes;
+                }
+
+                if (!data.videoEpisodes) {
+                    data.videoEpisodes = [];
                 }
 
                 _.each(data.videoEpisodes, function (episode) {

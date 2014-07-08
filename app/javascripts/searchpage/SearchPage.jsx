@@ -72,12 +72,9 @@
                         'latestEpisodeDate',
                         'totalEpisodesNum',
                         'marketRatings.rating',
-                        'videoEpisodes',
                         'categories.*',
-                        'pictures.*',
+                        'pictures.s',
                         'year',
-                        'videoEpisodes.downloadUrls.*',
-                        'videoEpisodes.playInfo.*',
                         'presenters'
                     ].join(',')
                 },
@@ -135,6 +132,23 @@
                     });
 
                     this.loaded();
+
+                    var getEpisodes = resp.videoList;
+
+                    _.each(resp.videoList, function (item, index) {
+                        if (item.type === 'MOVIE') {
+                            QueryHelper.queryEpisodesAsync(item.id).done(function (res) {
+                                resp.videoList[index]['videoEpisodes'] = res.videoEpisodes;
+
+                                searchResultCollection.reset(resp.videoList);
+                                this.setState({
+                                    result : searchResultCollection.models,
+                                });
+
+                            }.bind(this));
+                        }
+                    }.bind(this));
+
                 }.bind(this)).fail( function () {
                     this.abortTracking('loadComplete');
                 }.bind(this));

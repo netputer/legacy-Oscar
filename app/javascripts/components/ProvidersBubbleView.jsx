@@ -81,7 +81,7 @@
                         }, this);
                 } else {
                     if (this.props.episode === undefined) {
-                        items = this.props.video.get('videoEpisodes')[0].downloadUrls;
+                        items = this.props.video.get('videoEpisodes').length ? this.props.video.get('videoEpisodes')[0].downloadUrls : [];
                     } else {
                         items = this.props.episode.downloadUrls;
                     }

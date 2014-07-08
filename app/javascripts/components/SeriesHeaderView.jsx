@@ -74,9 +74,9 @@
                     this.props.subscribeHandler.call(this);
                 }
             },
-            componentWillReceiveProps : function (nextProps) {
-                if (nextProps.showSubscribeBubble === 'download_all' && openFlag === 0) {
-                    this.showSubscribeBubble(nextProps.showSubscribeBubble, this.props.video);
+            componentWillReceiveProps : function (newProps) {
+                if (newProps.showSubscribeBubble === 'download_all' && openFlag === 0) {
+                    this.showSubscribeBubble(newProps.showSubscribeBubble, this.props.video);
                     openFlag = 1;
                 }
             },

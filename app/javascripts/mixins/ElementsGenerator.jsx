@@ -149,7 +149,7 @@
                 case 'MOVIE':
                     text = Wording.DOWNLOAD;
 
-                    if (this.props.video.get('videoEpisodes')[0].downloadUrls.length > 1) {
+                    if (this.props.video.get('videoEpisodes')[0] && this.props.video.get('videoEpisodes')[0].downloadUrls && this.props.video.get('videoEpisodes')[0].downloadUrls.length > 1) {
                         return (
                             <div className="o-btn-group">
                                 <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
@@ -170,7 +170,7 @@
                         return (
                             <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
                                 <span className="download-text">{text}</span>
-                                <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.video.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
+                                <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.video.get('videoEpisodes')[0] ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : ''}</em> {ReadableSize(this.props.video.get('videoEpisodes')[0] ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].size : 0)}</span>
                                 <AppBubbleView
                                     video={this.props.video}
                                     episode={this.props.episode}
@@ -233,7 +233,7 @@
             },
             getPlayBtn : function (source) {
                 var episodes  = this.props.video.get('videoEpisodes');
-                if (this.props.video.get('type') === 'MOVIE' && episodes[0].playInfo !== undefined && episodes[0].playInfo.length > 0 && episodes[0].playInfo[0].url !== undefined) {
+                if (this.props.video.get('type') === 'MOVIE' && episodes[0] !== undefined && episodes[0].playInfo !== undefined && episodes[0].playInfo.length > 0 && episodes[0].playInfo[0].url !== undefined) {
                     return (
                         <button className="button-play w-btn" onClick={this.clickButtonPlay.bind(this, episodes[0].playInfo[0].url)}>
                             {Wording.PLAY}

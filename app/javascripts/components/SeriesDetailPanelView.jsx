@@ -5,9 +5,13 @@
         'React',
         '$',
         '_',
+        'IO',
+        'Actions',
         'Wording',
         'mixins/Performance',
         'utilities/ProviderInfo',
+        'main/models/VideoModel',
+        'mixins/FilterNullValues',
         'components/DescriptionView',
         'components/StillsView',
         'components/DownloadListView',
@@ -21,9 +25,13 @@
         React,
         $,
         _,
+        IO,
+        Actions,
         Wording,
         Performance,
         ProviderInfo,
+        VideoModel,
+        FilterNullValues,
         DescriptionView,
         StillsView,
         DownloadListView,
@@ -35,6 +43,24 @@
         DownloadConfirmView
     ) {
 
+        var cacheId = 0;
+
+        var queryEpisodesAsync = function (id) {
+            var deferred = $.Deferred();
+
+            IO.requestAsync({
+                url : Actions.actions.QUERY_SERIES + id,
+                data : {
+                    opt_fields : 'videoEpisodes.*'
+                },
+                success : deferred.resolve,
+                error : deferred.reject
+            });
+
+            return deferred.promise();
+        };
+
+
         var SeriesDetailPanelView = React.createClass({
             mixins : [Performance],
             getInitialState : function () {
@@ -43,14 +69,34 @@
                     showConfirm : false,
                     subscribed : -2,
                     showSubscribeBubble : '',
-                    selectedTab : 'download'
+                    selectedTab : 'download',
+                    video : {}
                 };
             },
             componentWillReceiveProps : function (newProps) {
-                if (newProps.video !== undefined && newProps.video.get('type') !== 'MOVIE') {
+                if (newProps.video !== undefined) {
                     this.setState({
-                        selectedTab : 'download'
+                        video : newProps.video
                     });
+
+                    if (newProps.type !== 'MOVIE') {
+                        this.setState({
+                            selectedTab : 'download'
+                        });
+                    }
+                }
+
+                if (newProps.id && cacheId !== newProps.id) {
+                    queryEpisodesAsync(newProps.id).done(function (resp) {
+                        var video = this.props.origin;
+                        video.videoEpisodes = resp.videoEpisodes;
+                        var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, video));
+
+                        this.setState({
+                            video : videoModle
+                        });
+                    }.bind(this));
+                    cacheId = newProps.id;
                 }
             },
             componentDidMount : function () {
@@ -59,9 +105,7 @@
                         height : window.innerHeight
                     });
                 }.bind(this), 50));
-
                 ProviderInfo.init();
-
             },
             clickCtn : function (evt) {
                 if (evt.nativeEvent.srcElement.contains(this.refs.ctn.getDOMNode())) {
@@ -79,7 +123,7 @@
                 });
             },
             getList : function () {
-                var video = this.props.video;
+                var video = this.state.video;
                 if (this.state.selectedTab === 'download') {
                     return <DownloadListView subscribed={this.state.subscribed} video={video} subscribeHandler={this.isSubscribed} />;
                 } else {
@@ -126,7 +170,7 @@
                         return (
                             <div className={className} style={style} onClick={this.clickCtn} ref="ctn">
                                 <div className="o-series-panel-content w-vbox">
-                                    <SeriesHeaderView video={video} showSubscribeBubble={this.state.showSubscribeBubble} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} confirmCallback={this.confirm} />
+                                    <SeriesHeaderView video={this.state.video} showSubscribeBubble={this.state.showSubscribeBubble} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} confirmCallback={this.confirm} />
                                     <div className="body-ctn">
                                         <div className="body">
                                             {this.props.video.get('type') === 'MOVIE' ? '' : this.getTabs()}
@@ -139,7 +183,7 @@
                                     </div>
                                     <div className="o-close" onClick={this.props.closeDetailPanel} />
                                 </div>
-                                <DownloadConfirmView video={video} showConfirm={this.state.showConfirm} confirmCallback={this.confirm} />
+                                <DownloadConfirmView video={this.state.video} showConfirm={this.state.showConfirm} confirmCallback={this.confirm} />
                             </div>
                         );
                     } else {

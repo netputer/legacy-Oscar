@@ -37,6 +37,27 @@
 
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
+                data : {
+                    opt_fields : [
+                        'title',
+                        'type',
+                        'id',
+                        'description',
+                        'actors.*',
+                        'cover.*',
+                        'categories.name',
+                        'latestEpisodeNum',
+                        'latestEpisodeDate',
+                        'totalEpisodesNum',
+                        'marketRatings.rating',
+                        'marketComments.*',
+                        'categories.*',
+                        'pictures.s',
+                        'providerNames.*',
+                        'year',
+                        'presenters'
+                    ].join(',')
+                },
                 success : deferred.resolve,
                 error : deferred.reject,
                 cache : true,
@@ -80,7 +101,9 @@
                     var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
 
                     seriesDetailPanelView.setProps({
-                        video : videoModle
+                        video : videoModle,
+                        origin : resp,
+                        id : query
                     });
 
                     if (seriesDetailPanelView.isMounted()) {

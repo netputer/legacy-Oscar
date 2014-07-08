@@ -195,7 +195,7 @@
             componentWillMount : function () {
                 this.subscribeBubbleView = <SubscribeBubbleView video={this.props.video} subscribeHandler={this.subscribeCallback} />
             },
-            componentWillReceiveProps : function () {
+            componentWillReceiveProps : function (newProps) {
                 this.setState({
                     expendIndex : 1
                 });
