@@ -14,9 +14,7 @@
                 var data = sessionStorage.getItem(type);
 
                 if (data) {
-                    setTimeout(function () {
-                        deferred.resolve(JSON.parse(data));
-                    }, 0);
+                    deferred.resolve(JSON.parse(data));
                 } else {
                     IO.requestAsync({
                         url : Actions.actions.QUERY_TYPE,
