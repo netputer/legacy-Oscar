@@ -71,11 +71,20 @@
 
         var getProvidersAsync = function () {
             var deferred = $.Deferred();
-            $.ajax({
-                url : Actions.actions.PROVIDERS,
-                success : deferred.resolve,
-                error : deferred.reject
-            });
+            var data = sessionStorage.getItem('provider');
+
+            if (data) {
+                deferred.resolve(JSON.parse(data));
+            } else {
+                $.ajax({
+                    url : Actions.actions.PROVIDERS,
+                    success : function (data) {
+                        deferred.resolve(data);
+                        sessionStorage.setItem('provider', JSON.stringify(data));
+                    },
+                    error : deferred.reject
+                });
+            }
             return deferred.promise();
         };
 
