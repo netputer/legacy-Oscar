@@ -132,9 +132,10 @@
                 return deferred.promise();
             },
             componentWillMount : function () {
+                this.initPerformance('category', 3);
                 catePageRouter.on('route:filter', function (cate) {
                     queryType = cate;
-                    this.initPerformance('category', 3, cate);
+                    this.updatePerformanceQuery(cate);
                 }, this);
             },
             componentDidMount : function () {

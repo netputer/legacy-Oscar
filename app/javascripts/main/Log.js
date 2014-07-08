@@ -111,7 +111,7 @@
             var result = {};
 
             for (var key in info) {
-                if (key) {
+                if (info[key]) {
                     result[key] = info[key];
                 }
             }

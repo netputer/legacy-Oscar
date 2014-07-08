@@ -79,6 +79,12 @@
                     this.showSubscribeBubble(newProps.showSubscribeBubble, this.props.video);
                     openFlag = 1;
                 }
+
+                if (newProps.video.get('videoEpisodes').length) {
+                    this.providersBubbleView.setProps({
+                        video : newProps.video
+                    });
+                }
             },
             subscribeCallback : function (statusCode) {
                 this.props.subscribeHandler.call(this, statusCode);
