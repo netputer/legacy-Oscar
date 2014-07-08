@@ -55,6 +55,7 @@
                         'totalEpisodesNum',
                         'marketRatings.rating',
                         'marketComments.*',
+                        'videoEpisodes.*',
                         'categories.*',
                         'pictures.s',
                         'providerNames.*',

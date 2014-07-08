@@ -33,6 +33,9 @@
                     this.delaySendLog(obj, 5000);
                 }
             },
+            updatePerformanceQuery : function (q) {
+                query = q;
+            },
             shouldComponentUpdate: function(nextProps, nextState) {
                 if (nextState.subscribed !== -2 && nextState.subscribed !== this.state.subscribed && timeStamp) {
                     var obj = {

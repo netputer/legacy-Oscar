@@ -52,6 +52,7 @@
                         'totalEpisodesNum',
                         'marketRatings.rating',
                         'marketComments.*',
+                        'videoEpisodes.*',
                         'categories.*',
                         'pictures.s',
                         'providerNames.*',
@@ -92,7 +93,7 @@
                     seriesDetailPanelView.setProps({
                         video : videoModle,
                         origin : resp,
-                        id : query
+                        id : id
                     });
 
                     if (seriesDetailPanelView.isMounted()) {

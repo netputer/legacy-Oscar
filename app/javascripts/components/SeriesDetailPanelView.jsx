@@ -86,18 +86,18 @@
                     }
                 }
 
-                if (newProps.id && cacheId !== newProps.id) {
-                    queryEpisodesAsync(newProps.id).done(function (resp) {
-                        var video = this.props.origin;
-                        video.videoEpisodes = resp.videoEpisodes;
-                        var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, video));
+                // if (newProps.id && cacheId !== newProps.id) {
+                //     queryEpisodesAsync(newProps.id).done(function (resp) {
+                //         var video = this.props.origin;
+                //         video.videoEpisodes = resp.videoEpisodes;
+                //         var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, video));
 
-                        this.setState({
-                            video : videoModle
-                        });
-                    }.bind(this));
-                    cacheId = newProps.id;
-                }
+                //         this.setState({
+                //             video : videoModle
+                //         });
+                //     }.bind(this));
+                //     cacheId = newProps.id;
+                // }
             },
             componentDidMount : function () {
                 $(window).on('resize', _.throttle(function () {
