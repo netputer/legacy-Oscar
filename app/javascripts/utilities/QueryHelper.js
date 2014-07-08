@@ -8,7 +8,6 @@
     ) {
 
         var QueryHelper = {
-
             queryTypeAsync : function (type) {
                 var deferred = $.Deferred();
                 var data = sessionStorage.getItem(type);
@@ -44,7 +43,7 @@
                 });
 
                 return deferred.promise();
-            };
+            }
         };
 
         return QueryHelper;
