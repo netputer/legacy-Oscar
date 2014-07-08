@@ -7,6 +7,7 @@
         'Wording',
         'mixins/Performance',
         'utilities/QueryString',
+        'utilities/QueryHelper',
         'catepage/CatePageRouter',
         'components/FilterView',
         'components/VideoListView',
@@ -22,6 +23,7 @@
         Wording,
         Performance,
         QueryString,
+        QueryHelper,
         CatePageRouter,
         FilterView,
         VideoListView,
@@ -47,21 +49,6 @@
             queryRegion = QueryString.get('areas') || '';
             queryYear = QueryString.get('year') || '';
             queryRankType = 'update';
-        };
-
-        var queryAsync = function (type) {
-            var deferred = $.Deferred();
-
-            IO.requestAsync({
-                url : Actions.actions.QUERY_TYPE,
-                data : {
-                    type : type
-                },
-                success : deferred.resolve,
-                error : deferred.reject
-            });
-
-            return deferred.promise();
         };
 
         var doSearchAsync = function (page) {
@@ -152,7 +139,7 @@
             },
             componentDidMount : function () {
                 catePageRouter.on('route:filter', function (cate) {
-                    queryAsync(cate).done(function (resp) {
+                    QueryHelper.queryTypeAsync(cate).done(function (resp) {
                         this.setState({
                             filters : resp
                         });

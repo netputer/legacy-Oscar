@@ -9,6 +9,7 @@
         'mixins/Performance',
         'mixins/FilterNullValues',
         'utilities/QueryString',
+        'utilities/QueryHelper',
         'components/searchbox/SearchBoxView',
         'components/SearchResultView',
         'components/PaginationView',
@@ -25,6 +26,7 @@
         Performance,
         FilterNullValues,
         QueryString,
+        QueryHelper,
         SearchBoxView,
         SearchResultView,
         PaginationView,
@@ -89,31 +91,6 @@
             return deferred.promise();
         };
 
-        var queryTypeAsync = function (type) {
-            var deferred = $.Deferred();
-            var data = sessionStorage.getItem(type);
-
-            if (data) {
-                setTimeout(function () {
-                    deferred.resolve(JSON.parse(data));
-                }, 0);
-            } else {
-                IO.requestAsync({
-                    url : Actions.actions.QUERY_TYPE,
-                    data : {
-                        type : type
-                    },
-                    success : function (data) {
-                        sessionStorage.setItem(type, JSON.stringify(data));
-                        deferred.resolve(data);
-                    },
-                    error : deferred.reject
-                });
-            }
-
-            return deferred.promise();
-        };
-
         var searchResultCollection = new SearchResultCollection();
 
         var SearchPage = React.createClass({
@@ -124,7 +101,6 @@
                     loading : false,
                     currentPage : 1,
                     pageTotal : 0,
-                    currentPage : 1,
                     query : keyword,
                     total : 0,
                     correctQuery : '',
@@ -136,7 +112,7 @@
                     },
                     filters : {},
                     loaded : false
-                }
+                };
             },
             queryAsync : function (query, page) {
                 var deferred = $.Deferred();
@@ -180,7 +156,7 @@
                             query : keyword
                         });
 
-                        queryTypeAsync('tv').done(function (resp) {
+                        QueryHelper.queryTypeAsync('tv').done(function (resp) {
                             delete resp.categories;
                             this.setState({
                                 filters : resp
@@ -197,7 +173,7 @@
             },
             componentDidMount : function () {
                 if (keyword) {
-                    queryTypeAsync('tv').done(function (resp) {
+                    QueryHelper.queryTypeAsync('tv').done(function (resp) {
                         delete resp.categories;
                         this.setState({
                             filters : resp

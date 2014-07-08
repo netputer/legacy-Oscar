@@ -3,17 +3,17 @@
     define([
         '_',
         'React',
-        'IO',
         'GA',
         'Actions',
-        'mixins/FilterNullValues'
+        'mixins/FilterNullValues',
+        'utilities/QueryHelper'
     ], function (
         _,
         React,
-        IO,
         GA,
         Actions,
-        FilterNullValues
+        FilterNullValues,
+        QueryHelper
     ) {
 
         var loaded = {
@@ -23,31 +23,16 @@
                 variety : false
             };
 
-        var queryAsync = function (type) {
-            var deferred = $.Deferred();
-
-            IO.requestAsync({
-                url : Actions.actions.QUERY_TYPE,
-                data : {
-                    type : type
-                },
-                success : deferred.resolve,
-                error : deferred.reject
-            });
-
-            return deferred.promise();
-        };
-
         var FilterSectionView = React.createClass({
             getInitialState : function () {
                 return {
                     list : []
-                }
+                };
             },
             componentWillReceiveProps : function (nextProps) {
                 if (nextProps.shouldLoad[nextProps.type] && !loaded[nextProps.type]) {
                     loaded[nextProps.type] = true;
-                    queryAsync(nextProps.type).done(function (resp) {
+                    QueryHelper.queryTypeAsync(nextProps.type).done(function (resp) {
                         this.setState({
                             list : resp[nextProps.filter]
                         });

@@ -81,8 +81,8 @@
                 $.ajax({
                     url : Actions.actions.PROVIDERS,
                     success : function (data) {
-                        sessionStorage.setItem('provider', JSON.stringify(data));
                         deferred.resolve(data);
+                        sessionStorage.setItem('provider', JSON.stringify(data));
                     },
                     error : deferred.reject
                 });
