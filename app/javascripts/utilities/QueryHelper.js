@@ -31,7 +31,7 @@
 
                 return deferred.promise();
             },
-            queryEpisodesAsync = function (id) {
+            queryEpisodesAsync : function (id) {
                 var deferred = $.Deferred();
 
                 IO.requestAsync({
