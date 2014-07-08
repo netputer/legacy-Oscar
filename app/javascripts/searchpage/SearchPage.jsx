@@ -91,15 +91,25 @@
 
         var queryTypeAsync = function (type) {
             var deferred = $.Deferred();
+            var data = sessionStorage.getItem(type);
 
-            IO.requestAsync({
-                url : Actions.actions.QUERY_TYPE,
-                data : {
-                    type : type
-                },
-                success : deferred.resolve,
-                error : deferred.reject
-            });
+            if (data) {
+                setTimeout(function () {
+                    deferred.resolve(JSON.parse(data));
+                }, 0);
+            } else {
+                IO.requestAsync({
+                    url : Actions.actions.QUERY_TYPE,
+                    data : {
+                        type : type
+                    },
+                    success : function (data) {
+                        sessionStorage.setItem(type, JSON.stringify(data));
+                        deferred.resolve(data);
+                    },
+                    error : deferred.reject
+                });
+            }
 
             return deferred.promise();
         };
