@@ -7,6 +7,7 @@
         'IO',
         'GA',
         'Actions',
+        'main/Log',
         'topicpage/TopicPage',
         'topicpage/TopicPageRouter',
         'main/models/VideoModel',
@@ -18,6 +19,7 @@
         IO,
         GA,
         Actions,
+        Log,
         TopicPage,
         topicPageRouter,
         VideoModel,
@@ -79,28 +81,19 @@
                             loading : false
                         });
                     }
+                    Log.pageShow();
                 });
 
-                GA.log({
-                    'event' : 'video.common.action',
-                    'action' : 'detail_view',
-                    'video_id' : id,
-                    'pos' : topic
-                });
             } else {
                 seriesDetailPanelView.setState({
                     show : false
                 });
             }
 
-            GA.log({
-                'event' : 'video.common.action',
-                'action' : 'tab_view',
-                'type' : topic
-            });
         });
 
         Backbone.history.start();
+        Log.pageShow();
 
         $('body').on('keydown', function (evt) {
             if (evt.keyCode === 27) {

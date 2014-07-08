@@ -6,6 +6,7 @@
         'Backbone',
         'IO',
         'GA',
+        'main/Log',
         'Actions',
         'searchpage/SearchPageRouter',
         'searchpage/SearchPage',
@@ -19,6 +20,7 @@
         Backbone,
         IO,
         GA,
+        Log,
         Actions,
         SearchPageRouter,
         SearchPage,
@@ -77,19 +79,16 @@
                             loading : false
                         });
                     }
-                });
 
-                GA.log({
-                    'event' : 'video.common.action',
-                    'action' : 'detail_view',
-                    'video_id' : id,
-                    'pos' : 'search'
                 });
             } else {
                 seriesDetailPanelView.setState({
                     show : false
                 });
             }
+
+            Log.pageShow();
+
         });
 
         React.renderComponent(
@@ -102,6 +101,7 @@
         , document.body);
 
         Backbone.history.start();
+        Log.pageShow();
 
         $('body').on('keydown', function (evt) {
             if (evt.keyCode === 27) {

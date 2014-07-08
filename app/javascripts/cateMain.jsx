@@ -7,6 +7,7 @@
         'IO',
         'GA',
         'Actions',
+        'main/Log',
         'catepage/CatePage',
         'catepage/CatePageRouter',
         'components/DownloadTipView',
@@ -20,6 +21,7 @@
         IO,
         GA,
         Actions,
+        Log,
         CatePage,
         CatePageRouter,
         DownloadTipView,
@@ -88,26 +90,16 @@
                     }
                 });
 
-                GA.log({
-                    'event' : 'video.common.action',
-                    'action' : 'detail_view',
-                    'video_id' : id,
-                    'pos' : cate
-                });
+                Log.pageShow();
             } else {
                 seriesDetailPanelView.setState({
                     show : false
                 });
             }
-
-            GA.log({
-                'event' : 'video.common.action',
-                'action' : 'tab_view',
-                'type' : cate
-            });
         });
 
         Backbone.history.start();
+        Log.pageShow();
 
         $('body').on('keydown', function (evt) {
             if (evt.keyCode === 27) {

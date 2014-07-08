@@ -24,19 +24,6 @@
                     ElementsGenerator.clickButtonDownload.call(this, this.props.source);
                 } else {
                     this.props.onSelect();
-
-                    GA.log({
-                        'event' : 'video.common.action',
-                        'action' : 'detail_view',
-                        'pos' :  this.props.source,
-                        'video_id' : this.props.video.id,
-                        'video_title' : this.props.video.title,
-                        'video_type' : this.props.video.type,
-                        'video_category' : this.props.video.categories,
-                        'video_year' : this.props.video.year,
-                        'video_area' : this.props.video.region
-                    });
-
                 }
             },
             render : function () {
