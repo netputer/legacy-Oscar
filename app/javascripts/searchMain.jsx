@@ -45,14 +45,16 @@
                         'id',
                         'description',
                         'actors.*',
-                        'cover.l',
+                        'cover.*',
                         'categories.name',
                         'latestEpisodeNum',
                         'latestEpisodeDate',
                         'totalEpisodesNum',
                         'marketRatings.rating',
+                        'marketComments.*',
                         'categories.*',
                         'pictures.s',
+                        'providerNames.*',
                         'year',
                         'presenters'
                     ].join(',')
@@ -88,7 +90,9 @@
                     var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
 
                     seriesDetailPanelView.setProps({
-                        video : videoModle
+                        video : videoModle,
+                        origin : resp,
+                        id : query
                     });
 
                     if (seriesDetailPanelView.isMounted()) {
