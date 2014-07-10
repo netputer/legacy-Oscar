@@ -11,6 +11,7 @@
         'utilities/QueryString',
         'utilities/QueryHelper',
         'components/searchbox/SearchBoxView',
+        'components/PersonView',
         'components/SearchResultView',
         'components/PaginationView',
         'components/FilterView',
@@ -28,6 +29,7 @@
         QueryString,
         QueryHelper,
         SearchBoxView,
+        PersonView,
         SearchResultView,
         PaginationView,
         FilterView,
@@ -95,6 +97,7 @@
             getInitialState : function () {
                 return {
                     result : [],
+                    person :[],
                     loading : false,
                     currentPage : 1,
                     pageTotal : 0,
@@ -152,6 +155,14 @@
                 }.bind(this)).fail( function () {
                     this.abortTracking('loadComplete');
                 }.bind(this));
+
+                if (page === 1) {
+                    QueryHelper.queryPersonAsync(query).done(function (res) {
+                        this.setState({
+                            person : res
+                        });
+                    }.bind(this));
+                }
 
                 return deferred.promise();
             },
@@ -276,6 +287,12 @@
                             onFilterSelect={this.onFilterSelect}
                             filterSelected={this.state.filterSelected}
                             source="search" />
+                        <div className="summary h5 w-text-info">共 {this.state.total + this.state.person.length} 条搜索结果</div>
+                        <h3 className="title w-text-secondary">影人</h3>
+                        <PersonView
+                            persons={this.state.person}
+                            loaded={this.state.loaded} />
+                        <h3 className="title w-text-secondary">视频</h3>
                         <SearchResultView
                             keyword={this.state.query}
                             list={this.state.result}

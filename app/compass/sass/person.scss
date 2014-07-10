@@ -1,0 +1,53 @@
+@import "main";
+
+@import "components/searchbox";
+@import "components/categoryList";
+@import "components/filterSection";
+@import "components/seriesDetailPanel";
+@import "components/popup";
+@import "components/videoPlayer";
+
+.person {
+	.w-text-thirdly {
+		white-space: normal;
+	}
+}
+
+.person-cover {
+	background-size: cover;
+	background-repeat: no-repeat;
+	float: left;
+	height: 140px;
+	width: 100px;
+}
+
+.person-info {
+	float: right;
+	position: relative;
+	width: 615px;
+
+	.more-intro {
+		bottom: 0;
+		position: absolute;
+		right: 0;
+		i {
+			display: inline-block;
+			font-style: normal;
+		}
+	}
+}
+
+.person-works {
+	.o-categories-item:nth-child(4), .o-categories-item:nth-child(6n+10) {
+		margin-right: 10px;
+	}
+	.o-categories-item:nth-child(6n) {
+		margin-right: 0;
+	}
+
+	.load-more {
+		height: 30px;
+		margin: 10px auto;
+		width: 100px;
+	}
+}

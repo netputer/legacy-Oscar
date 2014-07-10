@@ -15,7 +15,8 @@
                 QUERY_SERIES : 'http://oscar.wandoujia.com/api/v1/videos/',
 
                 TOPIC : 'http://oscar.wandoujia.com/api/v1/topics',
-                PROVIDERS : 'http://videos.wandoujia.com/api/v1/providers'
+                PERSON : 'http://10.0.25.46:8080/persons/api/v1/personProducts/',
+                PROVIDERS : 'http://oscar.wandoujia.com/api/v1/providers'
             },
             events : {
                 ACCOUNT_STATE_CHANGE : 'account.state_changed',

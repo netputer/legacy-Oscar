@@ -43,6 +43,44 @@
                 });
 
                 return deferred.promise();
+            },
+            queryPersonAsync : function (arg) {
+                var deferred = $.Deferred();
+
+                IO.requestAsync({
+                    url : Actions.actions.PERSON + (typeof arg === 'number' ? arg : 'name?name=' + arg),
+                    success : deferred.resolve,
+                    error : deferred.reject
+                });
+
+                return deferred.promise();
+            },
+            queryWorksAsync : function (name, start, max) {
+                var deferred = $.Deferred()
+
+                IO.requestAsync({
+                    url : Actions.actions.SEARCH,
+                    data : {
+                        actor : name,
+                        start : start,
+                        max : max,
+                        opt_fields : [
+                            'title',
+                            'type',
+                            'id',
+                            'actors',
+                            'cover.l',
+                            'latestEpisodeNum',
+                            'latestEpisodeDate',
+                            'totalEpisodesNum',
+                            'marketRatings.rating'
+                        ].join(',')
+                    },
+                    success : deferred.resolve,
+                    error : deferred.reject
+                });
+
+                return deferred.promise();
             }
         };
 

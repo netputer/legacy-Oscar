@@ -33,7 +33,6 @@
 
                     return (
                         <div className="o-search-result-ctn">
-                            <div className="summary h5 w-text-info">共 {this.props.total} 条搜索结果</div>
                             <ul>{listItemViews}</ul>
                             {loadingView}
                         </div>
