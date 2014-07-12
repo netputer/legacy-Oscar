@@ -231,19 +231,19 @@ module.exports = function (grunt) {
                         include : ['$', '_', 'Backbone', 'React']
                     }, {
                         name : 'index',
-                        include : ['indexMain'],
+                        include : ['bugsnag-2.min', 'indexMain'],
                         exclude : ['config']
                     }, {
                         name : 'cate',
-                        include : ['cateMain'],
+                        include : ['bugsnag-2.min', 'cateMain'],
                         exclude : ['config']
                     }, {
                         name : 'topic',
-                        include : ['topicMain'],
+                        include : ['bugsnag-2.min', 'topicMain'],
                         exclude : ['config']
                     }, {
                         name : 'search',
-                        include : ['searchMain'],
+                        include : ['bugsnag-2.min', 'searchMain'],
                         exclude : ['config']
                     }]
                 }
