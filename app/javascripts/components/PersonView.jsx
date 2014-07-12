@@ -12,6 +12,32 @@
         Wording
     ) {
 
+        var PictureView = React.createClass({
+            render : function () {
+                return (
+                    <ul className="thumb-container w-hbox">
+                    {this.renderItems()}
+                    </ul>
+                );
+            },
+            renderItems : function () {
+                var pictures = this.props.data || [];
+                var len = pictures.length > 4 ? 4 : pictures.length;
+                var result = [];
+                var i;
+
+                for (i = 0; i < len; i++) {
+                    result.push(
+                        <li
+                            className="thumb-item o-mask"
+                            style={{ 'background-image' : 'url(' + pictures[i] + ')' }}
+                            key={pictures[i]} />
+                    );
+                }
+
+                return result;
+            }
+        });
 
         var PersonView = React.createClass({
             onClick : function (id) {
@@ -33,23 +59,28 @@
                     }
 
                     return (
-                        <li className="o-list-item w-hbox person w-component-card" onClick={this.onClick.bind(this, person.id)}>
-                            <div className="o-mask item-cover" style={coverStyle} />
-                            <div className="info">
-                                <h4>{person.name}</h4>
-                                <span className="title w-wc w-text-secondary">{person.jobs.join(' / ')}</span>
-                                <span className="actors w-wc w-text-info">{p.productCount.videos ? p.productCount.videos + Wording.VIDEO_WORKS : ''}</span>
-                                <span className="episode w-wc w-text-info">{person.introduction}</span>
-                                <button className="w-btn w-btn-primary w-btn-mini" onClick={this.onClick.bind(this, person.id)}>{Wording.VIEW}</button>
+                        <li className="o-list-item w-hbox person w-component-card">
+                            <div className="o-mask item-cover" style={coverStyle} onClick={this.onClick.bind(this, person.id)} />
+                            <div className="info-container">
+                                <h4 className="title" onClick={this.onClick.bind(this, person.id)}>{person.name}</h4>
+                                <p className="jobs w-wc w-text-thirdly">{person.jobs.join(' / ')}</p>
+                                <p className="works-count w-wc w-text-thirdly">{p.productCount.video ? p.productCount.video + Wording.VIDEO_WORKS_WITH_NUMBER : ''}</p>
+                                <p className="introduction w-wc w-text-thirdly">{person.introduction.length > 40 ? person.introduction.substr(0, 40) + '...' : person.introduction}</p>
+                                <button className="w-btn w-btn-primary" onClick={this.onClick.bind(this, person.id)}>{Wording.VIEW}</button>
                             </div>
+                            <PictureView data={person.albumsUrls} />
                         </li>
                     );
                 }.bind(this));
             },
+            noSelectedFilter : function (filters) {
+                return !filters.type && !filters.areas && !filters.years && filters.rank === 'rel';
+            },
             render : function () {
-                if (this.props.persons.length > 0) {
+                if (this.props.persons.length > 0 && this.noSelectedFilter(this.props.filterSelected) && this.props.current === 1) {
                     return (
                         <div className="o-person-result-ctn">
+                            <h4 className="search-title w-text-secondary">{Wording.PERSON}</h4>
                             <ul>{this.getPersonList()}</ul>
                         </div>
                     );

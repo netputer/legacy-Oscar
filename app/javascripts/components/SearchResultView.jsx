@@ -4,6 +4,7 @@
         'React',
         '_',
         '$',
+        'Wording',
         'Backbone',
         'components/WanxiaodouView',
         'components/VideoListItemView',
@@ -12,6 +13,7 @@
         React,
         _,
         $,
+        Wording,
         Backbone,
         WanxiaodouView,
         VideoListItemView,
@@ -33,6 +35,8 @@
 
                     return (
                         <div className="o-search-result-ctn">
+                            <h4 className="search-title w-text-secondary">{Wording.VIDEO}</h4>
+
                             <ul>{listItemViews}</ul>
                             {loadingView}
                         </div>

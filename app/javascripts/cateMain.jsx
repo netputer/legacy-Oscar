@@ -12,9 +12,7 @@
         'catepage/CatePageRouter',
         'components/DownloadTipView',
         'components/DeclarationView',
-        'main/models/VideoModel',
-        'components/SeriesDetailPanelView',
-        'mixins/FilterNullValues'
+        'components/SeriesDetailPanelView'
     ], function (
         React,
         Backbone,
@@ -26,9 +24,7 @@
         CatePageRouter,
         DownloadTipView,
         DeclarationView,
-        VideoModel,
-        SeriesDetailPanelView,
-        FilterNullValues
+        SeriesDetailPanelView
     ) {
         var catePageRouter = CatePageRouter.getInstance();
 
@@ -38,6 +34,8 @@
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
                 data : {
+                    estart : 0,
+                    emax : 10,
                     opt_fields : [
                         'title',
                         'type',
@@ -99,10 +97,7 @@
                 });
 
                 queryAsync(id).done(function (resp) {
-                    var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
-
                     seriesDetailPanelView.setProps({
-                        video : videoModle,
                         origin : resp,
                         id : id
                     });

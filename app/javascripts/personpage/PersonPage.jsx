@@ -12,7 +12,6 @@
         'utilities/QueryHelper',
         'utilities/FormatDate',
         'components/searchbox/SearchBoxView',
-        'components/FilterView',
         'components/VideoListView',
         'personpage/PersonPageRouter',
         'components/FooterView'
@@ -28,7 +27,6 @@
         QueryHelper,
         FormatDate,
         SearchBoxView,
-        FilterView,
         VideoListView,
         PersonPageRouter,
         FooterView
@@ -48,7 +46,8 @@
                     person : {},
                     works : [],
                     start : 0,
-                    total : 0
+                    total : 0,
+                    intro_length : 150
                 };
             },
             componentWillMount : function () {
@@ -57,14 +56,13 @@
             componentDidMount : function () {
                 if (personId) {
                     QueryHelper.queryPersonAsync(parseInt(personId)).done(function (resp) {
-                        console.log(resp)
                         if (resp.personBean.name) {
                             this.setState({
                                 person : resp
                             });
+                            this.loaded();
 
                             QueryHelper.queryWorksAsync(resp.personBean.name, this.state.start, 12).done(function (res) {
-                                console.log(res.videoList)
                                 if (res.total > 0) {
                                     this.setState({
                                         total : res.total,
@@ -72,21 +70,21 @@
                                         works : res.videoList
                                     });
                                 }
+                                this.loaded();
                             }.bind(this));
                         }
 
                     }.bind(this));
                 } else if (personName) {
                     QueryHelper.queryPersonAsync(personName).done(function (resp) {
-                        console.log(resp)
                         resp = resp[0];
                         if (resp.personBean.name) {
                             this.setState({
                                 person : resp
                             });
+                            this.loaded();
 
                             QueryHelper.queryWorksAsync(resp.personBean.name, this.state.start, 12).done(function (res) {
-                                console.log(res.videoList)
                                 if (res.total > 0) {
                                     this.setState({
                                         total : res.total,
@@ -94,6 +92,7 @@
                                         works : res.videoList
                                     });
                                 }
+                                this.loaded();
                             }.bind(this));
                         }
 
@@ -103,7 +102,6 @@
             loadMoreWorks : function (name) {
                 if (this.state.start < this.state.total) {
                     QueryHelper.queryWorksAsync(name, this.state.start, this.state.total-this.state.start).done(function (res) {
-                        console.log(res.videoList)
                         if (res.total > 0) {
                             this.setState({
                                 total : res.total,
@@ -123,6 +121,24 @@
             onVideoSelect : function (id) {
                 this.setTimeStamp(new Date().getTime(), id);
                 window.location.hash = '#detail/' + id;
+            },
+            toggleShowIntro : function () {
+                if (this.state.intro_length !== Infinity) {
+                    $('.intro').css('max-height', '10000px');
+                }
+                this.setState({
+                    intro_length : this.state.intro_length === Infinity ? 150 : Infinity
+                });
+            },
+            getMoreIntro : function (intro) {
+                if (intro && intro.length < 150) {
+                    return <span />
+                }
+                if (intro && intro.length > this.state.intro_length) {
+                    return <a className="w-text-info more-intro" href="javascript:void(0)" onClick={this.toggleShowIntro}>{Wording.MORE}<i></i></a>
+                } else if (intro && intro.length < this.state.intro_length) {
+                    return <a className="w-text-info more-intro collapse" href="javascript:void(0)" onClick={this.toggleShowIntro}>{Wording.COLLAPSE}<i></i></a>
+                }
             },
             getLoadMoreBtn : function (name) {
                 if (this.state.total > 5 && this.state.total > this.state.works.length) {
@@ -145,21 +161,22 @@
                             onAction={this.onSearchAction}
                             source="person" />
                         <div className="w-wc person">
-                            <h2>{person.name}</h2>
+                            <h3>{person.name}</h3>
                             <div className="person-cover" style={coverStyle} />
                             <div className="person-info">
                                 <p className="w-text-thirdly">
-                                    {Wording.GENDER[person.gender]}{Wording.COMMA}
-                                    {Wording.BIRTH_AT + FormatDate('yyyy-MM-dd', person.birthDate)}{Wording.COMMA}
-                                    {Wording.FROM + person.birthPlace}
+                                    {FormatDate('yyyy-MM-dd', person.birthDate)}
+                                </p>
+                                <p className="w-text-thirdly">
+                                    {person.birthPlace}
                                 </p>
                                 <p className="w-text-thirdly">
                                     {person.jobs ? person.jobs.join(' / ') : ''}<br />
                                 </p>
-                                <p className="w-text-thirdly">
-                                    {person.introduction}
+                                <p className="w-text-thirdly intro">
+                                    {person.introduction && person.introduction.length > this.state.intro_length ? person.introduction.substr(0, this.state.intro_length) + '...' : person.introduction}
                                 </p>
-                                <a className="w-text-secondary more-intro" href="javascript:void(0)">{Wording.MORE}<i>V</i></a>
+                                {this.getMoreIntro(person.introduction)}
                             </div>
                         </div>
                         <div className="w-wc person-works">

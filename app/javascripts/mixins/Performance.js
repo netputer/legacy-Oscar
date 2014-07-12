@@ -92,6 +92,7 @@
                         if (o.metric !== 'openDetail') {
                             sentItems.push(o.metric);
                         }
+
                         GA.log(o);
                     }
                 }, time);

@@ -11,9 +11,7 @@
         'personpage/PersonPageRouter',
         'personpage/PersonPage',
         'components/SeriesDetailPanelView',
-        'components/DeclarationView',
-        'mixins/FilterNullValues',
-        'main/models/VideoModel'
+        'components/DeclarationView'
     ], function (
         React,
         Backbone,
@@ -24,9 +22,7 @@
         PersonPageRouter,
         PersonPage,
         SeriesDetailPanelView,
-        DeclarationView,
-        FilterNullValues,
-        VideoModel
+        DeclarationView
     ) {
         var personPageRouter = PersonPageRouter.getInstance();
 
@@ -36,7 +32,8 @@
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
                 data : {
-                    sessionId : window.sessionId || '',
+                    estart : 0,
+                    emax : 10,
                     opt_fields : [
                         'title',
                         'type',
@@ -86,10 +83,7 @@
                 });
 
                 queryAsync(id).done(function (resp) {
-                    var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
-
                     seriesDetailPanelView.setProps({
-                        video : videoModle,
                         origin : resp,
                         id : id
                     });

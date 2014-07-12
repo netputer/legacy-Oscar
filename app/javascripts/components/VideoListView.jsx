@@ -19,8 +19,8 @@
     ) {
 
         var textEnum = {
-            LAST_EPISODE : '第 {0} 集',
-            TOTLE_COMPLATE : '{0} 集完',
+            LAST_EPISODE : '更新至 {0} 集',
+            TOTLE_COMPLATE : '{0} 集全',
             NO_RATING : '暂无评分',
             NO_DATA : '暂无数据'
         };

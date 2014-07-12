@@ -30,14 +30,26 @@
 
                 return deferred.promise();
             },
-            queryEpisodesAsync : function (id) {
+            queryEpisodesAsync : function (id, start, max) {
                 var deferred = $.Deferred();
+
+                var data = {
+                    opt_fields : 'videoEpisodes.*'
+                };
+
+                if (start !== undefined) {
+                    data.estart = start;
+                }
+
+                if (max) {
+                    data.emax = max;
+                    data.order = 0;
+                }
+
 
                 IO.requestAsync({
                     url : Actions.actions.QUERY_SERIES + id,
-                    data : {
-                        opt_fields : 'videoEpisodes.*'
-                    },
+                    data : data,
                     success : deferred.resolve,
                     error : deferred.reject
                 });
@@ -61,7 +73,7 @@
                 IO.requestAsync({
                     url : Actions.actions.SEARCH,
                     data : {
-                        actor : name,
+                        person : name,
                         start : start,
                         max : max,
                         opt_fields : [

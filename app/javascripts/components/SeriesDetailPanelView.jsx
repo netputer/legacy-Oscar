@@ -10,6 +10,7 @@
         'Wording',
         'mixins/Performance',
         'utilities/ProviderInfo',
+        'utilities/QueryHelper',
         'main/models/VideoModel',
         'mixins/FilterNullValues',
         'components/DescriptionView',
@@ -30,6 +31,7 @@
         Wording,
         Performance,
         ProviderInfo,
+        QueryHelper,
         VideoModel,
         FilterNullValues,
         DescriptionView,
@@ -45,22 +47,6 @@
 
         var cacheId = 0;
 
-        var queryEpisodesAsync = function (id) {
-            var deferred = $.Deferred();
-
-            IO.requestAsync({
-                url : Actions.actions.QUERY_SERIES + id,
-                data : {
-                    opt_fields : 'videoEpisodes.*'
-                },
-                success : deferred.resolve,
-                error : deferred.reject
-            });
-
-            return deferred.promise();
-        };
-
-
         var SeriesDetailPanelView = React.createClass({
             mixins : [Performance],
             getInitialState : function () {
@@ -70,34 +56,48 @@
                     subscribed : -2,
                     showSubscribeBubble : '',
                     selectedTab : 'download',
-                    video : {}
+                    origin : this.props.origin,
+                    video : new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, this.props.origin))
                 };
             },
             componentWillReceiveProps : function (newProps) {
-                if (newProps.video !== undefined) {
-                    this.setState({
-                        video : newProps.video
-                    });
+                var video = newProps.origin;
+                var episodes = [];
+                var videoArr = new Array(parseInt(newProps.origin.latestEpisodeNum));
+                episodes = newProps.origin.videoEpisodes;
+                videoArr = videoArr.concat.apply(episodes, videoArr);
+                videoArr.splice(episodes.length, episodes.length);
 
-                    if (newProps.type !== 'MOVIE') {
+                video.videoEpisodes = videoArr;
+                var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, video));
+
+                this.setState({
+                    origin : video,
+                    selectedTab : 'download',
+                    video : videoModle
+                });
+
+                if (videoArr.length > 10) {
+                    var max = newProps.origin.videoEpisodes.length > 30 ? 5 : newProps.origin.videoEpisodes.length - 10;
+
+                    QueryHelper.queryEpisodesAsync(newProps.id, 0, max).done(function (resp) {
+                        var origin = newProps.origin;
+                        var episodes = origin.videoEpisodes;
+                        var firstFive = resp.videoEpisodes.reverse();
+                        episodes = episodes.concat.apply(episodes, firstFive);
+                        episodes.splice(episodes.length - firstFive.length*2, firstFive.length)
+
+                        origin.videoEpisodes = episodes;
+                        var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
+
                         this.setState({
-                            selectedTab : 'download'
+                            origin : origin,
+                            video : videoModle
                         });
-                    }
+
+                    }.bind(this));
+                    cacheId = newProps.id;
                 }
-
-                // if (newProps.id && cacheId !== newProps.id) {
-                //     queryEpisodesAsync(newProps.id).done(function (resp) {
-                //         var video = this.props.origin;
-                //         video.videoEpisodes = resp.videoEpisodes;
-                //         var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, video));
-
-                //         this.setState({
-                //             video : videoModle
-                //         });
-                //     }.bind(this));
-                //     cacheId = newProps.id;
-                // }
             },
             componentDidMount : function () {
                 $(window).on('resize', _.throttle(function () {
@@ -123,28 +123,49 @@
                 });
             },
             getList : function () {
-                var video = this.state.video;
-                if (this.state.selectedTab === 'download') {
-                    return <DownloadListView subscribed={this.state.subscribed} video={video} subscribeHandler={this.isSubscribed} />;
-                } else {
-                    return <PlayListView video={video} />;
+                if (this.state.video.get('type') !== 'MOVIE') {
+                    var video = this.state.video;
+                    if (this.state.selectedTab === 'download') {
+                        return <DownloadListView id={this.props.id} video={video} origin={this.state.origin} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />;
+                    } else {
+                        return <PlayListView id={this.props.id} video={video} origin={this.state.origin} />;
+                    }
                 }
             },
             getTabs : function () {
-                return (
-                    <menu className="tab-ctn">
-                        <li onClick={this.clickTab.bind(this, 'download')}
-                            className={this.state.selectedTab === 'download' ? 'h5 tab selected' : 'h5 tab'}>{Wording.EPISODE_DOWNLOAD}</li>
-                        <li onClick={this.clickTab.bind(this, 'play')}
-                            className={this.state.selectedTab === 'play' ? 'h5 tab selected' : 'h5 tab'}>{Wording.PLAY}</li>
-                    </menu>
-                );
+                if (this.state.video.get('type') !== 'MOVIE') {
+                    return (
+                        <menu className="tab-ctn">
+                            <li onClick={this.clickTab.bind(this, 'download')}
+                                className={this.state.selectedTab === 'download' ? 'h5 tab selected' : 'h5 tab'}>{Wording.EPISODE_DOWNLOAD}</li>
+                            <li onClick={this.clickTab.bind(this, 'play')}
+                                className={this.state.selectedTab === 'play' ? 'h5 tab selected' : 'h5 tab'}>{Wording.PLAY}</li>
+                        </menu>
+                    );
+                }
             },
             confirm : function (flag, close) {
                 var show = close !== undefined ? false : !!flag;
-                this.setState({
-                    showConfirm : show
-                });
+
+                if (show && this.state.video.get('videoEpisodes').length > 30) {
+                    QueryHelper.queryEpisodesAsync(this.state.video.id).done(function (resp) {
+                        var video = this.state.origin;
+                        video.videoEpisodes = resp.videoEpisodes;
+
+                        var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, video))
+
+                        this.setState({
+                            origin : video,
+                            video : videoModle,
+                            showConfirm : show
+                        });
+                    }.bind(this));
+                } else {
+                    this.setState({
+                        showConfirm : show
+                    });
+                }
+
 
                 if (flag === 1 && close !== undefined && this.state.subscribed !== -2) {
                     this.setState({
@@ -163,7 +184,7 @@
 
                 var className = this.state.show ? 'o-series-panel show' : 'o-series-panel';
 
-                var video = this.props.video;
+                var video = this.state.video;
 
                 if (video) {
                     if (!this.state.loading) {
@@ -173,8 +194,8 @@
                                     <SeriesHeaderView video={this.state.video} showSubscribeBubble={this.state.showSubscribeBubble} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} confirmCallback={this.confirm} />
                                     <div className="body-ctn">
                                         <div className="body">
-                                            {this.props.video.get('type') === 'MOVIE' ? '' : this.getTabs()}
-                                            {this.props.video.get('type') === 'MOVIE' ? '' : this.getList()}
+                                            {this.getTabs()}
+                                            {this.getList()}
                                             <DescriptionView video={video} />
                                             <StillsView video={video} />
                                             <CommentaryView comments={video.get('marketComments')[0].comments} />
