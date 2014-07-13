@@ -191,10 +191,12 @@ module.exports = function (grunt) {
                         '<%= paths.dist %>/javascripts/topic.js',
                         '<%= paths.dist %>/javascripts/search.js',
                         '<%= paths.dist %>/javascripts/cate.js',
+                        '<%= paths.dist %>/javascripts/person.js',
                         '<%= paths.dist %>/stylesheets/index.css',
                         '<%= paths.dist %>/stylesheets/topic.css',
                         '<%= paths.dist %>/stylesheets/search.css',
-                        '<%= paths.dist %>/stylesheets/cate.css'
+                        '<%= paths.dist %>/stylesheets/cate.css',
+                        '<%= paths.dist %>/stylesheets/person.css'
                     ]
                 }
             }
@@ -244,6 +246,10 @@ module.exports = function (grunt) {
                     }, {
                         name : 'search',
                         include : ['bugsnag-2.min', 'searchMain'],
+                        exclude : ['config']
+                    }, {
+                        name : 'person',
+                        include : ['personMain'],
                         exclude : ['config']
                     }]
                 }

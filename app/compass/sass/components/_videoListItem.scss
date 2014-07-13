@@ -2,7 +2,6 @@
     background: #fff;
     border: none;
     height: 157px;
-    margin: 5px;
     padding: 5px;
     -webkit-box-align: center;
 
@@ -61,7 +60,7 @@
             background-position: center;
             background-size: cover;
             display: block;
-            height: 80px;
+            height: 120px;
             overflow: hidden;
             width: 80px;
 
@@ -71,3 +70,27 @@
         }
     }
 }
+
+.person {
+    .info-container {
+        height: 100%;
+        margin: 0 10px 0 15px;
+
+        .title {
+            cursor: pointer;
+            margin: 10px 0 8px;
+        }
+
+        p {
+            line-height: 16px;
+            margin-bottom: 2px;
+        }
+
+        .introduction {
+            height: 32px;
+            margin-bottom: 6px;
+            white-space: normal;
+        }
+    }
+}
+

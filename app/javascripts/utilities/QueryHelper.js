@@ -30,13 +30,63 @@
 
                 return deferred.promise();
             },
-            queryEpisodesAsync : function (id) {
+            queryEpisodesAsync : function (id, start, max) {
                 var deferred = $.Deferred();
+
+                var data = {
+                    opt_fields : 'videoEpisodes.*'
+                };
+
+                if (start !== undefined) {
+                    data.estart = start;
+                }
+
+                if (max) {
+                    data.emax = max;
+                    data.order = 0;
+                }
+
 
                 IO.requestAsync({
                     url : Actions.actions.QUERY_SERIES + id,
+                    data : data,
+                    success : deferred.resolve,
+                    error : deferred.reject
+                });
+
+                return deferred.promise();
+            },
+            queryPersonAsync : function (arg) {
+                var deferred = $.Deferred();
+
+                IO.requestAsync({
+                    url : Actions.actions.PERSON + (typeof arg === 'number' ? arg : 'name?name=' + arg),
+                    success : deferred.resolve,
+                    error : deferred.reject
+                });
+
+                return deferred.promise();
+            },
+            queryWorksAsync : function (name, start, max) {
+                var deferred = $.Deferred()
+
+                IO.requestAsync({
+                    url : Actions.actions.SEARCH,
                     data : {
-                        opt_fields : 'videoEpisodes.*'
+                        person : name,
+                        start : start,
+                        max : max,
+                        opt_fields : [
+                            'title',
+                            'type',
+                            'id',
+                            'actors',
+                            'cover.l',
+                            'latestEpisodeNum',
+                            'latestEpisodeDate',
+                            'totalEpisodesNum',
+                            'marketRatings.rating'
+                        ].join(',')
                     },
                     success : deferred.resolve,
                     error : deferred.reject

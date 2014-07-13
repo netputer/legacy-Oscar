@@ -108,7 +108,9 @@
 
         Log.pageShow = function () {
             var info = packages.get(['url', 'refer']);
-            var result = {};
+            var result = {
+                event : 'ui.page_show'
+            };
 
             for (var key in info) {
                 if (info[key]) {

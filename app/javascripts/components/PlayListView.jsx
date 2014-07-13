@@ -6,8 +6,11 @@
         'Wording',
         'GA',
         'main/Log',
+        'utilities/QueryHelper',
         'utilities/FormatString',
         'utilities/FormatDate',
+        'main/models/VideoModel',
+        'mixins/FilterNullValues',
         'VideoPlayer',
         'components/ProvidersBubbleView'
     ], function (
@@ -16,8 +19,11 @@
         Wording,
         GA,
         Log,
+        QueryHelper,
         FormatString,
         FormatDate,
+        VideoModel,
+        FilterNullValues,
         VideoPlayer,
         ProvidersBubbleView
     ) {
@@ -110,7 +116,7 @@
                 var count;
 
                 var style = {
-                    display : (this.props.key < 10 || this.props.countEpisodes <= 30 || this.props.key >= this.props.countEpisodes - 5 || this.props.key >= this.props.countEpisodes - this.props.expendIndex * 10 + 5) ? 'inline-block' : 'none'
+                    display : (this.props.key < 10 || this.props.countEpisodes <= 30 || this.props.key >= this.props.countEpisodes - 5 || this.props.key >= this.props.countEpisodes - this.props.expendIndex * 20 - 5) ? 'inline-block' : 'none'
                 };
 
                 if (episode.episodeNum) {
@@ -153,16 +159,24 @@
             }
         });
 
+
+
+
         var PlayListView = React.createClass({
             getInitialState : function () {
                 return {
-                    expendIndex : 1
+                    expendIndex : 1,
+                    origin : this.props.origin,
+                    video : new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, this.props.origin))
                 };
             },
-            componentWillReceiveProps : function () {
-                this.setState({
-                    expendIndex : 1
-                });
+            componentWillReceiveProps : function (newProps) {
+                if (newProps.origin.id) {
+                    this.setState({
+                        video : newProps.video,
+                        origin : newProps.origin
+                    });
+                }
             },
             createList : function (videoEpisodes, start, max) {
                 var type = this.props.video.get('type');
@@ -182,16 +196,38 @@
                 return listItems;
             },
             clickExpend : function () {
-                this.setState({
-                    expendIndex : this.state.expendIndex + 1
-                });
+                if (this.state.expendIndex * 20 - 5 < this.state.origin.latestEpisodeNum) {
+                    QueryHelper.queryEpisodesAsync(this.props.id, this.state.expendIndex * 20 - 15, 20).done(function (resp) {
+                        var origin = this.props.origin;
+                        var episodes = origin.videoEpisodes;
 
-                GA.log({
-                    'event' : 'video.misc.action',
-                    'action' : 'more_episode_clicked',
-                    'video_id' : this.props.video.id,
-                    'tab' : 'play'
-                });
+                        _.each(resp.videoEpisodes, function (episode) {
+                            episodes[episodes.length-episode.episodeNum] = episode;
+                        });
+
+                        origin.videoEpisodes = episodes;
+                        var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
+
+                        this.setState({
+                            origin : origin,
+                            video : videoModle
+                        });
+
+                    }.bind(this));
+
+
+
+                    this.setState({
+                        expendIndex : this.state.expendIndex + 1
+                    });
+
+                    GA.log({
+                        'event' : 'video.misc.action',
+                        'action' : 'more_episode_clicked',
+                        'video_id' : this.props.video.id,
+                        'tab' : 'download'
+                    });
+                }
             },
             render : function () {
                 var episode = this.props.video.get('videoEpisodes');
@@ -200,7 +236,7 @@
                     <div className="o-button-list-ctn">
                         <ul className="list-ctn" ref="ctn">
                             {this.createList(episode, 0, 10)}
-                            {episode.length > this.state.expendIndex * 10 + 5 && episode.length > 30 && <li className="load-more"><hr /><span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span></li>}
+                            {episode.length > this.state.expendIndex * 20 - 5 && episode.length > 30 && <li className="load-more"><hr /><span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span></li>}
                             {this.createList(episode, 10, episode.length)}
                         </ul>
                     </div>

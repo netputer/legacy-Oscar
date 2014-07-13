@@ -35,7 +35,7 @@
             pretreatData : function () {
                 var data = this.toJSON();
 
-                if (data.actors.length) {
+                if (data.actors && data.actors.length) {
                     data.actors = data.actors.join(' / ');
                 } else {
                     data.actors = Wording.NO_DATA;

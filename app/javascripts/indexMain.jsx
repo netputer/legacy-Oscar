@@ -13,8 +13,6 @@
         'components/DownloadTipView',
         'components/DeclarationView',
         'components/SeriesDetailPanelView',
-        'mixins/FilterNullValues',
-        'main/models/VideoModel',
         'components/DownloadListView',
         'VideoPlayer'
     ], function (
@@ -29,8 +27,6 @@
         DownloadTipView,
         DeclarationView,
         SeriesDetailPanelView,
-        FilterNullValues,
-        VideoModel,
         DownloadListView,
         VideoPlayer
     ) {
@@ -42,6 +38,8 @@
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
                 data : {
+                    estart : 0,
+                    emax : 10,
                     opt_fields : [
                         'title',
                         'type',
@@ -98,9 +96,7 @@
             });
 
             queryAsync(query).done(function (resp) {
-                var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
                 seriesDetailPanelView.setProps({
-                    video : videoModle,
                     origin : resp,
                     id : query
                 });

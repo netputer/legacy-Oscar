@@ -290,7 +290,7 @@
                     text = Wording.ACTORS_LABEL + video.get('actors');
                 }
 
-                return <div className="actors w-text-secondary w-wc">{text}</div>;
+                return <div className="actors w-text-thirdly w-wc">{text}</div>;
             },
             getCateEle : function () {
                 var text = '';
@@ -306,7 +306,7 @@
                     break;
                 }
 
-                return <div className="w-text-secondary w-wc">{text}</div>;
+                return <div className="w-text-thirdly w-wc">{text}</div>;
             },
             getRatingEle : function () {
                 var ele;
@@ -317,7 +317,7 @@
                     ele = data.rating;
                 }
 
-                return <div className="w-text-secondary w-wc">{Wording.RATING_LABEL}{ele}</div>;
+                return <div className="w-text-thirdly w-wc">{Wording.RATING_LABEL}{ele}</div>;
             }
         };
 

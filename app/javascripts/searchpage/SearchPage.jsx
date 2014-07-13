@@ -11,6 +11,7 @@
         'utilities/QueryString',
         'utilities/QueryHelper',
         'components/searchbox/SearchBoxView',
+        'components/PersonView',
         'components/SearchResultView',
         'components/PaginationView',
         'components/FilterView',
@@ -28,6 +29,7 @@
         QueryString,
         QueryHelper,
         SearchBoxView,
+        PersonView,
         SearchResultView,
         PaginationView,
         FilterView,
@@ -95,6 +97,7 @@
             getInitialState : function () {
                 return {
                     result : [],
+                    person :[],
                     loading : false,
                     currentPage : 1,
                     pageTotal : 0,
@@ -153,6 +156,15 @@
                     this.abortTracking('loadComplete');
                 }.bind(this));
 
+                if (page === 1) {
+                    QueryHelper.queryPersonAsync(query).done(function (res) {
+                        this.setState({
+                            person : res
+                        });
+                        this.loaded();
+                    }.bind(this));
+                }
+
                 return deferred.promise();
             },
             componentWillMount : function () {
@@ -204,6 +216,12 @@
                 if (keyword.length) {
                     history.pushState(null, null, '?q=' + keyword);
                     this.queryAsync(keyword, this.state.currentPage);
+                    QueryHelper.queryPersonAsync(query).done(function (res) {
+                        this.setState({
+                            person : res
+                        });
+                    }.bind(this));
+
                     Log.updateUrl();
                     Log.pageShow();
                 }
@@ -256,12 +274,20 @@
                         areas : queryRegion,
                         years : queryYearText,
                         rank : queryRankType,
-                        currentPage : 1,
+                        currentPage : this.state.currentPage,
                         pageTotal : 0
                     }
                 });
 
                 this.queryAsync(this.state.query);
+            },
+            getCounts : function () {
+                var filters = this.state.filterSelected;
+                if (!filters.type && !filters.areas && !filters.years && filters.rank === 'rel') {
+                    return this.state.total + this.state.person.length;
+                } else {
+                    return this.state.total
+                }
             },
             render : function () {
                 return (
@@ -276,6 +302,12 @@
                             onFilterSelect={this.onFilterSelect}
                             filterSelected={this.state.filterSelected}
                             source="search" />
+                        <div className="summary h5 w-text-info">共 {this.getCounts()} 条搜索结果</div>
+                        <PersonView
+                            persons={this.state.person}
+                            filterSelected={this.state.filterSelected}
+                            current={this.state.currentPage}
+                            loaded={this.state.loaded} />
                         <SearchResultView
                             keyword={this.state.query}
                             list={this.state.result}

@@ -8,10 +8,9 @@
         'GA',
         'main/Log',
         'Actions',
-        'searchpage/SearchPageRouter',
-        'searchpage/SearchPage',
+        'personpage/PersonPageRouter',
+        'personpage/PersonPage',
         'components/SeriesDetailPanelView',
-        'components/DownloadTipView',
         'components/DeclarationView'
     ], function (
         React,
@@ -20,13 +19,12 @@
         GA,
         Log,
         Actions,
-        SearchPageRouter,
-        SearchPage,
+        PersonPageRouter,
+        PersonPage,
         SeriesDetailPanelView,
-        DownloadTipView,
         DeclarationView
     ) {
-        var searchPageRouter = SearchPageRouter.getInstance();
+        var personPageRouter = PersonPageRouter.getInstance();
 
         var queryAsync = function (id) {
             var deferred = $.Deferred();
@@ -34,7 +32,6 @@
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
                 data : {
-                    sessionId : window.sessionId || '',
                     estart : 0,
                     emax : 10,
                     opt_fields : [
@@ -70,14 +67,14 @@
                 show : false
             });
 
-            searchPageRouter.navigate('#keep', {
+            personPageRouter.navigate('#keep', {
                 trigger : false
             });
         };
 
         var seriesDetailPanelView = <SeriesDetailPanelView closeDetailPanel={closeDetailPanel} />
 
-        searchPageRouter.on('route:search', function (id) {
+        personPageRouter.on('route:detail', function (id) {
             if (id) {
                 seriesDetailPanelView.setState({
                     show : true,
@@ -110,9 +107,8 @@
 
         React.renderComponent(
             <div>
-                <SearchPage />
+                <PersonPage />
                 {seriesDetailPanelView}
-                <DownloadTipView />
                 <DeclarationView />
             </div>
         , document.body);

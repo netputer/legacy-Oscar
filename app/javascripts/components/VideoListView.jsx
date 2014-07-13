@@ -19,8 +19,8 @@
     ) {
 
         var textEnum = {
-            LAST_EPISODE : '第 {0} 集',
-            TOTLE_COMPLATE : '{0} 集完',
+            LAST_EPISODE : '更新至 {0} 集',
+            TOTLE_COMPLATE : '{0} 集全',
             NO_RATING : '暂无评分',
             NO_DATA : '暂无数据'
         };
@@ -214,9 +214,11 @@
 
         var VideoListView = React.createClass({
             clickTitle : function () {
-                $('<a>').attr({
-                    href : 'cate.html#' + this.props.cate.toLowerCase()
-                })[0].click();
+                if (this.props.cate !== 'VIDEO_WORKS') {
+                    $('<a>').attr({
+                        href : 'cate.html#' + this.props.cate.toLowerCase()
+                    })[0].click();
+                }
             },
             render : function () {
                 if (!this.props.list || this.props.list.length === 0) {
@@ -225,6 +227,15 @@
                     } else {
                         return <div className="o-categories-ctn"/>;
                     }
+                } else if (this.props.noBigItem) {
+                    return (
+                        <div className="o-categories-ctn">
+                            <h4 className="w-text-secondary title" onClick={this.clickTitle}>{Wording[this.props.cate]}</h4>
+                            <ul className="o-categories-item-container w-cf">
+                                {this.renderItem()}
+                            </ul>
+                        </div>
+                    );
                 } else {
                     return (
                         <div className="o-categories-ctn">
@@ -238,7 +249,7 @@
                 }
             },
             renderItem : function () {
-                var result = _.map(this.props.list.slice(1, this.props.list.length), function (video) {
+                var result = _.map(this.props.list.slice(this.props.noBigItem ? 0 : 1, this.props.list.length), function (video) {
                     return <ItemView data={video} key={video.id} onVideoSelect={this.props.onVideoSelect} />;
                 }, this);
 
