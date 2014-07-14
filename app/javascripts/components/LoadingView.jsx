@@ -9,6 +9,11 @@
         var LoadingView = React.createClass({
             render : function () {
                 var className = this.props.fixed ? 'w-ui-loading fixed' : 'w-ui-loading';
+
+                if (!this.props.show) {
+                    className += ' hidden';
+                }
+
                 return (
                     <div className={className}>
                         <div className="anima">

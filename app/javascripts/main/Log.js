@@ -127,6 +127,7 @@
 
             info = {
                 event : 'content.multimedia.consumption',
+                content_type : vertical,
                 consumption_source : consumption.source,
                 consumption_type : consumption.type,
                 open_type : consumption.type === 'online_play' ? 'system' : 'wdj',

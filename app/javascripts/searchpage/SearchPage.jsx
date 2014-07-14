@@ -96,6 +96,7 @@
             mixins : [FilterNullValues, Performance],
             getInitialState : function () {
                 return {
+                    origin : [],
                     result : [],
                     person :[],
                     loading : false,
@@ -123,6 +124,7 @@
                     searchResultCollection.reset(resp.videoList);
                     this.setState({
                         result : searchResultCollection.models,
+                        origin : resp.videoList,
                         loading : false,
                         pageTotal : Math.round(resp.total / PAGE_SIZE),
                         currentPage : page || 1,
@@ -135,28 +137,11 @@
                     });
 
                     this.loaded();
-
-                    var getEpisodes = resp.videoList;
-
-                    _.each(resp.videoList, function (item, index) {
-                        if (item.type === 'MOVIE') {
-                            QueryHelper.queryEpisodesAsync(item.id).done(function (res) {
-                                resp.videoList[index]['videoEpisodes'] = res.videoEpisodes;
-
-                                searchResultCollection.reset(resp.videoList);
-                                this.setState({
-                                    result : searchResultCollection.models,
-                                });
-
-                            }.bind(this));
-                        }
-                    }.bind(this));
-
                 }.bind(this)).fail( function () {
                     this.abortTracking('loadComplete');
                 }.bind(this));
 
-                if (page === 1) {
+                if (page === 1 && 0) {
                     QueryHelper.queryPersonAsync(query).done(function (res) {
                         this.setState({
                             person : res
@@ -168,7 +153,7 @@
                 return deferred.promise();
             },
             componentWillMount : function () {
-                this.initPerformance('search', 3, keyword);
+                this.initPerformance('search', 2, keyword);
 
                 searchPageRouter.on('route:compate', function (key) {
                     if (key) {
@@ -216,11 +201,14 @@
                 if (keyword.length) {
                     history.pushState(null, null, '?q=' + keyword);
                     this.queryAsync(keyword, this.state.currentPage);
-                    QueryHelper.queryPersonAsync(query).done(function (res) {
-                        this.setState({
-                            person : res
-                        });
-                    }.bind(this));
+
+                    if (0) {
+                        QueryHelper.queryPersonAsync(query).done(function (res) {
+                            this.setState({
+                                person : res
+                            });
+                        }.bind(this));
+                    }
 
                     Log.updateUrl();
                     Log.pageShow();
@@ -310,6 +298,7 @@
                             loaded={this.state.loaded} />
                         <SearchResultView
                             keyword={this.state.query}
+                            origin={this.state.origin}
                             list={this.state.result}
                             loading={this.state.loading}
                             total={this.state.total}

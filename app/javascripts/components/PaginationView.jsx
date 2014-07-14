@@ -54,7 +54,6 @@
 
                 start = Math.max(start, 1);
 
-                var count;
                 if (this.props.total - start < this.props.range) {
                     count = this.props.total - start + 1;
                 } else {

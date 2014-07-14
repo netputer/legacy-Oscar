@@ -6,7 +6,11 @@
         'Backbone',
         'Wording',
         'GA',
+        'utilities/QueryHelper',
         'utilities/FormatString',
+        'components/LoadingView',
+        'main/models/VideoModel',
+        'mixins/FilterNullValues',
         'mixins/ElementsGenerator'
     ], function (
         React,
@@ -14,14 +18,34 @@
         Backbone,
         Wording,
         GA,
+        QueryHelper,
         FormatString,
+        LoadingView,
+        VideoModel,
+        FilterNullValues,
         ElementsGenerator
     ) {
         var InfoView = React.createClass({
             mixins : [ElementsGenerator],
+            getInitialState : function () {
+                return {
+                    loadingEpisodes : false
+                }
+            },
             clickBtnDownload : function () {
                 if (this.props.video.get('type') === 'MOVIE') {
-                    ElementsGenerator.clickButtonDownload.call(this, this.props.source);
+                    this.setState({
+                        loadingEpisodes : true
+                    });
+                    QueryHelper.queryEpisodesAsync(this.props.video.id).done(function (resp) {
+                        this.props.setEpisodes(resp).done(function (resp) {
+                            ElementsGenerator.clickButtonDownload.call(this, this.props.source);
+
+                            this.setState({
+                                loadingEpisodes : false
+                            });
+                        }.bind(this));
+                    }.bind(this));
                 } else {
                     this.props.onSelect();
                 }
@@ -37,6 +61,7 @@
                         {this.getRatingEle()}
                         <div className="download-ctn w-hbox">
                             <button className="button-download w-btn w-btn-primary" onClick={this.clickBtnDownload}>{Wording.DOWNLOAD}</button>
+                            <LoadingView show={this.state.loadingEpisodes} />
                             {this.getProviderEle()}
                         </div>
                     </div>
@@ -72,8 +97,28 @@
         });
 
         var VideoListItemView = React.createClass({
+            getInitialState : function () {
+                return {
+                    video: new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, this.props.origin))
+                };
+            },
             clickItem : function () {
                 this.props.onVideoSelect(this.props.video);
+            },
+            setEpisodes : function (resp) {
+                var deferred = $.Deferred();
+
+                var video = this.props.origin;
+
+                video.videoEpisodes = resp.videoEpisodes;
+
+                this.setState({
+                    video : new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, video))
+                })
+
+                deferred.resolve(this.props.video);
+
+                return deferred.promise();
             },
             render : function () {
                 var data = this.props.video.toJSON();
@@ -82,7 +127,7 @@
                         <div className="o-mask item-cover"
                             style={{ 'background-image' : 'url(' + (data.cover.l || "") + ')' }}
                             onClick={this.clickItem} />
-                        <InfoView video={this.props.video} onSelect={this.clickItem} />
+                        <InfoView video={this.state.video} setEpisodes={this.setEpisodes} onSelect={this.clickItem} />
                         <PictureView data={data.pictures.s} />
                     </li>
                 );
