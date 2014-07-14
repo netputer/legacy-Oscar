@@ -29,8 +29,8 @@
             render : function () {
                 var loadingView = this.props.loading ? <LoadingView fixed={true} /> : '';
                 if (this.props.list.length > 0) {
-                    var listItemViews = _.map(this.props.list, function (video) {
-                        return <VideoListItemView source="search" video={video} key={video.id} onVideoSelect={this.props.onVideoSelect} />
+                    var listItemViews = _.map(this.props.list, function (video, index) {
+                        return <VideoListItemView source="search" video={video} origin={this.props.origin[index]} key={video.id} onVideoSelect={this.props.onVideoSelect} />
                     }, this);
 
                     return (

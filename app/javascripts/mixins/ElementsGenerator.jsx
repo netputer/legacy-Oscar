@@ -8,6 +8,7 @@
         'GA',
         'main/DownloadHelper',
         'components/AppBubbleView',
+        'components/LoadingView',
         'utilities/ReadableSize',
         'utilities/FormatString'
     ], function (
@@ -17,6 +18,7 @@
         GA,
         DownloadHelper,
         AppBubbleView,
+        LoadingView,
         ReadableSize,
         FormatString
     ) {
@@ -187,9 +189,12 @@
                 }
 
                 return (
-                    <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.video.get('subscribeUrl'))}>
-                        <span className="download-text">{text}</span>
-                    </button>
+                    <div>
+                        <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.video.get('subscribeUrl'))}>
+                            <span className="download-text">{text}</span>
+                        </button>
+                        <LoadingView show={this.props.loadingEpisodes} />
+                    </div>
                 );
             },
             clickButtonPlay : function (url) {

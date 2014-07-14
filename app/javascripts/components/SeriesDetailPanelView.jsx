@@ -55,6 +55,7 @@
                     showConfirm : false,
                     subscribed : -2,
                     showSubscribeBubble : '',
+                    loadingEpisodes : false,
                     selectedTab : 'download',
                     origin : this.props.origin,
                     video : new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, this.props.origin))
@@ -63,7 +64,7 @@
             componentWillReceiveProps : function (newProps) {
                 var video = newProps.origin;
                 var episodes = [];
-                var videoArr = new Array(parseInt(newProps.origin.latestEpisodeNum));
+                var videoArr = new Array(parseInt(newProps.origin.latestEpisodeNum || 0));
                 episodes = newProps.origin.videoEpisodes;
                 videoArr = videoArr.concat.apply(episodes, videoArr);
                 videoArr.splice(episodes.length, episodes.length);
@@ -148,6 +149,10 @@
                 var show = close !== undefined ? false : !!flag;
 
                 if (show && this.state.video.get('videoEpisodes').length > 30) {
+                    this.setState({
+                        loadingEpisodes : true
+                    });
+
                     QueryHelper.queryEpisodesAsync(this.state.video.id).done(function (resp) {
                         var video = this.state.origin;
                         video.videoEpisodes = resp.videoEpisodes;
@@ -157,6 +162,7 @@
                         this.setState({
                             origin : video,
                             video : videoModle,
+                            loadingEpisodes : false,
                             showConfirm : show
                         });
                     }.bind(this));
@@ -191,7 +197,7 @@
                         return (
                             <div className={className} style={style} onClick={this.clickCtn} ref="ctn">
                                 <div className="o-series-panel-content w-vbox">
-                                    <SeriesHeaderView video={this.state.video} showSubscribeBubble={this.state.showSubscribeBubble} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} confirmCallback={this.confirm} />
+                                    <SeriesHeaderView video={this.state.video} showSubscribeBubble={this.state.showSubscribeBubble} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} confirmCallback={this.confirm} loadingEpisodes={this.state.loadingEpisodes} />
                                     <div className="body-ctn">
                                         <div className="body">
                                             {this.getTabs()}
