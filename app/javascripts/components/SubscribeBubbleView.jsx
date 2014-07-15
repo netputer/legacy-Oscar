@@ -5,6 +5,8 @@
         'React',
         '_',
         '$',
+        'IO',
+        'Actions',
         'Wording',
         'mixins/BubbleView',
         'GA'
@@ -12,6 +14,8 @@
         React,
         _,
         $,
+        IO,
+        Actions,
         Wording,
         BubbleView,
         GA
@@ -23,7 +27,7 @@
                uri = typeof video === 'object' ? video.get('subscribeUrl') : this.props.video.get('subscribeUrl');
 
                 $.ajax({
-                    url : 'http://feed.wandoujia.com/api/v1/subscription/add',
+                    url : Actions.actions.SUBSCRIBE_ADD,
                     xhrFields: {
                         withCredentials: true
                     },
@@ -58,7 +62,7 @@
             },
             doUnsubscribe : function (video) {
                 $.ajax({
-                    url : 'http://feed.wandoujia.com/api/v1/subscription/remove',
+                    url : Actions.actions.SUBSCRIBE_REMOVE,
                     data : {
                         uri : video.get('subscribeUrl'),
                         user : 'device_only'

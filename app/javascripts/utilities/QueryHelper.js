@@ -60,7 +60,7 @@
                 var deferred = $.Deferred();
 
                 IO.requestAsync({
-                    url : Actions.actions.PERSON + (typeof arg === 'number' ? arg : 'name?name=' + arg),
+                    url : Actions.actions.PERSON + (typeof arg === 'number' ? '?ids=' + arg : '?names=' + arg),
                     success : deferred.resolve,
                     error : deferred.reject
                 });

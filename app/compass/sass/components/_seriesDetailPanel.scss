@@ -169,6 +169,10 @@
     height: 40px;
     padding-top: 10px;
 
+    .download-container {
+        display: inline-block;
+    }
+
     .w-ui-loading {
         border-radius: 2px;
         height: 30px;

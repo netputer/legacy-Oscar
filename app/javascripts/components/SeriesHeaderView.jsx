@@ -5,6 +5,7 @@
         'React',
         'Wording',
         'GA',
+        'Actions',
         'utilities/FormatString',
         'mixins/ElementsGenerator',
         'components/SubscribeBubbleView',
@@ -14,6 +15,7 @@
         React,
         Wording,
         GA,
+        Actions,
         FormatString,
         ElementsGenerator,
         SubscribeBubbleView,
@@ -37,7 +39,7 @@
             componentDidMount : function () {
                 if (this.props.video.get('subscribeUrl') !== undefined) {
                     $.ajax({
-                        url : 'http://feed.wandoujia.com/api/v1/subscription/subscribed',
+                        url : Actions.actions.SUBSCRIBE_CHECK,
                         xhrFields : {
                             withCredentials : true
                         },

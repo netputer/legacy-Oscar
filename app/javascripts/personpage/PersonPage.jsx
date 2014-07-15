@@ -56,6 +56,7 @@
             componentDidMount : function () {
                 if (personId) {
                     QueryHelper.queryPersonAsync(parseInt(personId)).done(function (resp) {
+                        resp = resp[0];
                         if (resp.personBean.name) {
                             this.setState({
                                 person : resp
@@ -141,6 +142,7 @@
                 }
             },
             getLoadMoreBtn : function (name) {
+                console.log(this.state.total)
                 if (this.state.total > 5 && this.state.total > this.state.works.length) {
                     return <a href="javascript:void(0)" className="w-btn load-more" onClick={this.loadMoreWorks.bind(this, name)}>{Wording.LOAD_MORE}</a>
                 }

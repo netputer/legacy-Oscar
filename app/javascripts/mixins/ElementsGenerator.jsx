@@ -189,7 +189,7 @@
                 }
 
                 return (
-                    <div>
+                    <div className="download-container">
                         <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.video.get('subscribeUrl'))}>
                             <span className="download-text">{text}</span>
                         </button>
