@@ -52,9 +52,9 @@
                     this.providersBubbleView.setState({
                         providerItemsBubbleShow : boolean
                     });
-                    if (boolean) {
+                    if (boolean && document.getElementsByClassName('item')[key]) {
                         document.getElementsByClassName('item')[key].className = 'item active';
-                    } else {
+                    } else if (document.getElementsByClassName('item')[key]) {
                         document.getElementsByClassName('item')[key].className = 'item';
                     }
                 }.bind(this);
