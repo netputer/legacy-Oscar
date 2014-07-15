@@ -10,13 +10,15 @@
                 ACCOUNT_LOGIN : 'wdj://account/login.json',
                 ACCOUNT_INFO : 'wdj://account/account_info.json',
 
-                SEARCH : 'http://oscar.wandoujia.com/api/v1/search/',
-                QUERY_TYPE : 'http://oscar.wandoujia.com/api/v1/typeOptFields/',
+                PERSON : 'http://persons.wandoujia.com/api/v1/persons',
+                PROVIDERS : 'http://oscar.wandoujia.com/api/v1/providers',
                 QUERY_SERIES : 'http://oscar.wandoujia.com/api/v1/videos/',
-
-                TOPIC : 'http://oscar.wandoujia.com/api/v1/topics',
-                PERSON : 'http://10.0.25.46:8080/persons/api/v1/personProducts/',
-                PROVIDERS : 'http://oscar.wandoujia.com/api/v1/providers'
+                QUERY_TYPE : 'http://oscar.wandoujia.com/api/v1/typeOptFields/',
+                SEARCH : 'http://oscar.wandoujia.com/api/v1/search/',
+                SUBSCRIBE_ADD : 'http://feed.wandoujia.com/api/v1/subscription/add',
+                SUBSCRIBE_CHECK : 'http://feed.wandoujia.com/api/v1/subscription/subscribed',
+                SUBSCRIBE_REMOVE : 'http://feed.wandoujia.com/api/v1/subscription/remove',
+                TOPIC : 'http://oscar.wandoujia.com/api/v1/topics'
             },
             events : {
                 ACCOUNT_STATE_CHANGE : 'account.state_changed',

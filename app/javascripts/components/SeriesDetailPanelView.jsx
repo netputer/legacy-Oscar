@@ -64,7 +64,13 @@
             componentWillReceiveProps : function (newProps) {
                 var video = newProps.origin;
                 var episodes = [];
-                var videoArr = new Array(parseInt(newProps.origin.latestEpisodeNum || 0));
+                var arrayLength = 0;
+                if (newProps.origin.latestEpisodeNum && parseInt(newProps.origin.latestEpisodeNum) <= 10000) {
+                    arrayLength = newProps.origin.latestEpisodeNum;
+                } else if (newProps.origin.latestEpisodeNum) {
+                    arrayLength = 10000;
+                }
+                var videoArr = new Array(arrayLength);
                 episodes = newProps.origin.videoEpisodes;
                 videoArr = videoArr.concat.apply(episodes, videoArr);
                 videoArr.splice(episodes.length, episodes.length);

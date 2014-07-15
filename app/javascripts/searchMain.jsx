@@ -54,6 +54,7 @@
                         'categories.*',
                         'pictures.s',
                         'providerNames.*',
+                        'subscribeUrl',
                         'year',
                         'presenters'
                     ].join(',')
