@@ -135,7 +135,6 @@
                     }, function () {
                         deferred.resolve();
                     });
-
                     this.loaded();
                 }.bind(this)).fail( function () {
                     this.abortTracking('loadComplete');
@@ -153,7 +152,7 @@
                 return deferred.promise();
             },
             componentWillMount : function () {
-                this.initPerformance('search', 2, keyword);
+                this.initPerformance('search', 3, keyword);
 
                 searchPageRouter.on('route:compate', function (key) {
                     if (key) {

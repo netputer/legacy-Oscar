@@ -102,7 +102,6 @@
                 );
             },
             clickSmallStills : function (index) {
-                // console.log(this.props.video.get('pictures').l[index]);
             }
         });
 

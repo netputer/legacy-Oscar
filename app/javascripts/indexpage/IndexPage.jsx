@@ -78,7 +78,7 @@
                 };
             },
             componentWillMount : function () {
-                this.initPerformance('index', 4);
+                this.initPerformance('index', 5);
 
                 $.when(queryAsync('tv').done(function (resp) {
                     this.setState({

@@ -51,7 +51,7 @@
                 };
             },
             componentWillMount : function () {
-                this.initPerformance('person', 2, personId);
+                this.initPerformance('person', 3, personId);
             },
             componentDidMount : function () {
                 if (personId) {
@@ -142,7 +142,6 @@
                 }
             },
             getLoadMoreBtn : function (name) {
-                console.log(this.state.total)
                 if (this.state.total > 5 && this.state.total > this.state.works.length) {
                     return <a href="javascript:void(0)" className="w-btn load-more" onClick={this.loadMoreWorks.bind(this, name)}>{Wording.LOAD_MORE}</a>
                 }
