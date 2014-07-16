@@ -1,7 +1,7 @@
 (function (window) {
     define([], function () {
         var Doraemon = {
-            "version" : "2.9.7"
+            "version" : "2.9.8"
         };
 
         return Doraemon;
