@@ -64,10 +64,10 @@
                     this.providersBubbleView.setState({
                         providerItemsBubbleShow : boolean
                     });
-                    if (boolean && document.getElementsByClassName('item')[key]) {
-                        document.getElementsByClassName('item')[key].className = 'item active';
-                    } else if (document.getElementsByClassName('item')[key]) {
-                        document.getElementsByClassName('item')[key].className = 'item';
+                    if (boolean && $('.item')) {
+                        $('.item').eq(key).addClass('active');
+                    } else if ($('.item')) {
+                        $('.item').eq(key).removeClass('active');
                     }
                 }.bind(this);
 
@@ -153,10 +153,10 @@
                     appName : info.providerName
                 });
 
-                if (document.getElementsByClassName('item')[key] !== undefined && document.getElementsByClassName('item')[key] !== undefined) {
-                    document.getElementsByClassName('item')[key].getElementsByClassName('bubble-app')[0].style.display = 'block';
+                if ($('.item') && $('.item').eq(key) && $('.item').eq(key).find('.bubble-app')) {
+                    $('.item').eq(key).find('.bubble-app').eq(0).show();
                     setTimeout(function () {
-                        document.getElementsByClassName('item')[key].getElementsByClassName('bubble-app')[0].style.display = 'none';
+                        $('.item').eq(key).find('.bubble-app').eq(0).hide();
                     }, 7000);
                 }
             },

@@ -38,12 +38,10 @@
                 if (provider.title !== undefined) {
                     DownloadHelper.downloadPlayerAsync(provider);
 
-                    if (document.getElementsByClassName('item')[this.props.key] !== undefined) {
-                        if (this.props.key) {
-                            document.getElementsByClassName('item')[this.props.key].getElementsByClassName('bubble-app')[0].style.display = 'none';
-                        } else {
-                            document.getElementsByClassName('download-info')[0].getElementsByClassName('bubble-app')[0].style.display = 'none';
-                        }
+                    if (this.props.key && $('.item').eq(this.props.key) && $('.item').eq(this.props.key).find('.bubble-app')) {
+                        $('.item').eq(this.props.key).find('.bubble-app').eq(0).hide();
+                    } else if ($('.download-info') && $('.download-info').eq(0).find('.bubble-app')) {
+                        $('.download-info').eq(0).find('.bubble-app').eq(0).hide();
                     }
 
                     GA.log({
