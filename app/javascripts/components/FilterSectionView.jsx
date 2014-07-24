@@ -36,8 +36,10 @@
                         this.setState({
                             list : resp[nextProps.filter]
                         });
-                        nextProps.load();
-                    }.bind(this));
+                        nextProps.load && nextProps.load();
+                    }.bind(this)).fail(function () {
+                        nextProps.abortTracking && nextProps.abortTracking('loadComplete');
+                    });
                 }
             },
             clickItem : function (cate) {
