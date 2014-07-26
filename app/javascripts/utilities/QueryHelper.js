@@ -8,6 +8,43 @@
     ) {
 
         var QueryHelper = {
+            queryAsync : function (id) {
+                var deferred = $.Deferred();
+
+                IO.requestAsync({
+                    url : Actions.actions.QUERY_SERIES + id,
+                    data : {
+                        opt_fields : [
+                            'title',
+                            'type',
+                            'id',
+                            'alias',
+                            'description',
+                            'actors.*',
+                            'cover.*',
+                            'categories.name',
+                            'latestEpisodeNum',
+                            'latestEpisodeDate',
+                            'totalEpisodesNum',
+                            'marketRatings.rating',
+                            'marketComments.*',
+                            'categories.*',
+                            'pictures.s',
+                            'providerNames.*',
+                            'recommend',
+                            'releaseDate',
+                            'subscribeUrl',
+                            'videoSeries_id',
+                            'year',
+                            'presenters'
+                        ].join(',')
+                    },
+                    success : deferred.resolve,
+                    error : deferred.reject
+                });
+
+                return deferred.promise();
+            },
             queryTypeAsync : function (type) {
                 var deferred = $.Deferred();
                 var data = sessionStorage.getItem(type);
@@ -30,7 +67,7 @@
 
                 return deferred.promise();
             },
-            queryEpisodesAsync : function (id, start, max) {
+            queryEpisodesAsync : function (id, start, max, order) {
                 var deferred = $.Deferred();
 
                 var data = {
@@ -43,9 +80,11 @@
 
                 if (max) {
                     data.emax = max;
-                    data.order = 0;
                 }
 
+                if (order) {
+                    data.order = order;
+                }
 
                 IO.requestAsync({
                     url : Actions.actions.QUERY_SERIES + id,
@@ -56,11 +95,26 @@
 
                 return deferred.promise();
             },
-            queryPersonAsync : function (arg) {
+            queryPersonAsync : function (arg, opt_fields) {
                 var deferred = $.Deferred();
 
+                var person;
+
+                var data = {};
+
+                if (typeof arg === 'array') {
+                    person = typeof arg[0] === 'number' ? '?ids=' + arg.join(',') : '?names=' + arg.join(',')
+                } else {
+                    person = typeof arg === 'number' ? '?ids=' + arg : '?names=' + arg
+                }
+
+                if (opt_fields) {
+                    data['opt_fields'] =  opt_fields;
+                }
+
                 IO.requestAsync({
-                    url : Actions.actions.PERSON + (typeof arg === 'number' ? '?ids=' + arg : '?names=' + arg),
+                    url : Actions.actions.PERSON + person,
+                    data : data,
                     success : deferred.resolve,
                     error : deferred.reject
                 });

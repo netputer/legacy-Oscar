@@ -18,13 +18,6 @@
         WanxiaodouView
     ) {
 
-        var textEnum = {
-            LAST_EPISODE : '更新至 {0} 集',
-            TOTLE_COMPLATE : '{0} 集全',
-            NO_RATING : '暂无评分',
-            NO_DATA : '暂无数据'
-        };
-
         var DownloadHandler = {
             onClick : function () {
                 this.props.onVideoSelect(this.props.data.id);
@@ -69,7 +62,7 @@
                 if (data.actors.length) {
                     actors = data.actors.join(' / ');
                 } else {
-                    actors = textEnum.NO_DATA;
+                    actors = Wording.NO_DATA;
                 }
 
                 var headInfo;
@@ -78,10 +71,10 @@
                 switch (data.type) {
                 case 'TV':
                 case 'COMIC':
-                    if (data.latestEpisodeNum === data.totalEpisodesNum) {
-                        episode = FormatString(textEnum.TOTLE_COMPLATE, [data.latestEpisodeNum]);
+                    if (data.latestEpisodeNum === data.totalEpisodesNum && data.latestEpisodeNum) {
+                        episode = FormatString(Wording.TOTLE_COMPLATE, [data.latestEpisodeNum]);
                     } else {
-                        episode = FormatString(textEnum.LAST_EPISODE, [data.latestEpisodeNum]);
+                        episode = data.latestEpisodeNum ? FormatString(Wording.LAST_EPISODE, [data.latestEpisodeNum]) : Wording.NO_DATA;
                     }
 
                     headInfo = actors;
@@ -91,7 +84,7 @@
                     if (rating && rating.length) {
                         rating = rating[0].rating;
                     } else {
-                        rating = textEnum.NO_RATING;
+                        rating = Wording.NO_RATING;
                     }
 
                     var cates = data.categories;
@@ -111,13 +104,13 @@
                     if (presenters.length) {
                         presenters = presenters.join(' / ');
                     } else {
-                        presenters = textEnum.NO_DATA;
+                        presenters = Wording.NO_DATA;
                     }
 
                     if (data.latestEpisodeDate) {
                         episode = FormatDate('yyyy-MM-dd', data.latestEpisodeDate);
                     } else {
-                        episode = textEnum.NO_DATA;
+                        episode = Wording.NO_DATA;
                     }
 
                     headInfo = presenters;
@@ -136,16 +129,16 @@
         var ItemView = React.createClass({
             mixins : [DownloadHandler],
             render : function () {
-                var data = this.props.data;
+                var data = this.props.data || {};
                 var rating = data.marketRatings;
-                var actors = data.actors;
+                var actors = data.actors || 0;
                 var type = data.type;
                 var title = data.title;
 
                 if (actors.length) {
                     actors = actors.join(' / ');
                 } else {
-                    actors = textEnum.NO_DATA;
+                    actors = Wording.NO_DATA;
                 }
 
                 var ele;
@@ -154,46 +147,46 @@
                 switch (type) {
                 case 'MOVIE':
                     if (rating && rating.length) {
-                        rating = rating[0].rating;
+                        rating = parseFloat(rating[0].rating).toFixed(1);
                     } else {
-                        rating = textEnum.NO_RATING;
+                        rating = Wording.NO_RATING;
                     }
 
                     episode = rating;
                     break;
                 case 'TV':
                 case 'COMIC':
-                    if (data.latestEpisodeNum === data.totalEpisodesNum) {
-                        episode = FormatString(textEnum.TOTLE_COMPLATE, [data.latestEpisodeNum]);
+                    if (data.latestEpisodeNum === data.totalEpisodesNum && data.latestEpisodeNum) {
+                        episode = FormatString(Wording.TOTLE_COMPLATE, [data.latestEpisodeNum]);
                     } else {
-                        episode = FormatString(textEnum.LAST_EPISODE, [data.latestEpisodeNum]);
+                        episode = data.latestEpisodeNum ? FormatString(Wording.LAST_EPISODE, [data.latestEpisodeNum]) : Wording.NO_DATA;
                     }
 
                     break;
                 case 'VARIETY':
-                    var presenters = data.presenters;
+                    var presenters = data.presenters || [];
                     if (presenters.length) {
                         presenters = presenters.join(' / ');
                     } else {
-                        presenters = textEnum.NO_DATA;
+                        presenters = Wording.NO_DATA;
                     }
 
                     if (data.latestEpisodeDate) {
                         episode = FormatDate('yyyy-MM-dd',data.latestEpisodeDate);
                     } else {
-                        episode = textEnum.NO_DATA;
+                        episode = Wording.NO_DATA;
                     }
 
                     actors = presenters;
                     break;
                 }
 
-                var propTitle = data.title.length > 10 ? data.title : '';
+                var propTitle = data.title && data.title.length > 10 ? data.title : '';
 
                 return (
                     <li className="o-categories-item w-component-card" title={propTitle} onClick={this.onClick}>
                         <div className="cover o-mask">
-                            <img src={data.cover.l}/>
+                            <img src={data.cover ? data.cover.l : ''}/>
                         </div>
                         <div className="info">
                             <span className="title w-wc w-text-secondary">{title}</span>
@@ -249,11 +242,15 @@
                 }
             },
             renderItem : function () {
-                var result = _.map(this.props.list.slice(this.props.noBigItem ? 0 : 1, this.props.list.length), function (video) {
-                    return <ItemView data={video} key={video.id} onVideoSelect={this.props.onVideoSelect} />;
-                }, this);
+                if (this.props.list) {
+                    var result = _.map(this.props.list.slice(this.props.noBigItem ? 0 : 1, this.props.list.length), function (video) {
+                        if (video && video.id) {
+                            return <ItemView data={video} key={video ? video.id : 0} onVideoSelect={this.props.onVideoSelect} />;
+                        }
+                    }, this);
 
-                return result;
+                    return result;
+                }
             }
         });
 

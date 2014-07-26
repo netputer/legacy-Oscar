@@ -48,8 +48,7 @@
                 }
             },
             getPersonList : function () {
-                return _.map(this.props.persons, function (p) {
-                    var person = p.personBean;
+                return _.map(this.props.persons, function (person) {
                     var coverStyle = {};
 
                     if (person.coverUrl) {
@@ -64,7 +63,7 @@
                             <div className="info-container">
                                 <h4 className="title" onClick={this.onClick.bind(this, person.id)}>{person.name}</h4>
                                 <p className="jobs w-wc w-text-thirdly">{person.jobs.join(' / ')}</p>
-                                <p className="works-count w-wc w-text-thirdly">{p.productCount.video ? p.productCount.video + Wording.VIDEO_WORKS_WITH_NUMBER : ''}</p>
+                                <p className="works-count w-wc w-text-thirdly">{person.productCount.video ? person.productCount.video + Wording.VIDEO_WORKS_WITH_NUMBER : ''}</p>
                                 <p className="introduction w-wc w-text-thirdly">{person.introduction.length > 40 ? person.introduction.substr(0, 40) + '...' : person.introduction}</p>
                                 <button className="w-btn w-btn-primary" onClick={this.onClick.bind(this, person.id)}>{Wording.VIEW}</button>
                             </div>

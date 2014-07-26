@@ -35,10 +35,10 @@
             pretreatData : function () {
                 var data = this.toJSON();
 
-                if (data.actors && data.actors.length) {
-                    data.actors = data.actors.join(' / ');
-                } else {
+                if (!data.actors || !data.actors.length) {
                     data.actors = Wording.NO_DATA;
+                } else if (data.actors.length === 1 && data.actors[0].indexOf(',') > 0) {
+                    data.actors = data.actors[0].split(',');
                 }
 
                 if (data.marketRatings && data.marketRatings.length) {
