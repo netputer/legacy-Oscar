@@ -249,7 +249,7 @@ module.exports = function (grunt) {
                         exclude : ['config']
                     }, {
                         name : 'person',
-                        include : ['personMain'],
+                        include : ['bugsnag-2.min', 'personMain'],
                         exclude : ['config']
                     }]
                 }
