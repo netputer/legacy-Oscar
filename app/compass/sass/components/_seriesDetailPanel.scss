@@ -1,4 +1,6 @@
 @import "../../thirdparty/Adonis/sass/standardColors";
+@import "sprite/*.png";
+
 
 @import "components/stills";
 @import "components/downloadList";
@@ -21,20 +23,21 @@
         -webkit-transition: all .2s linear;
 
         .tab-ctn {
-            border-bottom: 2px $borderColor solid;
+            background-color: #fff;
+            border-bottom: 1px $borderColor solid;
             height: 27px;
-            margin-bottom: 10px;
-            position: relative;
+            position: fixed;
+            top: 200px;
+            width: 600px;
 
             .tab {
                 border-bottom: 2px transparent solid;
                 cursor: pointer;
                 display: inline-block;
-                padding: 5px 10px;
-                position: absolute;
+                padding: 5px 46px;
 
-                & + .tab {
-                    left: 78px;
+                &:first-child {
+                    margin-left: 5px;
                 }
 
                 &.selected {
@@ -55,24 +58,102 @@
     }
 }
 
+.o-series-panel-header {
+    background-color: #fff;
+    padding: 5px 5px 50px;
+
+    .download-app {
+        display: inline-block;
+        float: none;
+        margin: 0 0 0 15px;
+    }
+
+    .button-download {
+        border-radius: 2px 0 0 2px;
+        width: 96px;
+    }
+
+    .cover {
+        background-position: center center;
+        background-size: cover;
+        height: 160px;
+        width: 115px;
+    }
+
+    .rating-stars {
+        @include sprite-sprite(star);
+        background-color: #eee;
+        height: 15px;
+        margin: 5px 0;
+        width: 75px;
+
+        i {
+            display: block;
+            float: left;
+            height: 15px;
+            background-color: #e34a00;
+            @include sprite-sprite(star);
+        }
+
+        span {
+            color: #e34a00;
+            font-size: 14px;
+            left: 80px;
+            position: absolute;
+        }
+    }
+
+    .info-ctn {
+        margin-left: 10px;
+        position: relative;
+        -webkit-box-flex: 1;
+
+        h4 {
+            margin: 20px 0 10px;
+        }
+
+        .info {
+            -webkit-box-flex: 1;
+            position: relative;
+
+            .w-text-thirdly {
+                min-height: 18px;
+            }
+        }
+
+        .legal-link {
+            bottom: 0;
+            position: absolute;
+            right: 0;
+        }
+    }
+
+    .more-provider .arrow {
+        left: -4px;
+    }
+}
+
 .o-series-panel-content {
     background-color: transparent;
     height: 100%;
     margin: 0 auto;
     padding: 15px 0 0;
     position: relative;
-    width: 760px;
+    width: 600px;
 
-    .body-ctn {
+    .body {
         background-color: #fff;
         overflow-y: auto;
         -webkit-box-flex: 1;
+        display: inline-block;
+        height: calc(100% - 215px);
+        padding: 10px 10px 25px;
+        position: relative;
+        vertical-align: top;
+        width: 100%;
 
-        .body {
-            display: inline-block;
-            padding: 10px 65px 25px 15px;
-            vertical-align: top;
-            width: 520px;
+        h5 {
+            margin-top: 20px;
         }
 
         .w-ui-loading {
@@ -88,79 +169,151 @@
             padding: 10px 15px 25px 0;
             width: 230px;
         }
-    }
-}
 
-.o-series-panel-header {
-    background-color: #f2f2f2;
-    border-bottom: 1px $borderColor solid;
-    padding: 5px 5px 15px;
+        .series-title {
+            display: inline-block;
+        }
 
-    .download-app {
-        display: inline-block;
-        float: none;
-        margin: 0 0 0 15px;
-    }
+        .button-subscribe {
+            border-radius: 2px;
+            border-color: #ccc;
+            left: 0;
+            margin-left: 10px;
+            top: 42px;
+        }
 
-    .o-btn-group {
-        .button-download {
-            border-radius: 3px 0 0 3px;
+        .button-download,
+        .button-subscribe {
+
+            &.subscribing {
+                background: url(../images/check_mark.png) no-repeat 5px center;
+                padding-left: 24px;
+            }
+
+            &.w-btn-danger {
+                box-shadow: initial;
+                padding-left: 17px;
+                padding-right: 17px;
+            }
+
+            &.loading {
+                color: #999;
+            }
+        }
+
+        .w-btn-group {
+            .button-download, .button-subscribe {
+                margin-top: 0;
+            }
         }
     }
 
-    .stills {
-        background-position: center center;
+    .o-categories-item-container {
+        width: 5000px;
+
+        .o-categories-item:nth-child(4), .o-categories-item:nth-child(6n+10) {
+            margin-right: 10px;
+        }
+    }
+    .o-categories-item {
+        box-shadow: 0 0px 1px rgba(0, 0, 0, 0.4);
+        padding: 0;
+
+        &:hover {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 3px 5px rgba(0,0,0,0.1);
+        }
+
+        img {
+            width: 115px;
+        }
+    }
+
+    .actor {
         background-size: cover;
-        height: 145px;
-        width: 110px;
-    }
-
-    .info-ctn {
-        margin-left: 15px;
+        cursor: pointer;
+        float: left;
+        height: 80px;
+        margin: 10px 5px 10px 0;
         position: relative;
-        -webkit-box-flex: 1;
+        width: 80px;
 
-        .info {
-            -webkit-box-flex: 1;
-            -webkit-box-pack: end;
-            position: relative;
-
-            .button-download,
-            .button-subscribe {
-                &.subscribing {
-                    background: url(../images/check_mark.png) no-repeat 5px center;
-                    padding-left: 24px;
-                }
-
-                &.w-btn-danger {
-                    box-shadow: initial;
-                    padding-left: 17px;
-                    padding-right: 17px;
-                }
-
-                &.loading {
-                    color: #999;
-                }
-            }
-
-            .w-btn-group {
-                .button-download, .button-subscribe {
-                    margin-top: 0;
-                }
-            }
-        }
-
-        .legal-link {
+        span {
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
             bottom: 0;
             position: absolute;
-            right: 20px;
+            text-align: center;
+            width: 100%;
         }
     }
-}
 
-.o-serires-description {
-    h5 {
-        clear: both;
+    .o-categories-ctn {
+        margin-top: 0;
+        min-height: initial;
+        -webkit-transition: margin-left .2s ease-out;
+    }
+
+
+    .o-serires-description {
+        max-width: 500px;
+        white-space: normal;
+
+        h5 {
+            clear: both;
+        }
+    }
+
+    .row:not(.row-comments) {
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 20px;
+    }
+
+    .row-series {
+        .tab-ctn {
+            position: relative;
+            top: 0;
+            width: 580px;
+            .tab {
+                bottom: 2px;
+                padding: 5px 22px;
+                position: relative;
+            }
+        }
+        .choose-arrow {
+            border-bottom: none;
+            border-left: 5px dashed transparent;
+            border-right: 5px dashed transparent;
+            border-top: 6px solid #ccc;
+            cursor: pointer;
+            display: inline;
+            height: 0;
+            left: -18px;
+            position: relative;
+            top: 8px;
+            width: 0;
+        }
+
+        .select-episodes {
+            background: #fff;
+            border: 1px solid #ccc;
+            left: 0;
+            padding: 4px 0;
+            position: absolute;
+            top: 28px;
+            z-index: 2;
+
+            li {
+                cursor: pointer;
+                line-height: 20px;
+                min-width: 120px;
+                padding: 0 22px;
+
+                &:hover {
+                    background: #eee;
+                }
+            }
+        }
+
     }
 }
 
@@ -171,6 +324,11 @@
 
     .download-container {
         display: inline-block;
+
+        .button-download {
+            border-radius: 2px;
+            padding: 5px 20px;
+        }
     }
 
     .w-ui-loading {
@@ -216,6 +374,7 @@
     }
 }
 
+
 .more-provider {
     .arrow {
         border-bottom: none;
@@ -224,6 +383,7 @@
         border-top: 4px solid #fff;
         display: inline-block;
         height: 0;
+        left: 0;
         position: relative;
         top: -2px;
         width: 0;
@@ -243,8 +403,9 @@
 
     .more-provider {
         border-left-width: 0;
-        border-radius: 0 3px 3px 0;
-        min-width: 20px;
+        border-radius: 0 2px 2px 0;
+        min-width: initial;
+        width: 20px;
     }
 
     &:hover {

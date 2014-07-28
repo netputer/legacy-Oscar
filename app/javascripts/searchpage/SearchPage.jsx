@@ -126,7 +126,7 @@
                         result : searchResultCollection.models,
                         origin : resp.videoList,
                         loading : false,
-                        pageTotal : Math.round(resp.total / PAGE_SIZE),
+                        pageTotal : Math.ceil(resp.total / PAGE_SIZE),
                         currentPage : page || 1,
                         query : query,
                         total : resp.total,
@@ -140,7 +140,7 @@
                     this.abortTracking('loadComplete');
                 }.bind(this));
 
-                if (page === 1 && 0) {
+                if (page === 1) {
                     QueryHelper.queryPersonAsync(query).done(function (res) {
                         this.setState({
                             person : res
@@ -201,13 +201,11 @@
                     history.pushState(null, null, '?q=' + keyword);
                     this.queryAsync(keyword, this.state.currentPage);
 
-                    if (0) {
-                        QueryHelper.queryPersonAsync(query).done(function (res) {
-                            this.setState({
-                                person : res
-                            });
-                        }.bind(this));
-                    }
+                    QueryHelper.queryPersonAsync(keyword).done(function (res) {
+                        this.setState({
+                            person : res
+                        });
+                    }.bind(this));
 
                     Log.updateUrl();
                     Log.pageShow();

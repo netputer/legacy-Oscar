@@ -2,14 +2,20 @@
 @import "compass/css3";
 
 .o-button-list-ctn {
+    margin-top: 10px;
+
     .button {
         background-color: #fff;
         background-image: none;
+        border-color: #e5e5e5;
+        border-radius: 2px;
         box-shadow: none;
-        color: $standardColor;
+        color: $textThirdly;
+        height: 30px;
+        line-height: 30px;
+        min-width: 100px;
+        padding: 0 5px;
         text-shadow: none;
-        padding: 2px 5px;
-        min-width: 80px;
 
         &:hover,
         &.hover {
@@ -34,7 +40,7 @@
             background-color: #fff;
             background-image: none;
             box-shadow: none;
-            color: $standardColor;
+            color: $textInfo;
             text-shadow: none;
         }
     }
@@ -46,13 +52,15 @@
 
         &:hover {
             .button {
-                border-radius: 3px 0 0 3px;
-                min-width: 60px;
-                width: 60px;
+                border-color: #2c8e00;
+                border-radius: 2px 0 0 2px;
+                min-width: 80px;
+                width: 80px;
             }
 
             .more-provider {
                 display: inline-block;
+                height: 30px;
                 padding: 2px 5px;
                 min-width: 20px;
             }
@@ -66,6 +74,8 @@
     }
 
     .list-ctn {
+        overflow: initial;
+        white-space: normal;
         -webkit-transition: all .2s linear;
 
         .item {
@@ -95,6 +105,16 @@
 
 
             &:hover {
+                .download-list-text {
+                    &:before {
+                        content: '缓存';
+                    }
+                }
+                .play-list-text {
+                    &:before {
+                        content: '播放';
+                    }
+                }
                 .size {
                     opacity: 1;
                 }

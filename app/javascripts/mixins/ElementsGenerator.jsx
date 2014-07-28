@@ -73,18 +73,18 @@
                         'action' : 'subscribe_popup',
                         'type' : 'display',
                         'pos' : source,
-                        'video_id' : this.props.video.id,
-                        'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
-                        'video_title' : this.props.video.get('title'),
-                        'video_type' : this.props.video.get('type'),
-                        'video_category' : this.props.video.get('categories'),
-                        'video_year' : this.props.video.get('year'),
-                        'video_area' : this.props.video.get('region')
+                        'video_id' : this.state.video.id,
+                        'video_source' : this.state.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.state.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
+                        'video_title' : this.state.video.get('title'),
+                        'video_type' : this.state.video.get('type'),
+                        'video_category' : this.state.video.get('categories'),
+                        'video_year' : this.state.video.get('year'),
+                        'video_area' : this.state.video.get('region')
                     });
                 } else {
                     if (source === 'subscribe') {
-                        this.subscribeCallback.call(this, 2);
-                        this.subscribeBubbleView.doUnsubscribe(video);
+                        this.props.isSubscribed.call(this, 2);
+                        this.subscribeBubbleView.doUnsubscribe(this.state.video);
                     }
                 }
             },
@@ -151,7 +151,9 @@
                 case 'MOVIE':
                     text = Wording.DOWNLOAD;
 
-                    if (this.props.video.get('videoEpisodes')[0] && this.props.video.get('videoEpisodes')[0].downloadUrls && this.props.video.get('videoEpisodes')[0].downloadUrls.length > 1) {
+                    var video = this.props.video.get('videoEpisodes')[0];
+
+                    if (video && ((video.downloadUrls && video.downloadUrls.length > 1) || (video.playInfo && video.playInfo.length > 1)) ) {
                         return (
                             <div className="o-btn-group">
                                 <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
@@ -251,10 +253,10 @@
             },
             getSubscribeBtn : function (source) {
                 var text;
-                var baseClassName = 'button-subscribe w-btn';
+                var baseClassName = 'button-subscribe w-btn w-btn-mini';
                 var className;
 
-                if (this.props.video.get('subscribeUrl') === undefined || this.props.subscribed === -2 || this.props.subscribed === undefined) {
+                if (this.state.video.get('subscribeUrl') === undefined || this.props.subscribed === -2 || this.props.subscribed === undefined) {
                     return false;
                 }
                 if (this.props.subscribed === 1) {
@@ -307,11 +309,43 @@
                 case 'TV':
                 case 'MOVIE':
                 case 'COMIC':
-                    text = data.categories + ' / ' + FormatString(Wording.YEAR, data.year);
+                    text = data.categories;
                     break;
                 }
 
                 return <div className="w-text-thirdly w-wc">{text}</div>;
+            },
+            getEditorComment : function () {
+                var comment = this.props.video.get('recommend');
+                return (
+                    <div className="w-text-thirdly w-wc">{comment}</div>
+                );
+            },
+            getStars : function () {
+                var ele;
+                var data = this.props.video.toJSON();
+                if (data.rating !== Wording.NO_RATING) {
+                    var rating = data.rating;
+                } else {
+                    var rating = 0;
+                }
+
+                var ratingView = {
+                    width : (rating/10)*75 + 'px'
+                };
+
+                if (rating) {
+                    return (
+                        <div className="rating-stars">
+                            <i style={ratingView}></i>
+                            <span>{parseFloat(data.rating).toFixed(1)}</span>
+                        </div>
+                    );
+                } else {
+                    return (
+                        <div className="w-text-thirdly w-wc">{Wording.NO_RATING}</div>
+                    );
+                }
             },
             getRatingEle : function () {
                 var ele;

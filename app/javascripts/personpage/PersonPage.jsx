@@ -57,13 +57,13 @@
                 if (personId) {
                     QueryHelper.queryPersonAsync(parseInt(personId)).done(function (resp) {
                         resp = resp[0];
-                        if (resp.personBean.name) {
+                        if (resp.name) {
                             this.setState({
                                 person : resp
                             });
                             this.loaded();
 
-                            QueryHelper.queryWorksAsync(resp.personBean.name, this.state.start, 12).done(function (res) {
+                            QueryHelper.queryWorksAsync(resp.name, this.state.start, 12).done(function (res) {
                                 if (res.total > 0) {
                                     this.setState({
                                         total : res.total,
@@ -79,13 +79,13 @@
                 } else if (personName) {
                     QueryHelper.queryPersonAsync(personName).done(function (resp) {
                         resp = resp[0];
-                        if (resp.personBean.name) {
+                        if (resp.name) {
                             this.setState({
                                 person : resp
                             });
                             this.loaded();
 
-                            QueryHelper.queryWorksAsync(resp.personBean.name, this.state.start, 12).done(function (res) {
+                            QueryHelper.queryWorksAsync(resp.name, this.state.start, 12).done(function (res) {
                                 if (res.total > 0) {
                                     this.setState({
                                         total : res.total,
@@ -147,7 +147,7 @@
                 }
             },
             render : function () {
-                var person = this.state.person.personBean || {};
+                var person = this.state.person || {};
                 var coverStyle = {};
                 if (person.coverUrl) {
                     coverStyle = {

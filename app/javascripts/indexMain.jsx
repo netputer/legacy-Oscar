@@ -8,6 +8,7 @@
         'GA',
         'main/Log',
         'Actions',
+        'utilities/QueryHelper',
         'indexpage/IndexPage',
         'indexpage/IndexPageRouter',
         'components/DownloadTipView',
@@ -22,6 +23,7 @@
         GA,
         Log,
         Actions,
+        QueryHelper,
         IndexPage,
         IndexPageRouter,
         DownloadTipView,
@@ -31,43 +33,6 @@
         VideoPlayer
     ) {
         var showFlag = 0;
-
-        var queryAsync = function (id) {
-            var deferred = $.Deferred();
-
-            IO.requestAsync({
-                url : Actions.actions.QUERY_SERIES + id,
-                data : {
-                    estart : 0,
-                    emax : 10,
-                    opt_fields : [
-                        'title',
-                        'type',
-                        'id',
-                        'description',
-                        'actors.*',
-                        'cover.*',
-                        'categories.name',
-                        'latestEpisodeNum',
-                        'latestEpisodeDate',
-                        'totalEpisodesNum',
-                        'marketRatings.rating',
-                        'marketComments.*',
-                        'videoEpisodes.*',
-                        'categories.*',
-                        'pictures.s',
-                        'providerNames.*',
-                        'subscribeUrl',
-                        'year',
-                        'presenters'
-                    ].join(',')
-                },
-                success : deferred.resolve,
-                error : deferred.reject
-            });
-
-            return deferred.promise();
-        };
 
         var indexPageRouter = IndexPageRouter.getInstance();
 
@@ -96,7 +61,7 @@
                 subscribed : -2
             });
 
-            queryAsync(query).done(function (resp) {
+            QueryHelper.queryAsync(query).done(function (resp) {
                 seriesDetailPanelView.setProps({
                     origin : resp,
                     id : query

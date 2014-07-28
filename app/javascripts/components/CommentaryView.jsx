@@ -30,16 +30,16 @@
                 });
                 if (commentsList.length > 0) {
                     return (
-                        <div>
-                            <h5>{Wording.COMMENT}</h5>
+                        <div className="w-cf row row-comments">
+                            <h5 className="w-text-secondary">{Wording.COMMENTS}</h5>
                             <ul className="o-comment-list">{commentsList}</ul>
                         </div>
                     );
                 } else {
                     return (
-                        <div>
-                            <h5>{Wording.COMMENT}</h5>
-                            <h6 className="w-text-info">{Wording.NO_DATA}</h6>
+                        <div className="w-cf row row-comments">
+                            <h5 className="w-text-secondary">{Wording.COMMENTS}</h5>
+                            <p className="w-text-thirdly">{Wording.NO_DATA}</p>
                         </div>
                     );
                 }

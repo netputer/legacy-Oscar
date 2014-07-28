@@ -8,6 +8,7 @@
         'GA',
         'Actions',
         'main/Log',
+        'utilities/QueryHelper',
         'catepage/CatePage',
         'catepage/CatePageRouter',
         'components/DownloadTipView',
@@ -20,6 +21,7 @@
         GA,
         Actions,
         Log,
+        QueryHelper,
         CatePage,
         CatePageRouter,
         DownloadTipView,
@@ -27,45 +29,6 @@
         SeriesDetailPanelView
     ) {
         var catePageRouter = CatePageRouter.getInstance();
-
-        var queryAsync = function (id) {
-            var deferred = $.Deferred();
-
-            IO.requestAsync({
-                url : Actions.actions.QUERY_SERIES + id,
-                data : {
-                    estart : 0,
-                    emax : 10,
-                    opt_fields : [
-                        'title',
-                        'type',
-                        'id',
-                        'description',
-                        'actors.*',
-                        'cover.*',
-                        'categories.name',
-                        'latestEpisodeNum',
-                        'latestEpisodeDate',
-                        'totalEpisodesNum',
-                        'marketRatings.rating',
-                        'marketComments.*',
-                        'videoEpisodes.*',
-                        'categories.*',
-                        'pictures.s',
-                        'providerNames.*',
-                        'subscribeUrl',
-                        'year',
-                        'presenters'
-                    ].join(',')
-                },
-                success : deferred.resolve,
-                error : deferred.reject,
-                cache : true,
-                ifModified : false,
-            });
-
-            return deferred.promise();
-        };
 
         var closeDetailPanel = function () {
             seriesDetailPanelView.setState({
@@ -97,7 +60,7 @@
                     subscribed : -2
                 });
 
-                queryAsync(id).done(function (resp) {
+                QueryHelper.queryAsync(id).done(function (resp) {
                     seriesDetailPanelView.setProps({
                         origin : resp,
                         id : id

@@ -14,11 +14,14 @@
                 PROVIDERS : 'http://oscar.wandoujia.com/api/v1/providers',
                 QUERY_SERIES : 'http://oscar.wandoujia.com/api/v1/videos/',
                 QUERY_TYPE : 'http://oscar.wandoujia.com/api/v1/typeOptFields/',
+                RELATIONS : 'http://oscar.wandoujia.com/api/v1/relations',
                 SEARCH : 'http://oscar.wandoujia.com/api/v1/search/',
+                SERIES : 'http://oscar.wandoujia.com/api/v1/videoSeries/',
                 SUBSCRIBE_ADD : 'http://feed.wandoujia.com/api/v1/subscription/add',
                 SUBSCRIBE_CHECK : 'http://feed.wandoujia.com/api/v1/subscription/subscribed',
                 SUBSCRIBE_REMOVE : 'http://feed.wandoujia.com/api/v1/subscription/remove',
-                TOPIC : 'http://oscar.wandoujia.com/api/v1/topics'
+                TOPIC : 'http://oscar.wandoujia.com/api/v1/topics',
+                VERSIONS : 'http://oscar.wandoujia.com/api/v1/videoVersions/'
             },
             events : {
                 ACCOUNT_STATE_CHANGE : 'account.state_changed',

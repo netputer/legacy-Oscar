@@ -66,34 +66,44 @@
             },
             render : function () {
                 var className = this.getBubbleClassName(this.props.id).toLowerCase();
-                var items;
+                var playInfo;
+                var downloadInfo;
 
-                if (this.props.source === 'play') {
                     if (this.props.episode === undefined) {
-                        items = this.props.video.get('videoEpisodes')[0].playInfo;
+                        playInfo = this.props.video.get('videoEpisodes')[0] ? this.props.video.get('videoEpisodes')[0].playInfo : [];
                     } else {
-                        items = this.props.episode.playInfo;
+                        playInfo = this.props.episode.playInfo;
                     }
-                    var items = _.map(items, function (item, index) {
+                    var playItems = _.map(playInfo, function (item, index) {
                             if (item.url) {
-                                return <li key={index} onClick={this.playInProvider.bind(this, item.url)}>来源: {item.title}</li>
+                                return <li key={index} onClick={this.playInProvider.bind(this, item.url)}>{item.title} {Wording.PLAY}</li>
                             }
                         }, this);
-                } else {
-                    if (this.props.episode === undefined) {
-                        items = this.props.video.get('videoEpisodes').length ? this.props.video.get('videoEpisodes')[0].downloadUrls : [];
-                    } else {
-                        items = this.props.episode.downloadUrls;
-                    }
-                    var items = _.map(items, function (item, index) {
-                            return <li key={index} onClick={this.downloadFromProvider.bind(this, item, this.props.video.get('cover').s)}>来源: {item.providerName} <span className="provider-size">{ReadableSize(item.size)}</span></li>
-                        }, this);
-                }
 
+
+                    if (this.props.episode === undefined) {
+                        downloadInfo = this.props.video.get('videoEpisodes').length && this.props.video.get('videoEpisodes')[0] ? this.props.video.get('videoEpisodes')[0].downloadUrls : [];
+                    } else {
+                        downloadInfo = this.props.episode.downloadUrls;
+                    }
+                    var downloadItems = _.map(downloadInfo, function (item, index) {
+                            return <li key={index} onClick={this.downloadFromProvider.bind(this, item, this.props.video.get('cover').s)}>{item.providerName}{Wording.DOWNLOAD} <span className="provider-size">{ReadableSize(item.size)}</span></li>
+                        }, this);
+
+
+                    var getHr = function () {
+                        if (playItems.length && playItems[0]) {
+                            return (
+                                <hr />
+                            );
+                        }
+                    };
 
                 return (
                     <div className={className}>
-                        <ul>{items}</ul>
+                        <ul>{downloadItems}</ul>
+                        {getHr()}
+                        <ul>{playItems}</ul>
                     </div>
                 );
             }

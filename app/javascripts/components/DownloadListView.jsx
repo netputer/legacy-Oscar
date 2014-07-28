@@ -46,7 +46,6 @@
                                                 video={this.props.video}
                                                 episode={this.props.episode}
                                                 showAppBubble={this.showAppBubble}
-                                                source="download"
                                                 id="providerItems" />
             },
             updateEpisodeKey : function (key) {
@@ -75,18 +74,25 @@
                 toggleBubbleState(!this.providersBubbleView.state.providerItemsBubbleShow);
 
             },
+            clickPlay : function (url) {
+                var $a = $('<a>').attr({
+                    href : url.indexOf('?') >= 0 ? url + '&ref=wdj2' : url + '?ref=wdj2',
+                    target : '_default'
+                })[0].click();
+            },
             render : function () {
                 var episode = this.props.episode;
                 var count;
                 var style = {
-                    display : (this.props.key < 10 || this.props.countEpisodes <= 30 || this.props.key >= this.props.countEpisodes - 5 || this.props.key >= this.props.countEpisodes - this.props.expendIndex * 20 + 15) ? 'inline-block' : 'none'
+                    display : this.props.show ? 'inline-block' : 'none'
                 };
                 if (episode.episodeNum) {
                     count = FormatString(Wording.EPISODE_NUM, episode.episodeNum);
                 } else {
                     count = FormatDate('第MM-dd期', episode.episodeDate);
                 }
-                if (!episode.downloadUrls) {
+
+                if (!episode.downloadUrls && !episode.playInfo) {
                     return (
                         <li className="item" style={style}>
                             <button className="button button-download w-btn w-btn-mini w-btn-primary" disabled onClick={this.clickDownload}>
@@ -96,9 +102,10 @@
                         </li>
                     );
                 }
-                var downloadSource = episode.downloadUrls.length;
+                var downloadSource = episode.downloadUrls ? episode.downloadUrls.length : 0;
+                var playSource = episode.playInfo ? episode.playInfo.length : 0;
 
-                if (downloadSource > 1) {
+                if (downloadSource > 1 || (downloadSource === 1 && playSource >= 1)) {
                     return (
                         <li className="item" style={style}>
                             <div className="o-btn-group">
@@ -129,6 +136,28 @@
                                     video={this.props.video}
                                     episode={this.props.episode}
                                     name={this.state.appName} />
+                            </button>
+                        </li>
+                    );
+                } else if (playSource > 1) {
+                    return (
+                        <li className="item" style={style}>
+                            <div className="o-btn-group">
+                                <button className="button w-btn w-btn-mini w-btn-primary" onClick={this.clickPlay.bind(this, episode.playInfo[0].url)}>
+                                    <span className="play-list-text">{count}</span>
+                                </button>
+                                <button name="more-provider" className="w-btn w-btn-primary w-btn-mini more-provider" onClick={this.showProvidersBubble.bind(this, this.props.key)}>
+                                    <span className="arrow"></span>
+                                </button>
+                                {this.providersBubbleView}
+                            </div>
+                        </li>
+                    );
+                } else if (playSource === 1) {
+                    return (
+                        <li className="item" style={style}>
+                            <button className="button w-btn w-btn-mini w-btn-primary" onClick={this.clickPlay.bind(this, episode.playInfo[0].url)}>
+                                <span className="play-list-text">{count}</span>
                             </button>
                         </li>
                     );
@@ -164,8 +193,7 @@
                 var episode = this.props.episode;
                 if (!!episode.downloadUrls) {
                     DownloadHelper.download([episode], this.props.video.get('cover').s);
-
-                    for (var i=0; i <= this.props.key && i <= 5; i++) {
+                    for (var i=1; i <= this.props.key && i <= 5; i++) {
                         if (this.props.video.get('videoEpisodes')[i].downloadUrls !== undefined) {
                             if (this.props.key === i) {
                                 this.props.clickHandler.call(this, true);
@@ -191,9 +219,6 @@
 
             }
         });
-
-
-
 
 
         var DownloadListView = React.createClass({
@@ -228,11 +253,9 @@
             render : function () {
                 var episode = this.state.video.get('videoEpisodes');
                 return (
-                    <div className="o-button-list-ctn">
+                    <div className="w-cf o-button-list-ctn">
                         <ul className="list-ctn" ref="ctn">
-                            {this.createList(episode, 0, 10)}
-                            {episode.length > this.state.expendIndex * 20 - 5 && episode.length > 30 && <li className="load-more"><hr /><span onClick={this.clickExpend} className="link">{Wording.LOAD_MORE}</span></li>}
-                            {this.createList(episode, 10, episode.length)}
+                            {this.createList(episode)}
                         </ul>
                         <div>
                         </div>
@@ -275,15 +298,16 @@
             createList : function (videoEpisodes, start, max) {
                 var type = this.props.video.get('type');
                 var title = this.props.video.get('title');
-                var countEpisodes = this.props.video.get('videoEpisodes').length;
-                var episodes = videoEpisodes.slice(start, max);
+                var countEpisodes = this.props.video.get('videoEpisodes').length || 0;
+                var episodes = videoEpisodes.slice(start || 0, this.props.video.latestEpisodeNum);
                 var listItems = _.map(episodes, function (item, i) {
-                    return <ItemView
+                        return <ItemView
                                     video={this.props.video}
                                     episode={item}
                                     title={title}
                                     countEpisodes={countEpisodes}
-                                    key={start + i}
+                                    show={(item.episodeNum >= this.props.show.split('-')[0] && item.episodeNum <= this.props.show.split('-')[1]) || this.props.show === 'all'}
+                                    key={(start || 0) + i}
                                     expendIndex={this.state.expendIndex}
                                     clickHandler={this.showSubscribeBubble}
                                     type={type} />;

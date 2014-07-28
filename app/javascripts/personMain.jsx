@@ -8,6 +8,7 @@
         'GA',
         'main/Log',
         'Actions',
+        'utilities/QueryHelper',
         'personpage/PersonPageRouter',
         'personpage/PersonPage',
         'components/SeriesDetailPanelView',
@@ -19,49 +20,13 @@
         GA,
         Log,
         Actions,
+        QueryHelper,
         PersonPageRouter,
         PersonPage,
         SeriesDetailPanelView,
         DeclarationView
     ) {
         var personPageRouter = PersonPageRouter.getInstance();
-
-        var queryAsync = function (id) {
-            var deferred = $.Deferred();
-
-            IO.requestAsync({
-                url : Actions.actions.QUERY_SERIES + id,
-                data : {
-                    estart : 0,
-                    emax : 10,
-                    opt_fields : [
-                        'title',
-                        'type',
-                        'id',
-                        'description',
-                        'actors.*',
-                        'cover.*',
-                        'categories.name',
-                        'latestEpisodeNum',
-                        'latestEpisodeDate',
-                        'totalEpisodesNum',
-                        'marketRatings.rating',
-                        'marketComments.*',
-                        'videoEpisodes.*',
-                        'categories.*',
-                        'pictures.s',
-                        'providerNames.*',
-                        'subscribeUrl',
-                        'year',
-                        'presenters'
-                    ].join(',')
-                },
-                success : deferred.resolve,
-                error : deferred.reject
-            });
-
-            return deferred.promise();
-        };
 
         var closeDetailPanel = function () {
             seriesDetailPanelView.setState({
@@ -83,7 +48,7 @@
                     subscribed : -2
                 });
 
-                queryAsync(id).done(function (resp) {
+                QueryHelper.queryAsync(id).done(function (resp) {
                     seriesDetailPanelView.setProps({
                         origin : resp,
                         id : id

@@ -135,7 +135,6 @@
                 resource_id : resource.id,
                 resource_provider_name : resource.providerName
             }
-
             GA.log(info);
         }
 
