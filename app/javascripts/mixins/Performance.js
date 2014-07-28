@@ -28,7 +28,7 @@
                     'metric' : 'loadTime',
                     'timeSpent' : performance.timing.loadEventEnd - performance.timing.navigationStart
                 };
-    
+
                 if (!detailId) {
                     this.delaySendLog(obj, 5000);
                 }
@@ -92,7 +92,6 @@
                         if (o.metric !== 'openDetail') {
                             sentItems.push(o.metric);
                         }
-console.log(o)
                         GA.log(o);
                     }
                 }, time);
