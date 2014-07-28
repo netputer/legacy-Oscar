@@ -1,0 +1,63 @@
+@import "compass/css3";
+@import "../../thirdparty/Adonis/sass/standardColors";
+
+.w-input {
+    @include border-radius(3px);
+    @include box-shadow(0 1px 3px rgba(0, 0, 0, .05) inset);
+    @include box-sizing('border-box');
+    @include transition-duration(.2s, .2s, .2s);
+    @include transition-property(border, box-shadow, height);
+    @include transition-timing-function(linear, linear, linear);
+    @include input-placeholder() {
+        color: $textInfo;
+        font-size: inherit;
+    };
+
+    border: 1px $componentBorderColor solid;
+    display: block;
+    font-size: 14px;
+    line-height: 1.428571429;
+    margin-bottom: 10px;
+    padding: 4px 6px;
+    resize: none;
+    vertical-align: middle;
+
+    &:hover {
+        border-color: rgba($standardColor, .5);
+    }
+
+    &:focus,
+    &:focus:hover {
+        @include box-shadow(0 0 3px rgba($standardColor, .6), 0 1px 3px rgba(0, 0, 0, .05) inset);
+
+        border-color: $standardColor;
+        outline: 0;
+    }
+
+    &:disabled,
+    .disabled {
+        background-color: #eee;
+        border-color: $componentBorderColor;
+    }
+
+    &.w-input-block {
+        width: 100%;
+    }
+
+    &.w-input-large {
+        height: 34px;
+    }
+
+    &.w-input-kaiju {
+        font-size: 16px;
+        height: 42px;
+    }
+
+    &.w-input-danger {
+        &:focus,
+        &.focus {
+            @include box-shadow(0 0 3px rgba($textHighlight, .6), 0 1px 3px rgba(0, 0, 0, .05) inset);
+            border-color: $textHighlight;
+        }
+    }
+}
