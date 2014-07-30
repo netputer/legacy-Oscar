@@ -176,10 +176,10 @@
                                     {FormatDate('yyyy-MM-dd', person.birthDate)}
                                 </p>
                                 <p className="w-text-thirdly">
-                                    {person.birthPlace}
+                                    {person.birthPlace || Wording.NO_DATA}
                                 </p>
                                 <p className="w-text-thirdly">
-                                    {person.jobs ? person.jobs.join(' / ') : ''}<br />
+                                    {person.jobs ? person.jobs.join(' / ') : Wording.NO_DATA}<br />
                                 </p>
                                 <p className="w-text-thirdly intro">
                                     {person.introduction && person.introduction.length > this.state.intro_length ? person.introduction.substr(0, this.state.intro_length) + '...' : person.introduction}

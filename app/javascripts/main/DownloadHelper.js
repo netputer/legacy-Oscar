@@ -118,6 +118,7 @@
         };
 
         DownloadHelper.download = function (episodes, icon) {
+
             if (episodes.length > 1) {
                 var data = [];
                 _.each(episodes, function (item) {
@@ -155,7 +156,7 @@
                 if (clientVersion > 2.68) {
                     batchDownloadAsync(data);
                 }
-            } else {
+            } else if (episodes.length === 1) {
                 episode = episodes[0];
 
                 var downloadURL = episode.downloadUrls[0];
@@ -171,6 +172,8 @@
                 showTip(episode, downloadURL);
                 episode.providerName = downloadURL.providerName;
                 Log.consume({type : 'download', source : 'manual'}, episode);
+            } else {
+                return false;
             }
         };
 
