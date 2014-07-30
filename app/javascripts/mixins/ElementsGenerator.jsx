@@ -30,10 +30,6 @@
                 if (this.props.video.get('videoEpisodes').length > 1) {
                     this.props.confirmCallback(1);
                 } else {
-                    if (!sessionStorage.getItem(episode.downloadUrls[0].providerName)) {
-                        sessionStorage.setItem(episode.downloadUrls[0].providerName, 'displayed');
-                        this.showAppBubble(episode.downloadUrls[0]);
-                    }
                     DownloadHelper.download(this.props.video.get('videoEpisodes'), this.props.video.get('cover').s);
                 }
 
@@ -42,7 +38,7 @@
                     'action' : 'btn_click',
                     'pos' : source,
                     'video_id' : this.props.video.id,
-                    'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
+                    'video_source' : this.props.video.get('videoEpisodes')[0] && this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
                     'video_title' : this.props.video.get('title'),
                     'video_type' : this.props.video.get('type'),
                     'video_category' : this.props.video.get('categories'),
@@ -331,7 +327,7 @@
                 }
 
                 var ratingView = {
-                    width : (rating/10)*75 + 'px'
+                    width : (rating/10)*67 + 'px'
                 };
 
                 if (rating) {

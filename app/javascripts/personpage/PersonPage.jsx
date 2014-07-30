@@ -51,7 +51,7 @@
                 };
             },
             componentWillMount : function () {
-                this.initPerformance('person', 3, personId);
+                this.initPerformance('person', 2, personId);
             },
             componentDidMount : function () {
                 if (personId) {
@@ -74,6 +74,7 @@
                                 this.loaded();
                             }.bind(this));
                         }
+                        Log.pageShow();
 
                     }.bind(this));
                 } else if (personName) {
@@ -95,6 +96,12 @@
                                 }
                                 this.loaded();
                             }.bind(this));
+                        }
+
+                        if (resp.id) {
+                            history.replaceState(null, null, '?id=' + resp.id);
+                            Log.updateUrl();
+                            Log.pageShow();
                         }
 
                     }.bind(this));

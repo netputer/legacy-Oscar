@@ -13,7 +13,7 @@
         color: $textThirdly;
         height: 30px;
         line-height: 30px;
-        min-width: 100px;
+        min-width: 96px;
         padding: 0 5px;
         text-shadow: none;
 
@@ -45,6 +45,16 @@
         }
     }
 
+    .variety .item {
+        .button {
+            min-width: 116px;
+        }
+
+        .o-btn-group:hover .button {
+            width: 96px;
+        }
+    }
+
     .o-btn-group {
         .more-provider {
             display: none;
@@ -54,8 +64,8 @@
             .button {
                 border-color: #2c8e00;
                 border-radius: 2px 0 0 2px;
-                min-width: 80px;
-                width: 80px;
+                min-width: 76px;
+                width: 76px;
             }
 
             .more-provider {
@@ -73,6 +83,19 @@
         top: 175px;
     }
 
+    .button-play {
+        opacity: 0.6;
+
+        &:hover {
+            @include background-image(linear-gradient($btnHoverBgColorFrom, $btnHoverBgColorTo));
+            @include filter-gradient($btnHoverBgColorFrom, $btnHoverBgColorTo);
+            border: 1px $btnPrimaryBorderColor solid;
+            box-shadow: none;
+            color: #000;
+            opacity: 1;
+        }
+    }
+
     .list-ctn {
         overflow: initial;
         white-space: normal;
@@ -80,7 +103,7 @@
 
         .item {
             display: inline-block;
-            margin: 0 8px 8px 0;
+            margin: 0 6px 8px 0;
             position: relative;
             vertical-align: top;
 
@@ -102,10 +125,13 @@
                 }
             }
 
-
+            .download-list-text {
+                color: $textThirdly;
+            }
 
             &:hover {
                 .download-list-text {
+                    color: #fff;
                     &:before {
                         content: '缓存';
                     }

@@ -9,6 +9,7 @@
         'utilities/FormatString',
         'utilities/FormatDate',
         'utilities/QueryHelper',
+        'components/LoadingView',
         'components/DescriptionView',
         'components/StillsView'
     ], function (
@@ -20,6 +21,7 @@
         FormatString,
         FormatDate,
         QueryHelper,
+        LoadingView,
         DescriptionView,
         StillsView
     ) {
@@ -46,6 +48,7 @@
         var SeriesView = React.createClass({
             getInitialState : function () {
                 return {
+                    loadingActors : true,
                     actors : [],
                     avatars : {},
                     shortFilms : []
@@ -65,13 +68,14 @@
                         });
 
                         this.setState({
+                            loadingActors : false,
                             actors : actors,
                             avatars : avatars
                         });
                     }.bind(this));
                 }
 
-                if (video.id) {
+                if (video.id && video.get('type') === 'MOVIE') {
                     getShortAsync(video.id).done(function (resp) {
                         this.setState({
                             shortFilms : resp
@@ -108,12 +112,20 @@
             },
             getActors : function () {
                 var video = this.props.video || {};
-                if (this.state.actors.length) {
+                if (this.state.actors.length && !this.state.loadingActors) {
                     return (
                         <div className="w-wc actors">
                             <h5>{Wording.ACTORS_LABEL}</h5>
                             {this.getActorsWithAvatar(video)}
                         </div>
+                    );
+                } else if (!this.state.actors.length) {
+                    return (
+                        <div />
+                    );
+                } else {
+                    return (
+                        <LoadingView show={this.state.loadingActors} />
                     );
                 }
             },

@@ -17,7 +17,7 @@
                     <li className="item">
                         <div className="author w-text-info">{this.props.comment.author}</div>
                         <div className="date w-text-info">{FormatDate('yyyy-MM-dd', this.props.comment.date)}</div>
-                        <div className="w-text-secondary">{this.props.comment.comment}</div>
+                        <div className="w-text-thirdly">{this.props.comment.comment}</div>
                     </li>
                 );
             }
@@ -39,7 +39,7 @@
                     return (
                         <div className="w-cf row row-comments">
                             <h5 className="w-text-secondary">{Wording.COMMENTS}</h5>
-                            <p className="w-text-thirdly">{Wording.NO_DATA}</p>
+                            <p className="w-text-thirdly">{Wording.NO_COMMENT}</p>
                         </div>
                     );
                 }

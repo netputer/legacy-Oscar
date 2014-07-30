@@ -10,6 +10,7 @@
         'utilities/FormatString',
         'components/LoadingView',
         'main/models/VideoModel',
+        'mixins/Performance',
         'mixins/FilterNullValues',
         'mixins/ElementsGenerator'
     ], function (
@@ -22,6 +23,7 @@
         FormatString,
         LoadingView,
         VideoModel,
+        Performance,
         FilterNullValues,
         ElementsGenerator
     ) {
@@ -97,13 +99,15 @@
         });
 
         var VideoListItemView = React.createClass({
+            mixins : [Performance],
             getInitialState : function () {
                 return {
                     video: new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, this.props.origin))
                 };
             },
-            clickItem : function () {
-                this.props.onVideoSelect(this.props.video);
+            onVideoSelect : function (id) {
+                this.setTimeStamp(new Date().getTime(), id);
+                window.location.hash = '#detail/' + id;
             },
             setEpisodes : function (resp) {
                 var deferred = $.Deferred();
@@ -127,7 +131,7 @@
                         <div className="o-mask item-cover"
                             style={{ 'background-image' : 'url(' + (data.cover.l || "") + ')' }}
                             onClick={this.clickItem} />
-                        <InfoView video={this.state.video} setEpisodes={this.setEpisodes} onSelect={this.clickItem} />
+                        <InfoView video={this.state.video} setEpisodes={this.setEpisodes} onSelect={this.onVideoSelect.bind(this, data.id)} />
                         <PictureView data={data.pictures.s} />
                     </li>
                 );

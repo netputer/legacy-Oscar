@@ -7,6 +7,7 @@
         'Wording',
         'utilities/FormatString',
         'utilities/FormatDate',
+        'mixins/Performance',
         'components/WanxiaodouView'
     ], function (
         React,
@@ -15,12 +16,14 @@
         Wording,
         FormatString,
         FormatDate,
+        Performance,
         WanxiaodouView
     ) {
 
         var DownloadHandler = {
-            onClick : function () {
-                this.props.onVideoSelect(this.props.data.id);
+            onClick : function (id) {
+                Performance.setTimeStamp(new Date().getTime(), id);
+                window.location.hash = (this.props.queryType || '') + '/detail/' + id;
             }
         };
 
@@ -45,7 +48,7 @@
                     <li className="o-categories-item-big w-component-card o-mask"
                         key={data.title}
                         style={style}
-                        onClick={this.onClick} >
+                        onClick={this.onClick.bind(this, data.id)} >
                         <div className="info-ctn w-vbox">
                             <h3 className="title">{this.props.data.title}</h3>
                             {this.renderInfo()}
@@ -184,7 +187,7 @@
                 var propTitle = data.title && data.title.length > 10 ? data.title : '';
 
                 return (
-                    <li className="o-categories-item w-component-card" title={propTitle} onClick={this.onClick}>
+                    <li className="o-categories-item w-component-card" title={propTitle} onClick={this.onClick.bind(this, data.id)}>
                         <div className="cover o-mask">
                             <img src={data.cover ? data.cover.l : ''}/>
                         </div>
@@ -234,7 +237,7 @@
                         <div className="o-categories-ctn">
                             <h4 className="w-text-secondary title" onClick={this.clickTitle}>{Wording[this.props.cate]}</h4>
                             <ul className="o-categories-item-container w-cf">
-                                <BigItemView data={this.props.list[0]} onVideoSelect={this.props.onVideoSelect} />
+                                <BigItemView data={this.props.list[0]} queryType={this.props.queryType} onVideoSelect={this.props.onVideoSelect} />
                                 {this.renderItem()}
                             </ul>
                         </div>
@@ -245,7 +248,7 @@
                 if (this.props.list) {
                     var result = _.map(this.props.list.slice(this.props.noBigItem ? 0 : 1, this.props.list.length), function (video) {
                         if (video && video.id) {
-                            return <ItemView data={video} key={video ? video.id : 0} onVideoSelect={this.props.onVideoSelect} />;
+                            return <ItemView data={video} key={video ? video.id : 0} queryType={this.props.queryType} onVideoSelect={this.props.onVideoSelect} />;
                         }
                     }, this);
 

@@ -49,13 +49,6 @@
         DownloadConfirmView
     ) {
 
-        var rowHeight = {
-            series : 0,
-            detail : 0,
-            related : 0,
-            comments : 0
-        };
-
         var cacheId = 0;
 
         var SeriesDetailPanelView = React.createClass({
@@ -78,19 +71,12 @@
                         height : window.innerHeight
                     });
                 }.bind(this), 50));
-                ProviderInfo.init();
-            },
-            componentDidUpdate : function () {
-                rowHeight = {
-                    series : $('.row-series').height() + 10,
-                    detail : $('.row-detail').height(),
-                    related : $('.row-related').height(),
-                    comments : $('.row-comments').height()
-                }
             },
             componentWillReceiveProps : function (newProps) {
                 var video = newProps.origin;
                 if (video.id) {
+                    Performance.detailOpened(new Date().getTime(), video.id);
+                    ProviderInfo.init();
                     var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, video));
 
                     this.setState({
@@ -190,55 +176,36 @@
                         showConfirm : show
                     });
                 }
-
-
-                if (flag === 1 && close !== undefined && this.state.subscribed !== -2) {
-                    this.setState({
-                        showSubscribeBubble : 'download_all'
-                    });
-                }
             },
             selectTab : function (tab) {
                 this.setState({
                     selectedTab : tab
                 });
-                rowHeight = {
-                    series : $('.row-series').height() + 10,
-                    detail : $('.row-detail').height(),
-                    related : $('.row-related').height(),
-                    comments : $('.row-comments').height()
-                };
-
                 switch (tab) {
                     case 'series' :
                         $('.body').animate({scrollTop: 0}, '500', 'swing');
                         break;
                     case 'detail' :
-                        $('.body').animate({scrollTop: rowHeight.series}, '500', 'swing');
+                        $('.body').animate({scrollTop: $('.body').scrollTop() + $('.row-detail').position().top}, '500', 'swing');
                         break;
                     case 'related' :
-                        $('.body').animate({scrollTop: rowHeight.series + rowHeight.detail}, '500', 'swing');
+                        $('.body').animate({scrollTop: $('.body').scrollTop() + $('.row-related').position().top}, '500', 'swing');
                         break;
                     case 'comments' :
-                        $('.body').animate({scrollTop: rowHeight.series + rowHeight.detail + rowHeight.related}, '500', 'swing');
+                        $('.body').animate({scrollTop: $('.body').scrollTop() + $('.row-comments').position().top}, '500', 'swing');
                         break;
                 }
             },
             onScroll : function (evt) {
-                if ($('.body').scrollTop() > rowHeight['series'] + rowHeight['detail'] + rowHeight['related'] - 20) {
-                    $('.o-series-panel-content > .tab').removeClass('selected').eq(3).addClass('selected');
-                } else if ($('.body').scrollTop() > rowHeight['series'] + rowHeight['detail'] - 20) {
-                    $('.o-series-panel-content > .tab').removeClass('selected').eq(2).addClass('selected');
-                } else if ($('.body').scrollTop() > rowHeight['series'] - 20) {
-                    $('.o-series-panel-content > .tab').removeClass('selected').eq(1).addClass('selected');
+                var tabLength = this.props.origin.type === 'MOVIE' ? 2 : 3;
+                if ($('.row-comments').position().top < 50) {
+                    $('.h5.tab').removeClass('selected').eq(tabLength).addClass('selected');
+                } else if ($('.row-related').position().top < 50) {
+                    $('.h5.tab').removeClass('selected').eq(tabLength - 1).addClass('selected');
+                } else if ($('.row-detail').position().top < 50) {
+                    $('.h5.tab').removeClass('selected').eq(tabLength - 2).addClass('selected');
                 } else {
-                    $('.o-series-panel-content > .tab').removeClass('selected').eq(0).addClass('selected');
-                    rowHeight = {
-                        series : $('.row-series').height() + 10,
-                        detail : $('.row-detail').height(),
-                        related : $('.row-related').height(),
-                        comments : $('.row-comments').height()
-                    };
+                    $('.h5.tab').removeClass('selected').eq(0).addClass('selected');
                 }
             },
             setVideoState : function (data) {
@@ -270,7 +237,7 @@
                                     <SeriesHeaderView video={this.state.video} showSubscribeBubble={this.state.showSubscribeBubble} subscribed={this.state.subscribed} confirmCallback={this.confirm} loadingEpisodes={this.state.loadingEpisodes} />
                                     <TabView type={video.type} selectedTab={this.state.selectedTab} selectTab={this.selectTab} />
                                     <div className="body" onScroll={this.onScroll}>
-                                        <SeriesView videoCallback={this.setVideoState} origin={video} isSubscribed={this.isSubscribed} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
+                                        <SeriesView videoCallback={this.setVideoState} origin={video} id={video.id} isSubscribed={this.isSubscribed} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
                                         <DetailView video={this.state.video} />
                                         <RelatedView videoId={video ? video.id : 0} />
                                         <CommentaryView comments={this.state.video.get('marketComments')[0].comments} />

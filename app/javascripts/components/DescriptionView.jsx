@@ -10,7 +10,7 @@
                 return (
                     <div className="o-serires-description">
                         <h5>描述</h5>
-                        <p className="description w-text-secondary">{this.props.video.get('description') ? this.props.video.get('description').trim() : ''}</p>
+                        <p className="description w-text-thirdly">{this.props.video.get('description') ? this.props.video.get('description').trim() : ''}</p>
                     </div>
                 );
             }

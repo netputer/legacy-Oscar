@@ -132,7 +132,7 @@
                 return deferred.promise();
             },
             componentWillMount : function () {
-                this.initPerformance('category', 3);
+                this.initPerformance('category', 2);
                 catePageRouter.on('route:filter', function (cate) {
                     queryType = cate;
                     this.updatePerformanceQuery(cate);
@@ -236,6 +236,7 @@
                             list={this.state.list}
                             onVideoSelect={this.onVideoSelect}
                             loaded={this.state.loaded}
+                            queryType={queryType}
                             ref="video-ctn" />
                         <PaginationView
                             total={this.state.pageTotal}
