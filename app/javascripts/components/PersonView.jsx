@@ -64,7 +64,7 @@
                                 <h4 className="title" onClick={this.onClick.bind(this, person.id)}>{person.name}</h4>
                                 <p className="jobs w-wc w-text-thirdly">{person.jobs.join(' / ')}</p>
                                 <p className="works-count w-wc w-text-thirdly">{person.productCount.video ? person.productCount.video + Wording.VIDEO_WORKS_WITH_NUMBER : ''}</p>
-                                <p className="introduction w-wc w-text-thirdly">{person.introduction.length > 40 ? person.introduction.substr(0, 40) + '...' : person.introduction}</p>
+                                <p className="introduction w-wc w-text-thirdly">{person.introduction && person.introduction.length > 40 ? person.introduction.substr(0, 40) + '...' : Wording.NO_DATA}</p>
                                 <button className="w-btn w-btn-primary" onClick={this.onClick.bind(this, person.id)}>{Wording.VIEW}</button>
                             </div>
                             <PictureView data={person.albumsUrls} />
