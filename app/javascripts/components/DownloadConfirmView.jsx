@@ -67,7 +67,7 @@
                     'action' : 'download_all_confirmation',
                     'type' : !!flag ? 'ok' : 'cancel',
                     'video_id' : this.props.video.id,
-                    'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
+                    'video_source' : this.props.video.get('videoEpisodes')[0] && this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
                     'video_title' : this.props.video.get('title'),
                     'video_type' : this.props.video.get('type'),
                     'video_category' : this.props.video.get('categories'),
