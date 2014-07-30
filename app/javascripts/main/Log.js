@@ -117,7 +117,6 @@
                     result[key] = info[key];
                 }
             }
-
             GA.log(result);
         };
 

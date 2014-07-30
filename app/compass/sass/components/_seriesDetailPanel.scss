@@ -28,7 +28,7 @@
             height: 27px;
             position: fixed;
             top: 200px;
-            width: 600px;
+            width: 637px;
 
             .tab {
                 border-bottom: 2px transparent solid;
@@ -42,6 +42,7 @@
 
                 &.selected {
                     border-bottom-color: $standardColor;
+                    color : $standardColor;
                 }
             }
         }
@@ -60,7 +61,7 @@
 
 .o-series-panel-header {
     background-color: #fff;
-    padding: 5px 5px 50px;
+    padding: 5px 5px 47px;
 
     .download-app {
         display: inline-block;
@@ -83,14 +84,15 @@
     .rating-stars {
         @include sprite-sprite(star);
         background-color: #eee;
-        height: 15px;
+        height: 14px;
         margin: 5px 0;
-        width: 75px;
+        position: relative;
+        width: 67px;
 
         i {
             display: block;
             float: left;
-            height: 15px;
+            height: 14px;
             background-color: #e34a00;
             @include sprite-sprite(star);
         }
@@ -100,6 +102,7 @@
             font-size: 14px;
             left: 80px;
             position: absolute;
+            top: -1px;
         }
     }
 
@@ -124,7 +127,7 @@
         .legal-link {
             bottom: 0;
             position: absolute;
-            right: 0;
+            right: 10px;
         }
     }
 
@@ -139,14 +142,14 @@
     margin: 0 auto;
     padding: 15px 0 0;
     position: relative;
-    width: 600px;
+    width: 647px;
 
     .body {
         background-color: #fff;
         overflow-y: auto;
         -webkit-box-flex: 1;
         display: inline-block;
-        height: calc(100% - 215px);
+        height: calc(100% - 212px);
         padding: 10px 10px 25px;
         position: relative;
         vertical-align: top;
@@ -209,6 +212,7 @@
     }
 
     .o-categories-item-container {
+        padding-left: 1px;
         width: 5000px;
 
         .o-categories-item:nth-child(4), .o-categories-item:nth-child(6n+10) {
@@ -265,18 +269,37 @@
 
     .row:not(.row-comments) {
         border-bottom: 1px solid #e5e5e5;
-        padding-bottom: 20px;
+        padding-bottom: 60px;
+    }
+    .row-comments {
+        min-height: calc(100% + 10px);
+        overflow: hidden;
+    }
+
+    .detail-info {
+        overflow: hidden;
+        p {
+            margin: 0;
+        }
     }
 
     .row-series {
         .tab-ctn {
+            margin-top: 10px;
             position: relative;
             top: 0;
-            width: 580px;
+            width: 100%;
             .tab {
-                bottom: 2px;
+                bottom: 3px;
                 padding: 5px 22px;
                 position: relative;
+                &:first-child {
+                    margin-left: 0;
+                }
+
+                &.selected {
+                    font-weight: bold;
+                }
             }
         }
         .choose-arrow {
@@ -351,6 +374,7 @@
 
     .download-list-text {
         display: block;
+        height: 100%;
         margin-bottom: 4px;
     }
 

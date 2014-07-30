@@ -23,7 +23,7 @@
             getInitialState : function () {
                 return {
                     disablePrev : true,
-                    disableNext : (this.props.video.get('pictures').s.length - 3 > 0) ? false : true,
+                    disableNext : (this.props.video.get('pictures').s.length - 5 > 0) ? false : true,
                     showLarge : false,
                     smallIndex : 0,
                     shortFilms : []
@@ -32,7 +32,7 @@
             componentWillReceiveProps : function (newProps) {
                 this.setState({
                     disablePrev : true,
-                    disableNext : (newProps.video.get('pictures').s.length + newProps.shortFilms.length - 3 > 0) ? false : true,
+                    disableNext : (newProps.video.get('pictures').s.length + newProps.shortFilms.length - 5 > 0) ? false : true,
                     showLarge : false,
                     smallIndex : 0,
                     shortFilms : newProps.shortFilms
@@ -44,39 +44,18 @@
                     this.setState({
                         smallIndex : smallIndex,
                         disablePrev : smallIndex === 0,
-                        disableNext : smallIndex === (this.props.video.get('pictures').s.length + this.state.shortFilms.length - 3)
+                        disableNext : smallIndex === (this.props.video.get('pictures').s.length + this.state.shortFilms.length - 5)
                     });
                 }
             },
             clickNext : function () {
                 if (!this.state.disableNext) {
-                    var smallIndex = Math.min(this.state.smallIndex + 1, this.props.video.get('pictures').s.length + this.state.shortFilms.length - 3);
+                    var smallIndex = Math.min(this.state.smallIndex + 1, this.props.video.get('pictures').s.length + this.state.shortFilms.length - 5);
                     this.setState({
                         smallIndex : smallIndex,
                         disablePrev : smallIndex === 0,
-                        disableNext : smallIndex === (this.props.video.get('pictures').s.length + this.state.shortFilms.length - 3)
+                        disableNext : smallIndex === (this.props.video.get('pictures').s.length + this.state.shortFilms.length - 5)
                     });
-                }
-            },
-            render : function () {
-                var video = this.props.video;
-                if (video.get('pictures').s.length > 0 || this.props.shortFilms.length > 0) {
-                    return (
-                        <div className="o-stills-ctn">
-                            <div className="header-ctn w-hbox">
-                                <div className="info">
-                                    <h5 className="w-text-secondary">{this.state.shortFilms.length ? Wording.TRAILOR + ' · ' : ''} {Wording.STILLS}</h5>
-                                </div>
-                                <div className="navigator">
-                                    <div className={this.state.disablePrev ? 'prev disabled' : 'prev'} onClick={this.clickPrev} />
-                                    <div className={this.state.disableNext ? 'next disabled' : 'next'} onClick={this.clickNext} />
-                                </div>
-                            </div>
-                            {this.renderItem()}
-                        </div>
-                    );
-                } else {
-                    return <div />;
                 }
             },
             renderItem : function () {
@@ -115,7 +94,7 @@
                 var shortLength = this.state.shortFilms ? this.state.shortFilms.length : 0;
 
                 var style = {
-                    'margin-left' : this.state.smallIndex < shortLength ? -(this.state.smallIndex * 200) : -(shortLength * 200 + (this.state.smallIndex-shortLength) * 200)
+                    'margin-left' : this.state.smallIndex < shortLength ? -(this.state.smallIndex * 125) : -(shortLength * 125 + (this.state.smallIndex-shortLength) * 125)
                 };
 
                 return (
@@ -135,6 +114,35 @@
                 })[0].click();
             },
             clickSmallStills : function (index) {
+            },
+            getNavigator : function () {
+                if (this.props.video.get('pictures').s.length > 5 || this.props.video.get('pictures').s.length + this.state.shortFilms.length > 4) {
+                    return (
+                        <div className="navigator">
+                            <div className={this.state.disablePrev ? 'prev disabled' : 'prev'} onClick={this.clickPrev} />
+                            <div className={this.state.disableNext ? 'next disabled' : 'next'} onClick={this.clickNext} />
+                        </div>
+
+                    );
+                }
+            },
+            render : function () {
+                var video = this.props.video;
+                if (video.get('pictures').s.length > 0 || this.props.shortFilms.length > 0) {
+                    return (
+                        <div className="o-stills-ctn">
+                            <div className="header-ctn">
+                                <div className="info">
+                                    <h5 className="w-text-secondary">{this.state.shortFilms.length ? Wording.TRAILOR + ' · ' : ''} {Wording.STILLS}</h5>
+                                </div>
+                                {this.getNavigator()}
+                            </div>
+                            {this.renderItem()}
+                        </div>
+                    );
+                } else {
+                    return <div />;
+                }
             }
         });
 

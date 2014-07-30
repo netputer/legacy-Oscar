@@ -24,7 +24,7 @@
                 url : Actions.actions.RELATIONS,
                 data : {
                     start : 0,
-                    max : 4,
+                    max : 5,
                     videoId : id
                  },
                 success : deferred.resolve,

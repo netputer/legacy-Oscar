@@ -80,7 +80,6 @@
         , document.body);
 
         Backbone.history.start();
-        Log.pageShow();
 
         $('body').on('keydown', function (evt) {
             if (evt.keyCode === 27) {

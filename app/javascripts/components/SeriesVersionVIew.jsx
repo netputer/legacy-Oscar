@@ -32,16 +32,19 @@
             },
             componentWillReceiveProps : function (newProps) {
                 if (newProps.list.length) {
-                    var list = _.uniq(newProps.list, function (item, key, id) {
-                        if (item) {
-                            return item.id;
+                    var list = [];
+                    var cacheIds = [];
+                    _.each(newProps.list, function (item, index) {
+                        if (item && item.id !== this.props.id && cacheIds.indexOf(item.id) < 0 && item.cover.l) {
+                            list.push(item);
+                            cacheIds.push(item.id);
                         }
-                    });
+                    }.bind(this));
 
                     this.setState({
                         list : list,
                         disablePrev : true,
-                        disableNext : (newProps.list.length - 4 > 0) ? false : true
+                        disableNext : (newProps.list.length - 5 > 0) ? false : true
                     });
                 }
             },
@@ -51,24 +54,34 @@
                     this.setState({
                         smallIndex : smallIndex,
                         disablePrev : smallIndex === 0,
-                        disableNext : smallIndex === (this.state.list.length - 4)
+                        disableNext : smallIndex === (this.state.list.length - 5)
                     });
-                    this.refs['series'].getDOMNode().style.marginLeft = -125*nextState.smallIndex + 'px';
+                    this.refs['series'].getDOMNode().style.marginLeft = -125*smallIndex + 'px';
                 }
             },
             clickNext : function () {
                 if (!this.state.disableNext) {
-                    var smallIndex = Math.min(this.state.smallIndex + 1, this.state.list.length - 4);
+                    var smallIndex = Math.min(this.state.smallIndex + 1, this.state.list.length - 5);
                     this.setState({
                         smallIndex : smallIndex,
                         disablePrev : smallIndex === 0,
-                        disableNext : smallIndex === (this.state.list.length - 4)
+                        disableNext : smallIndex === (this.state.list.length - 5)
                     });
-                    this.refs['series'].getDOMNode().style.marginLeft = -125*nextState.smallIndex + 'px';
+                    this.refs['series'].getDOMNode().style.marginLeft = -125*smallIndex + 'px';
                 }
             },
             onVideoSelect : function (id) {
                 window.location.hash = 'detail/' + id;
+            },
+            getNavigator : function () {
+                if (this.state.list.length > 5) {
+                    return (
+                        <div className="navigator">
+                            <div className={this.state.disablePrev ? 'prev disabled' : 'prev'} onClick={this.clickPrev} />
+                            <div className={this.state.disableNext ? 'next disabled' : 'next'} onClick={this.clickNext} />
+                        </div>
+                    );
+                }
             },
             render : function () {
 
@@ -79,10 +92,7 @@
                                 <div className="info">
                                     <h5 className="w-text-secondary">{this.props.title}{Wording.RELATED_SERIES}</h5>
                                 </div>
-                                <div className="navigator">
-                                    <div className={this.state.disablePrev ? 'prev disabled' : 'prev'} onClick={this.clickPrev} />
-                                    <div className={this.state.disableNext ? 'next disabled' : 'next'} onClick={this.clickNext} />
-                                </div>
+                                {this.getNavigator()}
                             </div>
 
                             <VideoListView title=""

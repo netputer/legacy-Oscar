@@ -92,7 +92,7 @@
 
 
                     var getHr = function () {
-                        if (playItems.length && playItems[0]) {
+                        if (downloadItems.length && downloadItems[0] && playItems.length && playItems[0]) {
                             return (
                                 <hr />
                             );

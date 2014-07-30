@@ -36,23 +36,20 @@
             updatePerformanceQuery : function (q) {
                 query = q;
             },
-            shouldComponentUpdate: function(nextProps, nextState) {
-                if (nextState.subscribed !== -2 && nextState.subscribed !== this.state.subscribed && timeStamp) {
+            setTimeStamp : function (str, id) {
+                timeStamp = str;
+                detailId = id;
+            },
+            detailOpened : function (time, id) {
+                if (time && id === detailId && cachedId.indexOf(id) < 0) {
                     var obj = {
                         'metric' : 'openDetail',
                         'timeSpent' : new Date().getTime() - timeStamp
                     };
 
-                    if (cachedId.indexOf(detailId) < 0) {
-                        this.delaySendLog(obj, 500);
-                        cachedId.push(detailId);
-                    }
+                    this.delaySendLog(obj, 500);
+                    cachedId.push(id);
                 }
-                return !(nextState === this.state);
-            },
-            setTimeStamp : function (str, id) {
-                timeStamp = str;
-                detailId = id;
             },
             loaded : function () {
                 loadTimes--;
@@ -92,7 +89,7 @@
                         if (o.metric !== 'openDetail') {
                             sentItems.push(o.metric);
                         }
-console.log(o)
+
                         GA.log(o);
                     }
                 }, time);

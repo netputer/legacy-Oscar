@@ -78,7 +78,7 @@
                 };
             },
             componentWillMount : function () {
-                this.initPerformance('index', 5);
+                this.initPerformance('index', 4);
 
                 $.when(queryAsync('tv').done(function (resp) {
                     this.setState({
@@ -125,10 +125,6 @@
                         href : 'search.html?q=' + query
                     })[0].click();
                 }
-            },
-            onVideoSelect : function (id) {
-                this.setTimeStamp(new Date().getTime(), id);
-                window.location.hash = '#detail/' + id;
             },
             clickBanner : function (cate, query) {
                 $('<a>').attr({

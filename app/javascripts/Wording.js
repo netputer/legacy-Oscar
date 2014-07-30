@@ -1,6 +1,6 @@
 /*global define*/
 define({
-    ACTORS_LABEL : '主演：',
+    ACTORS_LABEL : '主演',
     ALIAS_LABEL : '别名：',
     ALL : '全部',
     APP_INSTALL : '安装',
@@ -33,6 +33,7 @@ define({
     MINUTES : '分钟',
     MORE : '更多',
     MOVIE : '电影',
+    NO_COMMENT : '暂无评论',
     NO_DATA : '暂无数据',
     NO_RATING : '暂无评分',
     OTHER_INFO : '其它信息',

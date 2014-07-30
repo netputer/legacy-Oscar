@@ -12,6 +12,7 @@
         'utilities/QueryHelper',
         'utilities/FormatDate',
         'utilities/FormatString',
+        'components/LoadingView',
         'components/TabView',
         'components/DownloadListView',
         'components/SubscribeBubbleView',
@@ -28,6 +29,7 @@
         QueryHelper,
         FormatDate,
         FormatString,
+        LoadingView,
         TabView,
         DownloadListView,
         SubscribeBubbleView,
@@ -69,6 +71,7 @@
                     series : [],
                     versions : [],
                     list : [],
+                    loadingList : true,
                     tabs : ['tab_newest'],
                     selectedTab : 'tab_newest',
                     origin : this.props.origin,
@@ -134,6 +137,7 @@
                         var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
 
                         this.setState({
+                            loadingList : false,
                             origin : origin,
                             video : videoModle
                         });
@@ -163,6 +167,7 @@
                             var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
 
                             this.setState({
+                                loadingList : false,
                                 origin : origin,
                                 video : videoModle
                             });
@@ -182,6 +187,7 @@
                     });
                 }
                 this.setState({
+                    loadingList : true,
                     tabs : tabs,
                     selectedTab : tab
                 });
@@ -220,8 +226,10 @@
             },
             getList : function () {
                 var video = this.state.video;
-                if (video && video.type !== 'MOVIE') {
+                if (video && video.type !== 'MOVIE' && !this.state.loadingList) {
                     return <DownloadListView id={video.id} show={this.getShow()} video={video} origin={this.state.origin} subscribed={this.props.subscribed} />;
+                } else {
+                    return <LoadingView show={this.state.loadingList} />
                 }
             },
             getStatus : function () {
@@ -232,9 +240,9 @@
                     } else {
                         copy = Wording.LAST_EPISODE;
                     }
-                    return <h6 className="w-text-thirdly series-title">{FormatString(copy, [video.latestEpisodeNum])}</h6>
+                    return <h6 className="w-text-secondary series-title">{FormatString(copy, [video.latestEpisodeNum])}</h6>
                 } else if (video.latestEpisodeDate) {
-                    return <h6 className="w-text-thirdly series-title">{Wording.UPDATE_TIME + ' ' + FormatDate('MM月dd日', video.latestEpisodeDate)}</h6>
+                    return <h6 className="w-text-secondary series-title">{Wording.UPDATE_TIME + ' ' + FormatDate('MM月dd日', video.latestEpisodeDate)}</h6>
                 }
             },
             render : function () {
@@ -247,7 +255,7 @@
                             {this.subscribeBubbleView}
                             {this.getDownloadTab()}
                             {this.getList()}
-                            <SeriesVersionView list={this.state.list} title={this.state.seriesTitle} />
+                            <SeriesVersionView id={this.props.id} list={this.state.list} title={this.state.seriesTitle} />
                         </div>
                     );
                 } else {

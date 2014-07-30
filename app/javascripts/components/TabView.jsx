@@ -37,7 +37,6 @@
                 } else {
                     tabs = ['detail', 'related', 'comments'];
                 }
-
                 return _.map(tabs, function (item, index) {
                     if (index < 4) {
                         return (

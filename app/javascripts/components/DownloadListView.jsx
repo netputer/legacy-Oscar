@@ -35,6 +35,8 @@
     ) {
         var episodeKey;
 
+        var flag = 0;
+
         var ItemView = React.createClass({
             getInitialState : function () {
                 return {
@@ -87,7 +89,7 @@
                     display : this.props.show ? 'inline-block' : 'none'
                 };
                 if (episode.episodeNum) {
-                    count = FormatString(Wording.EPISODE_NUM, episode.episodeNum);
+                    count = FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum);
                 } else {
                     count = FormatDate('第MM-dd期', episode.episodeDate);
                 }
@@ -110,7 +112,7 @@
                         <li className="item" style={style}>
                             <div className="o-btn-group">
                                 <button className="button button-download w-btn w-btn-mini w-btn-primary" onClick={this.clickDownload}>
-                                    <span className="download-list-text">{count}</span>
+                                    <span className="download-list-text w-text-thirdly">{count}</span>
                                     <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {episode.downloadUrls[0].providerName}</em> {ReadableSize(episode.downloadUrls[0].size)}</span>
                                 </button>
                                 <button name="more-provider" className="w-btn w-btn-primary w-btn-mini more-provider" onMouseEnter={this.updateEpisodeKey.bind(this, this.props.key)} onClick={this.showProvidersBubble.bind(this, this.props.key)}>
@@ -143,7 +145,7 @@
                     return (
                         <li className="item" style={style}>
                             <div className="o-btn-group">
-                                <button className="button w-btn w-btn-mini w-btn-primary" onClick={this.clickPlay.bind(this, episode.playInfo[0].url)}>
+                                <button className="button button-play w-btn w-btn-mini" onClick={this.clickPlay.bind(this, episode.playInfo[0].url)}>
                                     <span className="play-list-text">{count}</span>
                                 </button>
                                 <button name="more-provider" className="w-btn w-btn-primary w-btn-mini more-provider" onClick={this.showProvidersBubble.bind(this, this.props.key)}>
@@ -156,7 +158,7 @@
                 } else if (playSource === 1) {
                     return (
                         <li className="item" style={style}>
-                            <button className="button w-btn w-btn-mini w-btn-primary" onClick={this.clickPlay.bind(this, episode.playInfo[0].url)}>
+                            <button className="button button-play w-btn w-btn-mini" onClick={this.clickPlay.bind(this, episode.playInfo[0].url)}>
                                 <span className="play-list-text">{count}</span>
                             </button>
                         </li>
@@ -252,9 +254,11 @@
             },
             render : function () {
                 var episode = this.state.video.get('videoEpisodes');
+                var className = 'list-ctn ' + this.props.video.get('type').toLowerCase();
+
                 return (
                     <div className="w-cf o-button-list-ctn">
-                        <ul className="list-ctn" ref="ctn">
+                        <ul className={className} ref="ctn">
                             {this.createList(episode)}
                         </ul>
                         <div>
