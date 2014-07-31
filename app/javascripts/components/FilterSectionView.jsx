@@ -24,13 +24,6 @@
         };
 
         var date = new Date().getTime();
-        var timeStamps = {
-            tv : date,
-            movie : date,
-            comic : date,
-            variety : date
-        };
-
         var deferreds = {
             tv : QueryHelper.queryTypeAsync('tv'),
             movie : QueryHelper.queryTypeAsync('movie'),
@@ -49,11 +42,11 @@
                     loaded[nextProps.type] = true;
                     deferreds[nextProps.type].done(function (resp) {
 
-                        var date = new Date().getTime();
+                        var now = new Date().getTime();
                         setTimeout(function (){
                             GA.log({
                                 'metric' : 'api_load_time_success_filter_' + nextProps.type,
-                                'timeSpent' : date - timeStamps[nextProps.type]
+                                'timeSpent' : now - date
                             });
                         }, 0);
 
@@ -63,11 +56,11 @@
                         nextProps.load && nextProps.load();
                     }.bind(this)).fail(function () {
 
-                        var date = new Date().getTime();
+                        var now = new Date().getTime();
                         setTimeout(function (){
                             GA.log({
                                 'metric' : 'api_load_time_error_filter_' + nextProps.type,
-                                'timeSpent' : date - timeStamps[nextProps.type]
+                                'timeSpent' : now - date
                             });
                         }, 0);
 

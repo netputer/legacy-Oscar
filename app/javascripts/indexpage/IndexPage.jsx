@@ -56,11 +56,11 @@
                 timeout : 1000 * 20,
                 success : function (resp) {
 
-                    var date = new Date().getTime();
+                    var now = new Date().getTime();
                     setTimeout(function () {
                         GA.log({
                             'metric' : 'api_load_time_success' + type,
-                            'timeSpent' : date - timeStamps[type]
+                            'timeSpent' : now - date
                         });
                     }, 0);
 
@@ -68,11 +68,11 @@
                 },
                 error : function (resp) {
 
-                    var date = new Date().getTime();
+                    var now = new Date().getTime();
                     setTimeout(function () {
                         GA.log({
                             'metric' : 'api_load_time_error' + type,
-                            'timeSpent' : date - timeStamps[type]
+                            'timeSpent' : now - date
                         });
                     }, 0);
 
@@ -84,11 +84,6 @@
         };
 
         var date = new Date().getTime();
-        var timeStamps = {
-            tv : date,
-            movie : date
-        };
-
         var tvDeferred = queryAsync('tv');
         var movieDeferred = queryAsync('movie');
 
