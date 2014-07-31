@@ -31,7 +31,7 @@
             variety : date
         };
 
-        var defferreds = {
+        var deferreds = {
             tv : QueryHelper.queryTypeAsync('tv'),
             movie : QueryHelper.queryTypeAsync('movie'),
             comic : QueryHelper.queryTypeAsync('comic'),
@@ -47,7 +47,7 @@
             componentWillReceiveProps : function (nextProps) {
                 if (nextProps.shouldLoad[nextProps.type] && !loaded[nextProps.type]) {
                     loaded[nextProps.type] = true;
-                    defferreds[nextProps.type].done(function (resp) {
+                    deferreds[nextProps.type].done(function (resp) {
 
                         var date = new Date().getTime();
                         setTimeout(function (){
