@@ -17,11 +17,26 @@
     ) {
 
         var loaded = {
-                tv : false,
-                movie : false,
-                comic : false,
-                variety : false
-            };
+            tv : false,
+            movie : false,
+            comic : false,
+            variety : false
+        };
+
+        var date = new Date().getTime();
+        var timeStamps = {
+            tv : date,
+            movie : date,
+            comic : date,
+            variety : date
+        };
+
+        var defferreds = {
+            tv : QueryHelper.queryTypeAsync('tv'),
+            movie : QueryHelper.queryTypeAsync('movie'),
+            comic : QueryHelper.queryTypeAsync('comic'),
+            variety : QueryHelper.queryTypeAsync('variety')
+        };
 
         var FilterSectionView = React.createClass({
             getInitialState : function () {
@@ -32,12 +47,30 @@
             componentWillReceiveProps : function (nextProps) {
                 if (nextProps.shouldLoad[nextProps.type] && !loaded[nextProps.type]) {
                     loaded[nextProps.type] = true;
-                    QueryHelper.queryTypeAsync(nextProps.type).done(function (resp) {
+                    defferreds[nextProps.type].done(function (resp) {
+
+                        var date = new Date().getTime();
+                        setTimeout(function (){
+                            GA.log({
+                                'metric' : 'api_load_time_success_filter_' + nextProps.type,
+                                'timeSpent' : date - timeStamps[nextProps.type]
+                            });
+                        }, 0);
+
                         this.setState({
                             list : resp[nextProps.filter]
                         });
                         nextProps.load && nextProps.load();
                     }.bind(this)).fail(function () {
+
+                        var date = new Date().getTime();
+                        setTimeout(function (){
+                            GA.log({
+                                'metric' : 'api_load_time_error_filter_' + nextProps.type,
+                                'timeSpent' : date - timeStamps[nextProps.type]
+                            });
+                        }, 0);
+
                         nextProps.abortTracking && nextProps.abortTracking('loadComplete');
                     });
                 }
