@@ -80,7 +80,7 @@
                 } else if (personName) {
                     QueryHelper.queryPersonAsync(personName).done(function (resp) {
                         resp = resp[0];
-                        if (resp.name) {
+                        if (resp && resp.name) {
                             this.setState({
                                 person : resp
                             });
@@ -98,7 +98,7 @@
                             }.bind(this));
                         }
 
-                        if (resp.id) {
+                        if (resp && resp.id) {
                             history.replaceState(null, null, '?id=' + resp.id);
                             Log.updateUrl();
                             Log.pageShow();

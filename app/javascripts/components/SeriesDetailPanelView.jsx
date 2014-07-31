@@ -237,9 +237,9 @@
                                     <SeriesHeaderView video={this.state.video} showSubscribeBubble={this.state.showSubscribeBubble} subscribed={this.state.subscribed} confirmCallback={this.confirm} loadingEpisodes={this.state.loadingEpisodes} />
                                     <TabView type={video.type} selectedTab={this.state.selectedTab} selectTab={this.selectTab} />
                                     <div className="body" onScroll={this.onScroll}>
-                                        <SeriesView videoCallback={this.setVideoState} origin={video} id={video.id} isSubscribed={this.isSubscribed} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
+                                        <SeriesView videoCallback={this.setVideoState} origin={video} id={video.id} source={this.props.source} isSubscribed={this.isSubscribed} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
                                         <DetailView video={this.state.video} />
-                                        <RelatedView videoId={video ? video.id : 0} />
+                                        <RelatedView videoId={video ? video.id : 0} source={this.props.source} />
                                         <CommentaryView comments={this.state.video.get('marketComments')[0].comments} />
                                     </div>
                                     <div className="o-close" onClick={this.props.closeDetailPanel} />

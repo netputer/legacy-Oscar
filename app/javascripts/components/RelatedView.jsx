@@ -66,6 +66,7 @@
                             list={this.state.list}
                             onVideoSelect={this.onVideoSelect}
                             noBigItem={true}
+                            source={this.props.source}
                             ref="video-ctn" />
                     </div>
                 );

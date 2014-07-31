@@ -156,7 +156,7 @@
                 if (clientVersion > 2.68) {
                     batchDownloadAsync(data);
                 }
-            } else if (episodes.length === 1) {
+            } else if (episodes.length === 1 && episodes[0].downloadUrls) {
                 episode = episodes[0];
 
                 var downloadURL = episode.downloadUrls[0];
