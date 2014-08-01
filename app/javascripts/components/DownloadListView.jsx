@@ -75,6 +75,9 @@
 
             },
             clickPlay : function (url) {
+                if (!url) {
+                    return false;
+                }
                 var $a = $('<a>').attr({
                     href : url.indexOf('?') >= 0 ? url + '&ref=wdj2' : url + '?ref=wdj2',
                     target : '_default'

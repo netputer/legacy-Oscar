@@ -62,6 +62,9 @@
                     loadingEpisodes : false,
                     selectedTab : 'detail',
                     origin : this.props.origin,
+                    actors : [],
+                    avatars : {},
+                    relatedList : [],
                     video : new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, this.props.origin))
                 };
             },
@@ -85,6 +88,7 @@
                         video : videoModle
                     });
 
+
                     if (video.type === 'MOVIE') {
                         QueryHelper.queryEpisodesAsync(video.id).done(function (resp) {
                             video.videoEpisodes = resp.videoEpisodes;
@@ -98,6 +102,33 @@
                     }
 
                     this.checkSubscription(video.subscribeUrl);
+
+
+                    if (video.actors && video.actors.length) {
+                        QueryHelper.queryPersonAsync(video.actors.join(','), 'name,coverUrl').done(function (resp) {
+                            var avatars = [];
+                            var actors = [];
+
+                            _.each(resp, function (avatar, index) {
+                                avatars[avatar.name] = avatar.coverUrl;
+                                actors.push(avatar.name);
+                            });
+
+                            this.setState({
+                                actors : actors,
+                                avatars : avatars
+                            });
+                        }.bind(this));
+                    }
+
+                    QueryHelper.queryRelated(video.id).done(function (resp) {
+                        this.setState({
+                            relatedList : resp
+                        });
+                    }.bind(this));
+
+
+
                 }
             },
             checkSubscription : function (subscribeUrl) {
@@ -237,9 +268,9 @@
                                     <SeriesHeaderView video={this.state.video} showSubscribeBubble={this.state.showSubscribeBubble} subscribed={this.state.subscribed} confirmCallback={this.confirm} loadingEpisodes={this.state.loadingEpisodes} />
                                     <TabView type={video.type} selectedTab={this.state.selectedTab} selectTab={this.selectTab} />
                                     <div className="body" onScroll={this.onScroll}>
-                                        <SeriesView videoCallback={this.setVideoState} origin={video} id={video.id} source={this.props.source} isSubscribed={this.isSubscribed} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
-                                        <DetailView video={this.state.video} />
-                                        <RelatedView videoId={video ? video.id : 0} source={this.props.source} />
+                                        <SeriesView videoCallback={this.setVideoState} origin={video} video={this.state.video} id={video.id} source={this.props.source} isSubscribed={this.isSubscribed} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
+                                        <DetailView video={this.state.video} actors={this.state.actors} avatars={this.state.avatars} />
+                                        <RelatedView videoId={video ? video.id : 0} list={this.state.relatedList} source={this.props.source} />
                                         <CommentaryView comments={this.state.video.get('marketComments')[0].comments} />
                                     </div>
                                     <div className="o-close" onClick={this.props.closeDetailPanel} />

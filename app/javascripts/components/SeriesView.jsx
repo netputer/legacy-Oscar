@@ -38,6 +38,8 @@
 
         var queryFlag = 0;
 
+        var downloadList;
+
         var querySeries = function (id, type) {
             var deferred = $.Deferred();
 
@@ -81,6 +83,7 @@
             },
             componentWillMount : function () {
                 this.subscribeBubbleView = <SubscribeBubbleView video={this.state.video} subscribeHandler={this.subscribeCallback} />
+                downloadList = <DownloadListView id={this.props.id} show={this.getShow()} video={this.props.video} origin={this.props.origin} />
             },
             componentDidMount : function() {
                 var video = this.props.origin || {};
@@ -137,10 +140,13 @@
                         var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
 
                         this.setState({
-                            loadingList : false,
+                            loadingList : false
+                        });
+
+                        downloadList.setProps({
                             origin : origin,
                             video : videoModle
-                        });
+                        })
 
                     }.bind(this));
                 }
@@ -168,6 +174,9 @@
 
                             this.setState({
                                 loadingList : false,
+                            });
+
+                            downloadList.setProps({
                                 origin : origin,
                                 video : videoModle
                             });
@@ -227,7 +236,11 @@
             getList : function () {
                 var video = this.state.video;
                 if (video && video.type !== 'MOVIE' && !this.state.loadingList) {
-                    return <DownloadListView id={video.id} show={this.getShow()} video={video} origin={this.state.origin} />
+                    return (
+                        <div>
+                            {downloadList}
+                        </div>
+                    );
                 } else {
                     return <LoadingView show={this.state.loadingList} />
                 }

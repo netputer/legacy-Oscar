@@ -49,31 +49,19 @@
             getInitialState : function () {
                 return {
                     loadingActors : true,
-                    actors : [],
-                    avatars : {},
                     shortFilms : []
                 };
             },
-            componentDidMount : function () {
-                var video = this.props.video || {};
+            componentWillReceiveProps : function (newProps) {
 
-                if (video.get('actors') !== Wording.NO_DATA) {
-                    QueryHelper.queryPersonAsync(video.get('actors').join(','), 'name,coverUrl').done(function (resp) {
-                        var avatars = [];
-                        var actors = [];
-
-                        _.each(resp, function (avatar, index) {
-                            avatars[avatar.name] = avatar.coverUrl;
-                            actors.push(avatar.name);
-                        });
-
-                        this.setState({
-                            loadingActors : false,
-                            actors : actors,
-                            avatars : avatars
-                        });
-                    }.bind(this));
+                if (newProps.actors && newProps.actors.length && newProps.avatars) {
+                    this.setState({
+                        loadingActors : false
+                    });
                 }
+            },
+            componentWillMount : function () {
+                var video = this.props.video || {};
 
                 if (video.id && video.get('type') === 'MOVIE') {
                     getShortAsync(video.id).done(function (resp) {
@@ -89,10 +77,10 @@
                 })[0].click();
             },
             getActorsWithAvatar : function () {
-                return _.map(this.state.actors, function (actor, index) {
+                return _.map(this.props.actors, function (actor, index) {
                     if (index < 6) {
                         var style = {
-                            'background-image' : 'url(' + (this.state.avatars[actor] || '/images/default-avatar.png') + ')'
+                            'background-image' : 'url(' + (this.props.avatars[actor] || '/images/default-avatar.png') + ')'
                         };
 
                         return (
@@ -112,14 +100,14 @@
             },
             getActors : function () {
                 var video = this.props.video || {};
-                if (this.state.actors.length && !this.state.loadingActors) {
+                if (this.props.actors.length && !this.state.loadingActors) {
                     return (
                         <div className="w-wc actors">
                             <h5>{Wording.ACTORS_LABEL}</h5>
                             {this.getActorsWithAvatar(video)}
                         </div>
                     );
-                } else if (!this.state.actors.length) {
+                } else if (!this.props.actors.length) {
                     return (
                         <div />
                     );
