@@ -24,8 +24,8 @@
             mixins : [BubbleView],
             downloadFromProvider : function (url) {
                 var icon = this.props.video.get('cover').s;
+                var index = this.props.video.get('videoEpisodes').indexOf(this.props.episode);
                 if (this.props.episode) {
-                    var index = this.props.video.get('videoEpisodes').indexOf(this.props.episode);
                     DownloadHelper.downloadFromProvider(this.props.episode, icon, url, index);
                     if (!sessionStorage.getItem(url.providerName)) {
                         this.props.showAppBubble.call(this, index, url);
@@ -43,13 +43,12 @@
                     providersBubbleShow : false,
                     providerItemsBubbleShow : false
                 });
-
                 GA.log({
                     'event' : 'video.download.action',
                     'action' : 'btn_click',
                     'pos' : 'provider',
                     'video_id' : this.props.video.id,
-                    'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
+                    'video_source' : this.props.video.get('videoEpisodes')[index].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[index].downloadUrls[0].providerName : '',
                     'video_title' : this.props.video.get('title'),
                     'video_type' : this.props.video.get('type'),
                     'video_category' : this.props.video.get('categories'),
