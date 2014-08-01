@@ -69,18 +69,18 @@
                         'action' : 'subscribe_popup',
                         'type' : 'display',
                         'pos' : source,
-                        'video_id' : this.state.video.id,
-                        'video_source' : this.state.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.state.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
-                        'video_title' : this.state.video.get('title'),
-                        'video_type' : this.state.video.get('type'),
-                        'video_category' : this.state.video.get('categories'),
-                        'video_year' : this.state.video.get('year'),
-                        'video_area' : this.state.video.get('region')
+                        'video_id' : this.props.video.id,
+                        'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
+                        'video_title' : this.props.video.get('title'),
+                        'video_type' : this.props.video.get('type'),
+                        'video_category' : this.props.video.get('categories'),
+                        'video_year' : this.props.video.get('year'),
+                        'video_area' : this.props.video.get('region')
                     });
                 } else {
                     if (source === 'subscribe') {
                         this.props.isSubscribed.call(this, 2);
-                        this.subscribeBubbleView.doUnsubscribe(this.state.video);
+                        this.subscribeBubbleView.doUnsubscribe(this.props.video);
                     }
                 }
             },

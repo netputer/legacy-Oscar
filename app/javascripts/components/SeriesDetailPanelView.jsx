@@ -125,7 +125,7 @@
                 if (video.type === 'VARIETY' || video.type === 'MOVIE') {
                     QueryHelper.queryEpisodesAsync(video.id).done(function (resp) {
                         var origin = this.props.origin;
-                        origin.videoEpisodes = resp.videoEpisodes;
+                        origin.videoEpisodes = resp.videoEpisodes.reverse();
                         var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
 
                         this.setState({

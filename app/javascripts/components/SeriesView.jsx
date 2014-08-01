@@ -144,7 +144,6 @@
                 });
 
                 var show = this.getShow(tab);
-                console.log(show.split('-')[1] - show.split('-')[0] + 1)
                 this.loopLoad(this.props.video.id, this.props.video.get('latestEpisodeNum') - show.split('-')[1], show.split('-')[1] - show.split('-')[0] + 1);
             },
             subscribeCallback : function (statusCode) {
