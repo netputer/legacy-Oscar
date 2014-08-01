@@ -219,20 +219,6 @@
 
 
         var DownloadListView = React.createClass({
-            getInitialState : function () {
-                return {
-                    origin : this.props.origin,
-                    video : new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, this.props.origin))
-                };
-            },
-            componentWillReceiveProps : function (newProps) {
-                if (newProps.origin && newProps.origin.id) {
-                    this.setState({
-                        video : newProps.video,
-                        origin : newProps.origin
-                    });
-                }
-            },
             onChangeCheckbox : function (evt) {
                 GA.log({
                     'event' : 'video.misc.action',
@@ -241,25 +227,25 @@
                 });
             },
             render : function () {
-                var episode = this.state.video.get('videoEpisodes');
                 var className = 'list-ctn ' + this.props.video.get('type').toLowerCase();
 
                 return (
                     <div className="w-cf o-button-list-ctn">
                         <ul className={className} ref="ctn">
-                            {this.createList(episode)}
+                            {this.createList()}
                         </ul>
                         <div>
                         </div>
                     </div>
                 );
             },
-            createList : function (videoEpisodes, start, max) {
+            createList : function (start, max) {
                 var type = this.props.video.get('type');
                 var title = this.props.video.get('title');
+                var videoEpisodes = this.props.video.get('videoEpisodes');
                 var countEpisodes = this.props.video.get('videoEpisodes').length || 0;
-                var episodes = videoEpisodes.slice(start || 0, this.props.video.latestEpisodeNum);
-                var listItems = _.map(episodes, function (item, i) {
+                var episodes = videoEpisodes.slice(start || 0, this.props.video.get('latestEpisodeNum'));
+                return _.map(episodes, function (item, i) {
                         return <ItemView
                                     video={this.props.video}
                                     episode={item}
@@ -271,7 +257,6 @@
 
                 }, this);
 
-                return listItems;
             }
         });
 

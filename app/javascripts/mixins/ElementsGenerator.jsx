@@ -252,7 +252,7 @@
                 var baseClassName = 'button-subscribe w-btn w-btn-mini';
                 var className;
 
-                if (this.state.video.get('subscribeUrl') === undefined || this.props.subscribed === -2 || this.props.subscribed === undefined) {
+                if (this.props.video.get('subscribeUrl') === undefined || this.props.subscribed === -2 || this.props.subscribed === undefined) {
                     return false;
                 }
                 if (this.props.subscribed === 1) {

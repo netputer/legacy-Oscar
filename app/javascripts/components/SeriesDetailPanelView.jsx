@@ -60,6 +60,7 @@
                     subscribed : -2,
                     showSubscribeBubble : '',
                     loadingEpisodes : false,
+                    loadingList : true,
                     selectedTab : 'detail',
                     origin : this.props.origin,
                     actors : [],
@@ -89,18 +90,6 @@
                     });
 
 
-                    if (video.type === 'MOVIE') {
-                        QueryHelper.queryEpisodesAsync(video.id).done(function (resp) {
-                            video.videoEpisodes = resp.videoEpisodes;
-                            videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, video));
-
-                            this.setState({
-                                origin : video,
-                                video : videoModle
-                            });
-                        }.bind(this));
-                    }
-
                     this.checkSubscription(video.subscribeUrl);
 
 
@@ -119,6 +108,11 @@
                                 avatars : avatars
                             });
                         }.bind(this));
+                    } else {
+                        this.setState({
+                            actors : [],
+                            avatars : {}
+                        });
                     }
 
                     QueryHelper.queryRelated(video.id).done(function (resp) {
@@ -126,9 +120,52 @@
                             relatedList : resp
                         });
                     }.bind(this));
+                }
 
+                if (video.type === 'VARIETY' || video.type === 'MOVIE') {
+                    QueryHelper.queryEpisodesAsync(video.id).done(function (resp) {
+                        var origin = this.props.origin;
+                        origin.videoEpisodes = resp.videoEpisodes;
+                        var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
 
+                        this.setState({
+                            loadingList : false,
+                            origin : origin,
+                            video : videoModle
+                        })
 
+                    }.bind(this));
+                } else if (video.latestEpisodeNum) {
+                    var max = video.latestEpisodeNum > 60 ? 20 : video.latestEpisodeNum;
+                    this.loopLoad(video.id, 0, max);
+                }
+
+            },
+            loopLoad : function (id, start, size) {
+                var times = Math.ceil((size % 100 || 100)/20);
+                var totalSize = this.props.origin ? this.props.origin.latestEpisodeNum : size;
+                var result = new Array(totalSize);
+                var LIMIT = 20;
+
+                for (var i = 0; i < times; i++) {
+
+                    var max = (size - i*LIMIT >= 20) ? 20 : size - i*LIMIT;
+                    QueryHelper.queryEpisodesAsync(id, start + i*LIMIT, max).done(function (resp) {
+                        _.each(resp.videoEpisodes, function (item) {
+                            result[item.episodeNum - 1] = item;
+                        });
+                        if (i >= times && result.length) {
+                            var origin = this.state.origin;
+                            origin.videoEpisodes = result;
+                            var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
+                            this.setState({
+                                loadingList : false,
+                                origin : origin,
+                                video : videoModle
+                            });
+                        }
+
+                    }.bind(this));
                 }
             },
             checkSubscription : function (subscribeUrl) {
@@ -268,10 +305,26 @@
                                     <SeriesHeaderView video={this.state.video} showSubscribeBubble={this.state.showSubscribeBubble} subscribed={this.state.subscribed} confirmCallback={this.confirm} loadingEpisodes={this.state.loadingEpisodes} />
                                     <TabView type={video.type} selectedTab={this.state.selectedTab} selectTab={this.selectTab} />
                                     <div className="body" onScroll={this.onScroll}>
-                                        <SeriesView videoCallback={this.setVideoState} origin={video} video={this.state.video} id={video.id} source={this.props.source} isSubscribed={this.isSubscribed} subscribed={this.state.subscribed} subscribeHandler={this.isSubscribed} />
-                                        <DetailView video={this.state.video} actors={this.state.actors} avatars={this.state.avatars} />
-                                        <RelatedView videoId={video ? video.id : 0} list={this.state.relatedList} source={this.props.source} />
-                                        <CommentaryView comments={this.state.video.get('marketComments')[0].comments} />
+                                        <SeriesView 
+                                            id={video.id} 
+                                            origin={this.state.origin} 
+                                            video={this.state.video} 
+                                            loadingList={this.props.origin.type === 'MOVIE' ? false : this.state.loadingList}
+                                            source={this.props.source} 
+                                            loopLoad={this.loopLoad}
+                                            isSubscribed={this.isSubscribed} 
+                                            subscribed={this.state.subscribed} 
+                                            subscribeHandler={this.isSubscribed} />
+                                        <DetailView 
+                                            video={this.state.video} 
+                                            actors={this.state.actors} 
+                                            avatars={this.state.avatars} />
+                                        <RelatedView 
+                                            videoId={video ? video.id : 0} 
+                                            list={this.state.relatedList} 
+                                            source={this.props.source} />
+                                        <CommentaryView 
+                                            comments={this.state.video.get('marketComments')[0].comments} />
                                     </div>
                                     <div className="o-close" onClick={this.props.closeDetailPanel} />
                                 </div>

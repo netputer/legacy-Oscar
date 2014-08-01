@@ -64,17 +64,19 @@
                     var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, data));
                     var pic = videoModle.get('cover').l;
                     var style = {
-                        'background-image' : 'url(' + pic + ')'
+                        'background-image' : 'url(' + (pic || '') + ')'
                     };
-                    return (
-                        <li key={index}
-                            style={style}
-                            className="o-stills-small-item short-film"
-                            ref={"item" + index}
-                            onClick={this.clickShortFilm.bind(this, index)}>
-                            <img src="../images/play-button.png" className="play-button" alt="{Wording.PLAYBUTTON_ALT}" />
-                        </li>
-                    );
+                    if (pic) {
+                        return (
+                            <li key={index}
+                                style={style}
+                                className="o-stills-small-item short-film"
+                                ref={"item" + index}
+                                onClick={this.clickShortFilm.bind(this, index)}>
+                                <img src="../images/play-button.png" className="play-button" alt="{Wording.PLAYBUTTON_ALT}" />
+                            </li>
+                        );
+                    }
                 }, this);
 
                 var pictures = _.map(this.props.video.get('pictures').s, function (pic, index) {
