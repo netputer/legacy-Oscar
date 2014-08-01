@@ -38,6 +38,8 @@
 
         var queryFlag = 0;
 
+        var downloadList;
+
         var querySeries = function (id, type) {
             var deferred = $.Deferred();
 
@@ -81,6 +83,7 @@
             },
             componentWillMount : function () {
                 this.subscribeBubbleView = <SubscribeBubbleView video={this.state.video} subscribeHandler={this.subscribeCallback} />
+                downloadList = <DownloadListView id={this.props.id} show={this.getShow()} video={this.props.video} origin={this.props.origin} />
             },
             componentDidMount : function() {
                 var video = this.props.origin || {};
@@ -113,7 +116,7 @@
                     }.bind(this));
                 }
 
-                if (video.latestEpisodeNum) {
+                if (video.latestEpisodeNum && video.type !== 'MOVIE') {
                     var max = video.latestEpisodeNum > 60 ? 20 : video.latestEpisodeNum;
                     this.loopLoad(video.id, 0, max);
 
@@ -137,10 +140,13 @@
                         var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
 
                         this.setState({
-                            loadingList : false,
+                            loadingList : false
+                        });
+
+                        downloadList.setProps({
                             origin : origin,
                             video : videoModle
-                        });
+                        })
 
                     }.bind(this));
                 }
@@ -168,6 +174,9 @@
 
                             this.setState({
                                 loadingList : false,
+                            });
+
+                            downloadList.setProps({
                                 origin : origin,
                                 video : videoModle
                             });
@@ -199,27 +208,27 @@
                 this.props.subscribeHandler.call(this, statusCode);
             },
             getDownloadTab : function () {
-                var video = this.state.video || {};
-                if (video.get('latestEpisodeNum') && video.get('latestEpisodeNum') > 60) {
+                var video = this.props.origin || {};
+                if (video.latestEpisodeNum && video.latestEpisodeNum > 60) {
 
                     return (
-                        <TabView type="download" totalSize={video.get('latestEpisodeNum')} tabs={this.state.tabs} selectedTab={this.state.selectedTab} selectTab={this.selectTab} />
+                        <TabView type="download" totalSize={video.latestEpisodeNum} tabs={this.state.tabs} selectedTab={this.state.selectedTab} selectTab={this.selectTab} />
                     );
                 }
             },
             getShow : function (tab) {
-                var video = this.state.video;
+                var video = this.props.origin;
                 var selectedTab = tab ? tab : this.state.selectedTab;
                 var show;
                 if (selectedTab === 'tab_newest') {
-                    show = (video.get('latestEpisodeNum')-20+1) + '-' + video.get('latestEpisodeNum');
+                    show = (video.latestEpisodeNum-20+1) + '-' + video.latestEpisodeNum;
                 } else if (selectedTab.indexOf('-' > 0)) {
                     show = selectedTab;
                 }
 
-                if (video.get('latestEpisodeNum') && video.get('latestEpisodeNum') <= 60) {
-                    show = '1-' + video.get('latestEpisodeNum');
-                } else if (video.get('type') === 'VARIETY') {
+                if (video.latestEpisodeNum && video.latestEpisodeNum <= 60) {
+                    show = '1-' + video.latestEpisodeNum;
+                } else if (video.type === 'VARIETY') {
                     show = 'all';
                 }
                 return show;
@@ -227,7 +236,11 @@
             getList : function () {
                 var video = this.state.video;
                 if (video && video.type !== 'MOVIE' && !this.state.loadingList) {
-                    return <DownloadListView id={video.id} show={this.getShow()} video={video} origin={this.state.origin} subscribed={this.props.subscribed} />;
+                    return (
+                        <div>
+                            {downloadList}
+                        </div>
+                    );
                 } else {
                     return <LoadingView show={this.state.loadingList} />
                 }
@@ -255,7 +268,7 @@
                             {this.subscribeBubbleView}
                             {this.getDownloadTab()}
                             {this.getList()}
-                            <SeriesVersionView id={this.props.id} list={this.state.list} title={this.state.seriesTitle} />
+                            <SeriesVersionView id={this.props.id} list={this.state.list} title={this.state.seriesTitle} source={this.props.source} />
                         </div>
                     );
                 } else {

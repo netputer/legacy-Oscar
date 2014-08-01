@@ -213,7 +213,7 @@
 
     .o-categories-item-container {
         padding-left: 1px;
-        width: 5000px;
+        width: 10000px;
 
         .o-categories-item:nth-child(4), .o-categories-item:nth-child(6n+10) {
             margin-right: 10px;
@@ -330,6 +330,7 @@
                 line-height: 20px;
                 min-width: 120px;
                 padding: 0 22px;
+                white-space: nowrap;
 
                 &:hover {
                     background: #eee;

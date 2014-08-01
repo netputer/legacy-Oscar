@@ -23,7 +23,8 @@
         var DownloadHandler = {
             onClick : function (id) {
                 Performance.setTimeStamp(new Date().getTime(), id);
-                window.location.hash = (this.props.queryType || '') + '/detail/' + id;
+                var path = this.props.source === 'category' ? this.props.data.type.toLowerCase() + '/' : '';
+                window.location.hash =  path + 'detail/' + id;
             }
         };
 
@@ -182,6 +183,9 @@
 
                     actors = presenters;
                     break;
+                case 'SHORT_VIDEO':
+                    return <li />;
+                    break;
                 }
 
                 var propTitle = data.title && data.title.length > 10 ? data.title : '';
@@ -237,7 +241,7 @@
                         <div className="o-categories-ctn">
                             <h4 className="w-text-secondary title" onClick={this.clickTitle}>{Wording[this.props.cate]}</h4>
                             <ul className="o-categories-item-container w-cf">
-                                <BigItemView data={this.props.list[0]} queryType={this.props.queryType} onVideoSelect={this.props.onVideoSelect} />
+                                <BigItemView data={this.props.list[0]} source={this.props.source} />
                                 {this.renderItem()}
                             </ul>
                         </div>
@@ -248,7 +252,7 @@
                 if (this.props.list) {
                     var result = _.map(this.props.list.slice(this.props.noBigItem ? 0 : 1, this.props.list.length), function (video) {
                         if (video && video.id) {
-                            return <ItemView data={video} key={video ? video.id : 0} queryType={this.props.queryType} onVideoSelect={this.props.onVideoSelect} />;
+                            return <ItemView data={video} key={video ? video.id : 0} source={this.props.source} />;
                         }
                     }, this);
 

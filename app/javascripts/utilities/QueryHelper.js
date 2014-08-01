@@ -95,6 +95,23 @@
 
                 return deferred.promise();
             },
+
+            queryRelated : function (id) {
+                var deferred = $.Deferred();
+
+                IO.requestAsync({
+                    url : Actions.actions.RELATIONS,
+                    data : {
+                        start : 0,
+                        max : 5,
+                        videoId : id
+                     },
+                    success : deferred.resolve,
+                    error : deferred.reject
+                });
+
+                return deferred.promise();
+            },
             queryPersonAsync : function (arg, opt_fields) {
                 var deferred = $.Deferred();
 

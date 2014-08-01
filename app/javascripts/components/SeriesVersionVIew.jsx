@@ -99,6 +99,7 @@
                                 list={this.state.list ? this.state.list : []}
                                 onVideoSelect={this.onVideoSelect}
                                 noBigItem={true}
+                                source={this.props.source}
                                 ref="series" />
                         </div>
                     );

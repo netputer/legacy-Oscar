@@ -236,7 +236,7 @@
                             list={this.state.list}
                             onVideoSelect={this.onVideoSelect}
                             loaded={this.state.loaded}
-                            queryType={queryType}
+                            source="category"
                             ref="video-ctn" />
                         <PaginationView
                             total={this.state.pageTotal}

@@ -41,7 +41,7 @@
         };
 
         var declarationView = <DeclarationView />
-        var seriesDetailPanelView = <SeriesDetailPanelView closeDetailPanel={closeDetailPanel} />
+        var seriesDetailPanelView = <SeriesDetailPanelView closeDetailPanel={closeDetailPanel} source="category" />
 
         React.renderComponent((
             <div>

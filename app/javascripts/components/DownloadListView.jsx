@@ -13,7 +13,6 @@
         'main/DownloadHelper',
         'main/models/VideoModel',
         'mixins/FilterNullValues',
-        'components/SubscribeBubbleView',
         'components/AppBubbleView',
         'components/ProvidersBubbleView'
     ], function (
@@ -29,7 +28,6 @@
         DownloadHelper,
         VideoModel,
         FilterNullValues,
-        SubscribeBubbleView,
         AppBubbleView,
         ProvidersBubbleView
     ) {
@@ -77,6 +75,9 @@
 
             },
             clickPlay : function (url) {
+                if (!url) {
+                    return false;
+                }
                 var $a = $('<a>').attr({
                     href : url.indexOf('?') >= 0 ? url + '&ref=wdj2' : url + '?ref=wdj2',
                     target : '_default'
@@ -195,16 +196,10 @@
                 var episode = this.props.episode;
                 if (!!episode.downloadUrls) {
                     DownloadHelper.download([episode], this.props.video.get('cover').s);
-                    for (var i=1; i <= this.props.key && i <= 5; i++) {
-                        if (this.props.video.get('videoEpisodes')[i].downloadUrls !== undefined) {
-                            if (this.props.key === i) {
-                                this.props.clickHandler.call(this, true);
-                            } else if (!sessionStorage.getItem(episode.downloadUrls[0].providerName)) {
-                                this.showAppBubble(this.props.key, episode.downloadUrls[0]);
-                                sessionStorage.setItem(episode.downloadUrls[0].providerName, 'displayed');
-                            }
-                            break;
-                        }
+
+                    if (!sessionStorage.getItem(episode.downloadUrls[0].providerName)) {
+                        this.showAppBubble(this.props.key, episode.downloadUrls[0]);
+                        sessionStorage.setItem(episode.downloadUrls[0].providerName, 'displayed');
                     }
 
                     GA.log({
@@ -226,13 +221,9 @@
         var DownloadListView = React.createClass({
             getInitialState : function () {
                 return {
-                    expendIndex : 1,
                     origin : this.props.origin,
                     video : new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, this.props.origin))
                 };
-            },
-            componentWillMount : function () {
-                this.subscribeBubbleView = <SubscribeBubbleView video={this.props.video} subscribeHandler={this.subscribeCallback} />
             },
             componentWillReceiveProps : function (newProps) {
                 if (newProps.origin && newProps.origin.id) {
@@ -241,9 +232,6 @@
                         origin : newProps.origin
                     });
                 }
-            },
-            subscribeCallback : function (statusCode) {
-                this.props.subscribeHandler.call(this, statusCode);
             },
             onChangeCheckbox : function (evt) {
                 GA.log({
@@ -263,41 +251,8 @@
                         </ul>
                         <div>
                         </div>
-                        {this.subscribeBubbleView}
                     </div>
                 );
-            },
-            clickExpend : function () {
-                if (this.state.expendIndex * 20 - 5 < this.state.origin.latestEpisodeNum) {
-                    QueryHelper.queryEpisodesAsync(this.props.id, this.state.expendIndex * 20 - 15, 20).done(function (resp) {
-                        var origin = this.props.origin;
-                        var episodes = origin.videoEpisodes;
-
-                        _.each(resp.videoEpisodes, function (episode) {
-                            episodes[episodes.length-episode.episodeNum] = episode;
-                        });
-
-                        origin.videoEpisodes = episodes;
-                        var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
-
-                        this.setState({
-                            origin : origin,
-                            video : videoModle
-                        });
-
-                    }.bind(this));
-
-                    this.setState({
-                        expendIndex : this.state.expendIndex + 1
-                    });
-
-                    GA.log({
-                        'event' : 'video.misc.action',
-                        'action' : 'more_episode_clicked',
-                        'video_id' : this.props.video.id,
-                        'tab' : 'download'
-                    });
-                }
             },
             createList : function (videoEpisodes, start, max) {
                 var type = this.props.video.get('type');
@@ -312,32 +267,11 @@
                                     countEpisodes={countEpisodes}
                                     show={(item.episodeNum >= this.props.show.split('-')[0] && item.episodeNum <= this.props.show.split('-')[1]) || this.props.show === 'all'}
                                     key={(start || 0) + i}
-                                    expendIndex={this.state.expendIndex}
-                                    clickHandler={this.showSubscribeBubble}
                                     type={type} />;
 
                 }, this);
 
                 return listItems;
-            },
-            showSubscribeBubble : function () {
-                if (this.props.subscribed !== 0) {
-                    return false;
-                }
-                if (this.subscribeBubbleView.state !== null && !this.subscribeBubbleView.state.show && this.props.video.get('subscribeUrl') !== undefined) {
-                    this.subscribeBubbleView.setState({
-                        subscribeBubbleShow : true,
-                        source : 'episode'
-                    });
-
-                    GA.log({
-                        'event' : 'video.misc.action',
-                        'action' : 'subscribe_popup',
-                        'type' : 'display',
-                        'pos' : 'download_newest',
-                        'video_id' : this.props.video.id
-                    });
-                }
             }
         });
 

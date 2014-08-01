@@ -141,7 +141,7 @@
                 }.bind(this));
 
                 if (page === 1) {
-                    QueryHelper.queryPersonAsync(query).done(function (res) {
+                    QueryHelper.queryPersonAsync(query, 'name,coverUrl,jobs,productCount.*,introduction,id,instroduction,albumsUrls').done(function (res) {
                         this.setState({
                             person : res
                         });

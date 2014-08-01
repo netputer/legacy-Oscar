@@ -287,10 +287,12 @@
             getActorsEle : function () {
                 var text = '';
                 var video = this.props.video;
+                var actors = typeof video.get('actors') === 'object' ? video.get('actors').join('，') : video.get('actors');
+
                 if (video.get('type') === 'VARIETY') {
-                    text = Wording.PRESENTER_LABEL + video.get('presenters');
+                    text = Wording.PRESENTER_LABEL + '：' + video.get('presenters');
                 } else {
-                    text = Wording.ACTORS_LABEL + video.get('actors');
+                    text = Wording.ACTORS_LABEL + '：' + actors;
                 }
 
                 return <div className="actors w-text-thirdly w-wc">{text}</div>;

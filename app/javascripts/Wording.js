@@ -41,7 +41,7 @@ define({
     PERSON : '影人',
     PLAY : '播放',
     PLAYBUTTON_ALT : '点击播放',
-    PRESENTER_LABEL : '主持人：',
+    PRESENTER_LABEL : '主持人',
     PROVIDERNAMES_LABEL : '来源：',
     RATING : '评分',
     RATING_LABEL : '评分：',
