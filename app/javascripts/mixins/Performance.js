@@ -18,11 +18,6 @@
         var errorItems = [];
         var sentItems = [];
 
-        var timeStamps = {
-            tv : new Date().getTime(),
-            movie : new Date().getTime()
-        };
-
         var Performance = {
             initPerformance : function (p, apiCount, q) {
                 page = p;
