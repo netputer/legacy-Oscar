@@ -45,6 +45,7 @@
                         var now = new Date().getTime();
                         setTimeout(function (){
                             GA.log({
+                                'event' : 'oscar.performance',
                                 'metric' : 'api_load_time_success_filter_' + nextProps.type,
                                 'timeSpent' : now - date
                             });
@@ -59,6 +60,7 @@
                         var now = new Date().getTime();
                         setTimeout(function (){
                             GA.log({
+                                'event' : 'oscar.performance',
                                 'metric' : 'api_load_time_error_filter_' + nextProps.type,
                                 'timeSpent' : now - date
                             });
