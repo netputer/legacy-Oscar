@@ -127,10 +127,12 @@
                     this.providersBubbleView.setState({
                         providersBubbleShow : boolean
                     });
-                    if (boolean) {
-                        document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider active';
-                    } else {
-                        document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider';
+                    if (document.getElementById('more-provider')) {
+                        if (boolean) {
+                            document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider active';
+                        } else {
+                            document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider';
+                        }
                     }
                 }.bind(this);
 

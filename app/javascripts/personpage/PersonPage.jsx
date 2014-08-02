@@ -57,11 +57,11 @@
                 if (personId) {
                     QueryHelper.queryPersonAsync(parseInt(personId)).done(function (resp) {
                         resp = resp[0];
-                        if (resp.name) {
+                        this.loaded();
+                        if (resp && resp.name) {
                             this.setState({
                                 person : resp
                             });
-                            this.loaded();
 
                             QueryHelper.queryWorksAsync(resp.name, this.state.start, 12).done(function (res) {
                                 if (res.total > 0) {
@@ -80,11 +80,12 @@
                 } else if (personName) {
                     QueryHelper.queryPersonAsync(personName).done(function (resp) {
                         resp = resp[0];
+                        this.loaded();
+
                         if (resp && resp.name) {
                             this.setState({
                                 person : resp
                             });
-                            this.loaded();
 
                             QueryHelper.queryWorksAsync(resp.name, this.state.start, 12).done(function (res) {
                                 if (res.total > 0) {

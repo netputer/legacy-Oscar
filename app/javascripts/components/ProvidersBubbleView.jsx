@@ -43,6 +43,9 @@
                     providersBubbleShow : false,
                     providerItemsBubbleShow : false
                 });
+
+                index = !this.props.episode ? 0 : index;
+
                 GA.log({
                     'event' : 'video.download.action',
                     'action' : 'btn_click',
