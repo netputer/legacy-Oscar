@@ -54,12 +54,40 @@
                     ].join(',')
                 },
                 timeout : 1000 * 20,
-                success : deferred.resolve,
-                error : deferred.reject
+                success : function (resp) {
+
+                    var now = new Date().getTime();
+                    setTimeout(function () {
+                        GA.log({
+                            'event' : 'oscar.performance',
+                            'metric' : 'api_load_time_success' + type,
+                            'timeSpent' : now - date
+                        });
+                    }, 0);
+
+                    deferred.resolve(resp);
+                },
+                error : function (resp) {
+
+                    var now = new Date().getTime();
+                    setTimeout(function () {
+                        GA.log({
+                            'event' : 'oscar.performance',
+                            'metric' : 'api_load_time_error' + type,
+                            'timeSpent' : now - date
+                        });
+                    }, 0);
+
+                    deferred.reject(resp);
+                }
             });
 
             return deferred.promise();
         };
+
+        var date = new Date().getTime();
+        var tvDeferred = queryAsync('tv');
+        var movieDeferred = queryAsync('movie');
 
         var IndexPage = React.createClass({
             mixins : [Performance],
@@ -80,12 +108,12 @@
             componentWillMount : function () {
                 this.initPerformance('index', 4);
 
-                $.when(queryAsync('tv').done(function (resp) {
+                $.when(tvDeferred.done(function (resp) {
                     this.setState({
                         listTv : resp.videoList
                     });
                     this.loaded();
-                }.bind(this)), queryAsync('movie').done(function (resp) {
+                }.bind(this)), movieDeferred.done(function (resp) {
                     this.setState({
                         listMovie : resp.videoList
                     });
