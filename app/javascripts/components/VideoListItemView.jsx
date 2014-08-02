@@ -130,7 +130,7 @@
                     <li className="o-list-item w-hbox w-component-card">
                         <div className="o-mask item-cover"
                             style={{ 'background-image' : 'url(' + (data.cover.l || "") + ')' }}
-                            onClick={this.clickItem} />
+                            onClick={this.onVideoSelect.bind(this, data.id)} />
                         <InfoView video={this.state.video} setEpisodes={this.setEpisodes} onSelect={this.onVideoSelect.bind(this, data.id)} />
                         <PictureView data={data.pictures.s} />
                     </li>

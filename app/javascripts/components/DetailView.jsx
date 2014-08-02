@@ -60,7 +60,7 @@
                     });
                 }
             },
-            componentWillMount : function () {
+            componentDidMount : function () {
                 var video = this.props.video || {};
 
                 if (video.id && video.get('type') === 'MOVIE') {

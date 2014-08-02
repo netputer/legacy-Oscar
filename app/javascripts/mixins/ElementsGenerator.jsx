@@ -69,18 +69,18 @@
                         'action' : 'subscribe_popup',
                         'type' : 'display',
                         'pos' : source,
-                        'video_id' : this.state.video.id,
-                        'video_source' : this.state.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.state.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
-                        'video_title' : this.state.video.get('title'),
-                        'video_type' : this.state.video.get('type'),
-                        'video_category' : this.state.video.get('categories'),
-                        'video_year' : this.state.video.get('year'),
-                        'video_area' : this.state.video.get('region')
+                        'video_id' : this.props.video.id,
+                        'video_source' : this.props.video.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.video.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
+                        'video_title' : this.props.video.get('title'),
+                        'video_type' : this.props.video.get('type'),
+                        'video_category' : this.props.video.get('categories'),
+                        'video_year' : this.props.video.get('year'),
+                        'video_area' : this.props.video.get('region')
                     });
                 } else {
                     if (source === 'subscribe') {
                         this.props.isSubscribed.call(this, 2);
-                        this.subscribeBubbleView.doUnsubscribe(this.state.video);
+                        this.subscribeBubbleView.doUnsubscribe(this.props.video);
                     }
                 }
             },
@@ -127,10 +127,12 @@
                     this.providersBubbleView.setState({
                         providersBubbleShow : boolean
                     });
-                    if (boolean) {
-                        document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider active';
-                    } else {
-                        document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider';
+                    if (document.getElementById('more-provider')) {
+                        if (boolean) {
+                            document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider active';
+                        } else {
+                            document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider';
+                        }
                     }
                 }.bind(this);
 
@@ -252,7 +254,7 @@
                 var baseClassName = 'button-subscribe w-btn w-btn-mini';
                 var className;
 
-                if (this.state.video.get('subscribeUrl') === undefined || this.props.subscribed === -2 || this.props.subscribed === undefined) {
+                if (this.props.video.get('subscribeUrl') === undefined || this.props.subscribed === -2 || this.props.subscribed === undefined) {
                     return false;
                 }
                 if (this.props.subscribed === 1) {

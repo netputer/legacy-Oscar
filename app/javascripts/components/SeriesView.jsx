@@ -38,8 +38,6 @@
 
         var queryFlag = 0;
 
-        var downloadList;
-
         var querySeries = function (id, type) {
             var deferred = $.Deferred();
 
@@ -73,17 +71,12 @@
                     series : [],
                     versions : [],
                     list : [],
-                    loadingList : true,
                     tabs : ['tab_newest'],
-                    selectedTab : 'tab_newest',
-                    origin : this.props.origin,
-                    video : new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, this.props.origin))
-
+                    selectedTab : 'tab_newest'
                 };
             },
             componentWillMount : function () {
-                this.subscribeBubbleView = <SubscribeBubbleView video={this.state.video} subscribeHandler={this.subscribeCallback} />
-                downloadList = <DownloadListView id={this.props.id} show={this.getShow()} video={this.props.video} origin={this.props.origin} />
+                this.subscribeBubbleView = <SubscribeBubbleView video={this.props.video} subscribeHandler={this.subscribeCallback} />
             },
             componentDidMount : function() {
                 var video = this.props.origin || {};
@@ -117,9 +110,6 @@
                 }
 
                 if (video.latestEpisodeNum && video.type !== 'MOVIE') {
-                    var max = video.latestEpisodeNum > 60 ? 20 : video.latestEpisodeNum;
-                    this.loopLoad(video.id, 0, max);
-
                     var tabs = this.state.tabs;
                     var times = Math.ceil(video.latestEpisodeNum / 100);
                     var tmpArr = Array.apply(null, {length: times}).map(Number.call, Number);
@@ -133,58 +123,11 @@
                     this.setState({
                         tabs : tabs
                     });
-                } else if (video.type === 'VARIETY') {
-                    QueryHelper.queryEpisodesAsync(video.id).done(function (resp) {
-                        var origin = this.props.origin;
-                        origin.videoEpisodes = resp.videoEpisodes;
-                        var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
-
-                        this.setState({
-                            loadingList : false
-                        });
-
-                        downloadList.setProps({
-                            origin : origin,
-                            video : videoModle
-                        })
-
-                    }.bind(this));
                 }
             },
-            loopLoad : function (id, start, size) {
-                var times = Math.ceil((size % 100 || 100)/20);
-                var totalSize = this.state.video.get('latestEpisodeNum') || size;
-                var result = new Array(totalSize);
-
-                var LIMIT = 20;
-
-                for (var i = 0; i < times; i++) {
-
-                    var max = (size - i*LIMIT >= 20) ? 20 : size - i*LIMIT;
-
-                    QueryHelper.queryEpisodesAsync(id, start + i*LIMIT, max).done(function (resp) {
-                        _.each(resp.videoEpisodes, function (item) {
-                            result[item.episodeNum - 1] = item;
-                        });
-
-                        if (i >= times && result.length) {
-                            var origin = this.props.origin;
-                            origin.videoEpisodes = result;
-                            var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, origin));
-
-                            this.setState({
-                                loadingList : false,
-                            });
-
-                            downloadList.setProps({
-                                origin : origin,
-                                video : videoModle
-                            });
-
-                            this.props.videoCallback.call(this, videoModle);
-                        }
-
-                    }.bind(this));
+            componentWillReceiveProps : function (newProps) {
+                if (this.refs) {
+                    this.refs['loading'].getDOMNode().style.display = 'none';
                 }
             },
             selectTab : function (tab) {
@@ -196,13 +139,12 @@
                     });
                 }
                 this.setState({
-                    loadingList : true,
                     tabs : tabs,
                     selectedTab : tab
                 });
 
                 var show = this.getShow(tab);
-                this.loopLoad(this.state.video.id, this.state.video.get('latestEpisodeNum') - show.split('-')[1], show.split('-')[1] - show.split('-')[0] + 1);
+                this.loopLoad(this.props.video.id, this.props.video.get('latestEpisodeNum') - show.split('-')[1], show.split('-')[1] - show.split('-')[0] + 1);
             },
             subscribeCallback : function (statusCode) {
                 this.props.subscribeHandler.call(this, statusCode);
@@ -215,6 +157,9 @@
                         <TabView type="download" totalSize={video.latestEpisodeNum} tabs={this.state.tabs} selectedTab={this.state.selectedTab} selectTab={this.selectTab} />
                     );
                 }
+            },
+            loopLoad : function (id, start, size) {
+                this.props.loopLoad.call(this, id, start, size);
             },
             getShow : function (tab) {
                 var video = this.props.origin;
@@ -232,18 +177,6 @@
                     show = 'all';
                 }
                 return show;
-            },
-            getList : function () {
-                var video = this.state.video;
-                if (video && video.type !== 'MOVIE' && !this.state.loadingList) {
-                    return (
-                        <div>
-                            {downloadList}
-                        </div>
-                    );
-                } else {
-                    return <LoadingView show={this.state.loadingList} />
-                }
             },
             getStatus : function () {
                 video= this.props.origin || {};
@@ -267,7 +200,8 @@
                             {this.getSubscribeBtn('subscribe')}
                             {this.subscribeBubbleView}
                             {this.getDownloadTab()}
-                            {this.getList()}
+                            <LoadingView show={true} ref="loading" />
+                            <DownloadListView id={this.props.id} show={this.getShow()} video={this.props.video} origin={this.props.origin} />
                             <SeriesVersionView id={this.props.id} list={this.state.list} title={this.state.seriesTitle} source={this.props.source} />
                         </div>
                     );
