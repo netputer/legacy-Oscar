@@ -6,6 +6,7 @@
         '_',
         '$',
         'Wording',
+        'main/Log',
         'mixins/BubbleView',
         'main/DownloadHelper',
         'utilities/ReadableSize',
@@ -15,6 +16,7 @@
         _,
         $,
         Wording,
+        Log,
         BubbleView,
         DownloadHelper,
         ReadableSize,
@@ -59,12 +61,22 @@
                     'video_area' : this.props.video.get('region')
                 });
             },
-            playInProvider : function (url) {
+            playInProvider : function (item) {
+                var url = item.url;
+
+                if (!url) {
+                    return false;
+                }
+
                 var $a = $('<a>').attr({
                     href : url.indexOf('?') >= 0 ? url + '&ref=wdj2' : url + '?ref=wdj2',
                     target : '_default'
                 })[0].click();
 
+                var episode = this.props.episode;
+                episode.providerName = item.title;
+
+                Log.consume({type : 'online_play', source : 'manual'}, this.props.episode);
             },
             render : function () {
                 var className = this.getBubbleClassName(this.props.id).toLowerCase();
@@ -78,7 +90,7 @@
                     }
                     var playItems = _.map(playInfo, function (item, index) {
                             if (item.url) {
-                                return <li key={index} onClick={this.playInProvider.bind(this, item.url)}>{item.title} {Wording.PLAY}</li>
+                                return <li key={index} onClick={this.playInProvider.bind(this, item)}>{item.title} {Wording.PLAY}</li>
                             }
                         }, this);
 
