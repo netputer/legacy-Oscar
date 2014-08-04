@@ -166,7 +166,7 @@ module.exports = function (grunt) {
                 cssDir : '<%= paths.app %>/stylesheets',
                 imagesDir : '<%= paths.app %>/compass/images',
                 relativeAssets : false,
-                httpGeneratedImagesPath : '../images'
+                httpGeneratedImagesPath : 'images'
             },
             dist : {
                 options : {
@@ -289,6 +289,30 @@ module.exports = function (grunt) {
         }
     });
 
+
+    grunt.registerTask('replace', function () {
+
+        var src = [
+            pathConfig.dist + '/**/*.html'
+        ];
+        var fileList = grunt.file.expand(src);
+
+        fileList.forEach(function (file) {
+            var content = grunt.file.read(file, {
+                encoding : 'utf-8'
+            });
+
+            var result = content.match(/<[^>]+(?:href)=\s*["']?([^"]+\.(?:css))/);
+            var link = result[0] + '"/>';
+            var href = result[1];
+
+            content = content.replace(link, '<style type="text/css">' + grunt.file.read(pathConfig.dist + '/' + href, {encoding : 'utf-8'}) + '</style>')
+                             .replace('src="components/requirejs/require.js">', '>' + grunt.file.read(pathConfig.dist + '/components/requirejs/require.js', {encoding : 'utf-8'}));
+            grunt.file.write(file, content);
+        });
+    });
+
+
     grunt.registerTask('serve', [
         'shell:buildAdonis',
         'clean:server',
@@ -318,7 +342,8 @@ module.exports = function (grunt) {
         'concat',
         'uglify',
         'rev',
-        'usemin'
+        'usemin',
+        'replace'
     ]);
 
     grunt.registerTask(['update'], [
