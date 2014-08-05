@@ -6,6 +6,7 @@
         'Backbone',
         'Wording',
         'GA',
+        'main/Log',
         'utilities/FormatString',
         'utilities/FormatDate',
         'utilities/ReadableSize',
@@ -21,6 +22,7 @@
         Backbone,
         Wording,
         GA,
+        Log,
         FormatString,
         FormatDate,
         ReadableSize,
@@ -74,7 +76,9 @@
                 toggleBubbleState(!this.providersBubbleView.state.providerItemsBubbleShow);
 
             },
-            clickPlay : function (url) {
+            clickPlay : function (episode) {
+                var url = episode.playInfo[0].url;
+
                 if (!url) {
                     return false;
                 }
@@ -82,6 +86,10 @@
                     href : url.indexOf('?') >= 0 ? url + '&ref=wdj2' : url + '?ref=wdj2',
                     target : '_default'
                 })[0].click();
+
+                episode.providerName = episode.playInfo[0].title;
+                Log.consume({type : 'online_play', source : 'manual'}, episode);
+
             },
             render : function () {
                 var episode = this.props.episode;
@@ -146,7 +154,7 @@
                     return (
                         <li className="item" style={style}>
                             <div className="o-btn-group">
-                                <button className="button button-play w-btn w-btn-mini" onClick={this.clickPlay.bind(this, episode.playInfo[0].url)}>
+                                <button className="button button-play w-btn w-btn-mini" onClick={this.clickPlay.bind(this, episode)}>
                                     <span className="play-list-text">{count}</span>
                                 </button>
                                 <button name="more-provider" className="w-btn w-btn-primary w-btn-mini more-provider" onClick={this.showProvidersBubble.bind(this, this.props.key)}>
@@ -159,7 +167,7 @@
                 } else if (playSource === 1) {
                     return (
                         <li className="item" style={style}>
-                            <button className="button button-play w-btn w-btn-mini" onClick={this.clickPlay.bind(this, episode.playInfo[0].url)}>
+                            <button className="button button-play w-btn w-btn-mini" onClick={this.clickPlay.bind(this, episode)}>
                                 <span className="play-list-text">{count}</span>
                             </button>
                         </li>
