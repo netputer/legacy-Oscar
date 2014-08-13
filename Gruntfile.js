@@ -166,7 +166,7 @@ module.exports = function (grunt) {
                 cssDir : '<%= paths.app %>/stylesheets',
                 imagesDir : '<%= paths.app %>/compass/images',
                 relativeAssets : false,
-                httpGeneratedImagesPath : 'images'
+                httpGeneratedImagesPath : '../images'
             },
             dist : {
                 options : {

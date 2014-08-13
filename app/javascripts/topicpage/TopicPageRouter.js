@@ -3,8 +3,7 @@
     define(['Backbone'], function (Backbone) {
         var TopicPageRouter = Backbone.Router.extend({
             routes : {
-                ':topic' : 'topic',
-                ':topic/detail/:id' : 'topic'
+                'detail/:id' : 'topic'
             }
         });
 

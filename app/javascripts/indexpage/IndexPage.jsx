@@ -9,6 +9,7 @@
         'mixins/Performance',
         'mixins/FilterNullValues',
         'components/searchbox/SearchBoxView',
+        'components/BannerView',
         'components/VideoListView',
         'components/FilterSectionView',
         'components/FooterView'
@@ -21,6 +22,7 @@
         Performance,
         FilterNullValues,
         SearchBoxView,
+        BannerView,
         VideoListView,
         FilterSectionView,
         FooterView
@@ -166,6 +168,7 @@
                             className="o-search-box-ctn"
                             onAction={this.onSearchAction}
                             source="homepage" />
+                        <BannerView source="index" />
                         <VideoListView cate="TV" list={this.state.listTv} onVideoSelect={this.onVideoSelect} />
                         <div>
                             <div className="o-category-banner w-component-card banner1" onClick={this.clickBanner.bind(this, 'tv', 'areas=美国')}></div>

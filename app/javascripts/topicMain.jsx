@@ -8,11 +8,10 @@
         'GA',
         'Actions',
         'main/Log',
+        'utilities/QueryHelper',
         'topicpage/TopicPage',
         'topicpage/TopicPageRouter',
-        'main/models/VideoModel',
-        'components/SeriesDetailPanelView',
-        'mixins/FilterNullValues'
+        'components/SeriesDetailPanelView'
     ], function (
         React,
         Backbone,
@@ -20,34 +19,20 @@
         GA,
         Actions,
         Log,
+        QueryHelper,
         TopicPage,
         topicPageRouter,
-        VideoModel,
-        SeriesDetailPanelView,
-        FilterNullValues
+        SeriesDetailPanelView
     ) {
         var topicPageRouter = topicPageRouter.getInstance();
 
-        var queryAsync = function (id) {
-            var deferred = $.Deferred();
-
-            IO.requestAsync({
-                url : Actions.actions.QUERY_SERIES + '/' + id,
-                success : deferred.resolve,
-                error : deferred.reject,
-                cache : true,
-                ifModified : false,
-            });
-
-            return deferred.promise();
-        };
 
         var closeDetailPanel = function () {
             seriesDetailPanelView.setState({
                 show : false
             });
         
-            topicPageRouter.navigate(window.location.hash.split('/')[0], {
+            topicPageRouter.navigate('keep', {
                 trigger : false
             });
         };
@@ -61,7 +46,7 @@
             </div>
         ), document.body);
 
-        topicPageRouter.on('route:topic', function (topic, id) {
+        topicPageRouter.on('route:topic', function (id) {
             if (id) {
                 seriesDetailPanelView.setState({
                     show : true,
@@ -69,11 +54,11 @@
                     subscribed : -2
                 });
 
-                queryAsync(id).done(function (resp) {
-                    var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
+                QueryHelper.queryAsync(id).done(function (resp) {
 
                     seriesDetailPanelView.setProps({
-                        video : videoModle
+                        origin : resp,
+                        id : id
                     });
 
                     if (seriesDetailPanelView.isMounted()) {
