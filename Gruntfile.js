@@ -342,8 +342,7 @@ module.exports = function (grunt) {
         'concat',
         'uglify',
         'rev',
-        'usemin',
-        'replace'
+        'usemin'
     ]);
 
     grunt.registerTask(['update'], [
