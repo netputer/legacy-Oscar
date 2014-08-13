@@ -8,10 +8,11 @@
         'GA',
         'utilities/QueryString',
         'topicpage/TopicPageRouter',
+        'main/models/VideoModel',
+        'mixins/Performance',
         'mixins/FilterNullValues',
         'components/searchbox/SearchBoxView',
         'components/VideoListItemView',
-        'topicpage/collections/TopicResultCollection',
         'components/FooterView'
     ], function (
         React,
@@ -21,34 +22,22 @@
         GA,
         QueryString,
         TopicPageRouter,
+        VideoModel,
+        Performance,
         FilterNullValues,
         SearchBoxView,
         VideoListItemView,
-        TopicResultCollection,
         FooterView
     ) {
 
-        var topicPageRouter = TopicPageRouter.getInstance();
 
-        var topicName;
+        var queryId = QueryString.get('id') || 0;
 
-        var topicCnName = '';
-
-        var queryType = QueryString.get('type') || '';
-
-        var backUrl;
-
-        if (queryType === 'index') {
-            backUrl = 'index.html';
-        } else {
-            backUrl = 'cate.html#' + queryType;
-        }
-
-        var queryAsync = function (name, type) {
+        var queryAsync = function (id) {
             var deferred = $.Deferred();
 
             IO.requestAsync({
-                url : type !== undefined ? Actions.actions.TOPIC + '?type=' + type + '&name=' + name : Actions.actions.TOPIC + '/' + name,
+                url : Actions.actions.TOPIC + (id || ''),
                 data : {
                     pos : 'w/topicpage'
                 },
@@ -60,36 +49,40 @@
             return deferred.promise();
         };
 
-        var topicResultCollection = new TopicResultCollection();
-
-
         var TopicPage = React.createClass({
+            mixins : [Performance],
             getInitialState : function () {
                 return {
+                    result : {},
+                    topics : [],
                     list : []
                 };
             },
+            componentWillMount : function () {
+                this.initPerformance('topic', 1, queryId || 'topics');
+            },
             componentDidMount : function () {
-                // var start = performance.timing.navigationStart;
-
-                topicPageRouter.on('route:topic', function (topic) {
-                    topicName = topic;
-
-                    queryAsync(topic, queryType).done(function (resp) {
-                        if (resp.length) {
-                            topicCnName = resp[0].cnName;
-                        }
-                    });
-
-                    queryAsync(topic).done(function (resp) {
-                        topicResultCollection.reset(resp);
+                if (queryId) {
+                    queryAsync(queryId).done(function (resp) {
+                        var initArray = [];
+                        _.each(resp.sections[0].items, function (item) {
+                            initArray.push(item.content);
+                        });
 
                         this.setState({
-                            list : topicResultCollection.models
+                            result : resp,
+                            list : initArray
                         });
+                        this.loaded();
                     }.bind(this));
-
-                }, this);
+                } else {
+                    queryAsync().done(function (resp) {
+                        this.setState({
+                            topics : resp.reverse()
+                        });
+                        this.loaded();
+                    }.bind(this));
+                }
 
             },
             onSearchAction : function (query) {
@@ -99,46 +92,65 @@
                     })[0].click();
                 }
             },
-            onVideoSelect : function (video) {
-                if (topicName !== undefined) {
-                    window.location.hash = '#' + topicName + '/detail/' + video.id;
-                    GA.log({
-                        'event' : 'video.download.action',
-                        'action' : 'btn_click',
-                        'pos' : 'topic',
-                        'video_id' : video.id,
-                        'video_title' : video.title,
-                        'video_type' : video.type,
-                        'video_category' : video.categories,
-                        'video_year' : video.year,
-                        'video_area' : video.region
-                    });
-
+            onClick : function (id) {
+                if (id) {
+                    $('<a>').attr({
+                        href : 'topic.html?id=' + id
+                    })[0].click();
                 }
             },
-            clickBanner : function (cate, query) {
-                $('<a>').attr({
-                    href : 'cate.html?' + query + '#' + cate
-                })[0].click();
-            },
             render : function () {
+                var topic = this.state.result;
+
+                if (this.state.list.length) {
                     var listItemViews = _.map(this.state.list, function (video) {
-                        return <VideoListItemView source="topic" video={video} key={video.id} onVideoSelect={this.onVideoSelect} />
-                    }, this);
-                return (
-                    <div className="o-ctn">
-                        <SearchBoxView
-                            className="o-search-box-ctn"
-                            onAction={this.onSearchAction}
-                            source="homepage" />
-                        <div className="topic">
-                            <a className="cate-name" href={backUrl}>{Wording[queryType.toUpperCase()]}</a>
-                            <h4>{topicCnName}</h4>
-                            <ul>{listItemViews}</ul>
+                            var videoModel = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, video))
+
+                            return <VideoListItemView source="topic" video={videoModel} origin={video} key={video.id} onVideoSelect={this.onVideoSelect} />
+                        }, this);
+
+                    return (
+                        <div className="o-ctn">
+                            <SearchBoxView
+                                className="o-search-box-ctn"
+                                onAction={this.onSearchAction}
+                                source="homepage" />
+                            <div className="topic">
+                                <h4>{topic.name}</h4>
+                                <ul>{listItemViews}</ul>
+                            </div>
+                            <FooterView />
                         </div>
-                        <FooterView />
-                    </div>
-                );
+                    );
+                } else if (this.state.topics) {
+                    var topicItemView = _.map(this.state.topics, function (item) {
+                        if (item.cover) {
+                            var style = {
+                                'background-image' : 'url(' + item.cover + ')'
+                            };
+
+                            return (
+                                <li className="o-categories-item-big w-component-card o-mask"
+                                    style={style}
+                                    onClick={this.onClick.bind(this, item.id)} >
+                                </li>
+                            );
+                        }
+                        }, this);
+
+                    return (
+                        <div className="o-ctn">
+                            <SearchBoxView
+                                className="o-search-box-ctn"
+                                onAction={this.onSearchAction}
+                                source="homepage" />
+                            <div className="topic w-wc">
+                                <ul>{topicItemView}</ul>
+                            </div>
+                            <FooterView />
+                        </div>
+                    );
+                }
             }
         });
 

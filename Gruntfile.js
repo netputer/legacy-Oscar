@@ -166,7 +166,7 @@ module.exports = function (grunt) {
                 cssDir : '<%= paths.app %>/stylesheets',
                 imagesDir : '<%= paths.app %>/compass/images',
                 relativeAssets : false,
-                httpGeneratedImagesPath : 'images'
+                httpGeneratedImagesPath : '../images'
             },
             dist : {
                 options : {
@@ -342,8 +342,7 @@ module.exports = function (grunt) {
         'concat',
         'uglify',
         'rev',
-        'usemin',
-        'replace'
+        'usemin'
     ]);
 
     grunt.registerTask(['update'], [

@@ -12,6 +12,7 @@
         'components/FilterView',
         'components/VideoListView',
         'components/searchbox/SearchBoxView',
+        'components/BannerView',
         'components/PaginationView',
         'mixins/FilterNullValues',
         'components/FooterView',
@@ -28,6 +29,7 @@
         FilterView,
         VideoListView,
         SearchBoxView,
+        BannerView,
         PaginationView,
         FilterNullValues,
         FooterView,
@@ -226,6 +228,7 @@
                             className="o-search-box-ctn"
                             onAction={this.onSearchAction}
                             source={queryType} />
+                        <BannerView source={queryType} />
                         <h4>{queryType && Wording[queryType.toUpperCase()]}</h4>
                         <FilterView
                             filters={this.state.filters}

@@ -20,7 +20,8 @@
                 SUBSCRIBE_ADD : 'http://feed.wandoujia.com/api/v1/subscription/add',
                 SUBSCRIBE_CHECK : 'http://feed.wandoujia.com/api/v1/subscription/subscribed',
                 SUBSCRIBE_REMOVE : 'http://feed.wandoujia.com/api/v1/subscription/remove',
-                TOPIC : 'http://oscar.wandoujia.com/api/v1/topics',
+                TABS : 'http://192.168.100.47:8983/wandou-customize/api/v1/tabs/WINDOWS/VIDEO',
+                TOPIC : 'http://192.168.100.47:8983/wandou-customize/api/v1/topics/',
                 VERSIONS : 'http://oscar.wandoujia.com/api/v1/videoVersions/'
             },
             events : {

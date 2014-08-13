@@ -78,7 +78,7 @@
             },
             componentWillReceiveProps : function (newProps) {
                 var video = newProps.origin;
-                if (video.id) {
+                if (video && video.id) {
                     Performance.detailOpened(new Date().getTime(), video.id);
                     ProviderInfo.init();
                     var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, video));
