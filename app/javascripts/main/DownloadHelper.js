@@ -21,7 +21,7 @@
     ) {
         var DownloadHelper = {};
 
-        var dservice = true;
+        var dservice = false;
 
         var providers;
 
