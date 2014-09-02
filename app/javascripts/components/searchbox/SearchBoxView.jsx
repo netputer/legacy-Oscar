@@ -77,7 +77,7 @@
                 };
             },
             showSuggestion : function (evt) {
-                var value = evt.target.value;
+                var value = encodeURIComponent(evt.target.value);
                 if (value) {
                     queryAsync(value).done(function (resp) {
                         this.setState({
@@ -130,11 +130,11 @@
             },
             doSearch : function (key, event) {
                 if(typeof key === 'string' && this.props.onAction) {
-                    var keyword = key.replace('<em>', '').replace('</em>', '');
+                    var keyword = key.replace('<em>', '').replace('</em>', '').replace('%', '');
                     this.setState({
                         resultModels : []
                     });
-                    this.props.onAction(keyword);
+                    this.props.onAction(encodeURIComponent(keyword));
 
                     this.refs['searchBoxInput'].getDOMNode().value = keyword;
 

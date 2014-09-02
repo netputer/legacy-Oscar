@@ -24,12 +24,6 @@
         };
 
         var date = new Date().getTime();
-        var deferreds = {
-            tv : QueryHelper.queryTypeAsync('tv'),
-            movie : QueryHelper.queryTypeAsync('movie'),
-            comic : QueryHelper.queryTypeAsync('comic'),
-            variety : QueryHelper.queryTypeAsync('variety')
-        };
 
         var FilterSectionView = React.createClass({
             getInitialState : function () {
@@ -40,7 +34,7 @@
             componentWillReceiveProps : function (nextProps) {
                 if (nextProps.shouldLoad[nextProps.type] && !loaded[nextProps.type]) {
                     loaded[nextProps.type] = true;
-                    deferreds[nextProps.type].done(function (resp) {
+                    QueryHelper.queryTypeAsync(nextProps.type).done(function (resp) {
 
                         var now = new Date().getTime();
                         setTimeout(function (){
