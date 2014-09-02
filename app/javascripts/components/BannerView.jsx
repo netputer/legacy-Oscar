@@ -40,11 +40,13 @@
                 };
             },
             componentWillMount : function () {
-                getBannerAsync().done(function(resp) {
-                    this.setState({
-                        tabs : resp
-                    });
-                }.bind(this));
+                if (0) {
+                    getBannerAsync().done(function(resp) {
+                        this.setState({
+                            tabs : resp
+                        });
+                    }.bind(this));
+                }
             },
             clickBanner : function (action) {
                 if (action.type === 'OPEN_URL') {

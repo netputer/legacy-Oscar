@@ -73,10 +73,13 @@
                     target : '_default'
                 })[0].click();
 
-                var episode = this.props.episode;
-                episode.providerName = item.title;
+                var episode = {
+                    providerName : item.title,
+                    id : this.props.video.id,
+                    video_id : ''
+                };
 
-                Log.consume({type : 'online_play', source : 'manual'}, this.props.episode);
+                Log.consume({type : 'online_play', source : 'manual'}, episode);
             },
             render : function () {
                 var className = this.getBubbleClassName(this.props.id).toLowerCase();
