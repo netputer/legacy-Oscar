@@ -97,6 +97,7 @@
                 var style = {
                     display : this.props.show ? 'inline-block' : 'none'
                 };
+
                 if (episode.episodeNum) {
                     count = FormatString(Wording.EPISODE_NUM_SHORTEN, episode.episodeNum);
                 } else {
@@ -254,6 +255,7 @@
                 var countEpisodes = this.props.video.get('videoEpisodes').length || 0;
                 var episodes = videoEpisodes.slice(start || 0, this.props.video.get('latestEpisodeNum'));
                 return _.map(episodes, function (item, i) {
+                    if (item.episodeDate || item.episodeNum) {
                         return <ItemView
                                     video={this.props.video}
                                     episode={item}
@@ -262,7 +264,7 @@
                                     show={(item.episodeNum >= this.props.show.split('-')[0] && item.episodeNum <= this.props.show.split('-')[1]) || this.props.show === 'all'}
                                     key={(start || 0) + i}
                                     type={type} />;
-
+                    }
                 }, this);
 
             }
