@@ -1,4 +1,7 @@
 require(['config', 'utilities/ClientInfo', 'utilities/DoraemonInfo', 'GA'], function (config, ClientInfo, DoraemonInfo, GA) {
+    location.href = '/404.html';
+    return;
+
     if (window.Bugsnag) {
         Bugsnag.appVersion = DoraemonInfo.version;
 

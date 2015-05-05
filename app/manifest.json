@@ -28,23 +28,6 @@
         "launch": {
             "web_url": "wdj-extension://__MSG_@@extension_id__/index.html"
         },
-        "navigation": [
-            {
-                "label": "电视剧",
-                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=123#tv"
-            },
-            {
-                "label": "电影",
-                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=456#movie"
-            },
-            {
-                "label": "动漫",
-                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=789#comic"
-            },
-            {
-                "label": "综艺",
-                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?date=111#variety"
-            }
-        ]
+        "navigation": []
     }
 }
